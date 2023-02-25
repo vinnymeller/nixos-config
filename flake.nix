@@ -16,7 +16,7 @@
     nixosConfigurations = {
         vinnix = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          pkgs = import nixpkgs { inherit system; };
+          pkgs = import nixpkgs { system = system; };
           # system = "x86_64-linux";
           modules = [
             ./system/configuration.nix
