@@ -11,11 +11,12 @@
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
   let
     # system = "x86_64-linux";
-    pkgs = import nixpkgs { inherit system; };
+    # pkgs = import nixpkgs { inherit system; };
   in {
     nixosConfigurations = {
         vinnix = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          pkgs = import nixpkgs { inherit system; };
           # system = "x86_64-linux";
           modules = [
             ./system/configuration.nix
