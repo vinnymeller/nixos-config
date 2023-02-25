@@ -10,23 +10,25 @@
 
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
   let
-    system = "x86_64-linux";
+    # system = "x86_64-linux";
     pkgs = import nixpkgs { inherit system; };
   in {
-    nixosConfigurations.vinnix = nixpkgs.lib.nixosSystem {
-      inherit system;
-      # system = "x86_64-linux";
-      modules = [
-        ./system/configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.vinny = import ./users/vinny/home.nix;
-        }
-      ];
-    };
+    nixosConfigurations = {
+        vinnix = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          # system = "x86_64-linux";
+          modules = [
+            ./system/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.vinny = import ./users/vinny/home.nix;
+            }
+          ];
+        };
 
+    };
     homeConfigurations.vinny = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
             modules = [
