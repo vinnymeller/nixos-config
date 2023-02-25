@@ -19,6 +19,7 @@
     nodejs-19_x
     dmenu
     # nerdfonts
+    neofetch
     ripgrep
     rustup
     unzip
