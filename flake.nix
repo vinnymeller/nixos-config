@@ -32,7 +32,7 @@
 
     };
     homeConfigurations.vinny = home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
+            # inherit pkgs;
             modules = [
                 ./users/vinny/home.nix
             ];
