@@ -37,7 +37,7 @@
                 ./users/vinny/home.nix
             ];
         };
-    packages.${system}.vinny = self.homeConfigurations.vinny.activationPackage;
-    packages."x86_64-darwin".vmeller = self.homeConfigurations.vinny.activationPackage;
+    # packages.${system}.vinny = self.homeConfigurations.vinny.activationPackage;
+    # packages."x86_64-darwin".vmeller = self.homeConfigurations.vinny.activationPackage;
   };
 }
