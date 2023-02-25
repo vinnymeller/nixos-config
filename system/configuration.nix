@@ -18,7 +18,7 @@
 
   # use the newest kernel
   # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_linux_6_2;
+  boot.kernelPackages = pkgs.linux_6_2;
 
 
   networking.hostName = "vinnix"; # Define your hostname.
