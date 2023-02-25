@@ -11,7 +11,7 @@
 
 
   home.packages = with pkgs; [
-    alacritty
+    # alacritty
     gcc
     firefox
     neovim
