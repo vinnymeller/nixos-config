@@ -17,8 +17,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # use the newest kernel
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linux_6_2;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
 
   networking.hostName = "vinnix"; # Define your hostname.

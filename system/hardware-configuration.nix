@@ -23,7 +23,7 @@
       fsType = "vfat";
     };
 
-  swapDevices = [ 
+  swapDevices = [
     {
       device = "/.swapfile";
     }
