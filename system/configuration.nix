@@ -18,7 +18,7 @@
 
   # use the newest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  
+
 
   networking.hostName = "vinnix"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -45,7 +45,7 @@
   services.xserver.autoRepeatDelay = 200;
   services.xserver.autoRepeatInterval = 45;
   services.xserver.autorun = true;
-  
+
 
   # Configure keymap in X11
   services.xserver.layout = "us";
@@ -65,7 +65,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    vim 
+    vim
     zsh
     wget
     firefox
@@ -99,4 +99,3 @@
   system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
 
 }
-
