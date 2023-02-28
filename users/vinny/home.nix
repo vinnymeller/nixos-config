@@ -38,7 +38,7 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
     shellAliases = {
       l = "ls -la";
     };
@@ -82,10 +82,6 @@
 	src = pkgs.zsh-powerlevel10k;
 	file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
       }
-    {
-        name = "p10k-config";
-        file = ./config/zsh/.p10k.zsh;
-    }
     ];
   };
 

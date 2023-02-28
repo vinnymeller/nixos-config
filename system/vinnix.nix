@@ -57,6 +57,7 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
+  services.pcscd.enable = true;
 
   users.users.vinny = {
     isNormalUser = true;
