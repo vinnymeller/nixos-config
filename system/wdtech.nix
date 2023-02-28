@@ -21,10 +21,6 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-  # bluetooth 
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
-
   users.users.vinny = {
     isNormalUser = true;
     initialPassword = "passwordington";
