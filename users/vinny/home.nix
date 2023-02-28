@@ -38,7 +38,7 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    dotDir = "${config.xdg.configHome}/zsh";
+    dotDir = ".config/zsh";
     shellAliases = {
       l = "ls -la";
     };
@@ -52,7 +52,7 @@
       path = "${config.xdg.dataHome}/zsh/history";
     };
 
-    initExtra = "source ${config.xdg.configHome}/zsh/plugins/.p10k.zsh\n";
+    initExtra = "source ${config.xdg.configHome}/zsh/.p10k.zsh\n";
 
     oh-my-zsh = {
       enable = true;
@@ -95,7 +95,7 @@
   };
 
   home.file = {
-    "${config.xdg.configHome}/nvim".source = ./config/nvim;
-    "${config.xdg.configHome}/zsh/.p10k.zsh".source = ./config/zsh/.p10k.zsh;
+    ".config/nvim".source = ./config/nvim;
+    ".config/zsh/.p10k.zsh".source = ./config/zsh/.p10k.zsh;
   };
 }
