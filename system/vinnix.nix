@@ -8,6 +8,8 @@
     # ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.gc.automatic = true;
+  nix.settings.auto-optimise-store = true;
 
   security.polkit.enable = true;
 
