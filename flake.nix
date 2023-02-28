@@ -25,8 +25,17 @@
             }
           ];
         };
-
+	wdtech = nixpkgs.lib.nixosSystem {
+	  modules = [
+	    ./hardware/wdtech.nix
+ 	    ./system/wdtech.nix
+	    home-manager.nixosModules.home-manager {
+	      home-manager.useGlobalPkgs = true;
+	      home-manager.useUserPackages = true;
+	      home-manager.users.vinny = import ./users/vinny/home.nix;
+	    }
+	  ];
+	};
     };
-     # packages.${system}.vinny = self.homeConfigurations.vinny.activationPackage;
   };
 }
