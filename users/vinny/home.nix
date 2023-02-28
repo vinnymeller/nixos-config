@@ -25,6 +25,7 @@
     rustup
     unzip
     virt-manager
+    yubioath-flutter
     zsh-powerlevel10k
   ];
 
@@ -95,6 +96,6 @@
 
   home.file = {
     "${config.xdg.configHome}/nvim".source = ./config/nvim;
-    "${config.xdg.configHome}/zsh/.p10k.zsh".source = .config/zsh/.p10k.zsh;
+    "${config.xdg.configHome}/zsh/.p10k.zsh".source = ./config/zsh/.p10k.zsh;
   };
 }
