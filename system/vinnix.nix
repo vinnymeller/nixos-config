@@ -85,7 +85,7 @@
   ];
 
   systemd.tmpfiles.rules = [
-    "f /dev/shm/looking-glass 0660 user kvm -" # looking-glass shmem
+    "f /dev/shm/looking-glass 0660 vinny kvm -" # looking-glass shmem
   ];
 
   virtualisation.libvirtd.enable = true;
