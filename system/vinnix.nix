@@ -19,6 +19,12 @@
   # use the newest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "amd_iommu=on" ];
+  boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
+  boot.kernelModules = [
+    "kvm-amd"
+    "vfio_virqfd" "vfio_iommu_type1" "vfio" # gpu passthrough-related modules
+  ];
+  boot.extraModprobeConfig = "options vfio-pci ids=10de:13c0,10de:0fbb"; # vfio for old gtx 980
 
   nixpkgs.config.allowUnfree = true;
   services.xserver.videoDrivers = [ "nvidia" ];
