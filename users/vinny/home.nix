@@ -52,7 +52,7 @@
       path = "${config.xdg.dataHome}/zsh/history";
     };
 
-    initExtra = "source ${config.xdg.configHome}/zsh/.p10k.zsh\n";
+    initExtra = "source ${config.xdg.configHome}/zsh/plugins/.p10k.zsh\n";
 
     oh-my-zsh = {
       enable = true;
@@ -82,6 +82,10 @@
 	src = pkgs.zsh-powerlevel10k;
 	file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
       }
+    {
+        name = "p10k-config";
+        file = ./config/zsh/.p10k.zsh;
+    }
     ];
   };
 
