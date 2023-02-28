@@ -2,10 +2,10 @@
 
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  # imports =
+    # [  Include the results of the hardware scan.
+      # ./hardware-configuration.nix
+    # ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -19,6 +19,10 @@
   # use the newest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  nixpkgs.config.allowUnfree = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.opengl.enable = true;
+
 
   networking.hostName = "vinnix"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -31,16 +35,16 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkbOptions in tty.
-  # };
+  i18n.defaultLocale = "en_US.UTF-8";
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "us";
+    useXkbConfig = true; # use xkbOptions in tty.
+  };
 
   # Setup X11
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.autoRepeatDelay = 200;
   services.xserver.autoRepeatInterval = 45;
@@ -50,7 +54,6 @@
   # Configure keymap in X11
   services.xserver.layout = "us";
 
-
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
@@ -59,7 +62,7 @@
   users.users.vinny = {
     isNormalUser = true;
     initialPassword = "passwordington";
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "libvirtd" ];
     shell = pkgs.zsh;
 
   };
@@ -69,8 +72,10 @@
     zsh
     wget
     firefox
-    # home-manager
   ];
+
+  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd.qemu.ovmf.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -79,22 +84,6 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
 
   system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
 

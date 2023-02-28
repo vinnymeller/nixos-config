@@ -9,20 +9,22 @@
 
   home.stateVersion = "22.11";
 
-
   home.packages = with pkgs; [
     # alacritty
     gcc
     firefox
     neovim
     htop
+    libvirt
     nodejs-19_x
     dmenu
-    # nerdfonts
+    nerdfonts
     neofetch
+    qemu
     ripgrep
     rustup
     unzip
+    virt-manager
     zsh-powerlevel10k
   ];
 
@@ -50,6 +52,7 @@
     };
 
     initExtra = "source ${config.xdg.configHome}/zsh/.p10k.zsh\n";
+
     oh-my-zsh = {
       enable = true;
       plugins = [ "git" ];
@@ -91,6 +94,7 @@
   };
 
   home.file = {
-    ".config/nvim".source = ./config/nvim;
+    "${config.xdg.configHome}/nvim".source = ./config/nvim;
+    "${config.xdg.configHome}/zsh/.p10k.zsh".source = .config/zsh/.p10k.zsh;
   };
 }
