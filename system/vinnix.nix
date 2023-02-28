@@ -79,7 +79,7 @@
   users.users.vinny = {
     isNormalUser = true;
     initialPassword = "passwordington";
-    extraGroups = [ "wheel" "libvirtd" ];
+    extraGroups = [ "wheel" "libvirtd" "kvm" ];
     shell = pkgs.zsh;
 
   };
