@@ -24,7 +24,11 @@
     "kvm-amd"
     "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" # gpu passthrough-related modules
   ];
-  boot.extraModprobeConfig = "options vfio-pci ids=10de:13c0,10de:0fbb"; # vfio for old gtx 980
+  boot.extraModprobeConfig = ''
+    options vfio-pci ids=10de:13c0,10de:0fbb
+    options btusb enable_autosuspend=n
+  '';
+
 
   nixpkgs.config.allowUnfree = true;
   services.xserver.videoDrivers = [ "nvidia" ];
