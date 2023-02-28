@@ -18,6 +18,7 @@
 
   # use the newest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelParams = [ "amd_iommu=on" ];
 
   nixpkgs.config.allowUnfree = true;
   services.xserver.videoDrivers = [ "nvidia" ];
