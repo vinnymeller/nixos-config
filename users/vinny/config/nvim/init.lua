@@ -81,7 +81,7 @@ require("lazy").setup({
 	"gpanders/editorconfig.nvim",
 
     -- folding 
-    { "kevinhwang91/nvim-ufi", dependencies = { "kevinhwang91/promise-async"} },
+    { "kevinhwang91/nvim-ufo", dependencies = { "kevinhwang91/promise-async"} },
 
 	-- file previews
 	{
