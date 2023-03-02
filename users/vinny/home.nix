@@ -1,6 +1,8 @@
-{ config, pkgs, ...}:
+{ config, pkgs, ...}: {
 
-{
+  imports = [
+    ./git.nix
+  ];
   # Let home-manager manage itself
   programs.home-manager.enable = true;
 
