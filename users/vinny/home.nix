@@ -41,6 +41,7 @@
     dotDir = ".config/zsh";
     shellAliases = {
       l = "ls -la";
+      nvim = "nvim -u ~/.nixdots/users/vinny/config/nvim/init.lua";
     };
 
     sessionVariables = {
