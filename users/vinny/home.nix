@@ -39,14 +39,7 @@
     enable = true;
     enableCompletion = true;
     dotDir = ".config/zsh";
-    shellAliases = {
-      l = "ls -la";
-      nvim = "nvim -u ~/.nixdots/users/vinny/config/nvim/init.lua";
-    };
 
-    sessionVariables = {
-        EDITOR = "nvim";
-    };
 
     history = {
       size = 10000;
@@ -96,7 +89,17 @@
   };
 
   home.file = {
-    # ".config/nvim".source = ./config/nvim;
     ".config/zsh/.p10k.zsh".source = ./config/zsh/.p10k.zsh;
   };
+
+  home.shellAliases = {
+      l = "ls -la";
+      nvim = "nvim -u ~/.nixdots/users/vinny/config/nvim/init.lua";
+
+  };
+
+  home.sessionVariables = {
+     EDITOR = "nvim";
+  };
+
 }
