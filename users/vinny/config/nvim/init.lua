@@ -80,6 +80,9 @@ require("lazy").setup({
 	"mhartington/formatter.nvim",
 	"gpanders/editorconfig.nvim",
 
+    -- folding 
+    { "kevinhwang91/nvim-ufi", dependencies = { "kevinhwang91/promise-async"} }
+
 	-- file previews
 	{
 		"iamcco/markdown-preview.nvim",
