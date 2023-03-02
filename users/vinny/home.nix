@@ -2,6 +2,8 @@
 
   imports = [
     ./git.nix
+    ./zsh.nix
+    ./neovim.nix
   ];
   # Let home-manager manage itself
   programs.home-manager.enable = true;
@@ -12,10 +14,9 @@
   home.stateVersion = "22.11";
 
   home.packages = with pkgs; [
-    # alacritty
     gcc
     firefox
-    neovim
+    # neovim
     htop
     libvirt
     nodejs-19_x
@@ -31,51 +32,6 @@
     zsh-powerlevel10k
   ];
 
-
- #  programs.zsh = {
- #    enable = true;
- #    enableCompletion = true;
- #    dotDir = ".config/zsh";
-	#
-	#
- #    history = {
- #      size = 10000;
- #      path = "${config.xdg.dataHome}/zsh/history";
- #    };
-	#
- #    initExtra = "source ${config.xdg.configHome}/zsh/.p10k.zsh\n";
-	#
- #    oh-my-zsh = {
- #      enable = true;
- #      plugins = [ "git" ];
- #    };
- #    plugins = [
- #      {
- #        name = "zsh-autosuggestions";
-	# src = pkgs.fetchFromGitHub {
-	#   owner = "zsh-users";
-	#   repo = "zsh-autosuggestions";
-	#   rev = "v0.7.0";
-	#   sha256 = "KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
-	# };
- #      }
- #      {
- #        name = "zsh-syntax-highlighting";
-	# src = pkgs.fetchFromGitHub {
-	#   owner = "zsh-users";
-	#   repo = "zsh-syntax-highlighting";
-	#   rev = "0.7.1";
-	#   sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
-	# };
- #      }
- #      {
- #        name = "powerlevel10k";
-	# src = pkgs.zsh-powerlevel10k;
-	# file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
- #      }
- #    ];
- #  };
-
   programs.kitty = {
     enable = true;
     font = {
@@ -85,10 +41,6 @@
     extraConfig = "background_opacity	0.85";
   };
 
-  home.file = {
-    ".config/nvim".source = ./config/nvim;
-    ".config/zsh/.p10k.zsh".source = ./config/zsh/.p10k.zsh;
-  };
 
   home.shellAliases = {
       l = "ls -la";

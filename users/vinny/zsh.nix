@@ -1,3 +1,4 @@
+# { config, pkgs, ... }: {
 { config, pkgs, ... }: {
 
   programs.zsh = {
@@ -44,4 +45,7 @@
     ];
   };
 
+
+  # copy our powerlevel10k config over
+  home.file.".config/zsh/.p10k.zsh".source = ./config/zsh/.p10k.zsh;
 }
