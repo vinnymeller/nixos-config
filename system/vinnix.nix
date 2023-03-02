@@ -59,31 +59,31 @@
   };
 
   # Setup xserver
-  services.xserver = {
-    enable = true;
-    autorun = true;
-    autoRepeatDelay = 200;
-    autoRepeatInterval = 45;
-    displayManager = {
-            defaultSession = "none+i3";
-            sddm.enable = true;
-        };
-    windowManager.i3 = {
-            enable = true;
-            extraPackages = with pkgs; [
-                i3status
-                i3lock
-                rofi
-                dmenu
-            ];
-        };
-      };
-  # services.xserver.enable = true;
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
-  # services.xserver.autoRepeatDelay = 200;
-  # services.xserver.autoRepeatInterval = 45;
-  # services.xserver.autorun = true;
+  # services.xserver = {
+  #   enable = true;
+  #   autorun = true;
+  #   autoRepeatDelay = 200;
+  #   autoRepeatInterval = 45;
+  #   displayManager = {
+  #           defaultSession = "none+i3";
+  #           sddm.enable = true;
+  #       };
+  #   windowManager.i3 = {
+  #           enable = true;
+  #           extraPackages = with pkgs; [
+  #               i3status
+  #               i3lock
+  #               rofi
+  #               dmenu
+  #           ];
+  #       };
+  #     };
+  services.xserver.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.autoRepeatDelay = 200;
+  services.xserver.autoRepeatInterval = 45;
+  services.xserver.autorun = true;
 
 
   # Configure keymap in X11
