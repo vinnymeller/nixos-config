@@ -4,6 +4,7 @@
     ./git.nix
     ./zsh.nix
     ./neovim.nix
+    ./kitty.nix
   ];
   # Let home-manager manage itself
   programs.home-manager.enable = true;
@@ -16,31 +17,19 @@
   home.packages = with pkgs; [
     gcc
     firefox
-    # neovim
     htop
     libvirt
-    nodejs-19_x
     dmenu
     nerdfonts
     neofetch
     qemu
-    ripgrep
     rustup
     unzip
     virt-manager
     yubioath-flutter
+    rofi
     zsh-powerlevel10k
   ];
-
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "Jetbrains Mono";
-      package = pkgs.jetbrains-mono;
-    };
-    extraConfig = "background_opacity	0.85";
-  };
-
 
   home.shellAliases = {
       l = "ls -la";
