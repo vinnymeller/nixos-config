@@ -11,6 +11,7 @@ if not vim.loop.fs_stat(lazypath) then -- install lazy if it doesn't exist in th
 end
 vim.opt.runtimepath:prepend(lazypath) --add lazy's path to runtimepath
 
+local lazylock = "~/.nixdots/users/vinny/config/nvim/lazy-lock.json"
 require("lazy").setup({
 	-- theme stuff
 	{ "catppuccin/nvim", name = "catppuccin" },
@@ -80,7 +81,7 @@ require("lazy").setup({
 	"mhartington/formatter.nvim",
 	"gpanders/editorconfig.nvim",
 
-    -- folding 
+    -- folding
     { "kevinhwang91/nvim-ufo", dependencies = { "kevinhwang91/promise-async"} },
 
 	-- file previews
@@ -99,7 +100,9 @@ require("lazy").setup({
 	"mfussenegger/nvim-dap",
 	"rcarriga/nvim-dap-ui",
 	"michaeljsmith/vim-indent-object",
-})
+}, {
+        lockfile = "~/.nixdots/users/vinny/config/nvim/lazy-lock.json"
+    })
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
