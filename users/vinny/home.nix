@@ -31,11 +31,11 @@
     zsh-powerlevel10k
   ];
 
-  programs.git = {
-    enable = true;
-    userName = "Vinny Meller";
-    userEmail = "vinnymeller@gmail.com";
-  };
+  # programs.git = {
+  #   enable = true;
+  #   userName = "Vinny Meller";
+  #   userEmail = "vinnymeller@gmail.com";
+  # };
 
   programs.zsh = {
     enable = true;
