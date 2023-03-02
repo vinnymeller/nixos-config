@@ -96,7 +96,7 @@
   };
 
   home.file = {
-    ".config/nvim".source = ./config/nvim;
+    # ".config/nvim".source = ./config/nvim;
     ".config/zsh/.p10k.zsh".source = ./config/zsh/.p10k.zsh;
   };
 }
