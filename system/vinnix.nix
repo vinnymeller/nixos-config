@@ -118,7 +118,7 @@
     "f /dev/shm/looking-glass 0660 vinny kvm -" # looking-glass shmem
   ];
 
-  services.spice-vdagent.enable = true;
+  services.spice-vdagentd.enable = true;
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
 
