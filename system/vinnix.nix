@@ -109,8 +109,7 @@
     wget
     firefox
     looking-glass-client
-    spice
-    spice-vdagent
+    spice # do i even need this ?
     zoom-us
   ];
 
@@ -118,7 +117,6 @@
     "f /dev/shm/looking-glass 0660 vinny kvm -" # looking-glass shmem
   ];
 
-  services.spice-vdagentd.enable = true;
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
 

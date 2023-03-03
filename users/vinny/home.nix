@@ -20,6 +20,7 @@
     htop
     libvirt
     dmenu
+    discord
     nerdfonts
     neofetch
     qemu
