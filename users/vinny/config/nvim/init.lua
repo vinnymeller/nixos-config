@@ -11,7 +11,6 @@ if not vim.loop.fs_stat(lazypath) then -- install lazy if it doesn't exist in th
 end
 vim.opt.runtimepath:prepend(lazypath) --add lazy's path to runtimepath
 
-local lazylock = "~/.nixdots/users/vinny/config/nvim/lazy-lock.json"
 require("lazy").setup({
 	-- theme stuff
 	{ "catppuccin/nvim", name = "catppuccin" },
@@ -380,7 +379,7 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 require("mason").setup()
 
 require("mason-lspconfig").setup({
-	ensure_installed = { "rust_analyzer", "pylsp", "yamlls", "lua_ls", "rnix" },
+	ensure_installed = { "rust_analyzer", "pylsp", "yamlls", "lua_ls", "nil_ls" },
 })
 
 require("mason-lspconfig").setup_handlers({
