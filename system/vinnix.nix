@@ -13,6 +13,9 @@
 
   security.polkit.enable = true;
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-12.2.3"
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -94,6 +97,7 @@
   hardware.pulseaudio.enable = true;
 
   services.pcscd.enable = true;
+  services.spotifyd.enable = true;
 
   users.users.vinny = {
     isNormalUser = true;
