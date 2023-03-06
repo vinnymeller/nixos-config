@@ -21,7 +21,6 @@
     libvirt
     dmenu
     discord
-    etcher
     nerdfonts
     neofetch
     qemu
@@ -31,7 +30,6 @@
     yubioath-flutter
     rofi
     spotify
-    spotify-tui
     zsh-powerlevel10k
   ];
 
