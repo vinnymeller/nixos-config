@@ -23,6 +23,7 @@
     discord
     nerdfonts
     neofetch
+    osu-lazer
     qemu
     rustup
     unzip
