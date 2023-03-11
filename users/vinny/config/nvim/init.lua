@@ -379,7 +379,7 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 require("mason").setup()
 
 require("mason-lspconfig").setup({
-	ensure_installed = { "rust_analyzer", "pylsp", "yamlls", "lua_ls", "nil_ls" },
+	ensure_installed = { "rust_analyzer", "pylsp", "yamlls", "lua_ls", "nil_ls", "clangd" },
 })
 
 require("mason-lspconfig").setup_handlers({
