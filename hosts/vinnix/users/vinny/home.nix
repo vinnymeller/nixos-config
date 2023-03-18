@@ -28,6 +28,7 @@
     rustup
     unzip
     virt-manager
+    tmux
     yubioath-flutter
     rofi
     spotify
