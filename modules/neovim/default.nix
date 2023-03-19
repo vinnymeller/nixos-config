@@ -6,6 +6,7 @@
     home.packages = with pkgs; [
         ripgrep
         nodejs-19_x
+        rust-analyzer
     ];
 
 }

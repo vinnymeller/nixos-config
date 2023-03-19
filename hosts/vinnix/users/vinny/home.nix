@@ -5,7 +5,7 @@
     ../../../../modules/zsh
     ../../../../modules/neovim
     ../../../../modules/kitty
-    ../../../../modules/tmux
+    # ../../../../modules/tmux
   ];
   # Let home-manager manage itself
   programs.home-manager.enable = true;
@@ -27,6 +27,7 @@
     osu-lazer
     qemu
     rustup
+    tmux
     unzip
     virt-manager
     yubioath-flutter
@@ -45,4 +46,5 @@
      EDITOR = "nvim";
   };
 
+  home.file.".tmux.conf".source = ../../../../dotfiles/.tmux.conf;
 }
