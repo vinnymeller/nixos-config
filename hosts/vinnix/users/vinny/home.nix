@@ -5,6 +5,7 @@
     ../../../../modules/zsh
     ../../../../modules/neovim
     ../../../../modules/kitty
+    ../../../../modules/tmux
   ];
   # Let home-manager manage itself
   programs.home-manager.enable = true;
