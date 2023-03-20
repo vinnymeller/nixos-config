@@ -108,6 +108,7 @@
     wget
     firefox
     looking-glass-client
+    openvpn
     spice # do i even need this ?
     zoom-us
   ];
