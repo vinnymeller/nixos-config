@@ -26,6 +26,7 @@
     neofetch
     osu-lazer
     qemu
+    pkg-config
     rustup
     tmux
     unzip
