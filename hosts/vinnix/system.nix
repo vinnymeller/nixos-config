@@ -64,7 +64,8 @@
     autoRepeatInterval = 45;
     displayManager = {
             # defaultSession = "none+i3";
-            sddm.enable = true;
+            # sddm.enable = true;
+            lightdm.enable = true;
         };
     windowManager.xmonad = {
         enable = true;
