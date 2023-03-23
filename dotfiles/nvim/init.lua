@@ -253,7 +253,7 @@ vim.keymap.set("n", "<leader>ng", require("neogit").open, { desc = "[N]eo[G]it" 
 require("nvim-treesitter.configs").setup({
 	auto_install = true,
 	-- Add languages to be installed here that you want installed for treesitter
-	ensure_installed = { "c", "cpp", "go", "lua", "python", "rust", "typescript", "help" },
+	ensure_installed = { "c", "cpp", "go", "lua", "python", "rust", "typescript", "help", "haskell" },
 
 	highlight = { enable = true },
 	indent = {
@@ -378,89 +378,78 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 require("mason").setup()
 
-require("mason-lspconfig").setup({
-	ensure_installed = { "rust_analyzer", "pylsp", "yamlls", "lua_ls", "nil_ls", "clangd" },
+local rt = require("rust-tools")
+rt.setup({
+    server = {
+        -- setup rust specific lsp keymaps
+        on_attach = function(_, bufnr)
+            on_attach(_, bufnr)
+            vim.keymap.set("n", "<leader>ha", rt.hover_actions.hover_actions, { buffer = bufnr })
+            vim.keymap.set("n", "<leader>cg", rt.code_action_group.code_action_group, { buffer = bufnr })
+            vim.keymap.set("n", "<leader>me", rt.expand_macro.expand_macro, { buffer = bufnr })
+            vim.keymap.set("n", "<leader>oc", rt.open_cargo_toml.open_cargo_toml, { buffer = bufnr })
+        end,
+        capabilities = capabilities,
+    },
 })
 
-require("mason-lspconfig").setup_handlers({
-	function(server_name)
-		require("lspconfig")[server_name].setup({
-			on_attach = on_attach,
-			capabilities = capabilities,
-		})
-	end,
-	["rust_analyzer"] = function()
-		local rt = require("rust-tools")
-		rt.setup({
-			server = {
-				-- setup rust specific lsp keymaps
-				on_attach = function(_, bufnr)
-					on_attach(_, bufnr)
-					vim.keymap.set("n", "<leader>ha", rt.hover_actions.hover_actions, { buffer = bufnr })
-					vim.keymap.set("n", "<leader>cg", rt.code_action_group.code_action_group, { buffer = bufnr })
-					vim.keymap.set("n", "<leader>me", rt.expand_macro.expand_macro, { buffer = bufnr })
-					vim.keymap.set("n", "<leader>oc", rt.open_cargo_toml.open_cargo_toml, { buffer = bufnr })
-				end,
-				capabilities = capabilities,
-			},
-		})
-	end,
-	["yamlls"] = function()
-		require("lspconfig").yamlls.setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			settings = {
-				yaml = {
-					schemas = {
-						["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*",
-						["https://json.schemastore.org/swagger-2.0.json"] = "swagger*.yaml",
-					},
-				},
-			},
-		})
-	end,
-	["lua_ls"] = function()
-		-- Make runtime files discoverable to the server
-		local runtime_path = vim.split(package.path, ";")
-		table.insert(runtime_path, "lua/?.lua")
-		table.insert(runtime_path, "lua/?/init.lua")
+require("lspconfig").yamlls.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+        yaml = {
+            schemas = {
+                ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*",
+                ["https://json.schemastore.org/swagger-2.0.json"] = "swagger*.yaml",
+            },
+        },
+    },
+})
 
-		require("lspconfig").lua_ls.setup({
-			on_attach = on_attach,
-			capabilities = capabilities,
-			settings = {
-				Lua = {
-					runtime = {
-						-- Tell the language server which version of Lua you're using (most likely LuaJIT)
-						version = "LuaJIT",
-						-- Setup your lua path
-						path = runtime_path,
-					},
-					diagnostics = {
-						globals = { "vim" },
-					},
-					workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-					-- Do not send telemetry data containing a randomized but unique identifier
-					telemetry = { enable = false },
-				},
-			},
-		})
-	end,
-	["pylsp"] = function()
-		require("lspconfig").pylsp.setup({
-			on_attach = on_attach,
-			capabilities = capabilities,
-			settings = {
-				pylsp = {
-					plugins = {
-						pycodestyle = {
-							ignore = { "W391", "E501" },
-						},
-					},
-				},
-			},
-		})
-	end,
+
+require("lspconfig").lua_ls.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT)
+                version = "LuaJIT",
+            },
+            diagnostics = {
+                globals = { "vim" },
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true)
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = { enable = false },
+        },
+    },
+})
+
+require("lspconfig").pylsp.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        pylsp = {
+            plugins = {
+                pycodestyle = {
+                    ignore = { "W391", "E501" },
+                },
+            },
+        },
+    },
+})
+
+require("lspconfig").hls.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+})
+
+require("lspconfig").clangd.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
 })
 
 -- Turn on lsp status information

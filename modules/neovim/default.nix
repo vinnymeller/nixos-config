@@ -7,6 +7,11 @@
         ripgrep
         nodejs-19_x
         rust-analyzer
+        haskell-language-server
+        ghc
+        lua-language-server
+        nil
+        libclang
     ];
 
 }

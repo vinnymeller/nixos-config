@@ -2,6 +2,12 @@
 
 
 {
+  imports = [
+    # ../../modules/xmonad
+    # ../../modules/plasma
+    ../../modules/qtile # ALSO need to make sure config is copied from home manager
+  ];
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.gc.automatic = true;
   nix.settings.auto-optimise-store = true;
@@ -55,31 +61,6 @@
     font = "Lat2-Terminus16";
     useXkbConfig = true; # use xkbOptions in tty.
   };
-
-  # Setup xserver
-  services.xserver = {
-    enable = true;
-    autorun = true;
-    autoRepeatDelay = 200;
-    autoRepeatInterval = 45;
-    displayManager = {
-            # defaultSession = "none+i3";
-            # sddm.enable = true;
-            lightdm.enable = true;
-        };
-    windowManager.xmonad = {
-        enable = true;
-        enableContribAndExtras = true;
-        config = ../../dotfiles/xmonad.hs;
-    };
-  };
-  # services.xserver.enable = true;
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
-  # services.xserver.autoRepeatDelay = 200;
-  # services.xserver.autoRepeatInterval = 45;
-  # services.xserver.autorun = true;
-
 
 
   # Configure keymap in X11

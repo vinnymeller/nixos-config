@@ -48,4 +48,5 @@
   };
 
   home.file.".tmux.conf".source = ../../../../dotfiles/.tmux.conf;
+  home.file.".config/qtile".source = ../../../../dotfiles/qtile;
 }
