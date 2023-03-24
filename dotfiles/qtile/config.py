@@ -66,8 +66,8 @@ _group_names = [
     ("2", {"label": "code", "layout": "bsp"}),
     ("3", {"label": "web", "layout": "columns"}),
     ("4", {"label": "win", "layout": "max"}),
-    ("5", {"label": "work", "layout": "max"}),
-    ("6", {}),
+    ("5", {"label": "chat", "layout": "columns"}),
+    ("6", {"label": "work", "layout": "columns"}),
     ("7", {}),
     ("8", {}),
     ("9", {}),
@@ -102,6 +102,7 @@ for i in groups:
 layouts = [
     layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     layout.Max(),
+    layout.Bsp(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Matrix(),

@@ -45,6 +45,7 @@
       nvimt = "nvim -u ~/.nixdots/dotfiles/nvim/init.lua"; # nvim with editable config for testing
       nd = "nix develop -c $SHELL";
       nb = "pushd ~/.nixdots && sudo nixos-rebuild --flake . switch && popd";
+      cdots = "pushd ~/.nixdots";
   };
 
   home.sessionVariables = {
