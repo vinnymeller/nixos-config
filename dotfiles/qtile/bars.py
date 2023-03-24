@@ -14,8 +14,6 @@ def get_bar(main_bar=False):
             name_transform=lambda name: name.upper(),
         ),
         widget.Systray() if main_bar else widget.Sep(),
-        # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-        # widget.StatusNotifier(),
         widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
         widget.QuickExit(),
     ]

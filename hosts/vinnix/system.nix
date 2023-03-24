@@ -104,6 +104,8 @@
 
   system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
 
+  programs.steam.enable = true;
+
   services.picom = {
     enable = true;
     backend = "glx";

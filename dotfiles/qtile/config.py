@@ -15,24 +15,24 @@ keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
-    Key([win], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([win], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([win], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([win], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([alt], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([alt], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([alt], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([alt], "k", lazy.layout.up(), desc="Move focus up"),
     Key([win], "space", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key(
-        [win, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"
+        [alt, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"
     ),
     Key(
-        [win, "shift"],
+        [alt, "shift"],
         "l",
         lazy.layout.shuffle_right(),
         desc="Move window to the right",
     ),
-    Key([win, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([win, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([alt, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key([alt, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
     Key([win, ctrl], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
@@ -51,6 +51,7 @@ keys = [
         desc="Toggle between split and unsplit sides of stack",
     ),
     Key([alt], "t", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([alt], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([alt], "b", lazy.spawn("firefox"), desc="Launch firefox"),
     # Toggle between different layouts as defined below
     Key([win, alt], "l", lazy.next_layout(), desc="Toggle between layouts"),
@@ -59,14 +60,48 @@ keys = [
     Key([win, ctrl], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     # Key([alt], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([alt], "r", lazy.spawn("rofi -show drun"), desc="Open rofi"),
+    # keys for moving to monitors
+    Key([win], "1", lazy.to_screen(0), desc="Move focus to monitor 0"),
+    Key([win], "6", lazy.to_screen(0), desc="Move focus to monitor 0"),
+    Key([win], "2", lazy.to_screen(1), desc="Move focus to monitor 1"),
+    Key([win], "7", lazy.to_screen(1), desc="Move focus to monitor 1"),
+    Key([win], "3", lazy.to_screen(2), desc="Move focus to monitor 2"),
+    Key([win], "8", lazy.to_screen(2), desc="Move focus to monitor 2"),
 ]
 
 _group_names = [
     ("1", {"label": "term", "layout": "bsp"}),
-    ("2", {"label": "code", "layout": "bsp"}),
-    ("3", {"label": "web", "layout": "columns"}),
-    ("4", {"label": "win", "layout": "max"}),
-    ("5", {"label": "chat", "layout": "columns"}),
+    (
+        "2",
+        {
+            "label": "code",
+            "layout": "bsp",
+            "spawn": "kitty",
+            "init": True,
+            "screen_affinity": 0,
+        },
+    ),
+    (
+        "3",
+        {
+            "label": "web",
+            "layout": "columns",
+            "spawn": "firefox",
+            "init": True,
+            "screen_affinity": 1,
+        },
+    ),
+    ("4", {"label": "win", "layout": "max", "screen_affinity": 0}),
+    (
+        "5",
+        {
+            "label": "chat",
+            "layout": "columns",
+            "spawn": "discord",
+            "init": True,
+            "screen_affinity": 2,
+        },
+    ),
     ("6", {"label": "work", "layout": "columns"}),
     ("7", {}),
     ("8", {}),
@@ -80,29 +115,36 @@ for i in groups:
     keys.extend(
         [
             Key(
-                [win],
+                [alt],
                 i.name,
                 lazy.group[i.name].toscreen(),
                 desc="Switch to group {}".format(i.name),
             ),
             # mod1 + shift + letter of group = switch to & move focused window to group
             Key(
-                [win, "shift"],
+                [alt, "shift"],
                 i.name,
                 lazy.window.togroup(i.name, switch_group=True),
                 desc="Switch to & move focused window to group {}".format(i.name),
             ),
-            # Or, use below if you prefer not to switch to that group.
-            # # mod1 + shift + letter of group = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            #     desc="move focused window to group {}".format(i.name)),
+            Key(
+                [alt, ctrl],
+                i.name,
+                lazy.window.togroup(i.name),
+                desc="move focused window to group {}".format(i.name),
+            ),
         ]
     )
 
+border_globals = {
+    "border_width": 3,
+    "border_focus": "#881111",
+    "border_on_single": True,
+}
 layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    layout.Max(),
-    layout.Bsp(),
+    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], **border_globals),
+    layout.Max(**border_globals),
+    layout.Bsp(**border_globals),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Matrix(),
