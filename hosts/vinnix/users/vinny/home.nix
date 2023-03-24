@@ -22,6 +22,9 @@
     libvirt
     dmenu
     discord
+    dunst
+    feh
+    lxde.lxsession
     nerdfonts
     neofetch
     osu-lazer
@@ -48,5 +51,6 @@
   };
 
   home.file.".tmux.conf".source = ../../../../dotfiles/.tmux.conf;
-  # home.file.".config/qtile".source = ../../../../dotfiles/qtile;
+  home.file.".config/qtile".source = ../../../../dotfiles/qtile;
+  # home.file.".config/dunst".source = ../../../../dotfiles/dunst;
 }

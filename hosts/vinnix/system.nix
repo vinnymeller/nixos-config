@@ -40,6 +40,9 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
 
+  fonts.fontconfig.antialias = true;
+  fonts.fontconfig.hinting.enable = true;
+  fonts.optimizeForVeryHighDPI = true;
 
   networking.hostName = "vinnix"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -100,5 +103,17 @@
   virtualisation.libvirtd.qemu.ovmf.enable = true;
 
   system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
+
+  services.picom = {
+    enable = true;
+    backend = "glx";
+    fade = true;
+    fadeDelta = 5;
+    opacityRules = [
+                    "100:QTILE_INTERNAL:32c"
+                  ];
+    shadow = true;
+    shadowOpacity = 0.5;
+  };
 
 }
