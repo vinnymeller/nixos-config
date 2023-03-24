@@ -115,5 +115,3 @@
     shadow = true;
     shadowOpacity = 0.5;
   };
-
-}

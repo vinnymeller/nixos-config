@@ -1,4 +1,4 @@
-from libqtile import bar, layout, widget
+from libqtile import layout
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 
@@ -61,7 +61,20 @@ keys = [
     Key([alt], "r", lazy.spawn("rofi -show drun"), desc="Open rofi"),
 ]
 
-groups = [Group(i) for i in "123456789"]
+_group_names = [
+    ("1", {"label": "term", "layout": "bsp"}),
+    ("2", {"label": "code", "layout": "bsp"}),
+    ("3", {"label": "web", "layout": "columns"}),
+    ("4", {"label": "win", "layout": "max"}),
+    ("5", {"label": "work", "layout": "max"}),
+    ("6", {}),
+    ("7", {}),
+    ("8", {}),
+    ("9", {}),
+    ("0", {}),
+]
+
+groups = [Group(name, **kwargs) for name, kwargs in _group_names]
 
 for i in groups:
     keys.extend(

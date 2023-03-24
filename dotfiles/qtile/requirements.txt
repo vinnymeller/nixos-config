@@ -1,5 +1,4 @@
 qtile
-qtile-
 python-lsp-server
 black
 isort
