@@ -42,7 +42,6 @@
 
   fonts.fontconfig.antialias = true;
   fonts.fontconfig.hinting.enable = true;
-  fonts.optimizeForVeryHighDPI = true;
 
   networking.hostName = "vinnix"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -105,6 +104,7 @@
   system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
 
   programs.steam.enable = true;
+  programs.zsh.enable = true;
 
   services.picom = {
     enable = true;
