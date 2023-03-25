@@ -78,7 +78,7 @@ _group_names = [
             "layout": "bsp",
             "spawn": "kitty",
             "init": True,
-            "screen_affinity": 0,
+            "screen_affinity": 1,
         },
     ),
     (
@@ -88,10 +88,10 @@ _group_names = [
             "layout": "columns",
             "spawn": "firefox",
             "init": True,
-            "screen_affinity": 1,
+            "screen_affinity": 0,
         },
     ),
-    ("4", {"label": "win", "layout": "max", "screen_affinity": 0}),
+    ("4", {"label": "win", "layout": "max"}),
     (
         "5",
         {
@@ -186,7 +186,7 @@ mouse = [
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
-follow_mouse_focus = True
+follow_mouse_focus = False  # true to focus window under mouse as it hovers around. false because my cats fkin move it while im typing and it fucks everything up
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(

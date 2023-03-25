@@ -29,6 +29,7 @@
     neofetch
     osu-lazer
     qemu
+    man-pages # linux man pages, goes with tlpi
     pkg-config
     rustup
     tmux

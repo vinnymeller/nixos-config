@@ -136,6 +136,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 vim.wo.signcolumn = "yes"
+-- vim.o.shellcmdflag = "-ic"
 
 -- Set colorscheme
 vim.o.termguicolors = true
