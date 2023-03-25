@@ -11,6 +11,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.gc.automatic = true;
   nix.settings.auto-optimise-store = true;
+  nix.gc.options = "--delete-older-than 14d";
 
   security.polkit.enable = true;
 
