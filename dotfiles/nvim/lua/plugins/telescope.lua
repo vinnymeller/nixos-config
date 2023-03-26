@@ -24,6 +24,7 @@ return {
                     "__pycache__/",
                     "venv/",
                     ".direnv/",
+                    ".cargo/",
                 },
             },
         },
