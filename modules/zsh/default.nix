@@ -46,6 +46,8 @@
     ];
   };
 
+  programs.bash.enable = true; # just in case
+
   # copy our powerlevel10k config over
   home.file.".config/zsh/.p10k.zsh".source = ../../dotfiles/zsh/.p10k.zsh;
 }
