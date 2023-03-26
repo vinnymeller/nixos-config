@@ -13,7 +13,7 @@
   # direnv !
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
-  
+
 
   home.username = "vinny";
   home.homeDirectory = "/home/vinny";
@@ -50,7 +50,7 @@
       l = "ls -la";
       nvimt = "nvim -u ~/.nixdots/dotfiles/nvim/init.lua"; # nvim with editable config for testing
       nd = "nix develop -c $SHELL";
-      nb = "pushd ~/.nixdots && sudo nixos-rebuild --flake . switch && popd";
+      nb = "sudo nixos-rebuild --flake ~/.nixdots switch";
       cdots = "pushd ~/.nixdots";
   };
 
