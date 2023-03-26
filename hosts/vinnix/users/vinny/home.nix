@@ -10,6 +10,11 @@
   # Let home-manager manage itself
   programs.home-manager.enable = true;
 
+  # direnv !
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
+  
+
   home.username = "vinny";
   home.homeDirectory = "/home/vinny";
 

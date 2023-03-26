@@ -7,7 +7,6 @@ from bars import get_bar
 alt = "mod1"
 win = "mod4"
 ctrl = "control"
-
 terminal = "kitty"
 
 
@@ -67,6 +66,10 @@ keys = [
     Key([win], "7", lazy.to_screen(1), desc="Move focus to monitor 1"),
     Key([win], "3", lazy.to_screen(2), desc="Move focus to monitor 2"),
     Key([win], "8", lazy.to_screen(2), desc="Move focus to monitor 2"),
+
+    # keys for moving monitors sequentially
+    Key([win], "j", lazy.prev_screen(), desc="Move focus to prev monitor"),
+    Key([win], "k", lazy.next_screen(), desc="Move focus to prev monitor"),
 ]
 
 _group_names = [

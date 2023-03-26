@@ -10,7 +10,10 @@
       path = "${config.xdg.dataHome}/zsh/history";
     };
 
-    initExtra = "source ${config.xdg.configHome}/zsh/.p10k.zsh\n";
+    initExtra = ''
+    source ${config.xdg.configHome}/zsh/.p10k.zsh
+    eval "$(direnv hook zsh)"
+    '';
 
     oh-my-zsh = {
       enable = true;
