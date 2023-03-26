@@ -48,7 +48,7 @@
 
   home.shellAliases = {
       l = "ls -la";
-      nvimt = "nvim -u ~/.nixdots/dotfiles/nvim/init.lua"; # nvim with editable config for testing
+      nvim = "nvim -u ~/.nixdots/dotfiles/nvim/init.lua"; # nvim with editable config for testing
       nd = "nix develop -c $SHELL";
       nb = "sudo nixos-rebuild --flake ~/.nixdots switch";
       cdots = "pushd ~/.nixdots";

@@ -1,7 +1,7 @@
 { config, pkgs, ...}: {
 
     programs.neovim.enable = true;
-    home.file.".config/nvim".source = ../../dotfiles/nvim;
+    # home.file.".config/nvim".source = ../../dotfiles/nvim;
 
     home.packages = with pkgs; [
         ripgrep
