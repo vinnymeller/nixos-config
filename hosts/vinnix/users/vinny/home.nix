@@ -10,7 +10,7 @@ in
     ../../../../modules/neovim
     ../../../../modules/kitty
     ../../../../modules/ranger
-    # ../../../../modules/tmux
+    ../../../../modules/tmux
   ];
   # Let home-manager manage itself
   programs.home-manager.enable = true;
@@ -42,7 +42,6 @@ in
     man-pages # linux man pages, goes with tlpi
     pkg-config
     rustup
-    tmux
     unzip
     virt-manager
     yubioath-flutter

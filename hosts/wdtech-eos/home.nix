@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
     cust_pkgs = import ../../pkgs { inherit pkgs; };
 in
@@ -8,7 +8,7 @@ in
         ../../modules/zsh
         ../../modules/git
         ../../modules/tmux
-        ../../modules/kitty { installKitty = false; }
+        ../../modules/kitty
     ];
 
     home.packages = with pkgs; [
