@@ -13,6 +13,7 @@ in
 
     home.packages = with pkgs; [
         openvpn
+        mesa
     ] ++ builtins.attrValues cust_pkgs;
 
     programs.direnv.enable = true;
@@ -24,4 +25,4 @@ in
 
     programs.home-manager.enable = true;
 
-};
+}
