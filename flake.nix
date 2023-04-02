@@ -8,8 +8,14 @@
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, ... }: {
+    defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
+    defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
+
     nixosConfigurations = {
         vinnix = import ./hosts/vinnix { inherit nixpkgs home-manager; };
+    };
+    homeConfigurations = {
+        vinny = import ./hosts/wdtech-eos { inherit nixpkgs home-manager; };
     };
   };
 }

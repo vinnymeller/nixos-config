@@ -51,18 +51,4 @@ in
     zsh-powerlevel10k
   ] ++ builtins.attrValues cust_pkgs;
 
-  home.shellAliases = {
-      l = "ls -la";
-      nvim = "nvim -u ~/.nixdots/dotfiles/nvim/init.lua"; # nvim with editable config for testing
-      nd = "nix develop -c $SHELL";
-      nb = "sudo nixos-rebuild --flake ~/.nixdots switch";
-      cdots = "pushd ~/.nixdots";
-  };
-
-  home.sessionVariables = {
-     EDITOR = "nvim";
-  };
-
-  home.file.".tmux.conf".source = ../../../../dotfiles/.tmux.conf;
-  home.file.".config/qtile".source = ../../../../dotfiles/qtile;
 }

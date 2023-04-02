@@ -1,5 +1,7 @@
 { services, ... }: {
 
+    home.file.".config/qtile".source = ../../dotfiles/qtile;
+
     services.xserver = {
         enable = true;
         autorun = true;

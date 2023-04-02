@@ -1,7 +1,9 @@
 { config, pkgs, ...}: {
 
     programs.neovim.enable = true;
-    # home.file.".config/nvim".source = ../../dotfiles/nvim;
+    home.sessionVariables = {
+        EDITOR = "nvim";
+    };
 
     home.packages = with pkgs; [
         ripgrep
@@ -14,4 +16,7 @@
         libclang
     ];
 
+    home.shellAliases = {
+        nvim = "nvim -u ~/.nixdots/dotfiles/nvim/init.lua";
+    };
 }

@@ -13,6 +13,7 @@
     initExtra = ''
     source ${config.xdg.configHome}/zsh/.p10k.zsh
     eval "$(direnv hook zsh)"
+    PATH=$PATH:/$HOME/.nix-profile/bin
     '';
 
     oh-my-zsh = {
@@ -50,4 +51,10 @@
 
   # copy our powerlevel10k config over
   home.file.".config/zsh/.p10k.zsh".source = ../../dotfiles/zsh/.p10k.zsh;
+
+  home.shellAliases = {
+    cdots = "pushd ~/.nixdots";
+    nb = "sudo nixos-rebuild --flake ~/.nixdots switch";
+    hms = "nix run ~/.nixdots switch -- --flake ~/.nixdots";
+  };
 }
