@@ -50,4 +50,5 @@ in
     zsh-powerlevel10k
   ] ++ builtins.attrValues cust_pkgs;
 
+  home.file.".config/qtile".source = ../../../../dotfiles/qtile;
 }

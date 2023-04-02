@@ -1,6 +1,4 @@
-{ services, ... }: {
-
-    home.file.".config/qtile".source = ../../dotfiles/qtile;
+{ config, pkgs, services, ... }: {
 
     services.xserver = {
         enable = true;
