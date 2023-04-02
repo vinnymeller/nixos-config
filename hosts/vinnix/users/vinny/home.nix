@@ -1,10 +1,15 @@
-{ config, pkgs, ...}: {
+{ config, pkgs, ...}:
+let
+    cust_pkgs = import ../../../../pkgs { inherit pkgs; };
+in
+{
 
   imports = [
     ../../../../modules/git
     ../../../../modules/zsh
     ../../../../modules/neovim
     ../../../../modules/kitty
+    ../../../../modules/ranger
     # ../../../../modules/tmux
   ];
   # Let home-manager manage itself
@@ -44,7 +49,7 @@
     rofi
     spotify
     zsh-powerlevel10k
-  ];
+  ] ++ builtins.attrValues cust_pkgs;
 
   home.shellAliases = {
       l = "ls -la";
@@ -60,5 +65,4 @@
 
   home.file.".tmux.conf".source = ../../../../dotfiles/.tmux.conf;
   home.file.".config/qtile".source = ../../../../dotfiles/qtile;
-  # home.file.".config/dunst".source = ../../../../dotfiles/dunst;
 }

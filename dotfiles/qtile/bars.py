@@ -14,6 +14,7 @@ def get_bar(main_bar=False):
             name_transform=lambda name: name.upper(),
         ),
         widget.Pomodoro(),
+        widget.Net(format="{down} \u2193\u2191 {up}"),
         widget.CPU(),
         widget.Memory(measure_mem="G"),
         widget.Systray() if main_bar else widget.Sep(),

@@ -1,5 +1,5 @@
 from libqtile import layout
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 
 from bars import get_bar
@@ -18,7 +18,6 @@ keys = [
     Key([alt], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([alt], "j", lazy.layout.down(), desc="Move focus down"),
     Key([alt], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([win], "space", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key(
@@ -38,7 +37,10 @@ keys = [
     Key([win, ctrl], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key([win, ctrl], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([win, ctrl], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([win], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([win, ctrl, "shift"], "h", lazy.layout.shrink_left(), desc="Grow window to the left"),
+    Key([win, ctrl, "shift"], "l", lazy.layout.shrink_right(), desc="Grow window to the right"),
+    Key([win, ctrl, "shift"], "j", lazy.layout.shrink_down(), desc="Grow window down"),
+    Key([win, ctrl, "shift"], "k", lazy.layout.shrink_up(), desc="Grow window up"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -69,6 +71,8 @@ keys = [
     # keys for moving monitors sequentially
     Key([win], "j", lazy.prev_screen(), desc="Move focus to prev monitor"),
     Key([win], "k", lazy.next_screen(), desc="Move focus to prev monitor"),
+
+    KeyChord([alt], "e", [Key([], "s", lazy.spawn("screenshot_to_clipboard"))]),
 ]
 
 _group_names = [
@@ -80,7 +84,6 @@ _group_names = [
             "layout": "bsp",
             "spawn": "kitty",
             "init": True,
-            "screen_affinity": 1,
         },
     ),
     (
@@ -90,7 +93,6 @@ _group_names = [
             "layout": "columns",
             "spawn": "firefox",
             "init": True,
-            "screen_affinity": 0,
         },
     ),
     ("4", {"label": "win", "layout": "max"}),
@@ -101,7 +103,6 @@ _group_names = [
             "layout": "columns",
             "spawn": "discord",
             "init": True,
-            "screen_affinity": 2,
         },
     ),
     ("6", {"label": "work", "layout": "columns"}),

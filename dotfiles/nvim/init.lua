@@ -24,4 +24,3 @@ require("lazy").setup(
 )
 
 require("swagger-preview").setup({})
-

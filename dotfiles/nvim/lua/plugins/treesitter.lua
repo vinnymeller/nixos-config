@@ -15,7 +15,12 @@ return {
                 -- Add languages to be installed here that you want installed for treesitter
                 ensure_installed = { "c", "cpp", "go", "lua", "python", "rust", "typescript", "help", },
 
-                highlight = { enable = true },
+                highlight = {
+                    enable = true,
+                    -- disable = function(lang, bufnr)
+                    --     return lang == "nix" and vim.api.nvim_buf_line_count(bufnr) > 5000
+                    -- end,
+                },
                 indent = {
                     enable = true,
                     disable = { "python" },

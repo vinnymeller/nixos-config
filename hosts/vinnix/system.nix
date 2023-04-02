@@ -1,7 +1,4 @@
-{ config, pkgs, users, ... }:
-
-
-{
+{ config, pkgs, users, ... }: {
   imports = [
     # ../../modules/xmonad
     # ../../modules/plasma
@@ -22,6 +19,9 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # add ntfs support
+  boot.supportedFilesystems = [ "ntfs" ];
 
   # use the newest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -92,6 +92,8 @@
     looking-glass-client
     openvpn
     spice
+    xclip
+    scrot
     zoom-us
   ];
 
