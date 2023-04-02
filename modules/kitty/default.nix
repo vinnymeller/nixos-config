@@ -1,7 +1,7 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, installKitty ? true, ... }: {
 
     programs.kitty = {
-        enable = true;
+        enable = installKitty;
         font = {
             name = "Jetbrains Mono";
             package = pkgs.jetbrains-mono;

@@ -8,7 +8,7 @@ in
         ../../modules/zsh
         ../../modules/git
         ../../modules/tmux
-        ../../modules/kitty
+        ../../modules/kitty { installKitty = false; }
     ];
 
     home.packages = with pkgs; [
