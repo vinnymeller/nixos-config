@@ -41,6 +41,9 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
 
+  # new xbox controllers
+  hardware.xpadneo.enable = true;
+
   fonts.fontconfig.antialias = true;
   fonts.fontconfig.hinting.enable = true;
 
