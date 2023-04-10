@@ -31,14 +31,27 @@ keys = [
     ),
     Key([alt, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([alt, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    # toggle floating and fullscreen
+    Key([alt], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
+    Key([alt, "shift"], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
     Key([win, ctrl], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
     Key([win, ctrl], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key([win, ctrl], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([win, ctrl], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([win, ctrl, "shift"], "h", lazy.layout.shrink_left(), desc="Grow window to the left"),
-    Key([win, ctrl, "shift"], "l", lazy.layout.shrink_right(), desc="Grow window to the right"),
+    Key(
+        [win, ctrl, "shift"],
+        "h",
+        lazy.layout.shrink_left(),
+        desc="Grow window to the left",
+    ),
+    Key(
+        [win, ctrl, "shift"],
+        "l",
+        lazy.layout.shrink_right(),
+        desc="Grow window to the right",
+    ),
     Key([win, ctrl, "shift"], "j", lazy.layout.shrink_down(), desc="Grow window down"),
     Key([win, ctrl, "shift"], "k", lazy.layout.shrink_up(), desc="Grow window up"),
     # Toggle between split and unsplit sides of stack.
@@ -71,7 +84,6 @@ keys = [
     # keys for moving monitors sequentially
     Key([win], "j", lazy.prev_screen(), desc="Move focus to prev monitor"),
     Key([win], "k", lazy.next_screen(), desc="Move focus to prev monitor"),
-
     KeyChord([alt], "e", [Key([], "s", lazy.spawn("screenshot_to_clipboard"))]),
 ]
 
@@ -95,7 +107,7 @@ _group_names = [
             "init": True,
         },
     ),
-    ("4", {"label": "win", "layout": "max"}),
+    ("4", {"label": "game", "layout": "max"}),
     (
         "5",
         {
