@@ -41,6 +41,7 @@ in
     qemu
     man-pages # linux man pages, goes with tlpi
     pkg-config
+    protonup-qt
     rustup
     unzip
     virt-manager
