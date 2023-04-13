@@ -42,6 +42,7 @@ in
     qemu
     man-pages # linux man pages, goes with tlpi
     pkg-config
+    screenkey
     protonup-qt
     rustup
     unzip
