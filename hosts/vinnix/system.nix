@@ -24,7 +24,13 @@
   boot.supportedFilesystems = [ "ntfs" ];
 
   # use the newest kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # also add the perf kernel package
+    boot.kernelPackages = pkgs.linuxPackages_latest.override {
+        kernelPatches = [
+        pkgs.linuxPackages_latest.perf
+        ];
+    };
+  # boot.kernelPackages = pkgs.linuxPackages_latest
   boot.kernelParams = [ "amd_iommu=on" ];
   boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
   boot.kernelModules = [
@@ -95,7 +101,6 @@
     looking-glass-client
     openvpn
     spice
-    perf-tools
     xclip
     scrot
     zoom-us
