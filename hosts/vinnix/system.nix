@@ -95,6 +95,7 @@
     looking-glass-client
     openvpn
     spice
+    perf-tools
     xclip
     scrot
     zoom-us
