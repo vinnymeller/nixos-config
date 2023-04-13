@@ -24,13 +24,7 @@
   boot.supportedFilesystems = [ "ntfs" ];
 
   # use the newest kernel
-  # also add the perf kernel package
-    boot.kernelPackages = pkgs.linuxPackages_latest.override {
-        kernelPatches = [
-        pkgs.linuxPackages_latest.perf
-        ];
-    };
-  # boot.kernelPackages = pkgs.linuxPackages_latest
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "amd_iommu=on" ];
   boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
   boot.kernelModules = [
@@ -98,6 +92,7 @@
     zsh
     wget
     firefox
+    linuxPackages_latest.perf
     looking-glass-client
     openvpn
     spice

@@ -37,6 +37,7 @@ in
     lxde.lxsession
     nerdfonts
     neofetch
+    obs-studio
     osu-lazer
     qemu
     man-pages # linux man pages, goes with tlpi
