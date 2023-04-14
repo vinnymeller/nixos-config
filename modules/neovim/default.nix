@@ -27,6 +27,7 @@
             fidget-nvim
             formatter-nvim
             gitsigns-nvim
+            gruvbox-nvim
             indent-blankline-nvim
             leap-nvim
             lualine-nvim
@@ -56,6 +57,7 @@
             nil
             nodePackages.pyright
             nodePackages.typescript-language-server
+            nodePackages.yaml-language-server
             nodejs
             ripgrep
             rust-analyzer

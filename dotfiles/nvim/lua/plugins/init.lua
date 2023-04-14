@@ -1,6 +1,6 @@
 require("plugins.autopairs")
 require("plugins.autosave")
-require("plugins.catppuccin")
+require("plugins.theme")
 require("plugins.comment")
 require("plugins.copilot")
 require("plugins.diffview")
