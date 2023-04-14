@@ -14,7 +14,6 @@
                         buildInputs = with pkgs; [
                             python3Packages.python
                             python3Packages.venvShellHook
-                            python3Packages.python-lsp-server
                             taglib
                             openssl
                             git

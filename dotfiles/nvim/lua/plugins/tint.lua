@@ -1,9 +1,4 @@
-return {
-    {
-        "levouh/tint.nvim",
-        opts = {
-            tint = -30,
-            saturation = 0.65,
-        },
-    },
-}
+require("tint").setup({
+    tint = -30,
+    saturation = 0.65,
+})

@@ -1,6 +1,1 @@
-return {
-    {
-        "windwp/nvim-autopairs",
-        config = true,
-    }
-}
+require("nvim-autopairs").setup()

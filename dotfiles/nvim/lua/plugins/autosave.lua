@@ -1,4 +1,1 @@
-return {
-	"nullishamy/autosave.nvim",
-    config = true,
-}
+require("autosave").setup({})

@@ -1,13 +1,5 @@
-return {
-    {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        init = function()
-            vim.g.catppuccin_flavour = "macchiato"
-            vim.cmd("colorscheme catppuccin")
-        end,
-        opts = {
-            transparent_background = false,
-        }
-    },
-}
+vim.g.catppuccin_flavour = "macchiato"
+vim.cmd("colorscheme catppuccin")
+require("catppuccin").setup({
+    transparent_background = false,
+})

@@ -1,4 +1,1 @@
-return {
-	"folke/which-key.nvim",
-    config = true,
-}
+require("which-key").setup({})
