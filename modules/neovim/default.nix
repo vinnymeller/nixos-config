@@ -45,6 +45,7 @@
             vim-fugitive
             vim-indent-object
             vim-surround
+            undotree
             which-key-nvim
         ];
         extraPackages = with pkgs; [
