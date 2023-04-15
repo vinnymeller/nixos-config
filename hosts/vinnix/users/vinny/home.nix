@@ -26,30 +26,31 @@ in
   home.stateVersion = "22.11";
 
   home.packages = with pkgs; [
-    gcc
-    firefox
-    htop
-    libvirt
-    dmenu
     discord
+    dmenu
     dunst
     feh
+    firefox
+    gcc
+    htop
+    libvirt
     lxde.lxsession
-    nerdfonts
+    man-pages # linux man pages, goes with tlpi
     neofetch
+    nerdfonts
     obs-studio
     osu-lazer
-    qemu
-    man-pages # linux man pages, goes with tlpi
     pkg-config
-    screenkey
     protonup-qt
+    qemu
+    rofi
     rustup
+    screenkey
+    spotify
+    twm
     unzip
     virt-manager
     yubioath-flutter
-    rofi
-    spotify
     zsh-powerlevel10k
   ] ++ builtins.attrValues cust_pkgs;
 
