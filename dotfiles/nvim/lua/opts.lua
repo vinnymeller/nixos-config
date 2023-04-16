@@ -23,3 +23,4 @@ vim.o.smartcase = true
 vim.wo.signcolumn = "yes"
 vim.o.termguicolors = true
 vim.o.completeopt = "menuone,noselect"
+vim.o.mouse = ""
