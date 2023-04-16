@@ -13,7 +13,10 @@
     initExtra = ''
     source ${config.xdg.configHome}/zsh/.p10k.zsh
     eval "$(direnv hook zsh)"
-    PATH=$PATH:/$HOME/.nix-profile/bin
+    export PATH=$PATH:/$HOME/.nix-profile/bin
+    export TWM_DEFAULT="default"
+
+    tmux has-session -t $TWM_DEFAULT >/dev/null 2>&1 || tmux new -ds $TWM_DEFAULT
     '';
 
     oh-my-zsh = {
