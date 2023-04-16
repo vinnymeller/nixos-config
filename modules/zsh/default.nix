@@ -13,6 +13,7 @@
     initExtra = ''
     source ${config.xdg.configHome}/zsh/.p10k.zsh
     eval "$(direnv hook zsh)"
+    export PATH=$HOME/.cargo/bin:$PATH # add cargo to the front of the path so dev tools are used > sys
     export PATH=$PATH:/$HOME/.nix-profile/bin
     export TWM_DEFAULT="default"
 
