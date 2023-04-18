@@ -116,5 +116,10 @@ require("lspconfig").clangd.setup({
     capabilities = capabilities,
 })
 
+require("lspconfig").terraformls.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+})
+
 -- Turn on lsp status information
 require("fidget").setup()

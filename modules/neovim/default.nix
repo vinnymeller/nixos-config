@@ -62,6 +62,7 @@
             ripgrep
             rust-analyzer
             shfmt
+            terraform-ls
         ];
     };
 }
