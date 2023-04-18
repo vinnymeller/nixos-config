@@ -38,7 +38,7 @@ elif [ "$COMMAND" == "remove" ]; then
     fi
 
 elif [ "$COMMAND" == "new" ]; then
-    echo -n "Enter a name for your branch: "
+    echo -n "Enter a name for your new branch: "
     read -r NEW_BRANCH
     err_branch_exists "$NEW_BRANCH"
     BASE_BRANCH=$(git_branches | fzf --prompt="Base $NEW_BRANCH off of: ")
@@ -49,7 +49,7 @@ elif [ "$COMMAND" == "new" ]; then
     twm -p "$WORKTREE_PATH"
 
 elif [ "$COMMAND" == "orphan" ]; then
-    echo -n "Enter a name for your branch: "
+    echo -n "Enter a name for your new orphan branch: "
     read -r NEW_BRANCH
     err_branch_exists "$NEW_BRANCH"
     WORKTREE_PATH="$WORKTREE_ROOT/$NEW_BRANCH"
