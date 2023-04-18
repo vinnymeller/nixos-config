@@ -17,7 +17,7 @@
     export PATH=$PATH:/$HOME/.nix-profile/bin
     export TWM_DEFAULT="default"
 
-    tmux has-session -t $TWM_DEFAULT >/dev/null 2>&1 || twm -p . -n $TWM_DEFAULT
+    tmux has-session -t $TWM_DEFAULT >/dev/null 2>&1 || twm -d -p . -n $TWM_DEFAULT
     '';
 
     oh-my-zsh = {
