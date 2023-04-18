@@ -5,6 +5,7 @@ with pkgs;
 writeShellApplication {
     name = "screenshot_to_clipboard";
     runtimeInputs = [
+        bash
         xclip
         scrot
         (if use-notify then libnotify else null)
