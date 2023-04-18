@@ -8,28 +8,30 @@ git_branches() {
 
 err_branch_exists() {
     if git_branches | grep -Fxq "$1"; then
-        >&1 "Branch $1 already exists"
+        echo "Branch $1 already exists"
         exit 1
     fi
 }
 
-WORKTREE_ROOT=$(git worktree list | awk '{print $1}' | head -n 1)
-
 COMMANDS="switch\nadd\nnew\nremove\norphan"
-COMMAND=$(echo -e "$COMMANDS" | fzf)
+
+COMMAND=${1:-""}
+if [ -z "$COMMAND" ]; then
+    COMMAND=$(echo -e "$COMMANDS" | fzf --prompt="Command: ")
+fi
 
 if [ "$COMMAND" == "switch" ]; then
-    twm -p "$( (git worktree list | awk '{print $1}') | fzf)"
+    twm -p "$( (git worktree list | awk '{print $1}') | fzf --prompt="Branch to switch to: ")"
 
 elif [ "$COMMAND" == "add" ]; then
-    NEW_WORKTREE=$(git_branches | fzf --prompt="Branch to add: ")
+    NEW_WORKTREE=$(git_branches | fzf --prompt="Branch to add worktree for: ")
     WORKTREE_PATH="$WORKTREE_ROOT/$NEW_WORKTREE"
     git worktree add "$WORKTREE_PATH" "$NEW_WORKTREE"
     twm -p "$WORKTREE_PATH"
 
 elif [ "$COMMAND" == "remove" ]; then
     CURRENT_DIR=$(pwd)
-    REMOVE_WORKTREE=$( (git worktree list | awk '{print $1}') | fzf)
+    REMOVE_WORKTREE=$( (git worktree list | awk '{print $1}') | fzf --prompt="Worktree to remove: ")
     git worktree remove "$REMOVE_WORKTREE"
     if [ "$CURRENT_DIR" == "$REMOVE_WORKTREE" ]; then
         twm -p "$WORKTREE_ROOT"
@@ -62,4 +64,8 @@ elif [ "$COMMAND" == "orphan" ]; then
     git branch -D "$TEMP_BRANCH"
     popd
     twm -p "$WORKTREE_PATH"
+
+else
+    echo "Unknown command: $COMMAND" >&1
+    exit 1
 fi
