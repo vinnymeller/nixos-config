@@ -17,6 +17,8 @@
     export PATH=$PATH:/$HOME/.nix-profile/bin
     export TWM_DEFAULT="default"
 
+    export VISUAL="nvim" # dont know what this is for tbh
+
     tmux has-session -t $TWM_DEFAULT >/dev/null 2>&1 || twm -d -p . -n $TWM_DEFAULT
     '';
 
