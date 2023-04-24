@@ -4,7 +4,7 @@ from libqtile import bar, widget
 def get_bar(main_bar=False):
     bar_items = [
         widget.CurrentLayout(),
-        widget.GroupBox(),
+        widget.GroupBox(disable_drag=True),
         widget.Prompt(),
         widget.WindowName(),
         widget.Chord(
