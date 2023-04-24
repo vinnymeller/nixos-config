@@ -15,6 +15,8 @@
                 feh --bg-fill ~/Downloads/wp7009163-avatar-appa-wallpapers.png
             '';
         };
-        windowManager.qtile.enable = true;
+        windowManager.qtile = {
+            enable = true;
+        };
     };
 }
