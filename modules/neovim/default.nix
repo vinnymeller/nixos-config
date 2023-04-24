@@ -43,11 +43,12 @@
             rust-tools-nvim
             telescope-nvim
             tint-nvim
+            undotree
             vim-fugitive
             vim-indent-object
             vim-surround
-            undotree
             which-key-nvim
+            vim-be-good
         ];
         extraPackages = with pkgs; [
             black
