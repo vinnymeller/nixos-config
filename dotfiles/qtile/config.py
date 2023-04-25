@@ -102,7 +102,7 @@ _group_names = [
         {
             "label": "web",
             "layout": "columns",
-            "spawn": "firefox",
+            # "spawn": "firefox", # this makes firefox want to sit in that group forever when spawning new ones. i guess just dont spawn it on startup?
             "init": True,
         },
     ),

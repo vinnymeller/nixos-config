@@ -92,7 +92,7 @@
     zsh
     wget
     firefox
-    linuxPackages_latest.perf
+    # linuxPackages_latest.perf  # TODO: readd this when its working
     looking-glass-client
     openvpn
     spice
