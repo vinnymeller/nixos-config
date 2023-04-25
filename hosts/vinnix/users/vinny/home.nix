@@ -40,6 +40,7 @@ in
     nerdfonts
     obs-studio
     osu-lazer
+    pavucontrol
     pkg-config
     protonup-qt
     qemu
