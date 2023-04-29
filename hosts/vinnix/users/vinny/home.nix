@@ -39,7 +39,7 @@ in
     neofetch
     nerdfonts
     obs-studio
-    osu-lazer
+    # osu-lazer # re-add this when its working again
     pavucontrol
     pkg-config
     protonup-qt
