@@ -63,5 +63,7 @@
     nb = "sudo nixos-rebuild --flake ~/.nixdots switch";
     hms = "nix run ~/.nixdots switch -- --flake ~/.nixdots";
     root = "cd $TWM_ROOT";
+    docker = "podman";
+    docker-compose = "podman-compose";
   };
 }

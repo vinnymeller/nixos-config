@@ -42,6 +42,8 @@ in
     # osu-lazer # re-add this when its working again
     pavucontrol
     pkg-config
+    podman
+    podman-compose
     protonup-qt
     qemu
     rofi

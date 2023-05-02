@@ -20,3 +20,6 @@ vim.keymap.set("n", "<leader>dk", vim.diagnostic.goto_prev, { desc = "[D]iagnost
 -- helpful visual mode mappings
 vim.keymap.set("v", ">", ">gv", { noremap = true })
 vim.keymap.set("v", "<", "<gv", { noremap = true })
+
+-- bind leader + cp to copy to system clipboard
+vim.keymap.set("v", "<leader>cp", [["+y]], { noremap = true })
