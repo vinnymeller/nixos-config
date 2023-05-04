@@ -33,6 +33,10 @@ in
     firefox
     gcc
     htop
+    kompose
+    kubectl
+    kubernetes-helm
+    libreoffice
     libvirt
     lxde.lxsession
     man-pages # linux man pages, goes with tlpi
@@ -42,8 +46,6 @@ in
     # osu-lazer # re-add this when its working again
     pavucontrol
     pkg-config
-    podman
-    podman-compose
     protonup-qt
     qemu
     rofi

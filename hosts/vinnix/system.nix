@@ -95,6 +95,7 @@
     # linuxPackages_latest.perf  # TODO: readd this when its working
     looking-glass-client
     openvpn
+    podman-compose
     spice
     xclip
     scrot
@@ -107,6 +108,8 @@
 
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
+
+  virtualisation.podman.enable = true;
 
   system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
 
