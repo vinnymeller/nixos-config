@@ -68,14 +68,15 @@ rt.setup({
 require("lspconfig").yamlls.setup({
     capabilities = capabilities,
     on_attach = on_attach,
-    settings = {
-        yaml = {
-            schemas = {
-                ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*",
-                ["https://json.schemastore.org/swagger-2.0.json"] = "swagger*.yaml",
-            },
-        },
-    },
+    -- get rid of this for now because it seems to cause more problems than it solves currently
+    -- settings = {
+    --     yaml = {
+    --         schemas = {
+    --             ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*",
+    --             ["https://json.schemastore.org/swagger-2.0.json"] = "swagger*.yaml",
+    --         },
+    --     },
+    -- },
 })
 
 
