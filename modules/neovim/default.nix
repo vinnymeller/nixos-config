@@ -33,6 +33,7 @@
             lualine-nvim
             luasnip
             markdown-preview-nvim
+            neorg
             nvim-autopairs
             nvim-cmp
             nvim-lspconfig
@@ -41,14 +42,15 @@
             nvim-treesitter.withAllGrammars
             plenary-nvim
             rust-tools-nvim
+            sniprun
             telescope-nvim
             tint-nvim
             undotree
+            vim-be-good
             vim-fugitive
             vim-indent-object
             vim-surround
             which-key-nvim
-            vim-be-good
         ];
         extraPackages = with pkgs; [
             black
