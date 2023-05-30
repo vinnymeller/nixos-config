@@ -24,6 +24,9 @@
 
     in
   {
+    defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
+    defaultPackage.x86_64-darwin = home-manager.defaultpackage.x86_64-darwin;
+
     nixosConfigurations = {
         vinnix = import ./hosts/vinnix { inherit nixpkgs home-manager overlays; };
     };
