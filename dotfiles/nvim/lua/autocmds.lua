@@ -24,3 +24,17 @@ vim.api.nvim_create_autocmd("WinLeave", {
         vim.cmd([[silent! FormatWrite]])
 	end,
 })
+
+-- copy last yank to system clipboard when nvim loses focus
+vim.api.nvim_create_autocmd("FocusLost", {
+    callback = function()
+        vim.cmd([[call setreg("+", getreg("@"))]])
+    end,
+})
+
+-- copy system clipboard to @ when nvim gains focus
+vim.api.nvim_create_autocmd("FocusGained", {
+    callback = function()
+        vim.cmd([[call setreg("@", getreg("+"))]])
+    end,
+})
