@@ -4,7 +4,7 @@
         enable = true;
         autorun = true;
         autoRepeatDelay = 200;
-        autoRepeatInterval = 45;
+        autoRepeatInterval = 50;
         upscaleDefaultCursor = false;
         displayManager = {
             gdm.enable = true;
