@@ -32,7 +32,7 @@ elif [ "$COMMAND" == "add" ]; then
 elif [ "$COMMAND" == "remove" ]; then
     CURRENT_DIR=$(pwd)
     REMOVE_WORKTREE=$( (git worktree list | awk '{print $1}') | fzf --prompt="Worktree to remove: ")
-    git worktree remove "$REMOVE_WORKTREE"
+    git worktree remove "$REMOVE_WORKTREE" --force
     if [ "$CURRENT_DIR" == "$REMOVE_WORKTREE" ]; then
         twm -p "$WORKTREE_ROOT"
     fi
