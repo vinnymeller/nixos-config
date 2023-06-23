@@ -25,3 +25,10 @@ map("v", "<", "<gv", { noremap = true })
 
 -- backspace in normal mode to replace current word. can i upgrade this ? think about it
 map("n", "<bs>", "ciw", { desc = "Replace current word" })
+
+map("n", "<leader>sv", "<cmd>vs<CR>", { desc = "[S]plit [V]ertical" })
+map("n", "<leader>sh", "<cmd>sp<CR>", { desc = "[S]plit [H]orizontal" })
+
+-- harpoon
+map("n", "<leader>ha", "<cmd>lua require('harpoon.mark').add_file()<CR>", { desc = "[H]arpoon [A]dd File" })
+map("n", "<leader>hm", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>", { desc = "[H]arpoon [M]enu" })

@@ -1,5 +1,6 @@
 require("plugins.autopairs")
 require("plugins.autosave")
+require("plugins.barbar")
 require("plugins.comment")
 require("plugins.copilot")
 require("plugins.diffview")

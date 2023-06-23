@@ -14,6 +14,7 @@
         defaultEditor = true;
         plugins = with pkgs.vimPlugins; [
             autosave-nvim
+            barbar-nvim
             catppuccin-nvim
             cmp-buffer
             cmp-git
@@ -28,6 +29,7 @@
             formatter-nvim
             gitsigns-nvim
             gruvbox-nvim
+            harpoon
             indent-blankline-nvim
             leap-nvim
             lualine-nvim
