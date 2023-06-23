@@ -42,6 +42,7 @@
             nvim-treesitter-context
             nvim-treesitter-textobjects
             nvim-treesitter.withAllGrammars
+            nvim-web-devicons
             plenary-nvim
             rust-tools-nvim
             sniprun
