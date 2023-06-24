@@ -32,3 +32,7 @@ map("n", "<leader>sh", "<cmd>sp<CR>", { desc = "[S]plit [H]orizontal" })
 -- harpoon
 map("n", "<leader>ha", "<cmd>lua require('harpoon.mark').add_file()<CR>", { desc = "[H]arpoon [A]dd File" })
 map("n", "<leader>hm", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>", { desc = "[H]arpoon [M]enu" })
+
+-- exit window & close buffer
+map("n", "<leader>q", "<cmd>q<CR>", { desc = "[Q]uit" })
+map("n", "<leader>k", "<cmd>bd<CR>", { desc = "[K]ill" })
