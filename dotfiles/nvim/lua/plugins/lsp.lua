@@ -43,6 +43,9 @@ local on_attach = function(_, bufnr)
             vim.lsp.buf.formatting()
         end
     end, { desc = "Format current buffer with LSP" })
+
+    -- enable inlay hints
+    vim.lsp.buf.inlay_hint(0, true)
 end
 
 -- nvim-cmp supports additional completion capabilities
@@ -52,6 +55,11 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 local rt = require("rust-tools")
 rt.setup({
+    tools = {
+        inlay_hints = {
+            auto = false,
+        },
+    },
     server = {
         -- setup rust specific lsp keymaps
         on_attach = function(_, bufnr)
@@ -85,6 +93,9 @@ require("lspconfig").lua_ls.setup({
     capabilities = capabilities,
     settings = {
         Lua = {
+            hint = {
+                enable = true,
+            },
             runtime = {
                 -- Tell the language server which version of Lua you're using (most likely LuaJIT)
                 version = "LuaJIT",
