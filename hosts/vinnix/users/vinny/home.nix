@@ -26,11 +26,13 @@ in
   home.stateVersion = "22.11";
 
   home.packages = with pkgs; [
+    # osu-lazer # re-add this when its working again
     discord
     dmenu
     dunst
     feh
     firefox
+    flameshot
     gcc
     htop
     kompose
@@ -43,7 +45,6 @@ in
     neofetch
     nerdfonts
     obs-studio
-    # osu-lazer # re-add this when its working again
     pavucontrol
     pkg-config
     protonup-qt
