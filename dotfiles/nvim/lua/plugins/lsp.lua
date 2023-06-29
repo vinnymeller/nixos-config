@@ -45,7 +45,7 @@ local on_attach = function(_, bufnr)
     end, { desc = "Format current buffer with LSP" })
 
     -- enable inlay hints
-    -- vim.lsp.buf.inlay_hint(bufnr, true)
+    vim.lsp.buf.inlay_hint(bufnr, true)
 end
 
 -- nvim-cmp supports additional completion capabilities
