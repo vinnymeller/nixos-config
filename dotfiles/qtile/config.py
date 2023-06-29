@@ -1,7 +1,8 @@
-from bars import get_bar
 from libqtile import layout
 from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
+
+from bars import get_bar
 
 alt = "mod1"
 win = "mod4"

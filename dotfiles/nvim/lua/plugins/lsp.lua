@@ -118,12 +118,7 @@ require("lspconfig").nil_ls.setup({
     capabilities = capabilities,
 })
 
--- require("lspconfig").pyright.setup({
---     on_attach = on_attach,
---     capabilities = capabilities,
--- })
-
-require("lspconfig").pylyzer.setup({
+require("lspconfig").pyright.setup({
     on_attach = on_attach,
     capabilities = capabilities,
 })
