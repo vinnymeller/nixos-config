@@ -15,10 +15,16 @@
     master-pkgs-overlay = self: super: {
         master-pkgs = nixpkgs-master.legacyPackages.${super.system};
     };
+
+    nixpkgs.overlays = [
+        master-pkgs-overlay
+        neovim-nightly-overlay.overlay
+    ];
+
     in
   {
     nixosConfigurations = {
-        vinnix = import ./hosts/vinnix { inherit master-pkgs-overlay neovim-nightly-overlay nixpkgs home-manager; };
+        vinnix = import ./hosts/vinnix { inherit nixpkgs home-manager; };
     };
     homeConfigurations = {
         vinny = import ./hosts/wdtech-eos { inherit nixpkgs home-manager; };
