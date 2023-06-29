@@ -45,7 +45,7 @@ local on_attach = function(_, bufnr)
     end, { desc = "Format current buffer with LSP" })
 
     -- enable inlay hints
-    vim.lsp.buf.inlay_hint(bufnr, true)
+    -- vim.lsp.buf.inlay_hint(bufnr, true)
 end
 
 -- nvim-cmp supports additional completion capabilities
@@ -118,7 +118,12 @@ require("lspconfig").nil_ls.setup({
     capabilities = capabilities,
 })
 
-require("lspconfig").pyright.setup({
+-- require("lspconfig").pyright.setup({
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+-- })
+
+require("lspconfig").pylyzer.setup({
     on_attach = on_attach,
     capabilities = capabilities,
 })

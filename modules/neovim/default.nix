@@ -61,7 +61,7 @@
             libclang
             lua-language-server
             nil
-            nodePackages.pyright
+            # nodePackages.pyright
             nodePackages.typescript-language-server
             nodePackages.yaml-language-server
             nodejs
@@ -69,6 +69,8 @@
             rust-analyzer
             shfmt
             terraform-ls
+            pylyzer
+
         ];
     };
 }
