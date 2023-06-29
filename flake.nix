@@ -32,6 +32,7 @@
     };
     homeConfigurations = {
         vinny = import ./hosts/wdtech-eos { inherit nixpkgs home-manager overlays; };
+        vmeller = import ./hosts/work-laptop { inherit nixpkgs home-manager overlays; };
     };
   };
 }
