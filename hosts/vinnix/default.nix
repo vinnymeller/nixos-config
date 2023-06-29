@@ -1,7 +1,8 @@
-{ nixpkgs, home-manager, ... }:
+{ nixpkgs, home-manager, overlays, ... }:
 
 nixpkgs.lib.nixosSystem {
     modules = [
+        { nixpkgs.overlays = overlays; }
         ./system.nix
         ./hardware.nix
         home-manager.nixosModules.home-manager {
