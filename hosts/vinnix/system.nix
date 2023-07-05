@@ -99,7 +99,7 @@
     spice
     xclip
     scrot
-    # zoom-us
+    zoom-us
   ];
 
   systemd.tmpfiles.rules = [
