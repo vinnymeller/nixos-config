@@ -25,6 +25,10 @@ if [ "$COMMAND" == "switch" ]; then
 
 elif [ "$COMMAND" == "add" ]; then
     NEW_WORKTREE=$(git_branches | fzf --prompt="Branch to add worktree for: ")
+    REMOTES=$(git remote)
+    for REMOTE in $REMOTES; do
+        NEW_WORKTREE=${NEW_WORKTREE#"$REMOTE/"}
+    done
     WORKTREE_PATH="$WORKTREE_ROOT/$NEW_WORKTREE"
     git worktree add "$WORKTREE_PATH" "$NEW_WORKTREE"
     twm -p "$WORKTREE_PATH"
