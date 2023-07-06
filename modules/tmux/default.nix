@@ -1,6 +1,6 @@
 { config, pkgs, ... }: {
 
     programs.tmux.enable = true;
-    home.file.".tmux.conf".source = ../../dotfiles/.tmux.conf;
+    programs.tmux.extraConfig = builtins.readFile ../../dotfiles/.tmux.conf;
 
 }
