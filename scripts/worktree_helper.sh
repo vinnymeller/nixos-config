@@ -3,7 +3,7 @@
 WORKTREE_ROOT=$(git worktree list | awk '{print $1}' | head -n 1)
 
 git_branches() {
-    git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads
+    git for-each-ref --sort=committerdate --format='%(refname:short)' refs/heads refs/remotes
 }
 
 err_branch_exists() {
