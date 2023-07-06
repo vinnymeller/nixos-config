@@ -42,11 +42,13 @@ in
     libvirt
     lxde.lxsession
     man-pages # linux man pages, goes with tlpi
+    mullvad-vpn
     neofetch
     nerdfonts
     obs-studio
     pavucontrol
     pkg-config
+    popcorntime
     protonup-qt
     qemu
     rofi
