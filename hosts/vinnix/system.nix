@@ -78,6 +78,7 @@
 
   services.pcscd.enable = true;
   services.spotifyd.enable = true;
+  services.mullvad-vpn.enable = true;
 
   users.users.vinny = {
     isNormalUser = true;
