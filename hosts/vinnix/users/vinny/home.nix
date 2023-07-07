@@ -45,6 +45,7 @@ in
     neofetch
     nerdfonts
     obs-studio
+    obsidian
     pavucontrol
     pkg-config
     popcorntime
