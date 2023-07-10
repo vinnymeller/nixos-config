@@ -27,6 +27,7 @@ in
 
   home.packages = with pkgs; [
     # osu-lazer # re-add this when its working again
+    anki-bin
     discord
     dmenu
     dunst
