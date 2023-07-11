@@ -54,6 +54,7 @@ in
     qemu
     rofi
     rustup
+    sbctl
     screenkey
     spotify
     twm

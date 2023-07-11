@@ -8,9 +8,14 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
+    lanzaboote = {
+        url = "github:nix-community/lanzaboote";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-master, neovim-nightly-overlay, home-manager, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-master, neovim-nightly-overlay, home-manager, lanzaboote, ... }:
   let
     master-pkgs-overlay = self: super: {
         master-pkgs = nixpkgs-master.legacyPackages.${super.system};
@@ -28,7 +33,7 @@
     defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
 
     nixosConfigurations = {
-        vinnix = import ./hosts/vinnix { inherit nixpkgs home-manager overlays; };
+        vinnix = import ./hosts/vinnix { inherit nixpkgs home-manager lanzaboote overlays; };
     };
     homeConfigurations = {
         vinny = import ./hosts/wdtech-eos { inherit nixpkgs home-manager overlays; };
