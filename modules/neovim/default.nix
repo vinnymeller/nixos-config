@@ -26,12 +26,12 @@
             copilot-lua
             diffview-nvim
             fidget-nvim
+            flash-nvim
             formatter-nvim
             gitsigns-nvim
             gruvbox-nvim
             harpoon
             indent-blankline-nvim
-            leap-nvim
             lualine-nvim
             luasnip
             markdown-preview-nvim
