@@ -34,6 +34,7 @@
 
     nixosConfigurations = {
         vinnix = import ./hosts/vinnix { inherit nixpkgs home-manager lanzaboote overlays; };
+        home-nix-wsl = import ./hosts/home-wsl { inherit nixpkgs home-manager overlays; };
     };
     homeConfigurations = {
         vinny = import ./hosts/wdtech-eos { inherit nixpkgs home-manager overlays; };
