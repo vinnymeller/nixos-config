@@ -77,10 +77,10 @@ keys = [
     # keys for moving to monitors
     Key([win], "1", lazy.to_screen(0), desc="Move focus to monitor 0"),
     Key([win], "6", lazy.to_screen(0), desc="Move focus to monitor 0"),
-    Key([win], "2", lazy.to_screen(1), desc="Move focus to monitor 1"),
-    Key([win], "7", lazy.to_screen(1), desc="Move focus to monitor 1"),
-    Key([win], "3", lazy.to_screen(2), desc="Move focus to monitor 2"),
-    Key([win], "8", lazy.to_screen(2), desc="Move focus to monitor 2"),
+    Key([win], "2", lazy.to_screen(2), desc="Move focus to monitor 1"), # monitors 2 and 1 switched because of how they are physically arranged
+    Key([win], "7", lazy.to_screen(2), desc="Move focus to monitor 1"), # how can i determine this programatically? TODO
+    Key([win], "3", lazy.to_screen(1), desc="Move focus to monitor 2"),
+    Key([win], "8", lazy.to_screen(1), desc="Move focus to monitor 2"),
     # keys for moving monitors sequentially
     Key([win], "j", lazy.prev_screen(), desc="Move focus to prev monitor"),
     Key([win], "k", lazy.next_screen(), desc="Move focus to prev monitor"),
