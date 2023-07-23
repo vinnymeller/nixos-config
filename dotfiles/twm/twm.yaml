@@ -1,0 +1,46 @@
+search_paths:
+  - "~/dev"
+  - "~/.nixdots"
+
+exclude_path_components:
+  - .git
+  - .direnv
+  - node_modules
+  - venv
+  - target
+
+max_search_depth: 5
+
+workspace_definitions:
+  - name: python
+    has_any_file:
+      - requirements.txt
+      - setup.py
+      - pyproject.toml
+      - Pipfile
+
+  - name: node
+    has_any_file:
+      - package.json
+      - yarn.lock
+      - .nvmrc
+
+  - name: rust
+    has_any_file:
+      - Cargo.toml
+      - Cargo.lock
+
+  - name: other
+    has_any_file:
+      - .git
+      - flake.nix
+      - .twm.yaml
+
+layouts:
+  - name: default
+    commands:
+      - tmux split-window -h
+      - tmux resize-pane -x 80
+      - tmux split-window -v
+      - tmux select-pane -t 0
+      - nvim .
