@@ -27,9 +27,17 @@ in
 
   # Enable nix flakes
   nix.package = pkgs.nixFlakes;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.gc.automatic = true;
+  nix.settings.auto-optimise-store = true;
+  nix.gc.options = "--delete-older-than 14d";
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.opengl.enable = true;
+
+  security.polkit.enable = true;
 
   users.users.vinny = {
     isNormalUser = true;
@@ -45,5 +53,6 @@ in
     vim
     neovim
   ];
+  nixpkgs.config.allowUnfree = true;
   system.stateVersion = "22.05";
 }
