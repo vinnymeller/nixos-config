@@ -77,8 +77,12 @@ keys = [
     # keys for moving to monitors
     Key([win], "1", lazy.to_screen(0), desc="Move focus to monitor 0"),
     Key([win], "6", lazy.to_screen(0), desc="Move focus to monitor 0"),
-    Key([win], "2", lazy.to_screen(2), desc="Move focus to monitor 1"), # monitors 2 and 1 switched because of how they are physically arranged
-    Key([win], "7", lazy.to_screen(2), desc="Move focus to monitor 1"), # how can i determine this programatically? TODO
+    Key(
+        [win], "2", lazy.to_screen(2), desc="Move focus to monitor 1"
+    ),  # monitors 2 and 1 switched because of how they are physically arranged
+    Key(
+        [win], "7", lazy.to_screen(2), desc="Move focus to monitor 1"
+    ),  # how can i determine this programatically? TODO
     Key([win], "3", lazy.to_screen(1), desc="Move focus to monitor 2"),
     Key([win], "8", lazy.to_screen(1), desc="Move focus to monitor 2"),
     # keys for moving monitors sequentially
@@ -96,6 +100,7 @@ _group_names = [
             "layout": "bsp",
             "spawn": "kitty",
             "init": True,
+            "screen_affinity": 3,
         },
     ),
     (
@@ -105,6 +110,7 @@ _group_names = [
             "layout": "columns",
             # "spawn": "firefox", # this makes firefox want to sit in that group forever when spawning new ones. i guess just dont spawn it on startup?
             "init": True,
+            "screen_affinity": 1,
         },
     ),
     ("4", {"label": "game", "layout": "max"}),
@@ -115,6 +121,7 @@ _group_names = [
             "layout": "columns",
             "spawn": "discord",
             "init": True,
+            "screen_affinity": 2,
         },
     ),
     ("6", {"label": "work", "layout": "columns"}),
