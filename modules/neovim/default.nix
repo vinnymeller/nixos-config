@@ -19,6 +19,7 @@
             cmp-buffer
             cmp-git
             cmp-nvim-lsp
+            cmp-nvim-lsp-signature-help
             cmp-nvim-lua
             cmp-path
             cmp_luasnip
@@ -68,6 +69,7 @@
             ripgrep
             rust-analyzer
             shfmt
+            stylua
             terraform-ls
         ];
     };

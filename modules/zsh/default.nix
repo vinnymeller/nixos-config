@@ -1,8 +1,21 @@
 { config, pkgs, ... }: {
 
+
+  # zsh doesn't have an extraPackages option, so we have to add them to home.packages
+  home.packages = with pkgs; [
+    zsh-forgit
+    zsh-powerlevel10k
+    zsh-vi-mode
+    zsh-you-should-use
+    zsh-fast-syntax-highlighting
+    zsh-bd
+    zsh-autocomplete
+    zsh-completions
+  ];
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    enableAutosuggestions = true;
     dotDir = ".config/zsh";
 
     history = {
@@ -10,10 +23,28 @@
       path = "${config.xdg.dataHome}/zsh/history";
     };
 
+    initExtraFirst = ''
+    # NOTE: anything that requires input has to go above this!
+    # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+    # Initialization code that may require console input (password prompts, [y/n]
+    # confirmations, etc.) must go above this block; everything else may go below.
+    if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+      source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+    fi
+    '';
+
     initExtra = ''
+    source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
     source ${config.xdg.configHome}/zsh/.p10k.zsh
+    source ${pkgs.zsh-forgit}/share/zsh/zsh-forgit/forgit.plugin.zsh
+    source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.zsh
+    source ${pkgs.zsh-bd}/share/zsh-bd/bd.plugin.zsh
+    source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
+    source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+    source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
+
+
     set -o vi
-    eval "$(direnv hook zsh)"
     export PATH=$HOME/.cargo/bin:$PATH # add cargo to the front of the path so dev tools are used > sys
     export PATH=$PATH:/$HOME/.nix-profile/bin
     export TWM_DEFAULT="default"
@@ -28,31 +59,6 @@
       enable = true;
       plugins = [ "git" "sudo" ];
     };
-    plugins = [
-      {
-        name = "zsh-autosuggestions";
-	src = pkgs.fetchFromGitHub {
-	  owner = "zsh-users";
-	  repo = "zsh-autosuggestions";
-	  rev = "v0.7.0";
-	  sha256 = "KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
-	};
-      }
-      {
-        name = "zsh-syntax-highlighting";
-	src = pkgs.fetchFromGitHub {
-	  owner = "zsh-users";
-	  repo = "zsh-syntax-highlighting";
-	  rev = "0.7.1";
-	  sha256 = "gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
-	};
-      }
-      {
-        name = "powerlevel10k";
-	src = pkgs.zsh-powerlevel10k;
-	file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-      }
-    ];
   };
 
   programs.bash.enable = true; # just in case
