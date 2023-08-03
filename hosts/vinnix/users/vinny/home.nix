@@ -35,6 +35,7 @@ in
     firefox
     flameshot
     gcc
+    gromit-mpx
     htop
     kompose
     kubectl
