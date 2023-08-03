@@ -57,6 +57,7 @@
             which-key-nvim
         ];
         extraPackages = with pkgs; [
+            ast-grep
             black
             isort
             libclang

@@ -95,6 +95,8 @@
     firefox
     # linuxPackages_latest.perf  # TODO: readd this when its working
     looking-glass-client
+    man-pages
+    man-pages-posix
     openvpn
     podman-compose
     spice
