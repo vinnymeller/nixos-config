@@ -48,6 +48,7 @@
             rust-tools-nvim
             sniprun
             telescope-nvim
+            telescope-sg
             tint-nvim
             undotree
             vim-be-good
