@@ -22,6 +22,16 @@ require("telescope").setup({
             ".cargo/",
         },
     },
+    extensions = {
+        ast_grep = {
+            command = {
+                "sg",
+                "--json=stream",
+            },
+            grep_open_files = false,
+            lang = nil,
+        },
+    },
 })
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
 vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })

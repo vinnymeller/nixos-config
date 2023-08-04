@@ -36,7 +36,6 @@
             lualine-nvim
             luasnip
             markdown-preview-nvim
-            neorg
             nvim-autopairs
             nvim-cmp
             nvim-lspconfig
@@ -48,7 +47,7 @@
             rust-tools-nvim
             sniprun
             telescope-nvim
-            telescope-sg
+            pkgs.master-pkgs.vimPlugins.telescope-sg
             tint-nvim
             undotree
             vim-be-good
