@@ -61,6 +61,7 @@ in
     twm
     unzip
     virt-manager
+    vlc
     yubioath-flutter
     zsh-powerlevel10k
   ] ++ builtins.attrValues cust_pkgs;

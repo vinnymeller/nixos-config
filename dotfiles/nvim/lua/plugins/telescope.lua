@@ -25,7 +25,8 @@ require("telescope").setup({
     extensions = {
         ast_grep = {
             command = {
-                "sg",
+                "ast-grep",
+                "-p",
                 "--json=stream",
             },
             grep_open_files = false,
@@ -33,6 +34,9 @@ require("telescope").setup({
         },
     },
 })
+require("telescope").load_extension("harpoon")
+require("telescope").load_extension("ast_grep")
+
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
 vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>/", function()
