@@ -14,6 +14,8 @@ in
     home.packages = with pkgs; [
         openvpn
         mesa
+        kubectl
+        helm
         twm
     ] ++ builtins.attrValues cust_pkgs;
 
