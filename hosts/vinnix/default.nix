@@ -1,8 +1,9 @@
-{ nixpkgs, home-manager, lanzaboote, overlays, ... }:
+{ inputs, outputs, ... }:
 
-nixpkgs.lib.nixosSystem {
+inputs.nixpkgs.lib.nixosSystem {
+    specialArgs = { inherit inputs outputs; };
     modules = [
-        lanzaboote.nixosModules.lanzaboote
+        inputs.lanzaboote.nixosModules.lanzaboote
 
         ({ pkgs, lib, ... }: {
              environment.systemPackages = [
@@ -17,10 +18,10 @@ nixpkgs.lib.nixosSystem {
              };
          })
 
-        { nixpkgs.overlays = overlays; }
-        ./system.nix
+        # { nixpkgs.overlays = outputs.overlays; }
+        ./configuration.nix
         ./hardware.nix
-        home-manager.nixosModules.home-manager {
+        inputs.home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.vinny = import ./users/vinny/home.nix;

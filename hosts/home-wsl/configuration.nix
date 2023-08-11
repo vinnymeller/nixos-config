@@ -1,4 +1,4 @@
-{ lib, pkgs, config, modulesPath, ... }:
+{ inputs, outputs, lib, pkgs, config, modulesPath, ... }:
 
 with lib;
 let
@@ -25,6 +25,8 @@ in
 
   };
 
+  nixpkgs.hostPlatform = "x86_64-linux";
+  nixpkgs.overlays = builtins.attrValues outputs.overlays;
   # Enable nix flakes
   nix.package = pkgs.nixFlakes;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

@@ -1,11 +1,10 @@
-{ nixpkgs, home-manager, overlays, ... }:
+{ inputs, outputs, ... }:
 
-nixpkgs.lib.nixosSystem {
+inputs.nixpkgs.lib.nixosSystem {
+    specialArgs = { inherit inputs outputs; };
     modules = [
-        { nixpkgs.hostPlatform = "x86_64-linux"; }
-	{ nixpkgs.overlays = overlays; }
-	./configuration.nix
-        home-manager.nixosModules.home-manager {
+        ./configuration.nix
+        inputs.home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.vinny = import ./home.nix;

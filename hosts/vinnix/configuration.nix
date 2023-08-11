@@ -1,9 +1,14 @@
-{ config, pkgs, users, ... }: {
+{ inputs, outputs, config, pkgs, users, ... }: {
   imports = [
-    # ../../modules/xmonad
-    # ../../modules/plasma
     ../../modules/qtile # ALSO need to make sure config is copied from home manager
   ];
+
+  # nixpkgs.overlays = [
+  #   outputs.overlays.cust-pkgs
+  #   outputs.overlays.neovim-nightly
+  #   outputs.overlays.master-pkgs-overlay
+  # ];
+  nixpkgs.overlays = builtins.attrValues outputs.overlays;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.gc.automatic = true;
