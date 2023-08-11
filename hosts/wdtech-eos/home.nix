@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ inputs, outputs, pkgs, ... }:
 let
     cust_pkgs = import ../../pkgs { inherit pkgs; };
 in
@@ -10,6 +10,9 @@ in
         ../../modules/tmux
         ../../modules/kitty
     ];
+
+
+    nixpkgs.overlays = builtins.attrValues outputs.overlays;
 
     home.packages = with pkgs; [
         openvpn

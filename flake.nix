@@ -30,26 +30,18 @@
   let
 
     inherit (self) outputs;
-    forAllSystems = nixpkgs.lib.genAttrs flake-utils.lib.defaultSystems; # change this if i need some weird systems
 
-    # master-pkgs-overlay = self: super: {
-    #     master-pkgs = nixpkgs-master.legacyPackages.${super.system};
-    # };
-    #
-    #
-    # overlays = [
-    #     master-pkgs-overlay
-    #     neovim-nightly-overlay.overlay
-    # ];
+    forAllSystems = nixpkgs.lib.genAttrs flake-utils.lib.defaultSystems; # change this if i need some weird systems
 
     in {
 
-        # TOOD: come back to this later. some of my packages don't work on mac, so what's the most elegant way to do this?
-        # packages = forAllSystems (system:
-        #     let
-        #         pkgs = nixpkgs.legacyPackages.${system};
-        #     in import ./pkgs { inherit pkgs; }
-        # );
+        defaultPackage = forAllSystems (system: home-manager.defaultPackage.${system} );
+
+        packages = forAllSystems (system:
+            let pkgs = nixpkgs.legacyPackages.${system};
+            in import ./pkgs { inherit pkgs; }
+        );
+
         devShells = forAllSystems (system:
             let pkgs = nixpkgs.legacyPackages.${system};
             in import ./shell.nix { inherit pkgs; }
@@ -57,14 +49,12 @@
 
         overlays = import ./overlays { inherit inputs; };
 
-
         nixosConfigurations = {
             vinnix = import ./hosts/vinnix { inherit inputs outputs; };
             home-nix-wsl = import ./hosts/home-wsl { inherit inputs outputs; };
         };
         homeConfigurations = {
-            vinny = import ./hosts/wdtech-eos { inherit inputs outputs; };
-            vmeller = import ./hosts/work-laptop { inherit inputs outputs; };
+            "vinny@wdtech-eos" = import ./hosts/wdtech-eos { inherit inputs outputs; };
         };
   };
 }
