@@ -1,63 +1,81 @@
 { inputs, outputs, config, pkgs, users, ... }: {
+
   imports = [
     ../../modules/qtile # ALSO need to make sure config is copied from home manager
   ];
 
-  # nixpkgs.overlays = [
-  #   outputs.overlays.cust-pkgs
-  #   outputs.overlays.neovim-nightly
-  #   outputs.overlays.master-pkgs-overlay
-  # ];
-  nixpkgs.overlays = builtins.attrValues outputs.overlays;
+  nix = {
+      settings = {
+          experimental-features = [ "nix-command" "flakes" ];
+          auto-optimise-store = true;
+      };
+      gc = {
+          automatic = true;
+          options = "--delete-older-than 14d";
+      };
+  };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.gc.automatic = true;
-  nix.settings.auto-optimise-store = true;
-  nix.gc.options = "--delete-older-than 14d";
+  nixpkgs = {
+    overlays = builtins.attrValues outputs.overlays;
+    config = {
+      permittedInsecurePackages = [ "electron-12.2.3" ];
+      allowUnfree = true;
+    };
+  };
 
-  security.polkit.enable = true;
+  boot = {
+      supportedFilesystems = [ "ntfs" ];
+      kernelPackages = pkgs.linuxPackages_latest;  # use newest kernel
+      kernelParams = [ "amd_iommu=on" ];
+      blacklistedKernelModules = [ "nvidia" "nouveau" ];
+      kernelModules = [ "kvm-amd" "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
+      extraModprobeConfig = ''
+        options vfio-pci ids=10de:13c0,10de:0fbb
+        options btusb enable_autosuspend=n
+      '';
+      loader = {
+          systemd-boot = {
+              enable = true;
+          };
+          efi = {
+              canTouchEfiVariables = true;
+          };
+      };
+  };
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-12.2.3"
-  ];
+  security = {
+    polkit = {
+      enable = true;
+    };
+  };
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  hardware = {
+      bluetooth.enable = true;
+      opengl.enable = true;
+      pulseaudio.enable = true;
+      xpadneo.enable = true;
+  };
 
-  # add ntfs support
-  boot.supportedFilesystems = [ "ntfs" ];
+  services = {
+      blueman.enable = true;
+      pcscd.enable = true;
+        spotifyd.enable = true;
+        mullvad-vpn.enable = true;
 
-  # use the newest kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "amd_iommu=on" ];
-  boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
-  boot.kernelModules = [
-    "kvm-amd"
-    "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" # gpu passthrough-related modules
-  ];
-  boot.extraModprobeConfig = ''
-    options vfio-pci ids=10de:13c0,10de:0fbb
-    options btusb enable_autosuspend=n
-  '';
+  };
+
+  fonts = {
+      fontconfig = {
+          antialias = true;
+          hinting.enable = true;
+      };
+  };
 
 
-  nixpkgs.config.allowUnfree = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
-
-  # new xbox controllers
-  hardware.xpadneo.enable = true;
-
-  fonts.fontconfig.antialias = true;
-  fonts.fontconfig.hinting.enable = true;
 
   networking.hostName = "vinnix"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
-  # bluetooth
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -73,17 +91,9 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-
-  # Configure keymap in X11
-  services.xserver.layout = "us";
-
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
 
-  services.pcscd.enable = true;
-  services.spotifyd.enable = true;
-  services.mullvad-vpn.enable = true;
 
   users.users.vinny = {
     isNormalUser = true;
@@ -124,17 +134,6 @@
   programs.steam.enable = true;
   programs.zsh.enable = true;
 
-  services.picom = {
-    enable = true;
-    backend = "glx";
-    fade = true;
-    fadeDelta = 5;
-    opacityRules = [
-                    "100:QTILE_INTERNAL:32c"
-                  ];
-    shadow = true;
-    shadowOpacity = 0.5;
-  };
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [

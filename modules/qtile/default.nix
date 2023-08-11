@@ -18,5 +18,19 @@
         windowManager.qtile = {
             enable = true;
         };
+        layout = "us";
+        videoDrivers = [ "nvidia" ];
     };
+
+  services.picom = {
+    enable = true;
+    backend = "glx";
+    fade = true;
+    fadeDelta = 5;
+    opacityRules = [
+                    "100:QTILE_INTERNAL:32c"
+                  ];
+    shadow = true;
+    shadowOpacity = 0.5;
+  };
 }
