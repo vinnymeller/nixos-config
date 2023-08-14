@@ -47,6 +47,14 @@
     polkit = {
       enable = true;
     };
+    pam = {
+        loginLimits = [{
+            domain = "*";
+            type = "soft";
+            item = "nofile";
+            value = 100000;
+        }];
+    };
   };
 
   hardware = {
@@ -59,9 +67,8 @@
   services = {
       blueman.enable = true;
       pcscd.enable = true;
-        spotifyd.enable = true;
-        mullvad-vpn.enable = true;
-
+      spotifyd.enable = true;
+      mullvad-vpn.enable = true;
   };
 
   fonts = {
