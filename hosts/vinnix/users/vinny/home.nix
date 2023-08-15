@@ -54,7 +54,6 @@ in
     protonup-qt
     qemu
     rofi
-    rustup
     sbctl
     screenkey
     spotify
