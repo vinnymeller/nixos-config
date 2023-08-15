@@ -59,6 +59,7 @@
         extraPackages = with pkgs; [
             ast-grep
             black
+            gcc
             isort
             libclang
             lua-language-server
