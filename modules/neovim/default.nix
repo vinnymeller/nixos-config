@@ -36,6 +36,7 @@
             lualine-nvim
             luasnip
             markdown-preview-nvim
+            neogit
             nvim-autopairs
             nvim-cmp
             nvim-lspconfig
@@ -43,11 +44,11 @@
             nvim-treesitter-textobjects
             nvim-treesitter.withAllGrammars
             nvim-web-devicons
+            pkgs.master-pkgs.vimPlugins.telescope-sg
             plenary-nvim
             rust-tools-nvim
             sniprun
             telescope-nvim
-            pkgs.master-pkgs.vimPlugins.telescope-sg
             tint-nvim
             undotree
             vim-be-good
@@ -55,6 +56,7 @@
             vim-indent-object
             vim-surround
             which-key-nvim
+            wilder-nvim
         ];
         extraPackages = with pkgs; [
             ast-grep
@@ -68,12 +70,13 @@
             nodePackages.typescript-language-server
             nodePackages.yaml-language-server
             nodejs
-            ocamlPackages.lsp
+            ocamlPackages.ocaml-lsp
             ripgrep
             rust-analyzer
             shfmt
             stylua
             terraform-ls
+            xsel
         ];
     };
 }
