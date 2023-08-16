@@ -68,6 +68,7 @@
             nodePackages.typescript-language-server
             nodePackages.yaml-language-server
             nodejs
+            ocamlPackages.lsp
             ripgrep
             rust-analyzer
             shfmt

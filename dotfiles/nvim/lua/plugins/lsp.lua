@@ -117,28 +117,27 @@ require("lspconfig").lua_ls.setup({
 })
 
 require("lspconfig").nil_ls.setup({
-	-- on_attach = on_attach,
 	capabilities = capabilities,
 })
 
 require("lspconfig").pyright.setup({
-	-- on_attach = on_attach,
 	capabilities = capabilities,
 })
 
 require("lspconfig").hls.setup({
-	-- on_attach = on_attach,
 	capabilities = capabilities,
 })
 
 require("lspconfig").clangd.setup({
-	-- on_attach = on_attach,
 	capabilities = capabilities,
 })
 
 require("lspconfig").terraformls.setup({
-	-- on_attach = on_attach,
 	capabilities = capabilities,
+})
+
+require("lspconfig").ocamllsp.setup({
+    capabilities = capabilities,
 })
 
 -- Turn on lsp status information

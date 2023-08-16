@@ -31,4 +31,6 @@ in
     home.stateVersion = "22.11";
 
     programs.home-manager.enable = true;
+
+    home.file.".config/twm/twm.yaml".source = ../../dotfiles/twm/twm.yaml;
 }
