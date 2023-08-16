@@ -4,4 +4,5 @@ wilder.setup({
     next_key = "<Tab>",
     previous_key = "<S-Tab>",
     accept_key = "<C-y>",
+    reject_key = "<C-n>",
 })
