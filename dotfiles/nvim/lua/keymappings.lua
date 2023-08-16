@@ -45,3 +45,8 @@ map("n", "<C-Shift-k>", ":echo 'hi'<CR>", { desc = "Next buffer" })
 
 map("n", "<C-h>", "<C-w>h", { desc = "Move [H]orizontal to window left" })
 map("n", "<C-l>", "<C-w>l", { desc = "Move [L]over to window right" })
+
+
+-- stage current file in git
+map("n", "<leader>gs", "<cmd>Git add %<CR>", { desc = "[G]it [S]tage current file" })
+map("n", "<leader>gc", "<cmd>Git commit<CR>", { desc = "[G]it [C]ommit" })
