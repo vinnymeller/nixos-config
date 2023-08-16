@@ -50,3 +50,4 @@ map("n", "<C-l>", "<C-w>l", { desc = "Move [L]over to window right" })
 -- stage current file in git
 map("n", "<leader>gs", "<cmd>Git add %<CR>", { desc = "[G]it [S]tage current file" })
 map("n", "<leader>gc", "<cmd>Git commit<CR>", { desc = "[G]it [C]ommit" })
+map("n", "<leader>gp", "<cmd>Git push<CR>", { desc = "[G]it [P]ush" })
