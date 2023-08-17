@@ -54,6 +54,14 @@
     export PATH=$HOME/.pyenv/shims:$PATH
 
     tmux has-session -t $TWM_DEFAULT >/dev/null 2>&1 || twm -d -p . -n $TWM_DEFAULT
+
+    
+    # zsh-autocomplete settings
+    zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
+    zstyle ':autocomplete:*history*:*' insert-unambiguous yes
+    zstyle ':autocomplete:menu-search:*' insert-unambiguous yes
+    bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
+    bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
     '';
 
     oh-my-zsh = {
