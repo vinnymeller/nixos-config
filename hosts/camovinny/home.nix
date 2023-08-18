@@ -19,8 +19,9 @@ in
     nix.settings.auto-optimise-store = true;
 
     home.packages = with pkgs; [
-	cust_pkgs.kill_and_attach
-	cust_pkgs.worktree_helper
+        cust_pkgs.kill_and_attach
+        cust_pkgs.worktree_helper
+        cust_pkgs.find_file_up_tree
     ];
 
     programs.direnv.enable = true;
