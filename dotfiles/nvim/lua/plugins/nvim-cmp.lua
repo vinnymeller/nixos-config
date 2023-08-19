@@ -1,5 +1,6 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
+local lspkind = require("lspkind")
 
 cmp.setup({
 	snippet = {
@@ -28,4 +29,18 @@ cmp.setup({
 		{ name = "buffer" },
 		{ name = "path" },
 	}),
+    formatting = {
+        format = lspkind.cmp_format({
+            mode = "text_symbol",
+            menu = ({
+                nvim_lsp = "[LSP]",
+                nvim_lsp_signature_help = "[LSP SIG]",
+                cmp_git = "[GIT]",
+                nvim_lua = "[LUA]",
+                luasnip = "[LuaSnip]",
+                buffer = "[BUF]",
+                path = "[PATH]",
+            }),
+        }),
+    },
 })
