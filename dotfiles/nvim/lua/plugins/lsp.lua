@@ -77,19 +77,6 @@ rt.setup({
 	},
 })
 
-require("lspconfig").yamlls.setup({
-	capabilities = capabilities,
-	-- on_attach = on_attach,
-	-- get rid of this for now because it seems to cause more problems than it solves currently
-	-- settings = {
-	--     yaml = {
-	--         schemas = {
-	--             ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*",
-	--             ["https://json.schemastore.org/swagger-2.0.json"] = "swagger*.yaml",
-	--         },
-	--     },
-	-- },
-})
 
 require("lspconfig").lua_ls.setup({
 	-- on_attach = on_attach,
@@ -116,29 +103,45 @@ require("lspconfig").lua_ls.setup({
 	},
 })
 
-require("lspconfig").nil_ls.setup({
-	capabilities = capabilities,
-})
+local basic_servers = {
+	"clangd",
+	"hls",
+	"nil_ls",
+	"ocamllsp",
+	"pyright",
+	"terraformls",
+	"yamlls",
+}
 
-require("lspconfig").pyright.setup({
-	capabilities = capabilities,
-})
+for _, lsp in ipairs(basic_servers) do
+	require("lspconfig")[lsp].setup({
+		capabilities = capabilities,
+	})
+end
 
-require("lspconfig").hls.setup({
-	capabilities = capabilities,
-})
-
-require("lspconfig").clangd.setup({
-	capabilities = capabilities,
-})
-
-require("lspconfig").terraformls.setup({
-	capabilities = capabilities,
-})
-
-require("lspconfig").ocamllsp.setup({
-    capabilities = capabilities,
-})
+-- require("lspconfig").nil_ls.setup({
+-- 	capabilities = capabilities,
+-- })
+--
+-- require("lspconfig").pyright.setup({
+-- 	capabilities = capabilities,
+-- })
+--
+-- require("lspconfig").hls.setup({
+-- 	capabilities = capabilities,
+-- })
+--
+-- require("lspconfig").clangd.setup({
+-- 	capabilities = capabilities,
+-- })
+--
+-- require("lspconfig").terraformls.setup({
+-- 	capabilities = capabilities,
+-- })
+--
+-- require("lspconfig").ocamllsp.setup({
+--     capabilities = capabilities,
+-- })
 
 -- Turn on lsp status information
 require("fidget").setup()

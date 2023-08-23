@@ -32,35 +32,35 @@
         inactive_tab_foreground #a89984
         inactive_tab_background #3c3836
 
-# black  (bg3/bg4)
+        # black  (bg3/bg4)
         color0                  #665c54
         color8                  #7c6f64
 
-# red
+        # red
         color1                  #cc241d
         color9                  #fb4934
 
-#: green
+        #: green
         color2                  #98971a
         color10                 #b8bb26
 
-# yellow
+        # yellow
         color3                  #d79921
         color11                 #fabd2f
 
-# blue
+        # blue
         color4                  #458588
         color12                 #83a598
 
-# purple
+        # purple
         color5                  #b16286
         color13                 #d3869b
 
-# aqua
+        # aqua
         color6                  #689d6a
         color14                 #8ec07c
 
-# white (fg4/fg3)
+        # white (fg4/fg3)
         color7                  #a89984
         color15                 #bdae93
         '';

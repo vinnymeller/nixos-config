@@ -78,6 +78,8 @@
             stylua
             terraform-ls
             xsel
+            # haskell-language-server
+            haskellPackages.haskell-language-server
         ];
     };
 }

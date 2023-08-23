@@ -31,7 +31,7 @@ cmp.setup({
 	}),
     formatting = {
         format = lspkind.cmp_format({
-            mode = "text_symbol",
+            mode = "symbol_text",
             menu = ({
                 nvim_lsp = "[LSP]",
                 nvim_lsp_signature_help = "[LSP SIG]",

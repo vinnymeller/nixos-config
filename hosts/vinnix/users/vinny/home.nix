@@ -63,6 +63,7 @@ in
     vlc
     yubioath-flutter
     zsh-powerlevel10k
+    inkscape
   ] ++ builtins.attrValues cust_pkgs;
 
   home.file.".config/qtile".source = ../../../../dotfiles/qtile;
