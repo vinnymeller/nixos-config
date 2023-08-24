@@ -139,7 +139,10 @@
   system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
 
   programs.steam.enable = true;
-  programs.zsh.enable = true;
+  programs.zsh = {
+      enable = true;
+      enableCompletion = false;
+  };
 
 
   programs.nix-ld.enable = true;
