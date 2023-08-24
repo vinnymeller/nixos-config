@@ -47,7 +47,10 @@ in
     extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
   };
-  programs.zsh.enable = true;
+  programs.zsh = {
+      enable = true;
+      enableCompletion = false;
+  };
   networking.hostName = "home-nix-wsl"; # Define your hostname.
 
   environment.systemPackages = with pkgs; [
