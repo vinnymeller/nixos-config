@@ -15,7 +15,7 @@
   ];
   programs.zsh = {
     enable = true;
-    enableCompletion = true;
+    enableCompletion = false;
     enableAutosuggestions = true;
     dotDir = ".config/zsh";
 
@@ -32,6 +32,8 @@
     if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
       source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
     fi
+
+    source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
     '';
 
     initExtra = ''
@@ -41,7 +43,6 @@
     source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.zsh
     source ${pkgs.zsh-bd}/share/zsh-bd/bd.plugin.zsh
     source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
-    source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
     source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
 
 
@@ -66,7 +67,7 @@
 
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "sudo" ];
+      plugins = [ "git" ];
     };
   };
 
