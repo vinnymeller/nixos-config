@@ -53,6 +53,9 @@
             tint-nvim
             undotree
             vim-be-good
+            vim-dadbod
+            vim-dadbod-completion
+            vim-dadbod-ui
             vim-fugitive
             vim-indent-object
             vim-surround
@@ -60,9 +63,11 @@
             wilder-nvim
         ];
         extraPackages = with pkgs; [
+            # haskell-language-server
             ast-grep
             black
             gcc
+            haskellPackages.haskell-language-server
             isort
             libclang
             lua-language-server
@@ -72,14 +77,13 @@
             nodePackages.yaml-language-server
             nodejs
             ocamlPackages.ocaml-lsp
+            postgresql
             ripgrep
             rust-analyzer
             shfmt
             stylua
             terraform-ls
             xsel
-            # haskell-language-server
-            haskellPackages.haskell-language-server
         ];
     };
 }

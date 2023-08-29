@@ -41,6 +41,7 @@
               canTouchEfiVariables = true;
           };
       };
+      kernel.sysctl."net.ipv4.ip_forward" = 1;
   };
 
   security = {
@@ -85,7 +86,7 @@
 
 
   # Set your time zone.
-  time.timeZone = "America/Chicago";
+  time.timeZone = "America/Detroit";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
