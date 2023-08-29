@@ -60,3 +60,6 @@ map("n", "<leader>g<C-s>", "<cmd>Git status<CR>", { desc = "[G]it [S]tatus" })
 map("n", "<leader>gr", "<cmd>Git restore %<CR>", { desc = "[G]it [R]estore current file" })
 map("n", "<leader>gR", "<cmd>Git restore .<CR>", { desc = "[G]it [R]estore all files" })
 map("n", "<leader>gP", "<cmd>Git pull<CR>", { desc = "[G]it [P]ull" })
+
+-- open dadbod ui
+map("n", "<leader>db", "<cmd>DBUIToggle<CR>", { desc = "[D]ad[B]od Toggle" })
