@@ -10,6 +10,8 @@ exclude_path_components:
   - target
 
 max_search_depth: 5
+session_name_path_components: 2
+
 
 workspace_definitions:
   - name: python
