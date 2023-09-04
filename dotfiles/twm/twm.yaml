@@ -1,6 +1,7 @@
 search_paths:
   - "~/dev"
   - "~/.nixdots"
+  - "~/.runners"
 
 exclude_path_components:
   - .git
@@ -8,6 +9,9 @@ exclude_path_components:
   - node_modules
   - venv
   - target
+  - .mnt
+  - .local
+  - .cargo
 
 max_search_depth: 5
 session_name_path_components: 2
@@ -20,23 +24,27 @@ workspace_definitions:
       - setup.py
       - pyproject.toml
       - Pipfile
+    defaultt_layout: basic
 
   - name: node
     has_any_file:
       - package.json
       - yarn.lock
       - .nvmrc
+    default_layout: basic
 
   - name: rust
     has_any_file:
       - Cargo.toml
       - Cargo.lock
+    default_layout: rust-dev
 
   - name: other
     has_any_file:
       - .git
       - flake.nix
       - .twm.yaml
+    default_layout: basic
 
 layouts:
   - name: default
@@ -46,3 +54,17 @@ layouts:
       - tmux split-window -v
       - tmux select-pane -t 0
       - nvim .
+  - name: rust-dev
+    commands:
+      - tmux split-window -h
+      - tmux resize-pane -x 80
+      - tmux split-window -v
+      - tmux select-pane -t 0
+      - tmux send-keys -t 1 'cargo watch -x "clippy -- -D clippy::all" -x test' C-m
+      - nvim .
+  - name: basic
+    commands:
+      - tmux new-window
+      - tmux select-window -t 0
+      - nvim .
+

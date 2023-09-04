@@ -32,6 +32,4 @@ in
         TMUX_TMPDIR = "/tmp";
     };
 
-    home.file.".config/twm/twm.yaml".source = ../../dotfiles/twm/twm.yaml;
-
 }
