@@ -8,7 +8,9 @@
             push.default = "simple";
             pull.rebase = true;
             core.editor = "nvim";
+            user.signingkey = "36CBEC89D5C8540C";
         };
+
         aliases = {
             pall = "!f() { git commit -am \"$1\" && git push; }; f";
             cob = "checkout -b";

@@ -2,6 +2,7 @@
 
   imports = [
     ../../modules/qtile # ALSO need to make sure config is copied from home manager
+    ../../modules/gpg
   ];
 
   nix = {
@@ -70,6 +71,7 @@
       pcscd.enable = true;
       spotifyd.enable = true;
       mullvad-vpn.enable = true;
+      yubikey-agent.enable = true;
   };
 
   fonts = {
@@ -112,6 +114,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    gnupg
     vim
     zsh
     wget
@@ -144,6 +147,13 @@
       enable = true;
       enableCompletion = false;
   };
+
+  programs.gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+      pinentryFlavor = "gnome3";
+  };
+  hardware.gpgSmartcards.enable = true; # for yubikey
 
 
 
