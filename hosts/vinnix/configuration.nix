@@ -60,7 +60,10 @@
   };
 
   hardware = {
-      bluetooth.enable = true;
+      bluetooth = {
+          enable = true;
+          powerOnBoot = true;
+      };
       opengl.enable = true;
       pulseaudio.enable = true;
       xpadneo.enable = true;
