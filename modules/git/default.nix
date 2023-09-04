@@ -2,13 +2,13 @@
     programs.git = {
         enable = true;
         userName = "Vinny Meller";
-        userEmail = "vinnymeller@gmail.com";
+        userEmail = "vinnymeller@proton.me";
         extraConfig = {
             push.autoSetupRemote = true;
             push.default = "simple";
             pull.rebase = true;
             core.editor = "nvim";
-            user.signingkey = "36CBEC89D5C8540C";
+            user.signingkey = "36CBEC89D5C8540C";  # key that goes with the email above
         };
 
         aliases = {
