@@ -63,6 +63,8 @@
     zstyle ':autocomplete:menu-search:*' insert-unambiguous yes
     bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
     bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+
+    export PATH=$HOME/.local/bin:$PATH
     '';
 
     oh-my-zsh = {
