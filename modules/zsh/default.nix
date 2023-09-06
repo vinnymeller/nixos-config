@@ -3,6 +3,7 @@
 
   # zsh doesn't have an extraPackages option, so we have to add them to home.packages
   home.packages = with pkgs; [
+    nix-zsh-completions
     twm
     zsh-forgit
     zsh-powerlevel10k
@@ -44,6 +45,10 @@
     source ${pkgs.zsh-bd}/share/zsh-bd/bd.plugin.zsh
     source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
     source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
+    source ${pkgs.nix-zsh-completions}/share/zsh/plugins/nix/nix-zsh-completions.plugin.zsh
+
+    fpath=(${pkgs.nix-zsh-completions}/share/zsh/site-functions $fpath)
+    autoload -U compinit && compinit
 
 
     set -o vi
