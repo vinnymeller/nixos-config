@@ -77,6 +77,7 @@
             nodePackages.yaml-language-server
             nodejs
             ocamlPackages.ocaml-lsp
+            pgformatter
             postgresql
             ripgrep
             rust-analyzer

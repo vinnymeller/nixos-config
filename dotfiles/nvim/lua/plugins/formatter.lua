@@ -21,7 +21,7 @@ require("formatter").setup({
 			require("formatter.filetypes.python").isort,
 		},
 		sql = {
-			require("formatter.filetypes.sql").sqlformat,
+			require("formatter.filetypes.sql").pg_format,
 		},
 		lua = {
 			require("formatter.filetypes.lua").stylua,
