@@ -46,6 +46,7 @@
             nvim-treesitter.withAllGrammars
             nvim-web-devicons
             pkgs.master-pkgs.vimPlugins.telescope-sg
+            pkgs.master-pkgs.vimPlugins.nvim-remote-containers
             plenary-nvim
             rust-tools-nvim
             sniprun
@@ -63,7 +64,6 @@
             wilder-nvim
         ];
         extraPackages = with pkgs; [
-            # haskell-language-server
             ast-grep
             black
             gcc
