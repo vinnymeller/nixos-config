@@ -7,6 +7,8 @@
 
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
 
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
+
     home-manager = {
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
@@ -26,7 +28,7 @@
 
   };
 
-  outputs = inputs@{ self, flake-utils, nixpkgs, nixpkgs-master, neovim-nightly-overlay, home-manager, lanzaboote, ... }:
+  outputs = inputs@{ self, flake-utils, nixpkgs, nixpkgs-master, nixpkgs-stable, neovim-nightly-overlay, home-manager, lanzaboote, ... }:
   let
 
     inherit (self) outputs;
