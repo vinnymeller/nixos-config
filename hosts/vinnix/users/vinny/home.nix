@@ -28,6 +28,8 @@ in
   home.packages = with pkgs; [
     # osu-lazer # re-add this when its working again
     anki-bin
+    cinnamon.nemo-with-extensions
+    cinnamon.xviewer
     discord
     dmenu
     dunst
@@ -35,6 +37,7 @@ in
     firefox
     flameshot
     gcc
+    gocryptfs
     gromit-mpx
     htop
     inkscape
