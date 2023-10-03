@@ -16,7 +16,6 @@ in
         mesa
         kubectl
         helm
-        twm
     ] ++ builtins.attrValues cust_pkgs;
 
     programs.direnv.enable = true;

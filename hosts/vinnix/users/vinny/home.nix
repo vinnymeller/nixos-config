@@ -61,7 +61,6 @@ in
     sbctl
     screenkey
     spotify
-    twm
     unzip
     virt-manager
     vlc
@@ -70,4 +69,5 @@ in
   ] ++ builtins.attrValues cust_pkgs;
 
   home.file.".config/qtile".source = ../../../../dotfiles/qtile;
+  home.file.".config/nixpkgs".source = ../../../../dotfiles/nixpkgs;
 }

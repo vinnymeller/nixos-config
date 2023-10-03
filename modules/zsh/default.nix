@@ -3,8 +3,8 @@
 
   # zsh doesn't have an extraPackages option, so we have to add them to home.packages
   home.packages = with pkgs; [
+    master-pkgs.twm
     nix-zsh-completions
-    twm
     zsh-forgit
     zsh-powerlevel10k
     zsh-vi-mode

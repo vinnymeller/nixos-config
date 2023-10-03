@@ -10,7 +10,7 @@ writeShellApplication {
         gawk
         git
         fzf
-        twm
+        master-pkgs.twm
     ];
 
     text = builtins.readFile ../../scripts/worktree_helper.sh;
