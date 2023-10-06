@@ -60,6 +60,7 @@ in
     rofi
     sbctl
     screenkey
+    slack
     spotify
     unzip
     virt-manager
