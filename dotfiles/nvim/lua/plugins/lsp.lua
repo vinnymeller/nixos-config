@@ -25,6 +25,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
 		nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
 		nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+		nmap("<leader>lr", "<cmd>LspRestart<CR>", "[L]sp [R]estart")
 
 		-- See `:help K` for why this keymap
 		nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -76,7 +77,6 @@ rt.setup({
 		capabilities = capabilities,
 	},
 })
-
 
 require("lspconfig").lua_ls.setup({
 	-- on_attach = on_attach,
