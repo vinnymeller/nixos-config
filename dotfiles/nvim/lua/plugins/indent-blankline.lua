@@ -1,19 +1,26 @@
-vim.opt.list = true
-vim.cmd("highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine")
-vim.cmd("highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine")
-vim.cmd("highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine")
-vim.cmd("highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine")
-vim.cmd("highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine")
-vim.cmd("highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine")
+-- vim.opt.list = true
+local highlight = {
+	"RainbowRed",
+	"RainbowYellow",
+	"RainbowGreen",
+	"RainbowBlue",
+	"RainbowPurple",
+}
 
-require("indent_blankline").setup({
-    space_char_blankline = " ",
-    char_highlight_list = {
-        "IndentBlanklineIndent1",
-        "IndentBlanklineIndent2",
-        "IndentBlanklineIndent3",
-        "IndentBlanklineIndent4",
-        "IndentBlanklineIndent5",
-        "IndentBlanklineIndent6",
-    },
+local hooks = require("ibl.hooks")
+
+hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+	vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#FF4E4E", nocombine = true })
+	vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#FEFF64", nocombine = true })
+	vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#95FF6A", nocombine = true })
+	vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#88EEFF", nocombine = true })
+	vim.api.nvim_set_hl(0, "RainbowPurple", { fg = "#C678DD", nocombine = true })
+	vim.api.nvim_set_hl(0, "IblScope", { fg = "#FFFFFF", nocombine = true })
+end)
+
+require("ibl").setup({
+	indent = {
+		highlight = highlight,
+	},
+	scope = { enabled = true },
 })

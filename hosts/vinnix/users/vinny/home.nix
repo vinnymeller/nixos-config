@@ -1,6 +1,6 @@
-{ config, pkgs, ...}:
+{ config, pkgs, ... }:
 let
-    cust_pkgs = import ../../../../pkgs { inherit pkgs; };
+  cust_pkgs = import ../../../../pkgs { inherit pkgs; };
 in
 {
 
@@ -11,6 +11,7 @@ in
     ../../../../modules/kitty
     ../../../../modules/ranger
     ../../../../modules/tmux
+    ../../../../modules/zk
   ];
   # Let home-manager manage itself
   programs.home-manager.enable = true;

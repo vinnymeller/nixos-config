@@ -48,8 +48,8 @@ in
     shell = pkgs.zsh;
   };
   programs.zsh = {
-      enable = true;
-      enableCompletion = false;
+    enable = true;
+    enableCompletion = false;
   };
   networking.hostName = "home-nix-wsl"; # Define your hostname.
 

@@ -6,14 +6,14 @@
   ];
 
   nix = {
-      settings = {
-          experimental-features = [ "nix-command" "flakes" ];
-          auto-optimise-store = true;
-      };
-      gc = {
-          automatic = true;
-          options = "--delete-older-than 14d";
-      };
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      auto-optimise-store = true;
+    };
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 14d";
+    };
   };
 
   nixpkgs = {
@@ -25,24 +25,24 @@
   };
 
   boot = {
-      supportedFilesystems = [ "ntfs" ];
-      kernelPackages = pkgs.linuxPackages_latest;  # use newest kernel
-      kernelParams = [ "amd_iommu=on" ];
-      blacklistedKernelModules = [ "nvidia" "nouveau" ];
-      kernelModules = [ "kvm-amd" "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
-      extraModprobeConfig = ''
-        options vfio-pci ids=10de:13c0,10de:0fbb
-        options btusb enable_autosuspend=n
-      '';
-      loader = {
-          systemd-boot = {
-              enable = true;
-          };
-          efi = {
-              canTouchEfiVariables = true;
-          };
+    supportedFilesystems = [ "ntfs" ];
+    kernelPackages = pkgs.linuxPackages_latest; # use newest kernel
+    kernelParams = [ "amd_iommu=on" ];
+    blacklistedKernelModules = [ "nvidia" "nouveau" ];
+    kernelModules = [ "kvm-amd" "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
+    extraModprobeConfig = ''
+      options vfio-pci ids=10de:13c0,10de:0fbb
+      options btusb enable_autosuspend=n
+    '';
+    loader = {
+      systemd-boot = {
+        enable = true;
       };
-      kernel.sysctl."net.ipv4.ip_forward" = 1;
+      efi = {
+        canTouchEfiVariables = true;
+      };
+    };
+    kernel.sysctl."net.ipv4.ip_forward" = 1;
   };
 
   security = {
@@ -50,44 +50,44 @@
       enable = true;
     };
     pam = {
-        loginLimits = [{
-            domain = "*";
-            type = "soft";
-            item = "nofile";
-            value = 100000;
-        }];
+      loginLimits = [{
+        domain = "*";
+        type = "soft";
+        item = "nofile";
+        value = 100000;
+      }];
     };
   };
 
   hardware = {
-      bluetooth = {
-          enable = true;
-          powerOnBoot = true;
-      };
-      opengl.enable = true;
-      pulseaudio.enable = true;
-      xpadneo.enable = true;
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
+    opengl.enable = true;
+    pulseaudio.enable = true;
+    xpadneo.enable = true;
   };
 
   services = {
-      blueman.enable = true;
-      pcscd.enable = true;
-      spotifyd.enable = true;
-      mullvad-vpn.enable = true;
-      yubikey-agent.enable = true;
+    blueman.enable = true;
+    pcscd.enable = true;
+    spotifyd.enable = true;
+    mullvad-vpn.enable = true;
+    yubikey-agent.enable = true;
   };
 
   fonts = {
-      fontconfig = {
-          antialias = true;
-          hinting.enable = true;
-      };
+    fontconfig = {
+      antialias = true;
+      hinting.enable = true;
+    };
   };
 
 
 
   networking.hostName = "vinnix"; # Define your hostname.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
 
   # Set your time zone.
@@ -147,14 +147,14 @@
 
   programs.steam.enable = true;
   programs.zsh = {
-      enable = true;
-      enableCompletion = false;
+    enable = true;
+    enableCompletion = false;
   };
 
   programs.gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-      pinentryFlavor = "gnome3";
+    enable = true;
+    enableSSHSupport = true;
+    pinentryFlavor = "gnome3";
   };
   hardware.gpgSmartcards.enable = true; # for yubikey
 
