@@ -31,7 +31,6 @@
       formatter-nvim
       gitsigns-nvim
       gruvbox-nvim
-      harpoon
       indent-blankline-nvim
       lspkind-nvim
       lualine-nvim

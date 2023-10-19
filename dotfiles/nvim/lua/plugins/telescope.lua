@@ -34,7 +34,6 @@ require("telescope").setup({
         },
     },
 })
-require("telescope").load_extension("harpoon")
 require("telescope").load_extension("ast_grep")
 
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
