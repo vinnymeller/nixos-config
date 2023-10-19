@@ -20,6 +20,7 @@ in
 
     home.packages = with pkgs; [
         gnupg
+        nodejs
         vscode
         cust_pkgs.kill_and_attach
         cust_pkgs.worktree_helper
