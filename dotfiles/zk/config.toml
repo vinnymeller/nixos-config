@@ -77,6 +77,8 @@ lucky = "zk list --quiet --format full --sort random --limit 1"
 
 daily = "zk new --no-input --group daily"
 
+bib = "zk new --group bib"
+
 # "search", just open edit interactively
 s = "zk edit -i"
 
@@ -95,3 +97,8 @@ dead-link = "error"
 filename = "{{format-date now '%Y-%m-%d'}}"
 extension = "md"
 template = "daily.md"
+
+[group.bib.note]
+filename = "{{id}}"
+extension = "md"
+template = "bibliographic.md"

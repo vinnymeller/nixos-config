@@ -21,3 +21,9 @@ vim.api.nvim_set_keymap(
 )
 -- Search for the notes matching the current visual selection.
 vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", opts)
+
+-- open daily note
+vim.api.nvim_set_keymap("n", "<leader>zd", "<Cmd>ZkNew { group = 'daily'}<CR>", opts)
+
+-- create new bibliographic note
+vim.api.nvim_set_keymap("n", "<leader>zb", "<Cmd>ZkNew { group = 'bib', title = vim.fn.input('Title: ') }<CR>", opts)
