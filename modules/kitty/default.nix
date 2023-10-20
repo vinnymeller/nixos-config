@@ -10,6 +10,7 @@
     extraConfig = ''
       background_opacity   0.85
       confirm_os_window_close 0
+      enable_audio_bell    no
 
       cursor                  #928374
       cursor_text_color       background
