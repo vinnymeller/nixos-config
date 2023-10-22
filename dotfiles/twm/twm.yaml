@@ -2,6 +2,7 @@ search_paths:
   - "~/dev"
   - "~/.nixdots"
   - "~/.runners"
+  - "~/zk"
 
 exclude_path_components:
   - .git
