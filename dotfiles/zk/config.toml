@@ -46,6 +46,10 @@ hashtags = true
 # Enable support for :colon:separated:tags:
 colon-tags = true
 
+# include the file extension in links. this makes them clickable when viewing them in various frontends, including github
+# solution found here: https://github.com/mickael-menu/zk-nvim/issues/80
+link-drop-extension = false
+
 
 # EXTERNAL TOOLS
 [tool]
