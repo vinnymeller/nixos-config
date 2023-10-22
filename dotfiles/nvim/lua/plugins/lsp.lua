@@ -103,6 +103,18 @@ require("lspconfig").lua_ls.setup({
 	},
 })
 
+require("lspconfig").ltex.setup({
+	capabilities = capabilities,
+	settings = {
+		ltex = {
+			language = "en-US",
+			additionalRules = {
+				languageModel = "~/.ngrams/",
+			},
+		},
+	},
+})
+
 local basic_servers = {
 	"clangd",
 	"hls",
@@ -118,30 +130,6 @@ for _, lsp in ipairs(basic_servers) do
 		capabilities = capabilities,
 	})
 end
-
--- require("lspconfig").nil_ls.setup({
--- 	capabilities = capabilities,
--- })
---
--- require("lspconfig").pyright.setup({
--- 	capabilities = capabilities,
--- })
---
--- require("lspconfig").hls.setup({
--- 	capabilities = capabilities,
--- })
---
--- require("lspconfig").clangd.setup({
--- 	capabilities = capabilities,
--- })
---
--- require("lspconfig").terraformls.setup({
--- 	capabilities = capabilities,
--- })
---
--- require("lspconfig").ocamllsp.setup({
---     capabilities = capabilities,
--- })
 
 -- Turn on lsp status information
 require("fidget").setup()

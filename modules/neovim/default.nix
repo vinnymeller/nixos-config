@@ -71,6 +71,7 @@
       haskellPackages.haskell-language-server
       isort
       libclang
+      ltex-ls
       lua-language-server
       nil
       nodePackages.pyright
