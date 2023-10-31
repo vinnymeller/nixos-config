@@ -5,6 +5,9 @@
 
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
+
+    nixpkgs-staging.url = "github:NixOS/nixpkgs/staging";
+
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
 
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
@@ -16,7 +19,7 @@
 
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-staging";
     };
 
     lanzaboote = {

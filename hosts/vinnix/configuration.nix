@@ -9,6 +9,13 @@
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
+      substituters = [
+      	"https://nix-community.cachix.org"
+	"https://cache.nixos.org"
+      ];
+      trusted-public-keys = [
+      	"nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
     };
     gc = {
       automatic = true;
@@ -72,7 +79,7 @@
   services = {
     blueman.enable = true;
     pcscd.enable = true;
-    spotifyd.enable = true;
+    # spotifyd.enable = true;
     mullvad-vpn.enable = true;
     yubikey-agent.enable = true;
   };
@@ -126,12 +133,11 @@
     looking-glass-client
     man-pages
     man-pages-posix
-    openvpn
+    # openvpn
     podman-compose
     spice
     xclip
     scrot
-    zoom-us
   ];
 
   systemd.tmpfiles.rules = [

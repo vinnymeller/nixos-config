@@ -18,15 +18,9 @@
     windowManager.qtile = {
       enable = true;
       package = pkgs.qtile-unwrapped;
-      # package = pkgs.stable-pkgs.qtile-unwrapped;
     };
     windowManager.session = [{
       name = "qtile";
-      # start = ''
-      #   ${pkgs.stable-pkgs.qtile-unwrapped}/bin/qtile start -b x11 \
-      #   --config /home/vinny/.config/qtile/config.py &
-      #   waitPID=$!
-      # '';
       start = ''
         ${pkgs.qtile-unwrapped}/bin/qtile start -b x11 \
         --config /home/vinny/.config/qtile/config.py &
