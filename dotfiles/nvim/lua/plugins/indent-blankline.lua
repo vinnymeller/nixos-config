@@ -21,6 +21,7 @@ end)
 require("ibl").setup({
 	indent = {
 		highlight = highlight,
+		char = "│",  -- the default doesn't work when im in tmux->ssh->tmux->nvim for whatever reason but this one does. only difference is this symbol is slightly thicker
 	},
 	scope = { enabled = true },
 })
