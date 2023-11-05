@@ -35,7 +35,7 @@
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_latest; # use newest kernel
     kernelParams = [ "amd_iommu=on" ];
-    blacklistedKernelModules = [ "nvidia" "nouveau" ];
+    # blacklistedKernelModules = [ "nvidia" "nouveau" ];
     kernelModules = [ "kvm-amd" "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
     extraModprobeConfig = ''
       options vfio-pci ids=10de:13c0,10de:0fbb
