@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: 
+{ config, pkgs, ... }:
 let
   cust_pkgs = import ../../pkgs { inherit pkgs; };
 in
@@ -18,7 +18,6 @@ in
     defaultEditor = true;
     plugins = with pkgs.vimPlugins; [
       autosave-nvim
-      barbar-nvim
       catppuccin-nvim
       cmp-buffer
       cmp-git
@@ -55,7 +54,7 @@ in
       plenary-nvim
       rust-tools-nvim
       sniprun
-      telescope-nvim
+      telescope-fzf-native-nvim
       tint-nvim
       undotree
       vim-be-good
@@ -66,6 +65,7 @@ in
       vim-indent-object
       vim-matchup
       vim-surround
+      vimPlugins.telescope-nvim
       which-key-nvim
       wilder-nvim
       zk-nvim
@@ -74,6 +74,7 @@ in
     extraPackages = with pkgs; [
       ast-grep
       black
+      fd
       gcc
       haskellPackages.haskell-language-server
       stable-pkgs.imagemagick
@@ -103,11 +104,11 @@ in
     ];
 
     extraPython3Packages = pyPkgs: with pyPkgs; [
-      pynvim
-      jupyter-client
       cairosvg
-      pnglatex
+      jupyter-client
       plotly
+      pnglatex
+      pynvim
       pyperclip
     ];
   };

@@ -35,6 +35,7 @@ require("telescope").setup({
 	},
 })
 require("telescope").load_extension("ast_grep")
+require("telescope").load_extension("fzf")
 
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
 vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
