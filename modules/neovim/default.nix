@@ -1,4 +1,8 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }: 
+let
+  cust_pkgs = import ../../pkgs { inherit pkgs; };
+in
+{
 
 
   home.file.".config/nvim" = {
@@ -25,12 +29,14 @@
       cmp_luasnip
       comment-nvim
       copilot-lua
+      cust_pkgs.molten-nvim
       diffview-nvim
       fidget-nvim
       flash-nvim
       formatter-nvim
       gitsigns-nvim
       gruvbox-nvim
+      image-nvim
       indent-blankline-nvim
       lspkind-nvim
       lualine-nvim
@@ -64,11 +70,13 @@
       wilder-nvim
       zk-nvim
     ];
+
     extraPackages = with pkgs; [
       ast-grep
       black
       gcc
       haskellPackages.haskell-language-server
+      stable-pkgs.imagemagick
       isort
       libclang
       ltex-ls
@@ -88,6 +96,19 @@
       terraform-ls
       xsel
       zk
+    ];
+
+    extraLuaPackages = ps: [
+      pkgs.master-pkgs.luajitPackages.magick
+    ];
+
+    extraPython3Packages = pyPkgs: with pyPkgs; [
+      pynvim
+      jupyter-client
+      cairosvg
+      pnglatex
+      plotly
+      pyperclip
     ];
   };
 }
