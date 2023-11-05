@@ -25,7 +25,7 @@ workspace_definitions:
       - setup.py
       - pyproject.toml
       - Pipfile
-    defaultt_layout: basic
+    default_layout: basic
 
   - name: node
     has_any_file:
@@ -48,6 +48,10 @@ workspace_definitions:
     default_layout: basic
 
 layouts:
+  - name: two-windows
+    commands:
+      - tmux new-window
+      - tmux select-window -t 0
   - name: default
     commands:
       - tmux split-window -h
@@ -64,8 +68,6 @@ layouts:
       - tmux send-keys -t 1 'cargo watch -x "clippy -- -D clippy::all" -x test' C-m
       - nvim .
   - name: basic
-    commands:
-      - tmux new-window
-      - tmux select-window -t 0
-      - nvim .
+    inherits:
+      - two-windows
 
