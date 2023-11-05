@@ -55,6 +55,7 @@ in
       rust-tools-nvim
       sniprun
       telescope-fzf-native-nvim
+      telescope-nvim
       tint-nvim
       undotree
       vim-be-good
@@ -65,7 +66,6 @@ in
       vim-indent-object
       vim-matchup
       vim-surround
-      vimPlugins.telescope-nvim
       which-key-nvim
       wilder-nvim
       zk-nvim
