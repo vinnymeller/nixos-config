@@ -18,6 +18,9 @@ inputs.nixpkgs.lib.nixosSystem {
       };
     })
 
+
+    inputs.nix-index-database.nixosModules.nix-index
+
     # { nixpkgs.overlays = outputs.overlays; }
     ./configuration.nix
     ./hardware.nix

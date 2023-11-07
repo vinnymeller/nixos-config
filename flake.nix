@@ -17,6 +17,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+
+    nix-index-database = {
+      url = "github:Mic92/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
     lanzaboote = {
@@ -28,7 +34,7 @@
 
   };
 
-  outputs = inputs@{ self, flake-utils, nixpkgs, nixpkgs-master, nixpkgs-stable, neovim-nightly-overlay, home-manager, lanzaboote, ... }:
+  outputs = inputs@{ self, flake-utils, nixpkgs, nixpkgs-master, nixpkgs-stable, neovim-nightly-overlay, nix-index-database, home-manager, lanzaboote, ... }:
     let
 
       inherit (self) outputs;

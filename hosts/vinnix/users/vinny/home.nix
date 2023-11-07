@@ -28,6 +28,7 @@ in
 
   home.packages = with pkgs; [
     # osu-lazer # re-add this when its working again
+    nix-index
     anki-bin
     cinnamon.nemo-with-extensions
     cinnamon.xviewer
@@ -51,6 +52,7 @@ in
     man-pages # linux man pages, goes with tlpi
     neofetch
     nerdfonts
+    nix-init
     obs-studio
     obsidian
     pavucontrol
@@ -69,6 +71,12 @@ in
     yubioath-flutter
     zsh-powerlevel10k
   ] ++ builtins.attrValues cust_pkgs;
+
+  programs.command-not-found.enable = false;
+  programs.nix-index = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 
   home.file.".config/qtile".source = ../../../../dotfiles/qtile;
   home.file.".config/nixpkgs".source = ../../../../dotfiles/nixpkgs;

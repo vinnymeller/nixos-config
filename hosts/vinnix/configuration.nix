@@ -164,6 +164,7 @@
   };
   hardware.gpgSmartcards.enable = true; # for yubikey
 
+  programs.command-not-found.enable = false;
 
 
   programs.nm-applet.enable = true;
