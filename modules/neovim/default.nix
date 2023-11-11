@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 let
-  cust_pkgs = import ../../pkgs { inherit pkgs; };
+  custom-vim-plugins = pkgs.vimPlugins.extend (
+    (pkgs.callPackage ../../pkgs/vim-plugins.nix {
+      inherit (pkgs.vimUtils) buildVimPlugin;
+      inherit (pkgs.neovimUtils) buildNeovimPlugin;
+    })
+  );
 in
 {
 
@@ -11,7 +16,7 @@ in
   };
 
   home.shellAliases = {
-    nvimt = "nvim -u ~/.nixdots/dotfiles/nvim/init.lua"; # to test new config without rebuilding
+    leetcode = "nvim leetcode.nvim";
   };
   programs.neovim = {
     enable = true;
@@ -28,7 +33,8 @@ in
       cmp_luasnip
       comment-nvim
       copilot-lua
-      cust_pkgs.molten-nvim
+      custom-vim-plugins.molten-nvim
+      custom-vim-plugins.leetcode-nvim
       diffview-nvim
       fidget-nvim
       flash-nvim
@@ -42,6 +48,7 @@ in
       luasnip
       markdown-preview-nvim
       neogit
+      nui-nvim
       nvim-autopairs
       nvim-cmp
       nvim-lspconfig
@@ -49,6 +56,7 @@ in
       nvim-treesitter-textobjects
       nvim-treesitter.withAllGrammars
       nvim-web-devicons
+      oil-nvim
       pkgs.master-pkgs.vimPlugins.nvim-remote-containers
       pkgs.master-pkgs.vimPlugins.telescope-sg
       plenary-nvim
