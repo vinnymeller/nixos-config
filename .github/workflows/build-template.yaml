@@ -22,10 +22,10 @@ jobs:
       - name: Setup Cache
         uses: DeterminateSystems/magic-nix-cache-action@main
 
-      - name: Apply CI User Info
-        run: |
-          cd /home/runner/work/nixos-config/nixos-config/my-config
-          /home/runner/work/nixos-config/nixos-config/bin/apply-ci
+      # - name: Apply CI User Info
+      #   run: |
+      #     cd /home/runner/work/nixos-config/nixos-config/my-config
+      #     /home/runner/work/nixos-config/nixos-config/bin/apply-ci
 
       - name: Build Nix Flake
         run: |
