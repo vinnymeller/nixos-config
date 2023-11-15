@@ -2,7 +2,7 @@ name: Update Flake Lock
 
 on:
   schedule:
-    - cron: '0 23 * * 0' # Every Sunday at 11:00 PM
+    - cron: '0 0 * * *' # every day at midnight
 
 jobs:
   check-build:
