@@ -3,8 +3,8 @@ name: Build Flake
 on:
   workflow_call:
     inputs:
-      arch:
-        required: true
+      temp:
+        required: false
         type: string
 
 jobs:
@@ -22,11 +22,6 @@ jobs:
       - name: Setup Cache
         uses: DeterminateSystems/magic-nix-cache-action@main
 
-      - name: Initialize Nix Flake
-        run: |
-          mkdir -p my-config && cd my-config
-          nix flake --extra-experimental-features 'nix-command flakes' init -t github:vinnymeller/nixos-config
-
       - name: Apply CI User Info
         run: |
           cd /home/runner/work/nixos-config/nixos-config/my-config
@@ -37,7 +32,7 @@ jobs:
           cd /home/runner/work/nixos-config/nixos-config/my-config
           git add .
           echo "Building Flake..."
-          if nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations."${{ inputs.arch }}".config.system.build.toplevel; then
+          if nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations.vinnix.config.system.build.toplevel; then
             echo "success=true" >> $GITHUB_ENV
           else
             echo "Build failed, listing flake.lock for debugging:"
@@ -49,4 +44,3 @@ jobs:
       - name: Determine build result
         id: build-result
         run: echo "success=${{ env.success }}" >> $GITHUB_OUTPUT
-
