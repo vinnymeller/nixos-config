@@ -3,9 +3,6 @@ name: Build Flake
 on:
   workflow_call:
     inputs:
-      template:
-        required: true
-        type: string
       arch:
         required: true
         type: string
@@ -28,7 +25,7 @@ jobs:
       - name: Initialize Nix Flake
         run: |
           mkdir -p my-config && cd my-config
-          nix flake --extra-experimental-features 'nix-command flakes' init -t github:vinnymeller/nixos-config#${{ inputs.template }}
+          nix flake --extra-experimental-features 'nix-command flakes' init -t github:vinnymeller/nixos-config
 
       - name: Apply CI User Info
         run: |

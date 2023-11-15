@@ -16,5 +16,4 @@ jobs:
   build-starter-template:
     uses: ./.github/workflows/build-template.yaml
     with:
-      template: 'vinnix'
       arch: 'x86_64-linux'
