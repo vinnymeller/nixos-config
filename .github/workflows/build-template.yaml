@@ -29,10 +29,9 @@ jobs:
 
       - name: Build Nix Flake
         run: |
-          cd /home/runner/work/nixos-config/nixos-config/my-config
-          git add .
+          # git add .
           echo "Building Flake..."
-          if nix build --extra-experimental-features 'nix-command flakes' /home/runner/work/nixos-config/nixos-config/my-config#nixosConfigurations.vinnix.config.system.build.toplevel; then
+          if nix build --extra-experimental-features 'nix-command flakes' .#nixosConfigurations.vinnix.config.system.build.toplevel; then
             echo "success=true" >> $GITHUB_ENV
           else
             echo "Build failed, listing flake.lock for debugging:"
