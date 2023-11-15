@@ -124,7 +124,7 @@ _group_names = [
             "screen_affinity": 2,
         },
     ),
-    ("6", {"label": "work", "layout": "columns"}),
+    ("6", {"label": "work", "layout": "max"}),
     ("7", {}),
     ("8", {}),
     ("9", {}),
