@@ -2,14 +2,13 @@ name: Update Flake Lock
 
 on:
   schedule:
-    - cron: '0 0 * * *' # every day at midnight
+    - cron: '0 0 * * 5'
 
 jobs:
   check-build:
-    uses: ./.github/workflows/build-template.yml
+    uses: ./.github/workflows/build-template.yaml
     with:
-      template: 'starter'
-      arch: 'x86_64-linux'
+      derivation: 'nixosConfigurations.vinnix.config.system.build.toplevel'
 
   update-flake:
     runs-on: ubuntu-latest

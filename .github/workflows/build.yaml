@@ -16,4 +16,4 @@ jobs:
   build-starter-template:
     uses: ./.github/workflows/build-template.yaml
     with:
-      temp: 'vinnix'
+      derivation: 'nixosConfigurations.vinnix.config.system.build.toplevel'
