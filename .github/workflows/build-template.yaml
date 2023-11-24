@@ -32,7 +32,7 @@ jobs:
           git add .
           echo "Building Flake..."
           # if nix build --extra-experimental-features 'nix-command flakes' .#nixosConfigurations.vinnix.config.system.build.toplevel; then
-          if nix build --extra-experimental-features 'nix-command flakes' .#{{ inputs.derivation }}; then
+          if nix build --extra-experimental-features 'nix-command flakes' .#${{ inputs.derivation }}; then
             echo "success=true" >> $GITHUB_ENV
           else
             echo "Build failed, listing flake.lock for debugging:"
