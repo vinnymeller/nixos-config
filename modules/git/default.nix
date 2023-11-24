@@ -21,4 +21,13 @@
     };
 
   };
+
+  programs.gh = {
+    enable = true;
+  };
+
+  home.shellAliases = {
+    fork = "gh repo fork --clone --default-branch-only --remote";
+  };
+
 }
