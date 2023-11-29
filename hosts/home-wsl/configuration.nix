@@ -9,6 +9,8 @@ in
     "${modulesPath}/profiles/minimal.nix"
 
     nixos-wsl.nixosModules.wsl
+
+    ../../modules/gpg
   ];
 
   wsl = {

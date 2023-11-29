@@ -60,7 +60,7 @@
 
       nixosConfigurations = {
         vinnix = import ./hosts/vinnix { inherit inputs outputs; };
-        home-nix-wsl = import ./hosts/home-wsl { inherit inputs outputs; };
+        vindows = import ./hosts/home-wsl { inherit inputs outputs; };
       };
       homeConfigurations = {
         "vinny@wdtech-eos" = import ./hosts/wdtech-eos { inherit inputs outputs; };
