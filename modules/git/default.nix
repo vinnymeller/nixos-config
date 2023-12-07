@@ -11,7 +11,7 @@
       user.signingkey = "36CBEC89D5C8540C"; # key that goes with the email above
       commit.gpgSign = true;
       tag.gpgSign = true;
-      push.gpgSign = true;
+      # push.gpgSign = true;  # none of the hosted git providers support this!
       rebase.autosquash = true;
     };
 
