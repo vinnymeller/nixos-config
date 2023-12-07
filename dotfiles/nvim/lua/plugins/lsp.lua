@@ -58,26 +58,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-local rt = require("rust-tools")
-rt.setup({
-	tools = {
-		inlay_hints = {
-			auto = false,
-		},
-	},
-	server = {
-		-- setup rust specific lsp keymaps
-		on_attach = function(_, bufnr)
-			-- on_attach(_, bufnr)
-			vim.keymap.set("n", "<leader>ha", rt.hover_actions.hover_actions, { buffer = bufnr })
-			vim.keymap.set("n", "<leader>cg", rt.code_action_group.code_action_group, { buffer = bufnr })
-			vim.keymap.set("n", "<leader>me", rt.expand_macro.expand_macro, { buffer = bufnr })
-			vim.keymap.set("n", "<leader>oc", rt.open_cargo_toml.open_cargo_toml, { buffer = bufnr })
-		end,
-		capabilities = capabilities,
-	},
-})
-
 require("lspconfig").lua_ls.setup({
 	-- on_attach = on_attach,
 	capabilities = capabilities,

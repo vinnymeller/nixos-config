@@ -33,8 +33,8 @@ in
       cmp_luasnip
       comment-nvim
       copilot-lua
-      custom-vim-plugins.molten-nvim
       custom-vim-plugins.leetcode-nvim
+      molten-nvim
       diffview-nvim
       fidget-nvim
       flash-nvim
@@ -60,7 +60,7 @@ in
       pkgs.master-pkgs.vimPlugins.nvim-remote-containers
       pkgs.master-pkgs.vimPlugins.telescope-sg
       plenary-nvim
-      rust-tools-nvim
+      rustaceanvim
       sniprun
       telescope-fzf-native-nvim
       telescope-nvim
