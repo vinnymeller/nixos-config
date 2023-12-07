@@ -9,6 +9,10 @@
       pull.rebase = true;
       core.editor = "nvim";
       user.signingkey = "36CBEC89D5C8540C"; # key that goes with the email above
+      commit.gpgSign = true;
+      tag.gpgSign = true;
+      push.gpgSign = true;
+      rebase.autosquash = true;
     };
 
     aliases = {
