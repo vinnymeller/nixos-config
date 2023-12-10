@@ -61,7 +61,7 @@
 
       tmux has-session -t $TWM_DEFAULT >/dev/null 2>&1 || twm -d -p . -n $TWM_DEFAULT
 
-    
+
       # zsh-autocomplete settings
       zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
       zstyle ':autocomplete:*history*:*' insert-unambiguous yes
@@ -83,6 +83,12 @@
 
   # copy our powerlevel10k config over
   home.file.".config/zsh/.p10k.zsh".source = ../../dotfiles/zsh/.p10k.zsh;
+
+  programs.command-not-found.enable = false;
+  programs.nix-index = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 
   home.shellAliases = {
     cdots = "pushd ~/.nixdots";
