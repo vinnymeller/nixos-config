@@ -1,8 +1,8 @@
 { inputs, outputs, config, pkgs, users, ... }: {
 
   imports = [
-    ../../modules/qtile # ALSO need to make sure config is copied from home manager
-    ../../modules/gpg
+    ../../programs/qtile # ALSO need to make sure config is copied from home manager
+    ../../programs/gpg
   ];
 
   nix = {

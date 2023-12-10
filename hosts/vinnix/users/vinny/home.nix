@@ -5,13 +5,13 @@ in
 {
 
   imports = [
-    ../../../../modules/git
-    ../../../../modules/zsh
-    ../../../../modules/neovim
-    ../../../../modules/kitty
-    ../../../../modules/ranger
-    ../../../../modules/tmux
-    ../../../../modules/zk
+    ../../../../programs/git
+    ../../../../programs/zsh
+    ../../../../programs/neovim
+    ../../../../programs/kitty
+    ../../../../programs/ranger
+    ../../../../programs/tmux
+    ../../../../programs/zk
   ];
   # Let home-manager manage itself
   programs.home-manager.enable = true;

@@ -10,7 +10,7 @@ in
 
     nixos-wsl.nixosModules.wsl
 
-    ../../modules/gpg
+    ../../programs/gpg
   ];
 
   wsl = {

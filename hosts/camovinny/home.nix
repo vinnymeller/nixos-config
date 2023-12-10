@@ -4,11 +4,11 @@ let
 in
 {
   imports = [
-    ../../modules/neovim
-    ../../modules/zsh
-    ../../modules/git
-    ../../modules/tmux
-    ../../modules/kitty
+    ../../programs/neovim
+    ../../programs/zsh
+    ../../programs/git
+    ../../programs/tmux
+    ../../programs/kitty
   ];
 
 
