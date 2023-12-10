@@ -9,7 +9,7 @@ require("telescope").setup({
 	},
 	defaults = {
 		file_ignore_patterns = {
-			".git/",
+			"%.git/",
 			"node_modules/",
 			"target/",
 			"dist/",
@@ -18,8 +18,8 @@ require("telescope").setup({
 			"bin/",
 			"__pycache__/",
 			"venv/",
-			".direnv/",
-			".cargo/",
+			"%.direnv/",
+			"%.cargo/",
 		},
 	},
 	extensions = {

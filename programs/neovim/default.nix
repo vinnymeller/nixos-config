@@ -34,7 +34,6 @@ in
       comment-nvim
       copilot-lua
       custom-vim-plugins.leetcode-nvim
-      molten-nvim
       diffview-nvim
       fidget-nvim
       flash-nvim
@@ -47,6 +46,7 @@ in
       lualine-nvim
       luasnip
       markdown-preview-nvim
+      molten-nvim
       neogit
       nui-nvim
       nvim-autopairs
@@ -73,6 +73,7 @@ in
       vim-fugitive
       vim-indent-object
       vim-matchup
+      vim-sleuth
       vim-surround
       which-key-nvim
       wilder-nvim

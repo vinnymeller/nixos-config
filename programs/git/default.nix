@@ -4,15 +4,25 @@
     userName = "Vinny Meller";
     userEmail = "vinnymeller@proton.me";
     extraConfig = {
+
+      # editor-related
+      core.editor = "nvim";
+      diff.tool = "vimdiff";
+      merge.tool = "vimdiff";
+      mergetool.vimdiff.path = "nvim";
+      merge.conflictstyle = "diff3";
+
+      # pushing & pulling
+      pull.rebase = true;
       push.autoSetupRemote = true;
       push.default = "simple";
-      pull.rebase = true;
-      core.editor = "nvim";
-      user.signingkey = "36CBEC89D5C8540C"; # key that goes with the email above
-      commit.gpgSign = true;
-      tag.gpgSign = true;
-      # push.gpgSign = true;  # none of the hosted git providers support this!
       rebase.autosquash = true;
+
+      # gpg
+      commit.gpgSign = true;
+      # push.gpgSign = true;  # none of the hosted git providers support this!
+      tag.gpgSign = true;
+      user.signingkey = "36CBEC89D5C8540C"; # key that goes with the email above
     };
 
     aliases = {
