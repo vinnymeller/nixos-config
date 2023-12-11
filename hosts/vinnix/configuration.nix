@@ -1,6 +1,7 @@
 { inputs, outputs, config, pkgs, users, ... }: {
 
   imports = [
+    ../../programs/nix
     ../../programs/qtile # ALSO need to make sure config is copied from home manager
     ../../programs/gpg
   ];
