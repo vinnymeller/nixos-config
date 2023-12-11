@@ -20,6 +20,7 @@ in
   nix.settings.auto-optimise-store = true;
   nix.settings.require-sigs = false;
   nix.settings.trusted-users = [ "vinny" "root" ];
+  nix.settings.trusted-public-keys = [ "vinnix:xCPWQjVNXvqsEJgdEhUMpmVIyJseAPAcZEm3b6HU8vk=" ];
 
     home.packages = with pkgs; [
         gnupg
