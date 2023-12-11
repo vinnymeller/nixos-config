@@ -18,6 +18,8 @@ in
   nix.package = pkgs.nixFlakes;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.auto-optimise-store = true;
+  nix.settings.require-sigs = false;
+  nix.settings.trusted-users = [ "vinny" "root" ];
 
     home.packages = with pkgs; [
         gnupg
