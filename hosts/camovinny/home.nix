@@ -22,14 +22,14 @@ in
   nix.settings.trusted-users = [ "vinny" "root" ];
   nix.settings.trusted-public-keys = [ "vinnix:xCPWQjVNXvqsEJgdEhUMpmVIyJseAPAcZEm3b6HU8vk=" ];
 
-    home.packages = with pkgs; [
-        gnupg
-        nodejs
-        vscode
-        cust_pkgs.kill_and_attach
-        cust_pkgs.worktree_helper
-        cust_pkgs.find_file_up_tree
-    ];
+  home.packages = with pkgs; [
+    gnupg
+    nodejs
+    vscode
+    cust_pkgs.kill_and_attach
+    cust_pkgs.worktree_helper
+    cust_pkgs.find_file_up_tree
+  ];
 
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;

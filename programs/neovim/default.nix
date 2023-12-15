@@ -115,6 +115,7 @@ in
     extraPython3Packages = pyPkgs: with pyPkgs; [
       cairosvg
       jupyter-client
+      nbformat
       plotly
       pnglatex
       pynvim
