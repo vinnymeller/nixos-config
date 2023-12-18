@@ -22,6 +22,7 @@ in
     enable = true;
     defaultEditor = true;
     plugins = with pkgs.vimPlugins; [
+      SchemaStore-nvim
       autosave-nvim
       catppuccin-nvim
       cmp-buffer
@@ -83,10 +84,10 @@ in
     extraPackages = with pkgs; [
       ast-grep
       black
+      dockerfile-language-server-nodejs
       fd
       gcc
       haskellPackages.haskell-language-server
-      stable-pkgs.imagemagick
       isort
       libclang
       ltex-ls
@@ -94,7 +95,7 @@ in
       nil
       nodePackages.pyright
       nodePackages.typescript-language-server
-      nodePackages.yaml-language-server
+      nodePackages.vscode-json-languageserver
       nodejs
       ocamlPackages.ocaml-lsp
       pgformatter
@@ -102,9 +103,11 @@ in
       ripgrep
       rust-analyzer
       shfmt
+      stable-pkgs.imagemagick
       stylua
       terraform-ls
       xsel
+      yaml-language-server
       zk
     ];
 

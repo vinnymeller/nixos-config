@@ -95,8 +95,32 @@ require("lspconfig").ltex.setup({
 	},
 })
 
+require("lspconfig").jsonls.setup({
+	capabilities = capabilities,
+	settings = {
+		json = {
+			schemas = require("schemastore").json.schemas(),
+			validate = { enable = true },
+		},
+	},
+})
+
+require("lspconfig").yamlls.setup({
+	capabilities = capabilities,
+	settings = {
+		yaml = {
+			schemaStore = {
+				enable = false,
+				url = "",
+			},
+			schemas = require("schemastore").yaml.schemas(),
+		},
+	},
+})
+
 local basic_servers = {
 	"clangd",
+	"dockerls",
 	"hls",
 	"nil_ls",
 	"ocamllsp",

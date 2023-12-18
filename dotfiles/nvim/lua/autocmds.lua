@@ -38,3 +38,11 @@ vim.api.nvim_create_autocmd("FocusGained", {
 		vim.cmd([[call setreg("@", getreg("+"))]])
 	end,
 })
+
+-- make any file that starts with "Dockerfile" be recognized as a dockerfile, not just strictly ^Dockerfile$
+vim.api.nvim_create_autocmd({"BufRead","BufNewFile"}, {
+    pattern = "*Dockerfile*",
+    callback = function()
+        vim.bo.filetype = "dockerfile"
+    end,
+})
