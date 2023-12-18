@@ -129,7 +129,13 @@
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
 
-  virtualisation.podman.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    enableNvidia = true;
+    dockerSocket.enable = true;
+    autoPrune.enable = true;
+    dockerCompat = true;
+  };
 
   system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
 
