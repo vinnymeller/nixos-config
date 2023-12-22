@@ -10,7 +10,7 @@
       diff.tool = "vimdiff";
       merge.tool = "vimdiff";
       mergetool.vimdiff.path = "nvim";
-      merge.conflictstyle = "diff3";
+      merge.conflictstyle = "zdiff3";
 
       # pushing & pulling
       pull.rebase = true;
