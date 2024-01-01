@@ -6,9 +6,7 @@ inputs.nixpkgs.lib.nixosSystem {
     inputs.lanzaboote.nixosModules.lanzaboote
 
     ({ pkgs, lib, ... }: {
-      environment.systemPackages = [
-        pkgs.sbctl
-      ];
+      environment.systemPackages = [ pkgs.sbctl ];
 
       boot.loader.systemd-boot.enable = lib.mkForce false;
 
@@ -17,7 +15,6 @@ inputs.nixpkgs.lib.nixosSystem {
         pkiBundle = "/etc/secureboot";
       };
     })
-
 
     inputs.nix-index-database.nixosModules.nix-index
 

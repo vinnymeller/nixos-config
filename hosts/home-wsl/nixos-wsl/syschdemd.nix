@@ -1,11 +1,5 @@
-{ lib
-, pkgs
-, config
-, automountPath
-, defaultUser
-, defaultUserHome ? "/home/${defaultUser}"
-, ...
-}:
+{ lib, pkgs, config, automountPath, defaultUser
+, defaultUserHome ? "/home/${defaultUser}", ... }:
 
 pkgs.substituteAll {
   name = "syschdemd";

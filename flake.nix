@@ -5,7 +5,6 @@
 
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
-
     nixpkgs-staging.url = "github:NixOS/nixpkgs/staging";
 
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
@@ -16,7 +15,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
 
     nix-index-database = {
       url = "github:Mic92/nix-index-database";
@@ -34,27 +32,28 @@
 
   };
 
-  outputs = inputs@{ self, flake-utils, nixpkgs, nixpkgs-master, nixpkgs-stable, neovim-nightly-overlay, nix-index-database, home-manager, lanzaboote, ... }:
+  outputs = inputs@{ self, flake-utils, nixpkgs, nixpkgs-master, nixpkgs-stable
+    , neovim-nightly-overlay, nix-index-database, home-manager, lanzaboote, ...
+    }:
     let
 
       inherit (self) outputs;
 
-      forAllSystems = nixpkgs.lib.genAttrs flake-utils.lib.defaultSystems; # change this if i need some weird systems
+      forAllSystems = nixpkgs.lib.genAttrs
+        flake-utils.lib.defaultSystems; # change this if i need some weird systems
 
-    in
-    {
+    in {
 
-      defaultPackage = forAllSystems (system: home-manager.defaultPackage.${system});
+      defaultPackage =
+        forAllSystems (system: home-manager.defaultPackage.${system});
 
       packages = forAllSystems (system:
         let pkgs = nixpkgs.legacyPackages.${system};
-        in import ./pkgs { inherit pkgs; }
-      );
+        in import ./pkgs { inherit pkgs; });
 
       devShells = forAllSystems (system:
         let pkgs = nixpkgs.legacyPackages.${system};
-        in import ./shell.nix { inherit pkgs; }
-      );
+        in import ./shell.nix { inherit pkgs; });
 
       overlays = import ./overlays { inherit inputs; };
 
@@ -63,8 +62,10 @@
         vindows = import ./hosts/home-wsl { inherit inputs outputs; };
       };
       homeConfigurations = {
-        "vinny@wdtech-eos" = import ./hosts/wdtech-eos { inherit inputs outputs; };
-        "vinny@camovinny" = import ./hosts/camovinny { inherit inputs outputs; };
+        "vinny@wdtech-eos" =
+          import ./hosts/wdtech-eos { inherit inputs outputs; };
+        "vinny@camovinny" =
+          import ./hosts/camovinny { inherit inputs outputs; };
       };
     };
 }

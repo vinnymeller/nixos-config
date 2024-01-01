@@ -122,10 +122,13 @@ local basic_servers = {
 	"clangd",
 	"dockerls",
 	"hls",
+	"html",
+	"htmx",
 	"nil_ls",
 	"ocamllsp",
 	"pyright",
 	"terraformls",
+	"tsserver",
 	"yamlls",
 }
 

@@ -1,8 +1,6 @@
 { pkgs, lib, ... }:
-let
-  cust_pkgs = import ../../pkgs { inherit pkgs; };
-in
-{
+let cust_pkgs = import ../../pkgs { inherit pkgs; };
+in {
   imports = [
     ../../programs/neovim
     ../../programs/zsh
@@ -11,10 +9,7 @@ in
     ../../programs/kitty
   ];
 
-  home.packages = with pkgs; [
-    openvpn
-    mesa
-  ] ++ builtins.attrValues cust_pkgs;
+  home.packages = with pkgs; [ openvpn mesa ] ++ builtins.attrValues cust_pkgs;
 
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;

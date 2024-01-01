@@ -1,10 +1,8 @@
 { inputs, outputs, lib, pkgs, config, modulesPath, ... }:
 
 with lib;
-let
-  nixos-wsl = import ./nixos-wsl;
-in
-{
+let nixos-wsl = import ./nixos-wsl;
+in {
   imports = [
     "${modulesPath}/profiles/minimal.nix"
 
@@ -56,11 +54,7 @@ in
   };
   networking.hostName = "home-nix-wsl"; # Define your hostname.
 
-  environment.systemPackages = with pkgs; [
-    git
-    vim
-    neovim
-  ];
+  environment.systemPackages = with pkgs; [ git vim neovim ];
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "22.05";
 }

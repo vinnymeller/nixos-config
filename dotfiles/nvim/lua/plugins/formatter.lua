@@ -29,6 +29,21 @@ require("formatter").setup({
 		sh = {
 			require("formatter.filetypes.sh").shfmt,
 		},
+		html = {
+			require("formatter.filetypes.html").prettierd,
+		},
+		css = {
+			require("formatter.filetypes.css").prettierd,
+		},
+		typescript = {
+			require("formatter.filetypes.typescript").prettierd,
+		},
+		javascript = {
+			require("formatter.filetypes.javascript").prettierd,
+		},
+		nix = {
+			require("formatter.filetypes.nix").nixfmt,
+		},
 		-- Use the special "*" filetype for defining formatter configurations on
 		-- any filetype
 		["*"] = {

@@ -6,13 +6,9 @@
 
   services.pcscd.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    gnupg
-  ];
+  environment.systemPackages = with pkgs; [ gnupg ];
 
-  services.udev.packages = with pkgs; [
-    yubikey-personalization
-  ];
+  services.udev.packages = with pkgs; [ yubikey-personalization ];
 
   programs.gnupg.agent = {
     enable = true;

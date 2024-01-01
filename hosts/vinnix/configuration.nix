@@ -8,9 +8,7 @@
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
-    config = {
-      permittedInsecurePackages = [ "electron-25.9.0" ];
-    };
+    config = { permittedInsecurePackages = [ "electron-25.9.0" ]; };
   };
 
   boot = {
@@ -18,26 +16,21 @@
     kernelPackages = pkgs.linuxPackages_latest; # use newest kernel
     kernelParams = [ "amd_iommu=on" ];
     blacklistedKernelModules = [ "nvidia" "nouveau" ];
-    kernelModules = [ "kvm-amd" "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
+    kernelModules =
+      [ "kvm-amd" "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
     extraModprobeConfig = ''
       options vfio-pci ids=10de:13c0,10de:0fbb
       options btusb enable_autosuspend=n
     '';
     loader = {
-      systemd-boot = {
-        enable = true;
-      };
-      efi = {
-        canTouchEfiVariables = true;
-      };
+      systemd-boot = { enable = true; };
+      efi = { canTouchEfiVariables = true; };
     };
     kernel.sysctl."net.ipv4.ip_forward" = 1;
   };
 
   security = {
-    polkit = {
-      enable = true;
-    };
+    polkit = { enable = true; };
     pam = {
       loginLimits = [{
         domain = "*";
@@ -64,6 +57,9 @@
     # spotifyd.enable = true;
     mullvad-vpn.enable = true;
     yubikey-agent.enable = true;
+    devmon.enable = true;
+    gvfs.enable = true;
+    udisks2.enable = true;
   };
 
   fonts = {
@@ -73,11 +69,9 @@
     };
   };
 
-
-
   networking.hostName = "vinnix"; # Define your hostname.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-
+  networking.networkmanager.enable =
+    true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "America/Detroit";
@@ -95,7 +89,6 @@
 
   # Enable sound.
   sound.enable = true;
-
 
   users.users.vinny = {
     isNormalUser = true;
@@ -137,7 +130,8 @@
     dockerCompat = true;
   };
 
-  system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
+  system.stateVersion =
+    "22.11"; # read documentation on configuration.nix before possibly changing this
 
   programs.steam.enable = true;
   programs.zsh = {
@@ -153,7 +147,6 @@
   hardware.gpgSmartcards.enable = true; # for yubikey
 
   programs.command-not-found.enable = false;
-
 
   programs.nm-applet.enable = true;
 

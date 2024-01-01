@@ -1,8 +1,6 @@
 { inputs, outputs, pkgs, ... }:
-let
-  cust_pkgs = import ../../pkgs { inherit pkgs; };
-in
-{
+let cust_pkgs = import ../../pkgs { inherit pkgs; };
+in {
   imports = [
     ../../programs/neovim
     ../../programs/zsh
@@ -10,7 +8,6 @@ in
     ../../programs/tmux
     ../../programs/kitty
   ];
-
 
   # nvim nightly overlay doesn't seem to work on aarch64-darwin for now. TODO look into why
   # nixpkgs.overlays = builtins.attrValues (builtins.removeAttrs outputs.overlays [ "neovim-nightly" ]);
@@ -20,7 +17,8 @@ in
   nix.settings.auto-optimise-store = true;
   nix.settings.require-sigs = false;
   nix.settings.trusted-users = [ "vinny" "root" ];
-  nix.settings.trusted-public-keys = [ "vinnix:xCPWQjVNXvqsEJgdEhUMpmVIyJseAPAcZEm3b6HU8vk=" ];
+  nix.settings.trusted-public-keys =
+    [ "vinnix:xCPWQjVNXvqsEJgdEhUMpmVIyJseAPAcZEm3b6HU8vk=" ];
 
   home.packages = with pkgs; [
     gnupg

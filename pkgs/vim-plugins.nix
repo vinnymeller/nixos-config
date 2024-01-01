@@ -1,7 +1,6 @@
 { lib, buildVimPlugin, buildNeovimPlugin, fetchFromGitHub, fetchgit }:
 
-final: prev:
-{
+final: prev: {
   leetcode-nvim = buildVimPlugin {
     pname = "leetcode.nvim";
     version = "2023-11-10";

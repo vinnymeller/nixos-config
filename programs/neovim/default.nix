@@ -1,26 +1,23 @@
 { config, pkgs, ... }:
 let
-  custom-vim-plugins = pkgs.vimPlugins.extend (
-    (pkgs.callPackage ../../pkgs/vim-plugins.nix {
+  custom-vim-plugins = pkgs.vimPlugins.extend
+    ((pkgs.callPackage ../../pkgs/vim-plugins.nix {
       inherit (pkgs.vimUtils) buildVimPlugin;
       inherit (pkgs.neovimUtils) buildNeovimPlugin;
-    })
-  );
-in
-{
-
+    }));
+in {
 
   home.file.".config/nvim" = {
     source = ../../dotfiles/nvim;
     recursive = true;
   };
 
-  home.shellAliases = {
-    leetcode = "nvim leetcode.nvim";
-  };
+  home.shellAliases = { leetcode = "nvim leetcode.nvim"; };
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    withPython3 = true;
+    withNodeJs = true;
     plugins = with pkgs.vimPlugins; [
       SchemaStore-nvim
       autosave-nvim
@@ -61,7 +58,6 @@ in
       pkgs.master-pkgs.vimPlugins.nvim-remote-containers
       pkgs.master-pkgs.vimPlugins.telescope-sg
       plenary-nvim
-      rustaceanvim
       sniprun
       telescope-fzf-native-nvim
       telescope-nvim
@@ -92,14 +88,18 @@ in
       libclang
       ltex-ls
       lua-language-server
+      master-pkgs.htmx-lsp
       nil
+      nixfmt
       nodePackages.pyright
       nodePackages.typescript-language-server
+      nodePackages.vscode-html-languageserver-bin
       nodePackages.vscode-json-languageserver
       nodejs
       ocamlPackages.ocaml-lsp
       pgformatter
       postgresql
+      prettierd
       ripgrep
       rust-analyzer
       shfmt
@@ -111,18 +111,17 @@ in
       zk
     ];
 
-    extraLuaPackages = ps: [
-      pkgs.master-pkgs.luajitPackages.magick
-    ];
+    extraLuaPackages = ps: [ pkgs.master-pkgs.luajitPackages.magick ];
 
-    extraPython3Packages = pyPkgs: with pyPkgs; [
-      cairosvg
-      jupyter-client
-      nbformat
-      plotly
-      pnglatex
-      pynvim
-      pyperclip
-    ];
+    extraPython3Packages = pyPkgs:
+      with pyPkgs; [
+        cairosvg
+        jupyter-client
+        nbformat
+        plotly
+        pnglatex
+        pynvim
+        pyperclip
+      ];
   };
 }

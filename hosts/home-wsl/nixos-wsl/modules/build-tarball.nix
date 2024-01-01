@@ -1,23 +1,32 @@
 { config, pkgs, lib, ... }:
-with builtins; with lib;
+with builtins;
+with lib;
 let
-  pkgs2storeContents = l: map (x: { object = x; symlink = "none"; }) l;
+  pkgs2storeContents = l:
+    map (x: {
+      object = x;
+      symlink = "none";
+    }) l;
 
   nixpkgs = lib.cleanSource pkgs.path;
 
-  channelSources = pkgs.runCommand "nixos-${config.system.nixos.version}"
-    { preferLocalBuild = true; }
-    ''
-      mkdir -p $out
-      cp -prd ${nixpkgs.outPath} $out/nixos
-      chmod -R u+w $out/nixos
-      if [ ! -e $out/nixos/nixpkgs ]; then
-        ln -s . $out/nixos/nixpkgs
-      fi
-      echo -n ${toString config.system.nixos.revision} > $out/nixos/.git-revision
-      echo -n ${toString config.system.nixos.versionSuffix} > $out/nixos/.version-suffix
-      echo ${toString config.system.nixos.versionSuffix} | sed -e s/pre// > $out/nixos/svn-revision
-    '';
+  channelSources = pkgs.runCommand "nixos-${config.system.nixos.version}" {
+    preferLocalBuild = true;
+  } ''
+    mkdir -p $out
+    cp -prd ${nixpkgs.outPath} $out/nixos
+    chmod -R u+w $out/nixos
+    if [ ! -e $out/nixos/nixpkgs ]; then
+      ln -s . $out/nixos/nixpkgs
+    fi
+    echo -n ${toString config.system.nixos.revision} > $out/nixos/.git-revision
+    echo -n ${
+      toString config.system.nixos.versionSuffix
+    } > $out/nixos/.version-suffix
+    echo ${
+      toString config.system.nixos.versionSuffix
+    } | sed -e s/pre// > $out/nixos/svn-revision
+  '';
 
   preparer = pkgs.writeShellScriptBin "wsl-prepare" ''
     set -e
@@ -59,39 +68,39 @@ let
     ''}
   '';
 
-in
-{
+in {
 
   options.wsl.tarball = {
     includeConfig = mkOption {
       type = types.bool;
       default = true;
-      description = "Whether or not to copy the system configuration into the tarball";
+      description =
+        "Whether or not to copy the system configuration into the tarball";
     };
   };
-
 
   config = mkIf config.wsl.enable {
     # These options make no sense without the wsl-distro module anyway
 
-    system.build.tarball = pkgs.callPackage "${nixpkgs}/nixos/lib/make-system-tarball.nix" {
-      # No contents, structure will be added by prepare script
-      contents = [ ];
+    system.build.tarball =
+      pkgs.callPackage "${nixpkgs}/nixos/lib/make-system-tarball.nix" {
+        # No contents, structure will be added by prepare script
+        contents = [ ];
 
-      fileName = "nixos-wsl-${pkgs.hostPlatform.system}";
+        fileName = "nixos-wsl-${pkgs.hostPlatform.system}";
 
-      storeContents = pkgs2storeContents [
-        config.system.build.toplevel
-        channelSources
-        preparer
-      ];
+        storeContents = pkgs2storeContents [
+          config.system.build.toplevel
+          channelSources
+          preparer
+        ];
 
-      extraCommands = "${preparer}/bin/wsl-prepare";
+        extraCommands = "${preparer}/bin/wsl-prepare";
 
-      # Use gzip
-      compressCommand = "gzip";
-      compressionExtension = ".gz";
-    };
+        # Use gzip
+        compressCommand = "gzip";
+        compressionExtension = ".gz";
+      };
 
   };
 }

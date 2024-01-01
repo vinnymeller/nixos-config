@@ -1,8 +1,6 @@
 { pkgs, lib, ... }:
-let
-  cust_pkgs = import ../../pkgs { inherit pkgs; };
-in
-{
+let cust_pkgs = import ../../pkgs { inherit pkgs; };
+in {
   imports = [
     ../../programs/neovim
     ../../programs/zsh
@@ -11,12 +9,8 @@ in
     ../../programs/kitty
   ];
 
-  home.packages = with pkgs; [
-    openvpn
-    mesa
-    kubectl
-    helm
-  ] ++ builtins.attrValues cust_pkgs;
+  home.packages = with pkgs;
+    [ openvpn mesa kubectl helm ] ++ builtins.attrValues cust_pkgs;
 
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
@@ -27,8 +21,6 @@ in
 
   programs.home-manager.enable = true;
 
-  programs.zsh.sessionVariables = {
-    TMUX_TMPDIR = "/tmp";
-  };
+  programs.zsh.sessionVariables = { TMUX_TMPDIR = "/tmp"; };
 
 }
