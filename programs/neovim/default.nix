@@ -53,6 +53,7 @@ in {
       nvim-treesitter-context
       nvim-treesitter-textobjects
       nvim-treesitter.withAllGrammars
+      nvim-ts-autotag
       nvim-web-devicons
       oil-nvim
       pkgs.master-pkgs.vimPlugins.nvim-remote-containers
@@ -92,9 +93,10 @@ in {
       nil
       nixfmt
       nodePackages.pyright
+      vscode-langservers-extracted
       nodePackages.typescript-language-server
-      nodePackages.vscode-html-languageserver-bin
-      nodePackages.vscode-json-languageserver
+      # nodePackages.vscode-html-languageserver-bin
+      # nodePackages.vscode-json-languageserver
       nodejs
       ocamlPackages.ocaml-lsp
       pgformatter
