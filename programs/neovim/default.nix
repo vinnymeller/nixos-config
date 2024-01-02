@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 let
   custom-vim-plugins = pkgs.vimPlugins.extend
     ((pkgs.callPackage ../../pkgs/vim-plugins.nix {
@@ -89,7 +89,6 @@ in {
       libclang
       ltex-ls
       lua-language-server
-      master-pkgs.htmx-lsp
       nil
       nixfmt
       nodePackages.pyright
@@ -111,7 +110,7 @@ in {
       xsel
       yaml-language-server
       zk
-    ];
+    ] ++ (if stdenv.isLinux then [ master-pkgs.htmx-lsp ] else []); # do this until i can get htmx lsp to build on darwin
 
     extraLuaPackages = ps: [ pkgs.master-pkgs.luajitPackages.magick ];
 
