@@ -59,6 +59,7 @@ in {
       pkgs.master-pkgs.vimPlugins.nvim-remote-containers
       pkgs.master-pkgs.vimPlugins.telescope-sg
       plenary-nvim
+      rustaceanvim
       sniprun
       telescope-fzf-native-nvim
       telescope-nvim
