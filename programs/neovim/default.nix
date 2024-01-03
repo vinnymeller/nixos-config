@@ -59,6 +59,7 @@ in {
       pkgs.master-pkgs.vimPlugins.nvim-remote-containers
       pkgs.master-pkgs.vimPlugins.telescope-sg
       plenary-nvim
+      sg-nvim
       sniprun
       telescope-fzf-native-nvim
       telescope-nvim
@@ -81,6 +82,7 @@ in {
     extraPackages = with pkgs; [
       ast-grep
       black
+      cargo
       dockerfile-language-server-nodejs
       fd
       gcc
@@ -105,6 +107,7 @@ in {
       ripgrep
       rust-analyzer
       shfmt
+      src-cli
       stable-pkgs.imagemagick
       stylua
       terraform-ls
