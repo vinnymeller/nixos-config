@@ -80,41 +80,44 @@ in {
       zk-nvim
     ];
 
-    extraPackages = with pkgs; [
-      ast-grep
-      black
-      cargo
-      dockerfile-language-server-nodejs
-      fd
-      gcc
-      haskellPackages.haskell-language-server
-      isort
-      libclang
-      ltex-ls
-      lua-language-server
-      nil
-      nixfmt
-      nodePackages.pyright
-      vscode-langservers-extracted
-      nodePackages.typescript-language-server
-      # nodePackages.vscode-html-languageserver-bin
-      # nodePackages.vscode-json-languageserver
-      nodejs
-      ocamlPackages.ocaml-lsp
-      pgformatter
-      postgresql
-      prettierd
-      ripgrep
-      rust-analyzer
-      shfmt
-      src-cli
-      stable-pkgs.imagemagick
-      stylua
-      terraform-ls
-      xsel
-      yaml-language-server
-      zk
-    ] ++ (if stdenv.isLinux then [ master-pkgs.htmx-lsp ] else []); # do this until i can get htmx lsp to build on darwin
+    extraPackages = with pkgs;
+      [
+        ast-grep
+        black
+        cargo
+        dockerfile-language-server-nodejs
+        fd
+        gcc
+        haskellPackages.haskell-language-server
+        isort
+        libclang
+        ltex-ls
+        lua-language-server
+        nil
+        nixfmt
+        nodePackages.pyright
+        nodePackages.typescript-language-server
+        nodejs
+        ocamlPackages.ocaml-lsp
+        pgformatter
+        postgresql
+        prettierd
+        ripgrep
+        rust-analyzer
+        shfmt
+        src-cli
+        stable-pkgs.imagemagick
+        stylua
+        tailwindcss-language-server
+        terraform-ls
+        vscode-langservers-extracted
+        xsel
+        yaml-language-server
+        zk
+      ] ++ (if stdenv.isLinux then
+        [ master-pkgs.htmx-lsp ]
+      else
+        [ ]); # do this until i can get htmx lsp to build on darwin
 
     extraLuaPackages = ps: [ pkgs.master-pkgs.luajitPackages.magick ];
 

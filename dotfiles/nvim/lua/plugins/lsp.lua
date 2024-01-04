@@ -127,6 +127,7 @@ local basic_servers = {
 	"nil_ls",
 	"ocamllsp",
 	"pyright",
+	"tailwindcss",
 	"terraformls",
 	"tsserver",
 	"yamlls",
