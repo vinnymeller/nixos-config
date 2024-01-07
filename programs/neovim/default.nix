@@ -65,6 +65,7 @@ in {
       telescope-fzf-native-nvim
       telescope-nvim
       tint-nvim
+      tmux-nvim
       undotree
       vim-be-good
       vim-dadbod
