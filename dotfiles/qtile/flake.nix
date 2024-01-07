@@ -5,31 +5,14 @@
 
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system};
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        python-pkgs =
+          pkgs.python3.withPackages (ps: with ps; [ black mypy qtile ]);
       in {
         devShells.default = pkgs.mkShell rec {
-          name = "impurePythonEnv";
-          venvDir = "./.venv";
-          buildInputs = with pkgs; [
-            python3Packages.python
-            python3Packages.venvShellHook
-            taglib
-            openssl
-            git
-            libxml2
-            libxslt
-            libzip
-            zlib
-          ];
-
-          postVenvCreation = ''
-            unset SOURCE_DATE_EPOCH
-            pip install -r requirements.txt
-          '';
-
-          postShellHook = ''
-            unset SOURCE_DATE_EPOCH
-          '';
+          name = "qtileDevEnv";
+          packages = with pkgs; [ python-pkgs qtile ];
         };
       });
 
