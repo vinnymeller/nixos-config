@@ -8,10 +8,10 @@ alt = "mod1"
 gui = "mod4"
 ctrl = "control"
 shift = "shift"
-cg = [ctrl, gui]
-scg = [shift, ctrl, gui]
-acg = [alt, ctrl, gui]
-ascg = [alt, shift, ctrl, gui]
+ca = [ctrl, alt]
+cag = [ctrl, alt, gui]
+sca = [shift, ctrl, alt]
+scag = [shift, ctrl, alt, gui]
 terminal = "kitty"
 
 
@@ -25,58 +25,34 @@ keys = [
     Key([gui], "l", lazy.layout.right(), desc="Move focus to right"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key(scg, "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key(ca, "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key(
-        scg,
+        ca,
         "l",
         lazy.layout.shuffle_right(),
         desc="Move window to the right",
     ),
-    # Key(scg, "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    # Key(scg, "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key(ca, "j", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key(ca, "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # toggle floating and fullscreen
-    Key(scg, "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
-    Key(cg, "f", lazy.window.toggle_floating(), desc="Toggle floating"),
+    Key(ca, "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
+    Key(cag, "f", lazy.window.toggle_floating(), desc="Toggle floating"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key(ascg, "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key(ascg, "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key(ascg, "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key(ascg, "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key(
-        acg,
-        "h",
-        lazy.layout.shrink_left(),
-        desc="Grow window to the left",
-    ),
-    Key(
-        acg,
-        "l",
-        lazy.layout.shrink_right(),
-        desc="Grow window to the right",
-    ),
-    Key(acg, "j", lazy.layout.shrink_down(), desc="Grow window down"),
-    Key(acg, "k", lazy.layout.shrink_up(), desc="Grow window up"),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key(
-        [alt, shift],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
-    Key(scg, "t", lazy.spawn(terminal), desc="Launch terminal"),
-    Key(scg, "b", lazy.spawn("firefox"), desc="Launch firefox"),
+    Key(cag, "h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key(cag, "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key(cag, "j", lazy.layout.grow_down(), desc="Grow window down"),
+    Key(cag, "k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key([gui], "t", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([gui], "b", lazy.spawn("firefox"), desc="Launch firefox"),
     # Toggle between different layouts as defined below
-    Key(cg, "l", lazy.next_layout(), desc="Toggle between layouts"),
+    Key(sca, "l", lazy.next_layout(), desc="Toggle between layouts"),
     Key([gui], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key(scg, "w", lazy.window.kill(), desc="Kill focused window"),
-    Key(acg, "r", lazy.reload_config(), desc="Reload the config"),
-    Key(acg, "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key(ca, "w", lazy.window.kill(), desc="Kill focused window"),
+    Key(scag, "r", lazy.reload_config(), desc="Reload the config"),
+    Key(scag, "q", lazy.shutdown(), desc="Shutdown Qtile"),
     # Key([alt], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-    Key(scg, "r", lazy.spawn("rofi -show drun"), desc="Open rofi"),
+    Key(ca, "r", lazy.spawn("rofi -show drun"), desc="Open rofi"),
     # keys for moving to monitors
     Key([gui], "1", lazy.to_screen(0), desc="Move focus to monitor 0"),
     Key([gui], "6", lazy.to_screen(0), desc="Move focus to monitor 0"),
@@ -89,9 +65,9 @@ keys = [
     Key([gui], "3", lazy.to_screen(1), desc="Move focus to monitor 2"),
     Key([gui], "8", lazy.to_screen(1), desc="Move focus to monitor 2"),
     # keys for moving monitors sequentially
-    Key(cg, "j", lazy.prev_screen(), desc="Move focus to prev monitor"),
-    Key(cg, "k", lazy.next_screen(), desc="Move focus to prev monitor"),
-    KeyChord(scg, "e", [Key([], "s", lazy.spawn("screenshot_to_clipboard"))]),
+    Key(sca, "j", lazy.prev_screen(), desc="Move focus to prev monitor"),
+    Key(sca, "k", lazy.next_screen(), desc="Move focus to prev monitor"),
+    KeyChord(ca, "e", [Key([], "s", lazy.spawn("screenshot_to_clipboard"))]),
 ]
 
 _group_names = [
@@ -103,7 +79,7 @@ _group_names = [
             "layout": "bsp",
             "spawn": "kitty",
             "init": True,
-            "screen_affinity": 3,
+            "screen_affinity": 1,
         },
     ),
     (
@@ -113,7 +89,7 @@ _group_names = [
             "layout": "max",
             # "spawn": "firefox", # this makes firefox want to sit in that group forever when spawning new ones. i guess just dont spawn it on startup?
             "init": True,
-            "screen_affinity": 1,
+            "screen_affinity": 0,
         },
     ),
     ("4", {"label": "game", "layout": "max"}),
@@ -140,20 +116,20 @@ for i in groups:
     keys.extend(
         [
             Key(
-                scg,
+                ca,
                 i.name,
                 lazy.group[i.name].toscreen(),
                 desc="Switch to group {}".format(i.name),
             ),
             # mod1 + shift + letter of group = switch to & move focused window to group
             Key(
-                cg,
+                cag,
                 i.name,
                 lazy.window.togroup(i.name, switch_group=True),
                 desc="Switch to & move focused window to group {}".format(i.name),
             ),
             Key(
-                ascg,
+                sca,
                 i.name,
                 lazy.window.togroup(i.name),
                 desc="move focused window to group {}".format(i.name),
