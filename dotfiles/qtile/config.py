@@ -71,44 +71,42 @@ keys = [
 ]
 
 _group_names = [
-    ("1", {"label": "term", "layout": "max"}),
+    (
+        "1",
+        {
+            "label": "web",
+            "layout": "max",
+            # "spawn": "firefox", # this makes firefox want to sit in that group forever when spawning new ones. i guess just dont spawn it on startup?
+            "screen_affinity": 0,
+        },
+    ),
     (
         "2",
         {
             "label": "code",
             "layout": "bsp",
             "spawn": "kitty",
-            "init": True,
-            "screen_affinity": 1,
+            "screen_affinity": 2,
         },
     ),
     (
         "3",
         {
-            "label": "web",
-            "layout": "max",
-            # "spawn": "firefox", # this makes firefox want to sit in that group forever when spawning new ones. i guess just dont spawn it on startup?
-            "init": True,
-            "screen_affinity": 0,
-        },
-    ),
-    ("4", {"label": "game", "layout": "max"}),
-    (
-        "5",
-        {
             "label": "chat",
             "layout": "max",
             "spawn": "discord",
-            "init": True,
-            "screen_affinity": 2,
+            "screen_affinity": 1,
         },
     ),
-    ("6", {"label": "work", "layout": "max"}),
+    ("4", {"label": "work", "layout": "max"}),
+    ("5", {}),
+    ("6", {}),
     ("7", {}),
     ("8", {}),
     ("9", {}),
     ("0", {}),
 ]
+
 
 groups = [Group(name, **kwargs) for name, kwargs in _group_names]
 

@@ -118,12 +118,20 @@ require("lspconfig").yamlls.setup({
 	},
 })
 
+require("lspconfig").htmx.setup({
+	capabilities = capabilities,
+	filetypes = { "html", "htmldjango" },
+})
+
+require("lspconfig").html.setup({
+	capabilities = capabilities,
+	filetypes = { "html", "htmldjango" },
+})
+
 local basic_servers = {
 	"clangd",
 	"dockerls",
 	"hls",
-	"html",
-	"htmx",
 	"nil_ls",
 	"ocamllsp",
 	"pyright",

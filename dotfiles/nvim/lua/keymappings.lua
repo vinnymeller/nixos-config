@@ -9,13 +9,6 @@ map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map("n", "<Leader>fm", "<cmd>FormatWrite<CR>", {})
 map("i", "jk", "<Esc>", { desc = "jk to escape" })
 
--- move to the split above/below/left/right
-map("n", "<M-h>", "<C-w>h", { desc = "Move left" })
-map("n", "<M-j>", "<C-w>j", { desc = "Move down" })
-map("n", "<M-k>", "<C-w>k", { desc = "Move up" })
-map("n", "<M-l>", "<C-w>l", { desc = "Move right" })
-
-
 -- Diagnostic keymaps
 map("n", "[d", vim.diagnostic.goto_prev)
 map("n", "]d", vim.diagnostic.goto_next)
