@@ -107,7 +107,7 @@ in {
         rust-analyzer
         shfmt
         src-cli
-        stable-pkgs.imagemagick
+        imagemagick
         stylua
         tailwindcss-language-server
         terraform-ls
@@ -120,7 +120,7 @@ in {
       else
         [ ]); # do this until i can get htmx lsp to build on darwin
 
-    extraLuaPackages = ps: [ pkgs.master-pkgs.luajitPackages.magick ];
+    extraLuaPackages = ps: with ps; [ magick ];
 
     extraPython3Packages = pyPkgs:
       with pyPkgs; [
