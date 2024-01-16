@@ -25,7 +25,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
 		nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
 		nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-		nmap("<leader>lr", "<cmd>LspRestart<CR>", "[L]sp [R]estart")
+		nmap("<leader>lr", "<cmd>e<CR>", "[L]sp [R]estart")
 
 		-- See `:help K` for why this keymap
 		nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -118,10 +118,12 @@ require("lspconfig").yamlls.setup({
 	},
 })
 
-require("lspconfig").htmx.setup({
-	capabilities = capabilities,
-	filetypes = { "html", "htmldjango" },
-})
+-- htmx lsp is fucking up all the other ones and i dont get proper html and tailwind autocomplete for some reason
+-- figure out later TODO
+-- require("lspconfig").htmx.setup({
+-- 	capabilities = capabilities,
+-- 	filetypes = { "html", "htmldjango" },
+-- })
 
 require("lspconfig").html.setup({
 	capabilities = capabilities,

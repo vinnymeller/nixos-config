@@ -36,6 +36,7 @@
       clone-bare = ''
         !f() { git clone --bare "$1" "$2" && cd "$2" && git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"; }; f'';
     };
+    lfs.enable = true;
 
   };
 

@@ -8,7 +8,10 @@
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
-    config = { permittedInsecurePackages = [ "electron-25.9.0" ]; };
+    config = {
+      permittedInsecurePackages = [ "electron-25.9.0" ];
+      allowBroken = true;  # should probably set to false every once in a while to see if broken packages are fixed
+    };
   };
 
   boot = {

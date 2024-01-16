@@ -24,7 +24,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.wo.signcolumn = "yes"
 vim.o.termguicolors = true
-vim.o.completeopt = "menu,menuone,noselect,preview,noinsert"
+-- vim.o.completeopt = "menu,menuone,noselect,preview,noinsert"
 vim.o.mouse = ""
 
 vim.o.spelllang = "en_us"
