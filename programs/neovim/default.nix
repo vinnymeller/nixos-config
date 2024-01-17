@@ -38,6 +38,7 @@ in {
       formatter-nvim
       gitsigns-nvim
       gruvbox-nvim
+      harpoon2
       image-nvim
       indent-blankline-nvim
       lspkind-nvim
@@ -62,7 +63,7 @@ in {
       rustaceanvim
       sg-nvim
       sniprun
-      telescope-fzf-native-nvim
+      telescope-live-grep-args-nvim
       telescope-nvim
       tint-nvim
       tmux-nvim

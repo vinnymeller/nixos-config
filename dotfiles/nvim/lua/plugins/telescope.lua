@@ -1,4 +1,8 @@
-require("telescope").setup({
+local telescope = require("telescope")
+local telescope_builtin = require("telescope.builtin")
+local lga_actions = require("telescope-live-grep-args.actions")
+
+telescope.setup({
 	pickers = {
 		find_files = {
 			hidden = true,
@@ -32,10 +36,19 @@ require("telescope").setup({
 			grep_open_files = false,
 			lang = nil,
 		},
+		live_grep_args = {
+			auto_quoting = true,
+			mappings = {
+				i = {
+					["<C-k>"] = lga_actions.quote_prompt(),
+					["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+				},
+			},
+		},
 	},
 })
 require("telescope").load_extension("ast_grep")
-require("telescope").load_extension("fzf")
+require("telescope").load_extension("live_grep_args")
 
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
 vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
@@ -50,7 +63,13 @@ end, { desc = "[/] Fuzzily search in current buffer]" })
 vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "[F]ind [F]iles" })
 vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags, { desc = "[F]ind [H]elp" })
 vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string, { desc = "[F]ind current [W]ord" })
-vim.keymap.set("n", "<leader>fg", require("telescope.builtin").live_grep, { desc = "[F]ind by [G]rep" })
+-- vim.keymap.set("n", "<leader>fg", require("telescope.builtin").live_grep, { desc = "[F]ind by [G]rep" })
+vim.keymap.set(
+	"n",
+	"<leader>fg",
+	"<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+	{ desc = "[F]ind by [G]rep" }
+)
 vim.keymap.set("n", "<leader>fd", require("telescope.builtin").diagnostics, { desc = "[F]ind [D]iagnostics" })
 vim.keymap.set("n", "<leader>fc", require("telescope.builtin").git_commits, { desc = "[F]ind Git [C]ommits" })
 vim.keymap.set("n", "<leader>fk", require("telescope.builtin").keymaps, { desc = "[F]ind [K]eymaps" })
