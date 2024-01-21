@@ -57,45 +57,42 @@ keys = [
     Key([gui], "1", lazy.to_screen(0), desc="Move focus to monitor 0"),
     Key([gui], "6", lazy.to_screen(0), desc="Move focus to monitor 0"),
     Key(
-        [gui], "2", lazy.to_screen(2), desc="Move focus to monitor 1"
+        [gui], "2", lazy.to_screen(1), desc="Move focus to monitor 1"
     ),  # monitors 2 and 1 switched because of how they are physically arranged
     Key(
-        [gui], "7", lazy.to_screen(2), desc="Move focus to monitor 1"
+        [gui], "7", lazy.to_screen(1), desc="Move focus to monitor 1"
     ),  # how can i determine this programatically? TODO
-    Key([gui], "3", lazy.to_screen(1), desc="Move focus to monitor 2"),
-    Key([gui], "8", lazy.to_screen(1), desc="Move focus to monitor 2"),
     # keys for moving monitors sequentially
     Key(sca, "j", lazy.prev_screen(), desc="Move focus to prev monitor"),
     Key(sca, "k", lazy.next_screen(), desc="Move focus to prev monitor"),
     KeyChord(ca, "e", [Key([], "s", lazy.spawn("screenshot_to_clipboard"))]),
+    KeyChord([gui], "e", [Key([], "s", lazy.spawn("screenshot_to_clipboard"))]),
 ]
 
 _group_names = [
     (
         "1",
         {
-            "label": "web",
-            "layout": "max",
-            # "spawn": "firefox", # this makes firefox want to sit in that group forever when spawning new ones. i guess just dont spawn it on startup?
+            "label": "code",
+            "layout": "bsp",
+            "spawn": terminal,
             "screen_affinity": 0,
         },
     ),
     (
         "2",
         {
-            "label": "code",
+            "label": "chat",
             "layout": "bsp",
-            "spawn": "kitty",
-            "screen_affinity": 2,
+            "spawn": "discord",
+            "screen_affinity": 1,
         },
     ),
     (
         "3",
         {
-            "label": "chat",
+            "label": "web",
             "layout": "max",
-            "spawn": "discord",
-            "screen_affinity": 1,
         },
     ),
     ("4", {"label": "work", "layout": "max"}),
@@ -165,7 +162,6 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(top=get_bar(main_bar=True)),
-    Screen(top=get_bar()),
     Screen(top=get_bar()),
 ]
 

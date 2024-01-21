@@ -25,24 +25,24 @@ vim.api.nvim_create_autocmd("BufEnter", {
 -- 	end,
 -- })
 
--- copy last yank to system clipboard when nvim loses focus
-vim.api.nvim_create_autocmd("FocusLost", {
-	callback = function()
-		vim.cmd([[call setreg("+", getreg("@"))]])
-	end,
-})
-
--- copy system clipboard to @ when nvim gains focus
-vim.api.nvim_create_autocmd("FocusGained", {
-	callback = function()
-		vim.cmd([[call setreg("@", getreg("+"))]])
-	end,
-})
+-- -- copy last yank to system clipboard when nvim loses focus
+-- vim.api.nvim_create_autocmd("FocusLost", {
+-- 	callback = function()
+-- 		vim.cmd([[call setreg("+", getreg("@"))]])
+-- 	end,
+-- })
+--
+-- -- copy system clipboard to @ when nvim gains focus
+-- vim.api.nvim_create_autocmd("FocusGained", {
+-- 	callback = function()
+-- 		vim.cmd([[call setreg("@", getreg("+"))]])
+-- 	end,
+-- })
 
 -- make any file that starts with "Dockerfile" be recognized as a dockerfile, not just strictly ^Dockerfile$
-vim.api.nvim_create_autocmd({"BufRead","BufNewFile"}, {
-    pattern = "*Dockerfile*",
-    callback = function()
-        vim.bo.filetype = "dockerfile"
-    end,
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = "*Dockerfile*",
+	callback = function()
+		vim.bo.filetype = "dockerfile"
+	end,
 })
