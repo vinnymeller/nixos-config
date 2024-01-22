@@ -3,6 +3,7 @@ from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 
 from bars import get_bar
+from fake_fullscreen import toggle_fullscreen_state as toggle_fake_fullscreen
 
 alt = "mod1"
 gui = "mod4"
@@ -36,6 +37,7 @@ keys = [
     Key(ca, "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # toggle floating and fullscreen
     Key(ca, "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
+    Key(sca, "f", lazy.function(toggle_fake_fullscreen), desc="Toggle fake fullscreen"),
     Key(cag, "f", lazy.window.toggle_floating(), desc="Toggle floating"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
