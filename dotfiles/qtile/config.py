@@ -2,8 +2,9 @@ from libqtile import layout
 from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 
-from bars import get_bar
-from fake_fullscreen import toggle_fullscreen_state as toggle_fake_fullscreen
+from settings.bars import get_bar
+from settings.fake_fullscreen import \
+    toggle_fullscreen_state as toggle_fake_fullscreen
 
 alt = "mod1"
 gui = "mod4"
