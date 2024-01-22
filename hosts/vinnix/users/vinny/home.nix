@@ -80,4 +80,5 @@ in {
 
   home.file.".config/qtile".source = ../../../../dotfiles/qtile;
   home.file.".config/nixpkgs".source = ../../../../dotfiles/nixpkgs;
+  home.file.".Xresources".source = ../../../../dotfiles/.Xresources;
 }

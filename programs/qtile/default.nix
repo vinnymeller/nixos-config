@@ -1,11 +1,18 @@
 { config, pkgs, services, ... }: {
 
+  environment.variables = {
+    GDK_SCALE = "2";
+    GDK_DPI_SCALE = "0.5";
+    _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
+  };
+
   services.xserver = {
     enable = true;
     autorun = true;
     autoRepeatDelay = 200;
     autoRepeatInterval = 50;
-    upscaleDefaultCursor = false;
+    upscaleDefaultCursor = true;
+    dpi = 130;
     displayManager = {
       gdm.enable = true;
       sessionCommands = ''
@@ -41,53 +48,4 @@
     shadowOpacity = 0.5;
   };
 
-  systemd.tmpfiles.rules = [
-    "L+ /run/gdm/.config/monitors.xml - - - - ${
-      pkgs.writeText "gdm-monitors.xml"
-      /* xml */ ''
-
-        <!-- this should all be copied from your ~/.config/monitors.xml -->
-        <monitors version="2">
-          <configuration>
-            <logicalmonitor>
-              <x>0</x>
-              <y>909</y>
-              <scale>0.75</scale>
-              <primary>yes</primary>
-              <monitor>
-                <monitorspec>
-                  <connector>DP-2</connector>
-                </monitorspec>
-                <mode>
-                  <width>7680</width>
-                  <height>2160</height>
-                  <rate>120.00</rate>
-                </mode>
-              </monitor>
-            </logicalmonitor>
-          </configuration>
-          <configuration>
-            <logicalmonitor>
-              <x>6144</x>
-              <y>0</y>
-              <scale>0.75</scale>
-              <primary>no</primary>
-              <transform>
-                <rotation>right</rotation>
-              <monitor>
-                <monitorspec>
-                  <connector>DP-4</connector>
-                </monitorspec>
-                <mode>
-                  <width>3840</width>
-                  <height>2160</height>
-                  <rate>60.00</rate>
-                </mode>
-              </monitor>
-            </logicalmonitor>
-          </configuration>
-        </monitors>
-      ''
-    }"
-  ];
 }

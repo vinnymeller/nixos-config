@@ -10,7 +10,8 @@
     overlays = builtins.attrValues outputs.overlays;
     config = {
       permittedInsecurePackages = [ "electron-25.9.0" ];
-      allowBroken = true;  # should probably set to false every once in a while to see if broken packages are fixed
+      allowBroken =
+        true; # should probably set to false every once in a while to see if broken packages are fixed
     };
   };
 
@@ -70,6 +71,14 @@
       antialias = true;
       hinting.enable = true;
     };
+  };
+
+  documentation = {
+    nixos.enable = true;
+    man.enable = true;
+    info.enable = true;
+    doc.enable = true;
+    dev.enable = true;
   };
 
   networking.hostName = "vinnix"; # Define your hostname.
