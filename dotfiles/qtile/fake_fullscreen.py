@@ -2,9 +2,7 @@
 Fake fullscreen mode (similar to the DWM patch https://dwm.suckless.org/patches/fakefullscreen/)
 100% ripped from here: https://github.com/m-col/qtile-examples/commit/af79222536fab3dcac18623b9f6e61ef2cea97c4
 Thank you m-col
-"""
 
-"""
 This module exports the function `toggle_fullscreen_state` which, as the name suggests,
 toggles the fullscreen state of the current window. To clarify, this does *not* change
 anything about the dimensions and position of the window, and internal (to Qtile)
