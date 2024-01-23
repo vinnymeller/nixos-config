@@ -52,6 +52,8 @@ keys = [
     Key(sca, "l", lazy.next_layout(), desc="Toggle between layouts"),
     Key([gui], "w", lazy.window.kill(), desc="Kill focused window"),
     Key(ca, "w", lazy.window.kill(), desc="Kill focused window"),
+    # restart qtile
+    Key(sca, "r", lazy.restart(), desc="Restart Qtile"),
     Key(scag, "r", lazy.reload_config(), desc="Reload the config"),
     Key(scag, "q", lazy.shutdown(), desc="Shutdown Qtile"),
     # Key([alt], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),

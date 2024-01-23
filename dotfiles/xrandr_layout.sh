@@ -10,3 +10,8 @@ xrandr \
     --output DP-3 --off \
     --output DP-4 --mode 3840x2160 --pos 7680x0 --rotate right --rate 60.00 \
     --output DP-5 --off
+
+# split virtual monitors for screen sharing
+xrandr --setmonitor LEFT 3840/697x2160/392+0+909 none
+xrandr --setmonitor RIGHT 3840/697x2160/392+3840+909 none
+xrandr --fb 9840x3840
