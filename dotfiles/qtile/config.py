@@ -1,10 +1,10 @@
 from libqtile import layout
-from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
+from libqtile.config import Click, Drag, Group, Key, KeyChord, Match
 from libqtile.lazy import lazy
 
-from settings.bars import get_bar
 from settings.fake_fullscreen import \
     toggle_fullscreen_state as toggle_fake_fullscreen
+from settings.screens import _screens, toggle_screen_layout
 
 alt = "mod1"
 gui = "mod4"
@@ -25,6 +25,8 @@ keys = [
     Key([gui], "j", lazy.layout.down(), desc="Move focus down"),
     Key([gui], "k", lazy.layout.up(), desc="Move focus up"),
     Key([gui], "l", lazy.layout.right(), desc="Move focus to right"),
+    # Key([gui], "s", lazy.layout.next_split(), desc="Move to the next split"),
+    # Key([shift, gui], "s", lazy.layout.prev_split(), desc="Move to the previous split"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key(ca, "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
@@ -50,6 +52,7 @@ keys = [
     Key([gui], "b", lazy.spawn("firefox"), desc="Launch firefox"),
     # Toggle between different layouts as defined below
     Key(sca, "l", lazy.next_layout(), desc="Toggle between layouts"),
+    Key(scag, "0", lazy.function(toggle_screen_layout), desc="Toggle screen layout"),
     Key([gui], "w", lazy.window.kill(), desc="Kill focused window"),
     Key(ca, "w", lazy.window.kill(), desc="Kill focused window"),
     # restart qtile
@@ -67,6 +70,8 @@ keys = [
     Key(
         [gui], "7", lazy.to_screen(1), desc="Move focus to monitor 1"
     ),  # how can i determine this programatically? TODO
+    Key([gui], "3", lazy.to_screen(2), desc="Move focus to monitor 2"),
+    Key([gui], "8", lazy.to_screen(2), desc="Move focus to monitor 2"),
     # keys for moving monitors sequentially
     Key(sca, "j", lazy.prev_screen(), desc="Move focus to prev monitor"),
     Key(sca, "k", lazy.next_screen(), desc="Move focus to prev monitor"),
@@ -165,10 +170,6 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-screens = [
-    Screen(top=get_bar(main_bar=True)),
-    Screen(top=get_bar()),
-]
 
 # Drag floating layouts.
 mouse = [
@@ -221,3 +222,4 @@ wl_input_rules = None
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
+screens = _screens
