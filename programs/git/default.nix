@@ -39,6 +39,7 @@
       s = "switch";
       r = "restore";
       b = "for-each-ref --sort=committerdate refs/heads/ --format='%(color:red)%(objectname:short)%(color:reset) %(color:green)%(committerdate:relative)%(color:reset)\t%(HEAD) %(color:yellow)%(refname:short)%(color:reset) %(contents:subject) - %(authorname)'";
+      logdr = "!f(){ git log --pretty=format:\"(%h) %ad - %an: %s\" --after=\"$\{1}\" --until=\"$\{2}\"; };f";
     };
     lfs.enable = true;
   };
