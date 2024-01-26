@@ -1,18 +1,22 @@
-{ lib, config, pkgs, ... }:
-let
-  custom-vim-plugins = pkgs.vimPlugins.extend
-    ((pkgs.callPackage ../../pkgs/vim-plugins.nix {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}: let
+  custom-vim-plugins =
+    pkgs.vimPlugins.extend
+    (pkgs.callPackage ../../pkgs/vim-plugins.nix {
       inherit (pkgs.vimUtils) buildVimPlugin;
       inherit (pkgs.neovimUtils) buildNeovimPlugin;
-    }));
+    });
 in {
-
   home.file.".config/nvim" = {
     source = ../../dotfiles/nvim;
     recursive = true;
   };
 
-  home.shellAliases = { leetcode = "nvim leetcode.nvim"; };
+  home.shellAliases = {leetcode = "nvim leetcode.nvim";};
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -33,9 +37,9 @@ in {
       copilot-lua
       custom-vim-plugins.leetcode-nvim
       diffview-nvim
+      efmls-configs-nvim
       fidget-nvim
       flash-nvim
-      formatter-nvim
       gitsigns-nvim
       gruvbox-nvim
       harpoon2
@@ -84,31 +88,34 @@ in {
 
     extraPackages = with pkgs;
       [
+        alejandra
         ast-grep
         black
         cargo
         dockerfile-language-server-nodejs
+        efm-langserver
         fd
         gcc
         haskellPackages.haskell-language-server
+        imagemagick
         isort
         libclang
         ltex-ls
         lua-language-server
         nil
         nixfmt
+        nodePackages.sql-formatter
         nodePackages.pyright
         nodePackages.typescript-language-server
         nodejs
         ocamlPackages.ocaml-lsp
-        pgformatter
         postgresql
         prettierd
         ripgrep
         rust-analyzer
+        shellcheck
         shfmt
         src-cli
-        imagemagick
         stylua
         tailwindcss-language-server
         terraform-ls
@@ -116,12 +123,14 @@ in {
         xsel
         yaml-language-server
         zk
-      ] ++ (if stdenv.isLinux then
-        [ master-pkgs.htmx-lsp ]
-      else
-        [ ]); # do this until i can get htmx lsp to build on darwin
+      ]
+      ++ (
+        if stdenv.isLinux
+        then [master-pkgs.htmx-lsp]
+        else []
+      ); # do this until i can get htmx lsp to build on darwin
 
-    extraLuaPackages = ps: with ps; [ magick ];
+    extraLuaPackages = ps: with ps; [magick];
 
     extraPython3Packages = pyPkgs:
       with pyPkgs; [

@@ -1,7 +1,6 @@
 from libqtile import layout
 from libqtile.config import Click, Drag, Group, Key, KeyChord, Match
 from libqtile.lazy import lazy
-
 from settings.fake_fullscreen import \
     toggle_fullscreen_state as toggle_fake_fullscreen
 from settings.screens import _screens, toggle_screen_layout

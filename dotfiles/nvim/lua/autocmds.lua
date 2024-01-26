@@ -18,26 +18,26 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 -- automatically format on certain conditions that are unlikely to cause issues with cursor
 --  commented this out because its annoying me  while i edit in nixpkgs, just fkin press <leader>fm if i need format so bad
--- vim.api.nvim_create_autocmd("WinLeave", {
--- 	callback = function()
--- 		-- silntry try calling a command
--- 		vim.cmd([[silent! FormatWrite]])
--- 	end,
--- })
+vim.api.nvim_create_autocmd("WinLeave", {
+	callback = function()
+		-- silntry try calling a command
+		vim.cmd([[silent! LspFormat]])
+	end,
+})
 
--- -- copy last yank to system clipboard when nvim loses focus
--- vim.api.nvim_create_autocmd("FocusLost", {
--- 	callback = function()
--- 		vim.cmd([[call setreg("+", getreg("@"))]])
--- 	end,
--- })
---
--- -- copy system clipboard to @ when nvim gains focus
--- vim.api.nvim_create_autocmd("FocusGained", {
--- 	callback = function()
--- 		vim.cmd([[call setreg("@", getreg("+"))]])
--- 	end,
--- })
+-- copy last yank to system clipboard when nvim loses focus
+vim.api.nvim_create_autocmd("FocusLost", {
+	callback = function()
+		vim.cmd([[call setreg("+", getreg("@"))]])
+	end,
+})
+
+-- copy system clipboard to @ when nvim gains focus
+vim.api.nvim_create_autocmd("FocusGained", {
+	callback = function()
+		vim.cmd([[call setreg("@", getreg("+"))]])
+	end,
+})
 
 -- make any file that starts with "Dockerfile" be recognized as a dockerfile, not just strictly ^Dockerfile$
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {

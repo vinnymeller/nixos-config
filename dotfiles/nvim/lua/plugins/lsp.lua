@@ -48,7 +48,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			end
 		end, { desc = "Format current buffer with LSP" })
 
-		if client.server_capabilities.inlayHintProvider then
+
+		if client ~= nil and client.server_capabilities.inlayHintProvider then
 			vim.lsp.inlay_hint.enable(args.buf, true)
 		end
 	end,
@@ -142,6 +143,72 @@ local basic_servers = {
 	"tsserver",
 	"yamlls",
 }
+
+
+local prettier_d = require("efmls-configs.formatters.prettier_d")
+local eslint = require("efmls-configs.linters.eslint")
+local languages = {
+	html = {
+		prettier_d,
+	},
+	htmldjango = {
+		prettier_d,
+	},
+	css = {
+		prettier_d,
+	},
+	typescript = {
+		prettier_d,
+		eslint,
+	},
+	javascript = {
+		prettier_d,
+		eslint,
+	},
+	lua = {
+		require("efmls-configs.formatters.stylua"),
+	},
+	python = {
+		require("efmls-configs.formatters.black"),
+		require("efmls-configs.formatters.isort"),
+	},
+	rust = {
+		require("efmls-configs.formatters.rustfmt"),
+	},
+	nix = {
+		require("efmls-configs.formatters.alejandra"),
+	},
+	sh = {
+		require("efmls-configs.formatters.shfmt"),
+		require("efmls-configs.linters.shellcheck"),
+	},
+	sql = {
+		require("efmls-configs.formatters.sql-formatter"),
+	},
+	json = {
+		require("efmls-configs.formatters.prettier_d"),
+	},
+	yaml = {
+		require("efmls-configs.formatters.prettier_d"),
+	},
+}
+
+local efmls_config = {
+	filetypes = vim.tbl_keys(languages),
+	settings = {
+		rootMarkers = { ".git/" },
+		languages = languages,
+	},
+	init_options = {
+		documentFormatting = true,
+		documentRangeFormatting = true,
+	},
+}
+
+require("lspconfig").efm.setup(vim.tbl_extend("force", efmls_config, {
+	capabilities = capabilities,
+}))
+
 
 for _, lsp in ipairs(basic_servers) do
 	require("lspconfig")[lsp].setup({
