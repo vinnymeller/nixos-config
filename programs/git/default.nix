@@ -1,10 +1,9 @@
-{ ... }: {
+{...}: {
   programs.git = {
     enable = true;
     userName = "Vinny Meller";
     userEmail = "vinnymeller@proton.me";
     extraConfig = {
-
       # editor-related
       core.editor = "nvim";
       diff.tool = "vimdiff";
@@ -29,24 +28,27 @@
       pall = ''!f() { git commit -am "$1" && git push; }; f'';
       cob = "checkout -b";
       del = "branch -D";
-      br =
-        "branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate";
       lg = ''
         !git log --pretty=format:"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]" --abbrev-commit -30'';
       clone-bare = ''
         !f() { git clone --bare "$1" "$2" && cd "$2" && git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"; }; f'';
+      delete-gone-branches = "!git branch --list --format '%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' | sed 's,^refs/heads/,,'  | grep . | xargs git branch -D";
+      up = "!git pull && git fetch --prune && git delete-gone-branches && git b";
+      ca = "commit --amend";
+      cm = "commit -m";
+      s = "switch";
+      r = "restore";
+      b = "for-each-ref --sort=committerdate refs/heads/ --format='%(color:red)%(objectname:short)%(color:reset) %(color:green)%(committerdate:relative)%(color:reset)\t%(HEAD) %(color:yellow)%(refname:short)%(color:reset) %(contents:subject) - %(authorname)'";
     };
     lfs.enable = true;
-
   };
 
   programs.gh = {
     enable = true;
-    settings = { version = "1"; };
+    settings = {version = "1";};
   };
 
   home.shellAliases = {
     fork = "gh repo fork --clone --default-branch-only --remote";
   };
-
 }
