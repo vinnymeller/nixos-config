@@ -26,6 +26,7 @@ in {
   home.packages = with pkgs;
     [
       # osu-lazer # re-add this when its working again
+      easyeffects
       mullvad-vpn
       nix-index
       nix-init

@@ -1,5 +1,9 @@
-{ config, pkgs, services, ... }: {
-
+{
+  config,
+  pkgs,
+  services,
+  ...
+}: {
   environment.variables = {
     GDK_SCALE = "2";
     GDK_DPI_SCALE = "0.5";
@@ -9,8 +13,8 @@
   services.xserver = {
     enable = true;
     autorun = true;
-    autoRepeatDelay = 200;
-    autoRepeatInterval = 50;
+    autoRepeatDelay = 225;
+    autoRepeatInterval = 25;
     upscaleDefaultCursor = true;
     dpi = 130;
     displayManager = {
@@ -26,16 +30,18 @@
       enable = true;
       package = pkgs.qtile-unwrapped;
     };
-    windowManager.session = [{
-      name = "qtile";
-      start = ''
-        ${pkgs.qtile-unwrapped}/bin/qtile start -b x11 \
-        --config /home/vinny/.config/qtile/config.py &
-        waitPID=$!
-      '';
-    }];
+    windowManager.session = [
+      {
+        name = "qtile";
+        start = ''
+          ${pkgs.qtile-unwrapped}/bin/qtile start -b x11 \
+          --config /home/vinny/.config/qtile/config.py &
+          waitPID=$!
+        '';
+      }
+    ];
     layout = "us";
-    videoDrivers = [ "nvidia" ];
+    videoDrivers = ["nvidia"];
   };
 
   services.picom = {
@@ -43,9 +49,8 @@
     backend = "glx";
     fade = true;
     fadeDelta = 5;
-    opacityRules = [ "100:QTILE_INTERNAL:32c" ];
+    opacityRules = ["100:QTILE_INTERNAL:32c"];
     shadow = true;
     shadowOpacity = 0.5;
   };
-
 }

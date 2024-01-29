@@ -1,5 +1,11 @@
-{ inputs, outputs, config, pkgs, users, ... }: {
-
+{
+  inputs,
+  outputs,
+  config,
+  pkgs,
+  users,
+  ...
+}: {
   imports = [
     ../../programs/nix
     ../../programs/qtile # ALSO need to make sure config is copied from home manager
@@ -9,39 +15,40 @@
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
     config = {
-      permittedInsecurePackages = [ "electron-25.9.0" ];
+      permittedInsecurePackages = ["electron-25.9.0"];
       allowBroken =
         true; # should probably set to false every once in a while to see if broken packages are fixed
     };
   };
 
   boot = {
-    supportedFilesystems = [ "ntfs" ];
+    supportedFilesystems = ["ntfs"];
     kernelPackages = pkgs.linuxPackages_latest; # use newest kernel
-    kernelParams = [ "amd_iommu=on" ];
-    blacklistedKernelModules = [ "nvidia" "nouveau" ];
-    kernelModules =
-      [ "kvm-amd" "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
+    kernelParams = ["amd_iommu=on"];
+    blacklistedKernelModules = ["nvidia" "nouveau"];
+    kernelModules = ["kvm-amd" "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio"];
     extraModprobeConfig = ''
       options vfio-pci ids=10de:13c0,10de:0fbb
       options btusb enable_autosuspend=n
     '';
     loader = {
-      systemd-boot = { enable = true; };
-      efi = { canTouchEfiVariables = true; };
+      systemd-boot = {enable = true;};
+      efi = {canTouchEfiVariables = true;};
     };
     kernel.sysctl."net.ipv4.ip_forward" = 1;
   };
 
   security = {
-    polkit = { enable = true; };
+    polkit = {enable = true;};
     pam = {
-      loginLimits = [{
-        domain = "*";
-        type = "soft";
-        item = "nofile";
-        value = 100000;
-      }];
+      loginLimits = [
+        {
+          domain = "*";
+          type = "soft";
+          item = "nofile";
+          value = 100000;
+        }
+      ];
     };
   };
 
@@ -51,7 +58,7 @@
       powerOnBoot = true;
     };
     opengl.enable = true;
-    pulseaudio.enable = true;
+    # pulseaudio.enable = true;
     xpadneo.enable = true;
   };
 
@@ -59,6 +66,12 @@
     blueman.enable = true;
     pcscd.enable = true;
     # spotifyd.enable = true;
+    pipewire = {
+      enable = true;
+      pulse.enable = true;
+      alsa.enable = true;
+      jack.enable = true;
+    };
     mullvad-vpn.enable = true;
     yubikey-agent.enable = true;
     devmon.enable = true;
@@ -105,9 +118,8 @@
   users.users.vinny = {
     isNormalUser = true;
     initialPassword = "passwordington";
-    extraGroups = [ "wheel" "libvirtd" "kvm" "qemu-libvirtd" ];
+    extraGroups = ["wheel" "libvirtd" "kvm" "qemu-libvirtd"];
     shell = pkgs.zsh;
-
   };
 
   environment.systemPackages = with pkgs; [
@@ -142,8 +154,7 @@
     dockerCompat = true;
   };
 
-  system.stateVersion =
-    "22.11"; # read documentation on configuration.nix before possibly changing this
+  system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
 
   programs.steam.enable = true;
   programs.zsh = {

@@ -48,7 +48,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			end
 		end, { desc = "Format current buffer with LSP" })
 
-
 		if client ~= nil and client.server_capabilities.inlayHintProvider then
 			vim.lsp.inlay_hint.enable(args.buf, true)
 		end
@@ -144,7 +143,6 @@ local basic_servers = {
 	"yamlls",
 }
 
-
 local prettier_d = require("efmls-configs.formatters.prettier_d")
 local eslint = require("efmls-configs.linters.eslint")
 local languages = {
@@ -208,7 +206,6 @@ local efmls_config = {
 require("lspconfig").efm.setup(vim.tbl_extend("force", efmls_config, {
 	capabilities = capabilities,
 }))
-
 
 for _, lsp in ipairs(basic_servers) do
 	require("lspconfig")[lsp].setup({
