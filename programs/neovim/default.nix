@@ -80,6 +80,7 @@ in {
       vim-fugitive
       vim-indent-object
       vim-matchup
+      vim-rhubarb
       vim-sleuth
       vim-surround
       which-key-nvim
@@ -105,8 +106,8 @@ in {
         lua-language-server
         nil
         nixfmt
-        nodePackages.sql-formatter
         nodePackages.pyright
+        nodePackages.sql-formatter
         nodePackages.typescript-language-server
         nodejs
         ocamlPackages.ocaml-lsp
