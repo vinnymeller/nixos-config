@@ -2,7 +2,6 @@ from enum import Enum
 
 from libqtile.config import Screen
 from libqtile.core.manager import Qtile
-
 from settings.bars import get_bar
 
 

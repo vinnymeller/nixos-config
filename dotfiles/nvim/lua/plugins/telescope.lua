@@ -1,6 +1,7 @@
 local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
 local lga_actions = require("telescope-live-grep-args.actions")
+local trouble = require("trouble.providers.telescope")
 
 telescope.setup({
 	pickers = {
@@ -24,6 +25,14 @@ telescope.setup({
 			"venv/",
 			"%.direnv/",
 			"%.cargo/",
+		},
+		mappings = {
+			i = {
+				["<C-t>"] = trouble.open_with_trouble,
+			},
+			n = {
+				["<C-t>"] = trouble.open_with_trouble,
+			},
 		},
 	},
 	extensions = {

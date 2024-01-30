@@ -71,6 +71,7 @@ in {
       telescope-nvim
       tint-nvim
       tmux-nvim
+      trouble-nvim
       undotree
       vim-be-good
       vim-dadbod
