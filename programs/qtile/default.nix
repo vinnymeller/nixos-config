@@ -13,8 +13,8 @@
   services.xserver = {
     enable = true;
     autorun = true;
-    autoRepeatDelay = 225;
-    autoRepeatInterval = 25;
+    autoRepeatDelay = 200;
+    autoRepeatInterval = 20;
     upscaleDefaultCursor = true;
     dpi = 130;
     displayManager = {
