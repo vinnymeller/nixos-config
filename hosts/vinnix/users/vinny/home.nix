@@ -1,7 +1,10 @@
-{ config, pkgs, ... }:
-let cust_pkgs = import ../../../../pkgs { inherit pkgs; };
+{
+  config,
+  pkgs,
+  ...
+}: let
+  cust_pkgs = import ../../../../pkgs {inherit pkgs;};
 in {
-
   imports = [
     ../../../../programs/git
     ../../../../programs/zsh
@@ -26,16 +29,14 @@ in {
   home.packages = with pkgs;
     [
       # osu-lazer # re-add this when its working again
-      easyeffects
-      mullvad-vpn
-      nix-index
-      nix-init
       anki-bin
+      chromium
       cinnamon.nemo-with-extensions
       cinnamon.xviewer
       discord
       dmenu
       dunst
+      easyeffects
       feh
       firefox
       flameshot
@@ -51,8 +52,11 @@ in {
       libvirt
       lxde.lxsession
       man-pages # linux man pages, goes with tlpi
+      mullvad-vpn
       neofetch
       nerdfonts
+      nix-index
+      nix-init
       nix-init
       obs-studio
       obsidian
@@ -71,7 +75,8 @@ in {
       vlc
       yubioath-flutter
       zsh-powerlevel10k
-    ] ++ builtins.attrValues cust_pkgs;
+    ]
+    ++ builtins.attrValues cust_pkgs;
 
   programs.command-not-found.enable = false;
   programs.nix-index = {
