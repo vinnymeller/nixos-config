@@ -13,6 +13,7 @@ vim.o.hidden = true
 -- vim.o.expandtab = true
 -- vim.o.smartindent = true
 vim.o.scrolloff = 12
+vim.o.sidescrolloff = 6
 vim.o.updatetime = 1000
 vim.o.colorcolumn = "120"
 vim.o.breakindent = true
@@ -31,8 +32,6 @@ vim.o.spelllang = "en_us"
 vim.o.spell = true
 vim.o.cursorline = true
 vim.o.cursorcolumn = false
-
-
 
 -- plugin specific
 vim.g.matchup_surround_enabled = true

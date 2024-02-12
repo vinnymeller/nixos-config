@@ -28,7 +28,7 @@ in {
 
   home.packages = with pkgs;
     [
-      # osu-lazer # re-add this when its working again
+      osu-lazer-bin # re-add this when its working again
       anki-bin
       chromium
       cinnamon.nemo-with-extensions
