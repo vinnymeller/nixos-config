@@ -60,6 +60,7 @@
     opengl.enable = true;
     # pulseaudio.enable = true;
     xpadneo.enable = true;
+    opentabletdriver.enable = true;  # OSU TABLET HERE WE GOOOOOOOO
   };
 
   services = {
