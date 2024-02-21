@@ -60,7 +60,7 @@
     opengl.enable = true;
     # pulseaudio.enable = true;
     xpadneo.enable = true;
-    opentabletdriver.enable = true;  # OSU TABLET HERE WE GOOOOOOOO
+    opentabletdriver.enable = true; # OSU TABLET HERE WE GOOOOOOOO
   };
 
   services = {
@@ -124,20 +124,20 @@
   };
 
   environment.systemPackages = with pkgs; [
-    gnupg
-    vim
-    zsh
-    wget
-    firefox
     # linuxPackages_latest.perf  # TODO: readd this when its working
+    # openvpn
+    firefox
+    gnupg
     looking-glass-client
     man-pages
     man-pages-posix
-    # openvpn
     podman-compose
-    spice
-    xclip
     scrot
+    spice
+    vim
+    wget
+    xclip
+    zsh
   ];
 
   systemd.tmpfiles.rules = [
