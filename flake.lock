@@ -421,6 +421,40 @@
         "type": "indirect"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1708296515,
+        "narHash": "sha256-FyF489fYNAUy7b6dkYV6rGPyzp+4tThhr80KNAaF/yY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "b98a4e1746acceb92c509bc496ef3d0e5ad8d4aa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "pipewire-screenaudio": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1704699011,
+        "narHash": "sha256-CI3kAiKAC9r5qDI/uDgWJIBtRK4QvjKkFvk/wzfKLVA=",
+        "owner": "IceDBorn",
+        "repo": "pipewire-screenaudio",
+        "rev": "2e82ca5c266bfbce19419ef16c1af3a4717f31b6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "IceDBorn",
+        "repo": "pipewire-screenaudio",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks-nix": {
       "inputs": {
         "flake-compat": [
@@ -462,7 +496,8 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable_2",
-        "nixpkgs-staging": "nixpkgs-staging"
+        "nixpkgs-staging": "nixpkgs-staging",
+        "pipewire-screenaudio": "pipewire-screenaudio"
       }
     },
     "rust-overlay": {

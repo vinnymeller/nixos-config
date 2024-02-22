@@ -1,12 +1,19 @@
-{ inputs, outputs, ... }:
-
+{
+  inputs,
+  outputs,
+  ...
+}:
 inputs.nixpkgs.lib.nixosSystem {
-  specialArgs = { inherit inputs outputs; };
+  specialArgs = {inherit inputs outputs;};
   modules = [
     inputs.lanzaboote.nixosModules.lanzaboote
 
-    ({ pkgs, lib, ... }: {
-      environment.systemPackages = [ pkgs.sbctl ];
+    ({
+      pkgs,
+      lib,
+      ...
+    }: {
+      environment.systemPackages = [pkgs.sbctl];
 
       boot.loader.systemd-boot.enable = lib.mkForce false;
 

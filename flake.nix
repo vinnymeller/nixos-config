@@ -28,6 +28,8 @@
     };
 
     flake-utils.url = "github:numtide/flake-utils";
+
+    pipewire-screenaudio.url = "github:IceDBorn/pipewire-screenaudio";
   };
 
   outputs = inputs @ {

@@ -38,7 +38,6 @@ in {
       dunst
       easyeffects
       feh
-      firefox
       flameshot
       gcc
       gocryptfs
