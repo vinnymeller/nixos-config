@@ -146,23 +146,23 @@ local basic_servers = {
 local prettier_d = require("efmls-configs.formatters.prettier_d")
 local eslint = require("efmls-configs.linters.eslint")
 local languages = {
-	html = {
-		prettier_d,
-	},
-	htmldjango = {
-		prettier_d,
-	},
-	css = {
-		prettier_d,
-	},
-	typescript = {
-		prettier_d,
-		eslint,
-	},
-	javascript = {
-		prettier_d,
-		eslint,
-	},
+	-- html = {
+	-- 	prettier_d,
+	-- },
+	-- htmldjango = {
+	-- 	prettier_d,
+	-- },
+	-- css = {
+	-- 	prettier_d,
+	-- },
+	-- typescript = {
+	-- 	prettier_d,
+	-- 	eslint,
+	-- },
+	-- javascript = {
+	-- 	prettier_d,
+	-- 	eslint,
+	-- },
 	lua = {
 		require("efmls-configs.formatters.stylua"),
 	},
