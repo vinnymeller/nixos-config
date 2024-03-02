@@ -34,7 +34,8 @@ in {
       cmp-path
       cmp_luasnip
       comment-nvim
-      copilot-lua
+      # copilot-lua
+      custom-vim-plugins.copilot-lua
       custom-vim-plugins.leetcode-nvim
       diffview-nvim
       efmls-configs-nvim
