@@ -26,6 +26,15 @@ in {
 
   home.stateVersion = "22.11";
 
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
+    maxCacheTtl = 10;
+    maxCacheTtlSsh = 10;
+    defaultCacheTtl = 10;
+    defaultCacheTtlSsh = 10;
+  };
+
   home.packages = with pkgs;
     [
       osu-lazer-bin # re-add this when its working again
@@ -40,6 +49,7 @@ in {
       feh
       flameshot
       gcc
+      gnome.nautilus
       gocryptfs
       gromit-mpx
       htop
