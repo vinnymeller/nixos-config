@@ -43,7 +43,7 @@
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       source ${config.xdg.configHome}/zsh/.p10k.zsh
       source ${pkgs.zsh-forgit}/share/zsh/zsh-forgit/forgit.plugin.zsh
-      source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.zsh
+      source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
       source ${pkgs.zsh-bd}/share/zsh-bd/bd.plugin.zsh
       source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
       source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
@@ -52,6 +52,10 @@
       fpath=(${pkgs.nix-zsh-completions}/share/zsh/site-functions $fpath)
       autoload -U compinit && compinit
 
+
+      # zsh vi mode settings
+      ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+      ZVM_READKEY_ENGINE=$ZVM_READKEY_ENGINE_NEX
 
       set -o vi
       export PATH=$HOME/.cargo/bin:$PATH # add cargo to the front of the path so dev tools are used > sys

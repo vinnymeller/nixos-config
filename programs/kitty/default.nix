@@ -1,5 +1,8 @@
-{ config, pkgs, ... }: {
-
+{
+  config,
+  pkgs,
+  ...
+}: {
   programs.kitty = {
     enable = true;
     font = {
@@ -65,6 +68,5 @@
       color7                  #a89984
       color15                 #bdae93
     '';
-
   };
 }
