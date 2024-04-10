@@ -10,6 +10,8 @@
       # package = pkgs.jetbrains-mono;
       name = "0xProto"; # test out 0xProto. I love JBM, but this looked neat
       package = pkgs._0xproto;
+      # name = "JetBrainsMono Nerd Font";
+      # package = pkgs.nerdfonts;
     };
 
     extraConfig = ''
