@@ -30,6 +30,17 @@
     flake-utils.url = "github:numtide/flake-utils";
 
     pipewire-screenaudio.url = "github:IceDBorn/pipewire-screenaudio";
+
+    nixCats = {
+      url = "github:BirdeeHub/nixCats-nvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
+    neovim = {
+      url = "github:neovim/neovim";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
@@ -42,6 +53,7 @@
     nix-index-database,
     home-manager,
     lanzaboote,
+    nixCats,
     ...
   }: let
     inherit (self) outputs;
@@ -49,19 +61,27 @@
     forAllSystems =
       nixpkgs.lib.genAttrs
       flake-utils.lib.defaultSystems; # change this if i need some weird systems
+
+    myNixCats = import ./programs/ncvim {inherit inputs;};
   in {
     defaultPackage =
       forAllSystems (system: home-manager.defaultPackage.${system});
 
-    packages = forAllSystems (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
-      import ./pkgs {inherit pkgs;});
+    packages =
+      forAllSystems (
+        system: let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+          import ./pkgs {inherit pkgs;}
+      )
+      // myNixCats.packages;
 
-    devShells = forAllSystems (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
-      import ./shell.nix {inherit pkgs;});
+    devShells = forAllSystems (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+        import ./shell.nix {inherit pkgs;}
+    );
 
     overlays = import ./overlays {inherit inputs;};
 
