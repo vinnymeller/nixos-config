@@ -96,6 +96,11 @@
     enableZshIntegration = true;
   };
 
+  programs.atuin = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   home.shellAliases = {
     cdots = "pushd ~/.nixdots";
     nb = "sudo nixos-rebuild --flake ~/.nixdots switch";
