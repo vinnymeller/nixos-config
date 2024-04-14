@@ -17,7 +17,6 @@ exclude_path_components:
 max_search_depth: 5
 session_name_path_components: 2
 
-
 workspace_definitions:
   - name: python
     has_any_file:
@@ -58,7 +57,7 @@ layouts:
       - tmux resize-pane -x 80
       - tmux split-window -v
       - tmux select-pane -t 0
-      - nvim .
+      - nv .
   - name: rust-dev
     commands:
       - tmux split-window -h
@@ -66,8 +65,7 @@ layouts:
       - tmux split-window -v
       - tmux select-pane -t 0
       - tmux send-keys -t 1 'cargo watch -x "clippy -- -D clippy::all" -x test' C-m
-      - nvim .
+      - nv .
   - name: basic
     inherits:
       - two-windows
-

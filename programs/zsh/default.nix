@@ -62,6 +62,7 @@
       export PATH=$PATH:/$HOME/.nix-profile/bin
       export TWM_DEFAULT="default"
 
+      export EDITOR="nv"
       export VISUAL="ncvim" # dont know what this is for tbh
       export PATH=$HOME/.pyenv/shims:$PATH
 
