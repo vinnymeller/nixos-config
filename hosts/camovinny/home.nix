@@ -1,12 +1,17 @@
-{ inputs, outputs, pkgs, ... }:
-let cust_pkgs = import ../../pkgs { inherit pkgs; };
+{
+  inputs,
+  outputs,
+  pkgs,
+  ...
+}: let
+  cust_pkgs = import ../../pkgs {inherit pkgs;};
 in {
   imports = [
-    ../../programs/neovim
     ../../programs/zsh
     ../../programs/git
     ../../programs/tmux
     ../../programs/kitty
+    outputs.myNixCats.homeModule
   ];
 
   # nvim nightly overlay doesn't seem to work on aarch64-darwin for now. TODO look into why
@@ -17,12 +22,16 @@ in {
     allowUnfree = true;
   };
   nix.package = pkgs.nixFlakes;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings.auto-optimise-store = true;
   nix.settings.require-sigs = false;
-  nix.settings.trusted-users = [ "vinny" "root" ];
-  nix.settings.trusted-public-keys =
-    [ "vinnix:xCPWQjVNXvqsEJgdEhUMpmVIyJseAPAcZEm3b6HU8vk=" ];
+  nix.settings.trusted-users = ["vinny" "root"];
+  nix.settings.trusted-public-keys = ["vinnix:xCPWQjVNXvqsEJgdEhUMpmVIyJseAPAcZEm3b6HU8vk="];
+
+  nixCats = {
+    enable = true;
+    packageNames = ["nixCats"];
+  };
 
   home.packages = with pkgs; [
     gnupg

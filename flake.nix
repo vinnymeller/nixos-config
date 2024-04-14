@@ -63,9 +63,6 @@
   in {
     myNixCats = myNixCats;
 
-    defaultPackage =
-      forAllSystems (system: home-manager.defaultPackage.${system});
-
     packages =
       forAllSystems (
         system: let

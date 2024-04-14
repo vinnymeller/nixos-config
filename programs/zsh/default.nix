@@ -104,7 +104,7 @@
   home.shellAliases = {
     cdots = "pushd ~/.nixdots";
     nb = "sudo nixos-rebuild --flake ~/.nixdots switch";
-    hms = "nix run ~/.nixdots switch -- --flake ~/.nixdots";
+    hms = "nix run home-manager switch -- --flake ~/.nixdots";
     root = "cd $TWM_ROOT";
     ef = "nv $(find_file_up_tree flake.nix)";
   };
