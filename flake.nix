@@ -20,8 +20,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -49,7 +47,6 @@
     nixpkgs,
     nixpkgs-master,
     nixpkgs-stable,
-    neovim-nightly-overlay,
     nix-index-database,
     home-manager,
     lanzaboote,
