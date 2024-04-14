@@ -64,6 +64,8 @@
 
     myNixCats = import ./programs/ncvim {inherit inputs;};
   in {
+    myNixCats = myNixCats;
+
     defaultPackage =
       forAllSystems (system: home-manager.defaultPackage.${system});
 

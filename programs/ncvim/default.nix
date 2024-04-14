@@ -245,11 +245,13 @@ The following is just the outputs function from the flake template.
       # they contain a settings set defined above
       # see :help nixCats.flake.outputs.settings
       settings = {
+        extraName = "ncvim";
+        configDirName = "ncvim";
         wrapRc = true;
         # IMPORTANT:
         # you may not alias to nvim
         # your alias may not conflict with your other packages.
-        aliases = ["ncvim"];
+        aliases = ["ncvim" "nv" "ea"];
         # caution: this option must be the same for all packages.
         nvimSRC = inputs.neovim;
       };

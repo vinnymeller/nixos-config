@@ -62,7 +62,7 @@
       export PATH=$PATH:/$HOME/.nix-profile/bin
       export TWM_DEFAULT="default"
 
-      export VISUAL="nvim" # dont know what this is for tbh
+      export VISUAL="ncvim" # dont know what this is for tbh
       export PATH=$HOME/.pyenv/shims:$PATH
 
       tmux has-session -t $TWM_DEFAULT >/dev/null 2>&1 || twm -d -p . -n $TWM_DEFAULT
@@ -106,6 +106,6 @@
     nb = "sudo nixos-rebuild --flake ~/.nixdots switch";
     hms = "nix run ~/.nixdots switch -- --flake ~/.nixdots";
     root = "cd $TWM_ROOT";
-    ef = "nvim $(find_file_up_tree flake.nix)";
+    ef = "nv $(find_file_up_tree flake.nix)";
   };
 }

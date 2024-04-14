@@ -5,10 +5,10 @@
     userEmail = "vinnymeller@proton.me";
     extraConfig = {
       # editor-related
-      core.editor = "nvim";
+      core.editor = "nv";
       diff.tool = "vimdiff";
       merge.tool = "vimdiff";
-      mergetool.vimdiff.path = "nvim";
+      mergetool.vimdiff.path = "nv";
       merge.conflictstyle = "zdiff3";
 
       # pushing & pulling

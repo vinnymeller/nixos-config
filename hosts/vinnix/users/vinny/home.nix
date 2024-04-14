@@ -1,6 +1,8 @@
 {
   config,
   pkgs,
+  inputs,
+  outputs,
   ...
 }: let
   cust_pkgs = import ../../../../pkgs {inherit pkgs;};
@@ -8,14 +10,19 @@ in {
   imports = [
     ../../../../programs/git
     ../../../../programs/zsh
-    ../../../../programs/neovim
     ../../../../programs/kitty
     ../../../../programs/ranger
     ../../../../programs/tmux
     ../../../../programs/zk
+    outputs.myNixCats.homeModule
   ];
   # Let home-manager manage itself
   programs.home-manager.enable = true;
+
+  nixCats = {
+    enable = true;
+    packageNames = ["nixCats"];
+  };
 
   # direnv !
   programs.direnv.enable = true;

@@ -33,6 +33,7 @@ inputs.nixpkgs.lib.nixosSystem {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.users.vinny = import ./users/vinny/home.nix;
+      home-manager.extraSpecialArgs = {inherit inputs outputs;};
     }
   ];
 }
