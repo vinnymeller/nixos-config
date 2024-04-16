@@ -95,8 +95,14 @@ require("lspconfig").ltex.setup({
 	},
 })
 
+vim.filetype.add({
+	extension = {
+		lock = "json",
+	},
+})
 require("lspconfig").jsonls.setup({
 	capabilities = capabilities,
+	filetypes = { "json", "lock" },
 	settings = {
 		json = {
 			schemas = require("schemastore").json.schemas(),

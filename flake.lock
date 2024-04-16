@@ -2,10 +2,7 @@
   "nodes": {
     "crane": {
       "inputs": {
-        "nixpkgs": [
-          "lanzaboote",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["lanzaboote", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1711299236,
@@ -39,10 +36,7 @@
     },
     "flake-parts": {
       "inputs": {
-        "nixpkgs-lib": [
-          "lanzaboote",
-          "nixpkgs"
-        ]
+        "nixpkgs-lib": ["lanzaboote", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1709336216,
@@ -96,11 +90,7 @@
     },
     "gitignore": {
       "inputs": {
-        "nixpkgs": [
-          "lanzaboote",
-          "pre-commit-hooks-nix",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["lanzaboote", "pre-commit-hooks-nix", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1709087332,
@@ -118,9 +108,7 @@
     },
     "home-manager": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": ["nixpkgs"]
       },
       "locked": {
         "lastModified": 1713019815,
@@ -142,9 +130,7 @@
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
         "flake-utils": "flake-utils_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "pre-commit-hooks-nix": "pre-commit-hooks-nix",
         "rust-overlay": "rust-overlay"
       },
@@ -180,9 +166,7 @@
     },
     "nix-index-database": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": ["nixpkgs"]
       },
       "locked": {
         "lastModified": 1713067146,
@@ -200,12 +184,8 @@
     },
     "nixCats": {
       "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "flake-utils": ["flake-utils"],
+        "nixpkgs": ["nixpkgs"],
         "plugins-hlargs": "plugins-hlargs"
       },
       "locked": {
@@ -351,21 +331,28 @@
         "type": "github"
       }
     },
+    "plugins-jsonfly-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1713094678,
+        "narHash": "sha256-GcXm8NdjiXbbqiKsfvl0ocrUJcQVg54/DAPgrTYaTCU=",
+        "owner": "Myzel394",
+        "repo": "jsonfly.nvim",
+        "rev": "5b18e0bc04484db9c1c9a9ddb212e098e42463fe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Myzel394",
+        "repo": "jsonfly.nvim",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks-nix": {
       "inputs": {
-        "flake-compat": [
-          "lanzaboote",
-          "flake-compat"
-        ],
-        "flake-utils": [
-          "lanzaboote",
-          "flake-utils"
-        ],
+        "flake-compat": ["lanzaboote", "flake-compat"],
+        "flake-utils": ["lanzaboote", "flake-utils"],
         "gitignore": "gitignore",
-        "nixpkgs": [
-          "lanzaboote",
-          "nixpkgs"
-        ],
+        "nixpkgs": ["lanzaboote", "nixpkgs"],
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
@@ -394,19 +381,14 @@
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable_2",
         "nixpkgs-staging": "nixpkgs-staging",
-        "pipewire-screenaudio": "pipewire-screenaudio"
+        "pipewire-screenaudio": "pipewire-screenaudio",
+        "plugins-jsonfly-nvim": "plugins-jsonfly-nvim"
       }
     },
     "rust-overlay": {
       "inputs": {
-        "flake-utils": [
-          "lanzaboote",
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "lanzaboote",
-          "nixpkgs"
-        ]
+        "flake-utils": ["lanzaboote", "flake-utils"],
+        "nixpkgs": ["lanzaboote", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1711246447,

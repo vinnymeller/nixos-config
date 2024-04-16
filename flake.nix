@@ -39,6 +39,12 @@
       url = "github:neovim/neovim";
       flake = false;
     };
+
+    # nixCats plugins
+    "plugins-jsonfly-nvim" = {
+      url = "github:Myzel394/jsonfly.nvim";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {

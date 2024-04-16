@@ -133,6 +133,7 @@ The following is just the outputs function from the flake template.
         custom-vim-plugins.leetcode-nvim
         diffview-nvim
         efmls-configs-nvim
+        pkgs.neovimPlugins.jsonfly-nvim
         fidget-nvim
         flash-nvim
         gitsigns-nvim
