@@ -12,7 +12,8 @@
       automatic = true;
       options = "--delete-older-than 14d";
     };
-    registry = {nixpkgs = {flake = inputs.nixpkgs;};};
+    # registry = {nixpkgs = {flake = inputs.nixpkgs;};};
+    registry = (inputs.nixpkgs.lib.mapAttrs (_: flake: {inherit flake;})) ((inputs.nixpkgs.lib.filterAttrs (_: inputs.nixpkgs.lib.isType "flake")) inputs);
   };
 
   nixpkgs = {config = {allowUnfree = true;};};
