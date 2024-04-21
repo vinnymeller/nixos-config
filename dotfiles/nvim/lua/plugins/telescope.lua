@@ -1,5 +1,6 @@
 local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
+local actions = require("telescope.actions")
 local lga_actions = require("telescope-live-grep-args.actions")
 local trouble = require("trouble.providers.telescope")
 
@@ -29,6 +30,7 @@ telescope.setup({
 		mappings = {
 			i = {
 				["<C-t>"] = trouble.open_with_trouble,
+				["<C-f>"] = actions.to_fuzzy_refine,
 			},
 			n = {
 				["<C-t>"] = trouble.open_with_trouble,

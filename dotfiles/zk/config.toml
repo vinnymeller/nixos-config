@@ -55,7 +55,7 @@ link-drop-extension = false
 [tool]
 
 # Default editor used to open notes.
-editor = "nvim"
+editor = "nv"
 
 # Pager used to scroll through long output.
 pager = "less -FIRX"
