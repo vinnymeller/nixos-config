@@ -18,12 +18,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 -- automatically format on certain conditions that are unlikely to cause issues with cursor
 --  commented this out because its annoying me  while i edit in nixpkgs, just fkin press <leader>fm if i need format so bad
-vim.api.nvim_create_autocmd({ "WinLeave", "FocusLost" }, {
-	callback = function()
-		-- silntry try calling a command
-		vim.cmd([[silent! LspFormat]])
-	end,
-})
+-- vim.api.nvim_create_autocmd({ "WinLeave", "FocusLost" }, {
+-- 	callback = function()
+-- 		-- silntry try calling a command
+-- 		vim.cmd([[silent! LspFormat]])
+-- 	end,
+-- })
 
 -- copy last yank to system clipboard when nvim loses focus
 vim.api.nvim_create_autocmd("FocusLost", {
