@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, { desc = "Format current buffer with LSP" })
 
 		if client ~= nil and client.server_capabilities.inlayHintProvider then
-			vim.lsp.inlay_hint.enable(args.buf, true)
+			vim.lsp.inlay_hint.enable(true)
 		end
 	end,
 })

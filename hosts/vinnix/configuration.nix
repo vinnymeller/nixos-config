@@ -129,7 +129,7 @@
     (firefox.override {nativeMessagingHosts = [inputs.pipewire-screenaudio.packages.${pkgs.system}.default];})
     gnupg
     killall
-    looking-glass-client
+    pkgs.stable-pkgs.looking-glass-client
     man-pages
     man-pages-posix
     podman-compose

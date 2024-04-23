@@ -5,6 +5,11 @@ local luasnip = require("luasnip")
 local lspkind = require("lspkind")
 
 cmp.setup({
+	view = {
+		entries = {
+			follow_cursor = true,
+		},
+	},
 	snippet = {
 		expand = function(args)
 			luasnip.lsp_expand(args.body)
