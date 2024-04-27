@@ -23,10 +23,6 @@ map("v", "<", "<gv", { noremap = true })
 -- backspace in normal mode to replace current word. can i upgrade this ? think about it
 map("n", "<bs>", "ciw", { desc = "Replace current word" })
 
--- exit window & close buffer
-map("n", "<leader>q", "<cmd>q<CR>", { desc = "[Q]uit" })
-map("n", "<leader>k", "<cmd>bd<CR>", { desc = "[K]ill" })
-
 -- open dadbod ui
 map("n", "<leader>db", "<cmd>DBUIToggle<CR>", { desc = "[D]ad[B]od Toggle" })
 
