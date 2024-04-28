@@ -137,7 +137,7 @@ require("lspconfig").html.setup({
 })
 
 local basic_servers = {
-	"clangd",
+	"ccls",
 	"dockerls",
 	"hls",
 	"nil_ls",

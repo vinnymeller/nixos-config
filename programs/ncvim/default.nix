@@ -1,24 +1,3 @@
-# Copyright (c) 2023 BirdeeHub
-# Licensed under the MIT license
-/*
-# paste the inputs you don't have in this set into your main system flake.nix
-# (lazy.nvim wrapper only works on unstable)
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-    nixCats.url = "github:BirdeeHub/nixCats-nvim";
-    nixCats.inputs.nixpkgs.follows = "nixpkgs";
-    nixCats.inputs.flake-utils.follows = "flake-utils";
-  };
-
-
-Then call this file with:
-myNixCats = import ./path/to/this/dir { inherit inputs; };
-And the new variable myNixCats will contain all outputs of the normal flake format.
-You can then pass them around, export them from the overall flake, etc.
-
-The following is just the outputs function from the flake template.
-*/
 {inputs, ...} @ attrs: let
   inherit (inputs) flake-utils nixpkgs;
   inherit (inputs.nixCats) utils;
@@ -77,6 +56,7 @@ The following is just the outputs function from the flake template.
           ast-grep
           black
           cargo
+          ccls
           dockerfile-language-server-nodejs
           efm-langserver
           fd
@@ -84,7 +64,6 @@ The following is just the outputs function from the flake template.
           haskellPackages.haskell-language-server
           imagemagick
           isort
-          libclang
           ltex-ls
           lua-language-server
           nil
