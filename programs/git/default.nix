@@ -41,6 +41,7 @@
       b = "for-each-ref --sort=committerdate refs/heads/ --format='%(color:red)%(objectname:short)%(color:reset) %(color:green)%(committerdate:relative)%(color:reset)\t%(HEAD) %(color:yellow)%(refname:short)%(color:reset) %(contents:subject) - %(authorname)'";
       logdr = "!f(){ git log --pretty=format:\"(%h) %ad - %an: %s\" --after=\"$\{1}\" --until=\"$\{2}\"; };f";
       graph = "log --graph --all --format='%h %s%n        (%an, %ar)%d' --abbrev-commit";
+      swap = "switch @{-1}";
     };
     lfs.enable = true;
   };
@@ -52,5 +53,7 @@
 
   home.shellAliases = {
     fork = "gh repo fork --clone --default-branch-only --remote";
+    gs = "git swap";  # depends on the git alias above
+
   };
 }
