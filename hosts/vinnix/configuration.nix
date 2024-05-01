@@ -18,6 +18,7 @@
       permittedInsecurePackages = ["electron-25.9.0"];
       allowBroken =
         true; # should probably set to false every once in a while to see if broken packages are fixed
+      allowUnfree = true;
     };
   };
 

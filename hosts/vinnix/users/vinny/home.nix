@@ -44,12 +44,10 @@ in {
 
   home.packages = with pkgs;
     [
-      osu-lazer-bin # re-add this when its working again
       anki-bin
       chromium
       cinnamon.nemo-with-extensions
       cinnamon.xviewer
-      discord
       dmenu
       dunst
       easyeffects
@@ -76,6 +74,7 @@ in {
       nix-init
       obs-studio
       obsidian
+      # osu-lazer-bin # re-add this when its working again
       pavucontrol
       pkg-config
       popcorntime
@@ -87,6 +86,7 @@ in {
       slack
       spotify
       unzip
+      master-pkgs.vesktop
       virt-manager
       vlc
       yubioath-flutter

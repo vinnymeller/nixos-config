@@ -1,19 +1,24 @@
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-	callback = function(args)
+	group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+	callback = function(event)
 		-- NOTE: Remember that lua is a real programming language, and as such it is possible
 		-- to define small helper and utility functions so you don't have to repeat yourself
 		-- many times.
 		--
 		-- In this case, we create a function that lets us more easily define mappings specific
 		-- for LSP related items. It sets the mode, buffer and description for us each time.
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		local nmap = function(keys, func, desc)
+		local client = vim.lsp.get_client_by_id(event.data.client_id)
+		local map = function(mode, keys, func, desc)
 			if desc then
 				desc = "LSP: " .. desc
 			end
-
-			vim.keymap.set("n", keys, func, { buffer = args.buf, desc = desc })
+			vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
+		end
+		local nmap = function(keys, func, desc)
+			map("n", keys, func, desc)
+		end
+		local imap = function(keys, func, desc)
+			map("i", keys, func, desc)
 		end
 
 		nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
@@ -25,11 +30,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
 		nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
 		nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-		nmap("<leader>lr", "<cmd>e<CR>", "[L]sp [R]estart")
+		nmap("<leader>lr", "<cmd>LspRestart<CR>", "[L]sp [R]estart")
 
 		-- See `:help K` for why this keymap
 		nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-		-- nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation") -- dont think ive ever used this
+		imap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation") -- this gets rid of digraphs but i didnt even know it existed until i set this
 
 		-- Lesser used LSP functionality
 		nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
@@ -40,7 +45,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, "[W]orkspace [L]ist Folders")
 
 		-- Create a command `:Format` local to the LSP buffer
-		vim.api.nvim_buf_create_user_command(args.buf, "Format", function(_)
+		vim.api.nvim_buf_create_user_command(event.buf, "Format", function(_)
 			if vim.lsp.buf.format then
 				vim.lsp.buf.format()
 			elseif vim.lsp.buf.formatting then
