@@ -185,7 +185,7 @@ local languages = {
 		require("efmls-configs.formatters.rustfmt"),
 	},
 	nix = {
-		require("efmls-configs.formatters.alejandra"),
+		require("efmls-configs.formatters.nixfmt"),
 	},
 	sh = {
 		require("efmls-configs.formatters.shfmt"),

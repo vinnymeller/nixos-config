@@ -5,7 +5,8 @@
   pkgs,
   users,
   ...
-}: {
+}:
+{
   imports = [
     ../../programs/nix
     ../../programs/qtile # ALSO need to make sure config is copied from home manager
@@ -15,32 +16,46 @@
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
     config = {
-      permittedInsecurePackages = ["electron-25.9.0"];
-      allowBroken =
-        true; # should probably set to false every once in a while to see if broken packages are fixed
+      permittedInsecurePackages = [ "electron-25.9.0" ];
+      allowBroken = true; # should probably set to false every once in a while to see if broken packages are fixed
       allowUnfree = true;
     };
   };
 
   boot = {
-    supportedFilesystems = ["ntfs"];
+    supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_latest; # use newest kernel
-    kernelParams = ["amd_iommu=on"];
-    blacklistedKernelModules = ["nvidia" "nouveau"];
-    kernelModules = ["kvm-amd" "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio"];
+    kernelParams = [ "amd_iommu=on" ];
+    blacklistedKernelModules = [
+      "nvidia"
+      "nouveau"
+    ];
+    kernelModules = [
+      "kvm-amd"
+      "vfio_virqfd"
+      "vfio_pci"
+      "vfio_iommu_type1"
+      "vfio"
+    ];
     extraModprobeConfig = ''
       options vfio-pci ids=10de:13c0,10de:0fbb
       options btusb enable_autosuspend=n
     '';
     loader = {
-      systemd-boot = {enable = true;};
-      efi = {canTouchEfiVariables = true;};
+      systemd-boot = {
+        enable = true;
+      };
+      efi = {
+        canTouchEfiVariables = true;
+      };
     };
     kernel.sysctl."net.ipv4.ip_forward" = 1;
   };
 
   security = {
-    polkit = {enable = true;};
+    polkit = {
+      enable = true;
+    };
     pam = {
       loginLimits = [
         {
@@ -97,8 +112,7 @@
   };
 
   networking.hostName = "vinnix"; # Define your hostname.
-  networking.networkmanager.enable =
-    true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "America/Detroit";
@@ -120,14 +134,21 @@
   users.users.vinny = {
     isNormalUser = true;
     initialPassword = "passwordington";
-    extraGroups = ["wheel" "libvirtd" "kvm" "qemu-libvirtd"];
+    extraGroups = [
+      "wheel"
+      "libvirtd"
+      "kvm"
+      "qemu-libvirtd"
+    ];
     shell = pkgs.zsh;
   };
 
   environment.systemPackages = with pkgs; [
     # linuxPackages_latest.perf  # TODO: readd this when its working
     # openvpn
-    (firefox.override {nativeMessagingHosts = [inputs.pipewire-screenaudio.packages.${pkgs.system}.default];})
+    (firefox.override {
+      nativeMessagingHosts = [ inputs.pipewire-screenaudio.packages.${pkgs.system}.default ];
+    })
     gnupg
     killall
     pkgs.stable-pkgs.looking-glass-client

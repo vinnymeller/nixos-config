@@ -3,9 +3,11 @@
   outputs,
   pkgs,
   ...
-}: let
-  cust_pkgs = import ../../pkgs {inherit pkgs;};
-in {
+}:
+let
+  cust_pkgs = import ../../pkgs { inherit pkgs; };
+in
+{
   imports = [
     ../../programs/zsh
     ../../programs/git
@@ -22,15 +24,21 @@ in {
     allowUnfree = true;
   };
   nix.package = pkgs.nixFlakes;
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nix.settings.auto-optimise-store = true;
   nix.settings.require-sigs = false;
-  nix.settings.trusted-users = ["vinny" "root"];
-  nix.settings.trusted-public-keys = ["vinnix:xCPWQjVNXvqsEJgdEhUMpmVIyJseAPAcZEm3b6HU8vk="];
+  nix.settings.trusted-users = [
+    "vinny"
+    "root"
+  ];
+  nix.settings.trusted-public-keys = [ "vinnix:xCPWQjVNXvqsEJgdEhUMpmVIyJseAPAcZEm3b6HU8vk=" ];
 
   nixCats = {
     enable = true;
-    packageNames = ["nixCats"];
+    packageNames = [ "nixCats" ];
   };
 
   home.packages = with pkgs; [

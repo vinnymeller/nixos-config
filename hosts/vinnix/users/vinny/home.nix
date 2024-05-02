@@ -4,9 +4,11 @@
   inputs,
   outputs,
   ...
-}: let
-  cust_pkgs = import ../../../../pkgs {inherit pkgs;};
-in {
+}:
+let
+  cust_pkgs = import ../../../../pkgs { inherit pkgs; };
+in
+{
   imports = [
     ../../../../programs/git
     ../../../../programs/zsh
@@ -21,7 +23,7 @@ in {
 
   nixCats = {
     enable = true;
-    packageNames = ["nixCats"];
+    packageNames = [ "nixCats" ];
   };
 
   # direnv !
@@ -42,7 +44,8 @@ in {
     defaultCacheTtlSsh = 10;
   };
 
-  home.packages = with pkgs;
+  home.packages =
+    with pkgs;
     [
       anki-bin
       chromium

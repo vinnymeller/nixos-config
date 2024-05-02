@@ -1,5 +1,6 @@
 { pkgs }:
-with pkgs; {
+with pkgs;
+{
   discord_audio_share = callPackage ./discord_audio_share { };
   kill_and_attach = callPackage ./kill_and_attach { };
   screenshot_to_clipboard = callPackage ./screenshot_to_clipboard { };

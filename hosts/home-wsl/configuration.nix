@@ -7,9 +7,11 @@
   modulesPath,
   ...
 }:
-with lib; let
+with lib;
+let
   nixos-wsl = import ./nixos-wsl;
-in {
+in
+{
   imports = [
     "${modulesPath}/profiles/minimal.nix"
 
@@ -37,14 +39,17 @@ in {
   nixpkgs.config.allowBroken = true;
   # Enable nix flakes
   nix.package = pkgs.nixFlakes;
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nix.gc.automatic = true;
   nix.settings.auto-optimise-store = true;
   nix.gc.options = "--delete-older-than 14d";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
 
   security.polkit.enable = true;
@@ -52,7 +57,7 @@ in {
   users.users.vinny = {
     isNormalUser = true;
     initialPassword = "passwordington";
-    extraGroups = ["wheel"];
+    extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
   };
   programs.zsh = {
@@ -61,7 +66,11 @@ in {
   };
   networking.hostName = "home-nix-wsl"; # Define your hostname.
 
-  environment.systemPackages = with pkgs; [git vim neovim];
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+    neovim
+  ];
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "22.05";
 }

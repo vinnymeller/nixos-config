@@ -1,6 +1,12 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with builtins;
-with lib; {
+with lib;
+{
 
   options.wsl.docker-native = with types; {
     enable = mkEnableOption "Native Docker integration in NixOS.";
@@ -16,19 +22,22 @@ with lib; {
     };
   };
 
-  config = let cfg = config.wsl.docker-native;
-  in mkIf (config.wsl.enable && cfg.enable) {
-    nixpkgs.overlays = [
-      (self: super: {
-        docker = super.docker.override { iptables = pkgs.iptables-legacy; };
-      })
-    ];
+  config =
+    let
+      cfg = config.wsl.docker-native;
+    in
+    mkIf (config.wsl.enable && cfg.enable) {
+      nixpkgs.overlays = [
+        (self: super: { docker = super.docker.override { iptables = pkgs.iptables-legacy; }; })
+      ];
 
-    environment.systemPackages = with pkgs; [ docker docker-compose ];
+      environment.systemPackages = with pkgs; [
+        docker
+        docker-compose
+      ];
 
-    virtualisation.docker.enable = true;
+      virtualisation.docker.enable = true;
 
-    users.groups.docker.members =
-      lib.mkIf cfg.addToDockerGroup [ config.wsl.defaultUser ];
-  };
+      users.groups.docker.members = lib.mkIf cfg.addToDockerGroup [ config.wsl.defaultUser ];
+    };
 }

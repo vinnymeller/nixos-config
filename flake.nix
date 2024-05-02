@@ -47,55 +47,56 @@
     };
   };
 
-  outputs = inputs @ {
-    self,
-    flake-utils,
-    nixpkgs,
-    nixpkgs-master,
-    nixpkgs-stable,
-    nix-index-database,
-    home-manager,
-    lanzaboote,
-    nixCats,
-    ...
-  }: let
-    inherit (self) outputs;
+  outputs =
+    inputs@{
+      self,
+      flake-utils,
+      nixpkgs,
+      nixpkgs-master,
+      nixpkgs-stable,
+      nix-index-database,
+      home-manager,
+      lanzaboote,
+      nixCats,
+      ...
+    }:
+    let
+      inherit (self) outputs;
 
-    forAllSystems =
-      nixpkgs.lib.genAttrs
-      flake-utils.lib.defaultSystems; # change this if i need some weird systems
+      forAllSystems = nixpkgs.lib.genAttrs flake-utils.lib.defaultSystems; # change this if i need some weird systems
 
-    myNixCats = import ./programs/ncvim {inherit inputs;};
-  in {
-    myNixCats = myNixCats;
+      myNixCats = import ./programs/ncvim { inherit inputs; };
+    in
+    {
+      myNixCats = myNixCats;
 
-    packages =
-      forAllSystems (
-        system: let
+      packages =
+        forAllSystems (
+          system:
+          let
+            pkgs = nixpkgs.legacyPackages.${system};
+          in
+          import ./pkgs { inherit pkgs; }
+        )
+        // myNixCats.packages;
+
+      devShells = forAllSystems (
+        system:
+        let
           pkgs = nixpkgs.legacyPackages.${system};
         in
-          import ./pkgs {inherit pkgs;}
-      )
-      // myNixCats.packages;
+        import ./shell.nix { inherit pkgs; }
+      );
 
-    devShells = forAllSystems (
-      system: let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-        import ./shell.nix {inherit pkgs;}
-    );
+      overlays = import ./overlays { inherit inputs; };
 
-    overlays = import ./overlays {inherit inputs;};
-
-    nixosConfigurations = {
-      vinnix = import ./hosts/vinnix {inherit inputs outputs;};
-      vindows = import ./hosts/home-wsl {inherit inputs outputs;};
+      nixosConfigurations = {
+        vinnix = import ./hosts/vinnix { inherit inputs outputs; };
+        vindows = import ./hosts/home-wsl { inherit inputs outputs; };
+      };
+      homeConfigurations = {
+        "vinny@wdtech-eos" = import ./hosts/wdtech-eos { inherit inputs outputs; };
+        "vinny@camovinny" = import ./hosts/camovinny { inherit inputs outputs; };
+      };
     };
-    homeConfigurations = {
-      "vinny@wdtech-eos" =
-        import ./hosts/wdtech-eos {inherit inputs outputs;};
-      "vinny@camovinny" =
-        import ./hosts/camovinny {inherit inputs outputs;};
-    };
-  };
 }

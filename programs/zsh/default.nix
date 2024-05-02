@@ -1,8 +1,5 @@
+{ config, pkgs, ... }:
 {
-  config,
-  pkgs,
-  ...
-}: {
   # zsh doesn't have an extraPackages option, so we have to add them to home.packages
   home.packages = with pkgs; [
     master-pkgs.twm
@@ -82,7 +79,7 @@
 
     oh-my-zsh = {
       enable = true;
-      plugins = ["git"];
+      plugins = [ "git" ];
     };
   };
 

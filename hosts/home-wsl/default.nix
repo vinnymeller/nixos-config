@@ -1,7 +1,9 @@
 { inputs, outputs, ... }:
 
 inputs.nixpkgs.lib.nixosSystem {
-  specialArgs = { inherit inputs outputs; };
+  specialArgs = {
+    inherit inputs outputs;
+  };
   modules = [
     ./configuration.nix
     inputs.home-manager.nixosModules.home-manager
@@ -9,7 +11,9 @@ inputs.nixpkgs.lib.nixosSystem {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.users.vinny = import ./home.nix;
-      home-manager.extraSpecialArgs = {inherit inputs outputs;};
+      home-manager.extraSpecialArgs = {
+        inherit inputs outputs;
+      };
     }
   ];
 }

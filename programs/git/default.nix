@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   programs.git = {
     enable = true;
     userName = "Vinny Meller";
@@ -28,10 +29,8 @@
       pall = ''!f() { git commit -am "$1" && git push; }; f'';
       cob = "checkout -b";
       del = "branch -D";
-      lg = ''
-        !git log --pretty=format:"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]" --abbrev-commit -30'';
-      clone-bare = ''
-        !f() { git clone --bare "$1" "$2" && cd "$2" && git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"; }; f'';
+      lg = ''!git log --pretty=format:"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]" --abbrev-commit -30'';
+      clone-bare = ''!f() { git clone --bare "$1" "$2" && cd "$2" && git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"; }; f'';
       delete-gone-branches = "!git branch --list --format '%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' | sed 's,^refs/heads/,,'  | grep . | xargs git branch -D";
       up = "!git pull && git fetch --prune && git delete-gone-branches && git b";
       ca = "commit --amend";
@@ -48,12 +47,13 @@
 
   programs.gh = {
     enable = true;
-    settings = {version = "1";};
+    settings = {
+      version = "1";
+    };
   };
 
   home.shellAliases = {
     fork = "gh repo fork --clone --default-branch-only --remote";
-    gs = "git swap";  # depends on the git alias above
-
+    gs = "git swap"; # depends on the git alias above
   };
 }

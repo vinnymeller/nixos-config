@@ -1,5 +1,9 @@
-{ pkgs, ... }: {
-  home.packages = with pkgs; [ zk fzf ];
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    zk
+    fzf
+  ];
 
   home.file.".config/zk".source = ../../dotfiles/zk;
 }

@@ -3,7 +3,8 @@
   pkgs,
   services,
   ...
-}: {
+}:
+{
   environment.variables = {
     GDK_SCALE = "2";
     GDK_DPI_SCALE = "0.5";
@@ -41,7 +42,7 @@
       }
     ];
     xkb.layout = "us";
-    videoDrivers = ["nvidia"];
+    videoDrivers = [ "nvidia" ];
   };
 
   services.picom = {
@@ -49,7 +50,7 @@
     backend = "glx";
     fade = true;
     fadeDelta = 5;
-    opacityRules = ["100:QTILE_INTERNAL:32c"];
+    opacityRules = [ "100:QTILE_INTERNAL:32c" ];
     shadow = true;
     shadowOpacity = 0.5;
   };

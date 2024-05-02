@@ -5,14 +5,15 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.ssh.startAgent = false;
 
   services.pcscd.enable = true;
 
-  environment.systemPackages = with pkgs; [gnupg];
+  environment.systemPackages = with pkgs; [ gnupg ];
 
-  services.udev.packages = with pkgs; [yubikey-personalization];
+  services.udev.packages = with pkgs; [ yubikey-personalization ];
 
   programs.gnupg.agent = {
     enable = true;
@@ -26,7 +27,7 @@
 
   systemd.user.timers."restart-gpg-agent" = {
     enable = true;
-    wantedBy = ["timers.target"];
+    wantedBy = [ "timers.target" ];
     timerConfig = {
       OnCalendar = "*:0/5";
       Unit = "restart-gpg-agent.service";

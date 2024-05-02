@@ -8,22 +8,23 @@
 # This will allow you not to worry about other nixCats overlay
 # imports from having import naming conflicts with your own.
 /*
-This file imports overlays defined in the following format.
-Plugins will still only be downloaded if included in a category.
-You may copy paste this example into a new file and then import that file here.
+  This file imports overlays defined in the following format.
+  Plugins will still only be downloaded if included in a category.
+  You may copy paste this example into a new file and then import that file here.
 */
 # Example overlay:
 /*
-importName: inputs: let
-  overlay = self: super: {
-      ${importName} = {
-            # define your overlay derivations here
-                };
+  importName: inputs: let
+    overlay = self: super: {
+        ${importName} = {
+              # define your overlay derivations here
                   };
-                  in
-                  overlay
+                    };
+                    in
+                    overlay
 */
-inputs: let
+inputs:
+let
   overlaySet = {
     # this is how you would add another overlay file
     # for if your customBuildsOverlay gets too long
@@ -32,4 +33,5 @@ inputs: let
     # nixCatsBuilds = import ./customBuildsOverlay.nix;
   };
 in
-  builtins.attrValues (builtins.mapAttrs (name: value: (value name inputs)) overlaySet)
+builtins.attrValues (builtins.mapAttrs (name: value: (value name inputs)) overlaySet)
+
