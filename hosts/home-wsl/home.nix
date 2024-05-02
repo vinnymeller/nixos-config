@@ -1,17 +1,23 @@
 {
   pkgs,
   lib,
+  outputs,
   ...
 }: let
   cust_pkgs = import ../../pkgs {inherit pkgs;};
 in {
   imports = [
-    ../../programs/neovim
     ../../programs/zsh
     ../../programs/git
     ../../programs/tmux
     ../../programs/kitty
+    outputs.myNixCats.homeModule
   ];
+
+  nixCats = {
+    enable = true;
+    packageNames = ["nixCats"];
+  };
 
   home.packages = with pkgs;
     [openvpn mesa kubectl helm] ++ builtins.attrValues cust_pkgs;
