@@ -30,7 +30,7 @@ telescope.setup({
 		mappings = {
 			i = {
 				["<C-t>"] = trouble.open_with_trouble,
-				["<C-f>"] = actions.to_fuzzy_refine,
+				["<C-r>"] = actions.to_fuzzy_refine,
 			},
 			n = {
 				["<C-t>"] = trouble.open_with_trouble,

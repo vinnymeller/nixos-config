@@ -13,7 +13,6 @@ in
     ../../../../programs/git
     ../../../../programs/zsh
     ../../../../programs/kitty
-    ../../../../programs/ranger
     ../../../../programs/tmux
     ../../../../programs/zk
     outputs.myNixCats.homeModule

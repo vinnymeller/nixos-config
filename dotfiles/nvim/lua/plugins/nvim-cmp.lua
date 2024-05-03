@@ -97,3 +97,25 @@ cmp.setup({
 })
 
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+cmp.setup.cmdline({ "/", "?" }, {
+	mapping = cmp.mapping.preset.cmdline(),
+	view = {
+		entries = { name = "wildmenu" },
+	},
+	sources = {
+		{ name = "buffer" },
+	},
+})
+
+cmp.setup.cmdline(":", {
+	mapping = cmp.mapping.preset.cmdline(),
+	view = {
+		entries = { name = "wildmenu" },
+	},
+	sources = cmp.config.sources({
+		{ name = "path" },
+	}, {
+		{ name = "cmdline" },
+	}),
+})

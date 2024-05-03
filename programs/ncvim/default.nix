@@ -107,8 +107,11 @@ let
           SchemaStore-nvim
           autosave-nvim
           catppuccin-nvim
+          cmp-cmdline
           cmp-buffer
           cmp-git
+          leap-nvim
+          vim-repeat
           cmp-nvim-lsp
           cmp-nvim-lsp-signature-help
           cmp-nvim-lua
