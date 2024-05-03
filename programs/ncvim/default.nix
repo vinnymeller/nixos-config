@@ -116,6 +116,7 @@ let
           cmp_luasnip
           comment-nvim
           copilot-lua
+          copilot-cmp
           custom-vim-plugins.leetcode-nvim
           diffview-nvim
           efmls-configs-nvim
