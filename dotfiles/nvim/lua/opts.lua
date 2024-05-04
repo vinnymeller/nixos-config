@@ -32,6 +32,3 @@ vim.o.spelllang = "en_us"
 vim.o.spell = true
 vim.o.cursorline = true
 vim.o.cursorcolumn = false
-
--- plugin specific
-vim.g.matchup_surround_enabled = true

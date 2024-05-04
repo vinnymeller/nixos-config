@@ -134,7 +134,6 @@ let
           lualine-nvim
           luasnip
           markdown-preview-nvim
-          neogit
           nui-nvim
           nvim-autopairs
           nvim-cmp
@@ -153,7 +152,6 @@ let
           telescope-sg
           tint-nvim
           tmux-nvim
-          trouble-nvim
           undotree
           vim-dadbod
           vim-dadbod-completion
