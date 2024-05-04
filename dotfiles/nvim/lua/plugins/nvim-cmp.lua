@@ -38,7 +38,7 @@ cmp.setup({
 		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
 		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 	}),
-	sources = cmp.config.sources({
+	sources = {
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "nvim_lsp" },
 		{ name = "copilot" },
@@ -47,7 +47,7 @@ cmp.setup({
 		{ name = "nvim_lua" },
 		{ name = "buffer" },
 		{ name = "path" },
-	}),
+	},
 	formatting = {
 		format = lspkind.cmp_format({
 			max_width = 60,

@@ -63,7 +63,6 @@ let
         general =
           with pkgs;
           [
-            alejandra
             ast-grep
             black
             cargo
@@ -79,6 +78,7 @@ let
             lua-language-server
             nil
             nixfmt-rfc-style
+            nodePackages.eslint
             nodePackages.pyright
             nodePackages.sql-formatter
             nodePackages.typescript-language-server
@@ -88,6 +88,8 @@ let
             prettierd
             ripgrep
             rust-analyzer
+            rustc
+            rustfmt
             shellcheck
             shfmt
             src-cli
@@ -132,7 +134,6 @@ let
           lualine-nvim
           luasnip
           markdown-preview-nvim
-          molten-nvim
           neogit
           nui-nvim
           nvim-autopairs
@@ -204,13 +205,6 @@ let
       extraPython3Packages = {
         python =
           py: with py; [
-            cairosvg
-            jupyter-client
-            nbformat
-            plotly
-            pnglatex
-            pynvim
-            pyperclip
           ];
       };
       extraPythonPackages = {
