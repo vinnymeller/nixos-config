@@ -83,7 +83,7 @@ _group_names = [
         "1",
         {
             "label": "code",
-            "layout": "bsp",
+            "layout": "max",
             "spawn": terminal,
             "screen_affinity": 0,
         },
@@ -92,8 +92,8 @@ _group_names = [
         "2",
         {
             "label": "chat",
-            "layout": "bsp",
-            "spawn": "discord",
+            "layout": "columns",
+            "spawn": "vesktop",
             "screen_affinity": 1,
         },
     ),
