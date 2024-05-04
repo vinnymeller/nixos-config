@@ -1,8 +1,10 @@
 local cmp = require("cmp")
+
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 local luasnip = require("luasnip")
 local lspkind = require("lspkind")
 require("copilot_cmp").setup({})
+require("cmp_git").setup({})
 
 lspkind.init({
 	symbol_map = {
@@ -41,7 +43,7 @@ cmp.setup({
 		{ name = "nvim_lsp" },
 		{ name = "copilot" },
 		{ name = "vim-dadbod-completion" },
-		{ name = "cmp_git" },
+		{ name = "git" },
 		{ name = "nvim_lua" },
 		{ name = "buffer" },
 		{ name = "path" },
@@ -54,7 +56,7 @@ cmp.setup({
 				nvim_lsp_signature_help = "[SIG]",
 				copilot = "[AI]",
 				nvim_lsp = "[LSP]",
-				cmp_git = "[GIT]",
+				git = "[GIT]",
 				nvim_lua = "[LUA]",
 				luasnip = "[SNIP]",
 				buffer = "[BUF]",
