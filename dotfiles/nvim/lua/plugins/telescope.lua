@@ -2,7 +2,6 @@ local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
 local actions = require("telescope.actions")
 local lga_actions = require("telescope-live-grep-args.actions")
-local trouble = require("trouble.providers.telescope")
 
 telescope.setup({
 	pickers = {
@@ -29,12 +28,9 @@ telescope.setup({
 		},
 		mappings = {
 			i = {
-				["<C-t>"] = trouble.open_with_trouble,
 				["<C-r>"] = actions.to_fuzzy_refine,
 			},
-			n = {
-				["<C-t>"] = trouble.open_with_trouble,
-			},
+			n = {},
 		},
 	},
 	extensions = {
@@ -63,6 +59,8 @@ require("telescope").load_extension("ast_grep")
 require("telescope").load_extension("live_grep_args")
 require("telescope").load_extension("jsonfly")
 
+-- open last telescope search
+vim.keymap.set("n", "<leader>fr", require("telescope.builtin").resume, { desc = "[F]ind [R]esume" })
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
 vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>/", function()
