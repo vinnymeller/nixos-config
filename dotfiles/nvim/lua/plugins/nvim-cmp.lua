@@ -17,6 +17,9 @@ cmp.setup({
 		entries = {
 			follow_cursor = true,
 		},
+		docs = {
+			auto_open = true,
+		},
 	},
 	snippet = {
 		expand = function(args)
@@ -24,14 +27,14 @@ cmp.setup({
 		end,
 	},
 	mapping = cmp.mapping.preset.insert({
-		["<C-d>"] = cmp.mapping.scroll_docs(-3),
+		["<C-d>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<C-e>"] = cmp.mapping.close(),
 		["<Tab>"] = cmp.mapping.confirm(),
 		["<C-CR>"] = cmp.mapping.confirm(),
-		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 	}),
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp_signature_help" },
@@ -45,6 +48,7 @@ cmp.setup({
 	}),
 	formatting = {
 		format = lspkind.cmp_format({
+			max_width = 60,
 			mode = "symbol_text",
 			menu = {
 				nvim_lsp_signature_help = "[SIG]",
@@ -62,6 +66,14 @@ cmp.setup({
 	sorting = {
 		priority_weight = 2.0,
 		comparators = {
+			-- always put signature help on top
+			function(entry1, entry2)
+				if entry1.source.name == "nvim_lsp_signature_help" then
+					return true
+				elseif entry2.source.name == "nvim_lsp_signature_help" then
+					return false
+				end
+			end,
 			require("copilot_cmp.comparators").prioritize,
 			cmp.config.compare.offset,
 			cmp.config.compare.exact,
@@ -90,9 +102,12 @@ cmp.setup({
 	nvim_lsp_signature_help = {
 		max_height = 15,
 	},
-	preselect = cmp.PreselectMode.Item,
+	preselect = cmp.PreselectMode.None,
 	completion = {
 		completeopt = "menu,menuone,noinsert",
+	},
+	experimental = {
+		ghost_text = true,
 	},
 })
 

@@ -352,22 +352,6 @@
         "type": "github"
       }
     },
-    "plugins-jsonfly-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1713864892,
-        "narHash": "sha256-tcfgv2SxGGboEPfImn7LI92wVQc9qAkDKBmd2vq4zic=",
-        "owner": "Myzel394",
-        "repo": "jsonfly.nvim",
-        "rev": "e12e14886e3f374e79cebb84c0de15e279977dcf",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Myzel394",
-        "repo": "jsonfly.nvim",
-        "type": "github"
-      }
-    },
     "plugins-nvim-nio": {
       "flake": false,
       "locked": {
@@ -427,8 +411,7 @@
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable_2",
         "nixpkgs-staging": "nixpkgs-staging",
-        "pipewire-screenaudio": "pipewire-screenaudio",
-        "plugins-jsonfly-nvim": "plugins-jsonfly-nvim"
+        "pipewire-screenaudio": "pipewire-screenaudio"
       }
     },
     "rust-overlay": {

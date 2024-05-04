@@ -107,30 +107,27 @@ let
           SchemaStore-nvim
           autosave-nvim
           catppuccin-nvim
-          cmp-cmdline
           cmp-buffer
+          cmp-cmdline
           cmp-git
-          leap-nvim
-          vim-repeat
           cmp-nvim-lsp
           cmp-nvim-lsp-signature-help
           cmp-nvim-lua
           cmp-path
           cmp_luasnip
           comment-nvim
-          copilot-lua
           copilot-cmp
+          copilot-lua
           custom-vim-plugins.leetcode-nvim
           diffview-nvim
           efmls-configs-nvim
-          pkgs.neovimPlugins.jsonfly-nvim
           fidget-nvim
-          flash-nvim
           gitsigns-nvim
           gruvbox-nvim
           harpoon2
           image-nvim
           indent-blankline-nvim
+          jsonfly-nvim
           lspkind-nvim
           lualine-nvim
           luasnip
@@ -147,30 +144,27 @@ let
           nvim-ts-autotag
           nvim-web-devicons
           oil-nvim
-          nvim-remote-containers
-          telescope-sg
           plenary-nvim
           rustaceanvim
-          sg-nvim
           sniprun
           telescope-live-grep-args-nvim
           telescope-nvim
+          telescope-sg
           tint-nvim
           tmux-nvim
           trouble-nvim
           undotree
-          vim-be-good
           vim-dadbod
           vim-dadbod-completion
           vim-dadbod-ui
           vim-fugitive
           vim-indent-object
           vim-matchup
+          vim-repeat
           vim-rhubarb
           vim-sleuth
           vim-surround
           which-key-nvim
-          wilder-nvim
           zk-nvim
         ];
       };
@@ -357,4 +351,3 @@ forEachSystem (
   inherit (utils) templates baseBuilder;
   keepLuaBuilder = utils.baseBuilder luaPath;
 }
-
