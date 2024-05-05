@@ -14,6 +14,13 @@ lspkind.init({
 
 vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
 
+vim.api.nvim_create_autocmd({ "CursorHoldI" }, {
+	group = vim.api.nvim_create_augroup("cmp_complete_on_curshorholdi", {}),
+	callback = function()
+		cmp.complete()
+	end,
+})
+
 -- higher order function that returns a comparator that, given a source name, always prefers
 -- that source over all others
 -- comparator should return true when entry1 should be ranked higher, false when it should be ranked lower, or nil if no preference
@@ -32,6 +39,9 @@ local strict_source_name_preference = function(source_name)
 end
 
 cmp.setup({
+	enabled = function()
+		return true
+	end,
 	view = {
 		entries = {
 			follow_cursor = true,
@@ -117,6 +127,10 @@ cmp.setup({
 	},
 	preselect = cmp.PreselectMode.None,
 	completion = {
+		autocomplete = {
+			cmp.TriggerEvent.InsertEnter,
+			cmp.TriggerEvent.TextChanged,
+		},
 		completeopt = "menu,menuone,noinsert",
 	},
 	experimental = {
