@@ -143,6 +143,7 @@
     shell = pkgs.zsh;
   };
 
+  environment.pathsToLink = [ "/share/zsh" ];
   environment.systemPackages = with pkgs; [
     # linuxPackages_latest.perf  # TODO: readd this when its working
     # openvpn

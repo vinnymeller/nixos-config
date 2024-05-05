@@ -4,12 +4,10 @@
   home.packages = with pkgs; [
     master-pkgs.twm
     nix-zsh-completions
-    zsh-forgit
     zsh-powerlevel10k
     zsh-vi-mode
     zsh-you-should-use
     zsh-fast-syntax-highlighting
-    zsh-bd
     zsh-autocomplete
     zsh-completions
   ];
@@ -39,9 +37,7 @@
     initExtra = ''
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       source ${config.xdg.configHome}/zsh/.p10k.zsh
-      source ${pkgs.zsh-forgit}/share/zsh/zsh-forgit/forgit.plugin.zsh
       source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-      source ${pkgs.zsh-bd}/share/zsh-bd/bd.plugin.zsh
       source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
       source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
       source ${pkgs.nix-zsh-completions}/share/zsh/plugins/nix/nix-zsh-completions.plugin.zsh
