@@ -1,16 +1,18 @@
 { config, pkgs, ... }:
 {
+
   programs.kitty = {
     enable = true;
     font = {
       # name = "Jetbrains Mono";
       # package = pkgs.jetbrains-mono;
       name = "0xProto"; # test out 0xProto. I love JBM, but this looked neat
-      package = pkgs._0xproto;
+      package = pkgs._0xproto-no-italics;
       # name = "JetBrainsMono Nerd Font";
       # package = pkgs.nerdfonts;
     };
 
+    shellIntegration.enableZshIntegration = true;
     extraConfig = ''
       background_opacity   0.85
       confirm_os_window_close 0
