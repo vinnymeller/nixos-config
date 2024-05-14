@@ -1,5 +1,22 @@
 vim.opt.runtimepath:append("$HOME/.local/share/treesitter")
+
+vim.api.nvim_create_augroup("_cmd_win", { clear = true })
+vim.api.nvim_create_autocmd("CmdWinEnter", {
+	callback = function()
+		vim.keymap.del("n", "<CR>", { buffer = true })
+	end,
+	group = "_cmd_win",
+})
+
 require("nvim-treesitter.configs").setup({
+
+	-- these only exist to make "required" args happy
+	sync_install = false,
+	modules = {},
+	ensure_installed = {},
+	ignore_install = {},
+	--
+
 	auto_install = true,
 	autotag = {
 		enable = true,
