@@ -69,6 +69,7 @@ let
             dockerfile-language-server-nodejs
             efm-langserver
             fd
+            fzf
             gcc
             haskellPackages.haskell-language-server
             imagemagick
