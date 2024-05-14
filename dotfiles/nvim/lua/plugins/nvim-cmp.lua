@@ -14,16 +14,6 @@ lspkind.init({
 
 vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
 
-vim.api.nvim_create_autocmd({ "CursorHoldI" }, {
-	group = vim.api.nvim_create_augroup("cmp_complete_on_curshorholdi", {}),
-	callback = function()
-		cmp.complete()
-	end,
-})
-
--- higher order function that returns a comparator that, given a source name, always prefers
--- that source over all others
--- comparator should return true when entry1 should be ranked higher, false when it should be ranked lower, or nil if no preference
 local strict_source_name_preference = function(source_name)
 	return function(entry1, entry2)
 		if entry1.source.name == entry2.source.name then
@@ -78,7 +68,7 @@ cmp.setup({
 		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
 		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 	}),
-	sources = {
+	sources = cmp.config.sources({
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "nvim_lsp" },
 		{ name = "copilot" },
@@ -87,7 +77,7 @@ cmp.setup({
 		{ name = "nvim_lua" },
 		{ name = "buffer" },
 		{ name = "path" },
-	},
+	}),
 	formatting = {
 		format = lspkind.cmp_format({
 			max_width = 60,
