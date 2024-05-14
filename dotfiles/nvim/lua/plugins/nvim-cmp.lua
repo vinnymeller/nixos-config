@@ -46,11 +46,11 @@ cmp.setup({
 	end,
 	window = {
 		completion = {
-			winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+			winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None,luaParenError:NormalFloat,luaError:NormalFloat",
 		},
 		documentation = {
 			max_height = 30,
-			winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+			winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None,luaParenError:NormalFloat,luaError:NormalFloat",
 		},
 	},
 	view = {
