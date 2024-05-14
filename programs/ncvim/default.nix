@@ -111,7 +111,6 @@ let
         general = with pkgs.vimPlugins; [
           SchemaStore-nvim
           autosave-nvim
-          catppuccin-nvim
           cmp-buffer
           cmp-cmdline
           cmp-git

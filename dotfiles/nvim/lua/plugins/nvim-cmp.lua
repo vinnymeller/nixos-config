@@ -38,12 +38,25 @@ local strict_source_name_preference = function(source_name)
 	end
 end
 
+vim.o.pumheight = 20
+
 cmp.setup({
 	enabled = function()
 		return true
 	end,
+	window = {
+		completion = {
+			winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+		},
+		documentation = {
+			max_height = 30,
+			winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
+		},
+	},
 	view = {
 		entries = {
+			name = "custom",
+			selection_order = "near_cursor",
 			follow_cursor = true,
 		},
 		docs = {
