@@ -63,7 +63,6 @@ let
         general =
           with pkgs;
           [
-            ast-grep
             black
             cargo
             ccls
@@ -87,6 +86,10 @@ let
             postgresql
             prettierd
             ripgrep
+            bat
+            delta
+            bat
+            fd
             rust-analyzer
             rustc
             rustfmt
@@ -124,12 +127,12 @@ let
           diffview-nvim
           efmls-configs-nvim
           fidget-nvim
+          fzf-lua
           gitsigns-nvim
           gruvbox-nvim
           harpoon2
           image-nvim
           indent-blankline-nvim
-          jsonfly-nvim
           lspkind-nvim
           lualine-nvim
           luasnip
@@ -147,9 +150,6 @@ let
           plenary-nvim
           rustaceanvim
           sniprun
-          telescope-live-grep-args-nvim
-          telescope-nvim
-          telescope-sg
           tint-nvim
           tmux-nvim
           undotree

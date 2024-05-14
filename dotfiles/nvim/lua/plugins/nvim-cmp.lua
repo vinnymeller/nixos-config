@@ -138,11 +138,6 @@ cmp.setup({
 	},
 })
 
-cmp.setup.filetype({ "TelescopePrompt" }, {
-	sources = {},
-	enabled = false,
-})
-
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 cmp.setup.cmdline({ "/", "?" }, {

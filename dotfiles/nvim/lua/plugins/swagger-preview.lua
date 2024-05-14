@@ -1,3 +1,0 @@
--- commented until i add this to nix
--- probably look at markdown-preview-nvim to see how to do this
--- require("swagger-preview").setup({})
