@@ -164,6 +164,11 @@ cmp.setup.cmdline(":", {
 	sources = cmp.config.sources({
 		{ name = "path" },
 	}, {
-		{ name = "cmdline" },
+		{
+			name = "cmdline",
+			option = {
+				ignore_cmds = {},  -- this lets us get shell completion for ! commands, for some reason its ignored by default
+			},
+		},
 	}),
 })
