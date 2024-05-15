@@ -68,16 +68,21 @@ cmp.setup({
 		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
 		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 	}),
-	sources = cmp.config.sources({
+	sources = {
 		{ name = "nvim_lsp_signature_help" },
-		{ name = "nvim_lsp" },
+		{
+			name = "nvim_lsp",
+			entry_filter = function(entry)
+				return entry:get_kind() ~= cmp.lsp.CompletionItemKind.Snippet
+			end,
+		},
 		{ name = "copilot" },
 		{ name = "vim-dadbod-completion" },
 		{ name = "git" },
 		{ name = "nvim_lua" },
 		{ name = "buffer" },
 		{ name = "path" },
-	}),
+	},
 	formatting = {
 		format = lspkind.cmp_format({
 			max_width = 60,
@@ -98,13 +103,11 @@ cmp.setup({
 	sorting = {
 		priority_weight = 2.0,
 		comparators = {
-			-- always put signature help on top
 			strict_source_name_preference("nvim_lsp_signature_help"),
-			require("copilot_cmp.comparators").prioritize,
+			strict_source_name_preference("copilot"),
 			cmp.config.compare.offset,
 			cmp.config.compare.exact,
 			cmp.config.compare.score,
-
 			-- copied from cmp-under, but I don't think I need the plugin for this.
 			-- I might add some more of my own.
 			function(entry1, entry2)
