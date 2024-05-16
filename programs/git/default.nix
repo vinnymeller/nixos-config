@@ -14,13 +14,25 @@
 
       # pushing & pulling
       pull.rebase = true;
-      push.autoSetupRemote = true;
-      push.default = "simple";
-      rebase.autosquash = true;
+
+      push = {
+        autoSetupRemote = true;
+        default = "simple";
+        followTags = true;
+      };
+
+      rebase = {
+        autoSquash = true;
+        autoStash = true;
+      };
+
+      rerere = {
+        enabled = true;
+        autoUpdate = true;
+      };
 
       # gpg
       commit.gpgSign = true;
-      # push.gpgSign = true;  # none of the hosted git providers support this!
       tag.gpgSign = true;
       user.signingkey = "36CBEC89D5C8540C"; # key that goes with the email above
     };
