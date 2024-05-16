@@ -92,7 +92,6 @@ let
             bat
             fd
             rust-analyzer
-            rustc
             rustfmt
             shellcheck
             shfmt
