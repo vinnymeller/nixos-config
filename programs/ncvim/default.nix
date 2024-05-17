@@ -119,7 +119,6 @@ let
           cmp-nvim-lua
           cmp-path
           cmp_luasnip
-          comment-nvim
           copilot-cmp
           copilot-lua
           custom-vim-plugins.leetcode-nvim
