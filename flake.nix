@@ -39,6 +39,8 @@
       url = "github:neovim/neovim";
       flake = false;
     };
+
+    twm.url = "github:vinnymeller/twm";
   };
 
   outputs =

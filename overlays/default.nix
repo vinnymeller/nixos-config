@@ -21,6 +21,8 @@
     );
   };
 
+  twm-src = final: _prev: { twm = inputs.twm.packages.${final.system}.default; };
+
   # cust-pkgs-overlay = final: prev: {
   #   cust-pkgs = import ../pkgs { pkgs = prev; };
   # };

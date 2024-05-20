@@ -2,7 +2,7 @@
 {
   # zsh doesn't have an extraPackages option, so we have to add them to home.packages
   home.packages = with pkgs; [
-    master-pkgs.twm
+    twm
     nix-zsh-completions
     zsh-powerlevel10k
     zsh-vi-mode
