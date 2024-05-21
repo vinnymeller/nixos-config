@@ -5,7 +5,6 @@ map({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 -- handle wordwrap better
 map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
 map("i", "jk", "<Esc>", { desc = "jk to escape" })
 
 -- Diagnostic keymaps
@@ -69,3 +68,5 @@ end
 
 vim.api.nvim_create_user_command("LspFormat", lsp_format, { desc = "Format current buffer with LSP" })
 map("n", "<leader>fm", "<cmd>LspFormat<CR>", { desc = "[F]ormat [M]anually" })
+map("n", "<leader>;", ":<C-f>k", { desc = "Open command window" })
+map("n", "<leader>.", "@:", { desc = "Repeat last command" })
