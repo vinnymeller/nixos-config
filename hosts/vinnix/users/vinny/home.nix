@@ -47,6 +47,7 @@ in
     with pkgs;
     [
       anki-bin
+      calibre
       chromium
       cinnamon.nemo-with-extensions
       cinnamon.xviewer
