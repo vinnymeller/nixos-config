@@ -132,6 +132,7 @@ let
           image-nvim
           indent-blankline-nvim
           lspkind-nvim
+          ltex_extra-nvim  # goes with ltex-ls providing code action functionality for nvim (e.g. add to dict, ignore rule, etc)
           lualine-nvim
           luasnip
           markdown-preview-nvim
@@ -199,9 +200,7 @@ let
       # vim.g.python3_host_prog
       # or run from nvim terminal via :!<packagename>-python3
       extraPython3Packages = {
-        python =
-          py: with py; [
-          ];
+        python = py: with py; [ ];
       };
       extraPythonPackages = {
         test = _: [ ];

@@ -88,6 +88,9 @@ require("lspconfig").lua_ls.setup({
 
 require("lspconfig").ltex.setup({
 	capabilities = capabilities,
+	on_attach = function(client, bufnr)
+		require("ltex_extra").setup({})
+	end,
 	settings = {
 		ltex = {
 			language = "en-US",
