@@ -77,7 +77,7 @@ in
       nix-init
       obs-studio
       obsidian
-      # osu-lazer-bin # re-add this when its working again
+      osu-lazer-bin # re-add this when its working again
       pavucontrol
       pkg-config
       popcorntime
