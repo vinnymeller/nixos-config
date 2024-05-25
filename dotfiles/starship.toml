@@ -88,8 +88,8 @@ $battery\
 $cmd_duration\
 $time\
 $line_break\
-$username\
 $hostname\
+$username\
 $character\
 """
 
