@@ -71,11 +71,13 @@ let
             fd
             fzf
             gcc
+            git
             haskellPackages.haskell-language-server
             imagemagick
             isort
             ltex-ls
             lua-language-server
+            luajitPackages.jsregexp
             nil
             nixfmt-rfc-style
             nodePackages.eslint
@@ -100,6 +102,7 @@ let
             tailwindcss-language-server
             taplo
             terraform-ls
+            tree-sitter
             vscode-langservers-extracted
             xsel
             yaml-language-server
@@ -231,7 +234,8 @@ let
             "ea"
           ];
           # caution: this option must be the same for all packages.
-          nvimSRC = inputs.neovim;
+          # TODO: when plugins are more stable enable this to get back on nightly
+          # neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
         };
         # and a set of categories that you want
         # (and other information to pass to lua)

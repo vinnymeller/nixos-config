@@ -25,18 +25,13 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
-    pipewire-screenaudio.url = "github:IceDBorn/pipewire-screenaudio";
-
     nixCats = {
       url = "github:BirdeeHub/nixCats-nvim";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
 
-    neovim = {
-      url = "github:neovim/neovim";
-      flake = false;
-    };
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
     twm.url = "github:vinnymeller/twm";
   };

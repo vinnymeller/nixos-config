@@ -147,9 +147,7 @@
   environment.systemPackages = with pkgs; [
     # linuxPackages_latest.perf  # TODO: readd this when its working
     # openvpn
-    (firefox.override {
-      nativeMessagingHosts = [ inputs.pipewire-screenaudio.packages.${pkgs.system}.default ];
-    })
+    firefox
     gnupg
     killall
     pkgs.stable-pkgs.looking-glass-client
