@@ -150,6 +150,7 @@ local basic_servers = {
 	"ocamllsp",
 	"pyright",
 	"tailwindcss",
+	"taplo",
 	"terraformls",
 	"tsserver",
 	"yamlls",

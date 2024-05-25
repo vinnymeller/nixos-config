@@ -98,6 +98,7 @@ let
             src-cli
             stylua
             tailwindcss-language-server
+            taplo
             terraform-ls
             vscode-langservers-extracted
             xsel
