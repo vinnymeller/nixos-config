@@ -84,12 +84,12 @@ $status\
 $os\
 $container\
 $battery\
-$cmd_duration\
 $time\
 $line_break\
 $hostname\
 $username\
 $directory\
+$cmd_duration\
 $character\
 """
 
