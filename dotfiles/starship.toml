@@ -6,17 +6,18 @@ add_newline = true
 # format = "$all"
 
 format = """
-$time\
 $localip\
 $shlvl\
 $shell\
 $env_var\
+$directory\
 $git_branch\
 $git_commit\
 $git_state\
 $git_metrics\
 $git_status\
 $sudo\
+$fill\
 $singularity\
 $kubernetes\
 $vcsh\
@@ -85,10 +86,10 @@ $os\
 $container\
 $battery\
 $cmd_duration\
+$time\
 $line_break\
 $username\
 $hostname\
-$directory\
 $character\
 """
 
@@ -202,8 +203,7 @@ format = '[$symbol$project]($style) '
 format = '[$symbol($version)]($style) '
 
 [nix_shell]
-symbol = "❄️"
-format = '[$symbol$state]($style) '
+format = '[$state]($style) '
 
 [nodejs]
 format = '[$symbol($version)]($style) '
@@ -222,6 +222,7 @@ format = '[$symbol]($style) '
 
 [package]
 format = '[$symbol$version]($style) '
+disabled = true
 
 [perl]
 format = '[$symbol($version)]($style) '
@@ -271,7 +272,7 @@ format = '[$symbol$workspace]($style) '
 [time]
 format = '[$time]($style) '
 disabled = false
-use_12hr = true
+use_12hr = false
 
 [username]
 format = '[$user]($style) '
@@ -296,7 +297,11 @@ disabled = true
 
 [directory]
 truncate_to_repo = false
+truncation_length = 10
 style = "bold blue"
+
+[fill]
+symbol = " "
 
 [hostname]
 format = '[$hostname]($style) '
