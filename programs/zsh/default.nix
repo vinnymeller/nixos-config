@@ -26,8 +26,8 @@
     };
 
     initExtraFirst = ''
-      export LC_ALL=en_US.UTF-8
-      export LANG=en_US.UTF-8
+      export LC_ALL="en_US.UTF-8"
+      export LANG="en_US.UTF-8"
       export STARSHIP_CONFIG=~/.nixdots/dotfiles/starship.toml
       source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
     '';
