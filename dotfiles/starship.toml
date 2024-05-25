@@ -10,7 +10,6 @@ $localip\
 $shlvl\
 $shell\
 $env_var\
-$directory\
 $git_branch\
 $git_commit\
 $git_state\
@@ -90,6 +89,7 @@ $time\
 $line_break\
 $hostname\
 $username\
+$directory\
 $character\
 """
 
