@@ -299,3 +299,7 @@ disabled = true
 [directory]
 truncate_to_repo = false
 style = "bold blue"
+
+[hostname]
+format = '[$hostname]($style) '
+style = "bold #999999"
