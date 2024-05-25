@@ -11,9 +11,6 @@
     zsh-autocomplete
     zsh-completions
   ];
-  programs.starship = {
-    enable = true;
-  };
   programs.zsh = {
     enable = true;
     enableCompletion = false;
@@ -28,13 +25,20 @@
     initExtraFirst = ''
       export LC_ALL="en_US.UTF-8"
       export LANG="en_US.UTF-8"
-      export STARSHIP_CONFIG=~/.nixdots/dotfiles/starship.toml
+      # NOTE: anything that requires input has to go above this!
+      # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+      # Initialization code that may require console input (password prompts, [y/n]
+      # confirmations, etc.) must go above this block; everything else may go below.
+      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+      fi
+
       source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
     '';
 
     initExtra = ''
-      # source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-      # source ${config.xdg.configHome}/zsh/.p10k.zsh
+      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+      source ${config.xdg.configHome}/zsh/.p10k.zsh
       source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
       source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
       source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
@@ -50,6 +54,7 @@
 
       set -o vi
       export PATH=$HOME/.cargo/bin:$PATH # add cargo to the front of the path so dev tools are used > sys
+      export PATH=$PATH:/$HOME/.nix-profile/bin
       export TWM_DEFAULT="default"
 
       export EDITOR="nv"
@@ -77,6 +82,9 @@
   };
 
   programs.bash.enable = true; # just in case
+
+  # copy our powerlevel10k config over
+  home.file.".config/zsh/.p10k.zsh".source = ../../dotfiles/zsh/.p10k.zsh;
 
   programs.command-not-found.enable = false;
   programs.nix-index = {
