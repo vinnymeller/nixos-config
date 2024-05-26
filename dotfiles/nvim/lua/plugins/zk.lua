@@ -1,5 +1,5 @@
 require("zk").setup({
-	picker = "telescope",
+	picker = "fzf_lua",
 })
 
 local opts = { noremap = true, silent = false }
