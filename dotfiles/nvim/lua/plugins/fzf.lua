@@ -57,18 +57,15 @@ require("fzf-lua").setup({
 	},
 })
 
-vim.keymap.set("n", "sf", "<cmd>lua require('fzf-lua').files()<CR>", { desc = "[S]earch [F]iles" })
+vim.keymap.set("n", "sb", "<cmd>lua require('fzf-lua').buffers()<CR>", { desc = "[S]earch [B]uffers" })
+vim.keymap.set("n", "sc", "<cmd>lua require('fzf-lua').changes()<CR>", { desc = "[S]earch [C]hanges" })
+vim.keymap.set("n", "sc", "<cmd>lua require('fzf-lua').commands()<CR>", { desc = "[S]earch [C]ommands" })
 vim.keymap.set(
 	"n",
-	"sg",
-	"<cmd>lua require('fzf-lua').live_grep_native({search = ''})<CR>",
-	{ desc = "[S]earch [G]rep" }
+	"s<C-c>",
+	"<cmd>lua require('fzf-lua').command_history()<CR>",
+	{ desc = "[S]earch [C]ommand History" }
 )
-vim.keymap.set("n", "sr", "<cmd>lua require('fzf-lua').resume()<CR>", { desc = "[S]earch [R]esume" })
-vim.keymap.set("n", "sk", "<cmd>lua require('fzf-lua').keymaps()<CR>", { desc = "[S]earch [K]eymaps" })
-vim.keymap.set("n", "sh", "<cmd>lua require('fzf-lua').help_tags()<CR>", { desc = "[S]earch [H]elp" })
-vim.keymap.set("n", "sw", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { desc = "[S]earch [W]ord" })
-vim.keymap.set("n", "sW", "<cmd>lua require('fzf-lua').grep_cWORD()<CR>", { desc = "[S]earch [W]ORD" })
 vim.keymap.set(
 	"n",
 	"sd",
@@ -81,3 +78,14 @@ vim.keymap.set(
 	"<cmd>lua require('fzf-lua').diagnostics_workspace()<CR>",
 	{ desc = "[S]earch Workspace [D]iagnostics" }
 )
+vim.keymap.set("n", "sf", "<cmd>lua require('fzf-lua').files()<CR>", { desc = "[S]earch [F]iles" })
+vim.keymap.set("n", "sg", "<cmd>lua require('fzf-lua').live_grep_native()<CR>", { desc = "[S]earch [G]rep" })
+vim.keymap.set("n", "sG", "<cmd>lua require('fzf-lua').live_grep_glob()<CR>", { desc = "[S]earch [G]lob" })
+vim.keymap.set("n", "s<C-g>", "<cmd>lua require('fzf-lua').git_status()<CR>", { desc = "[S]earch [G]it Status" })
+vim.keymap.set("n", "sh", "<cmd>lua require('fzf-lua').help_tags()<CR>", { desc = "[S]earch [H]elp" })
+vim.keymap.set("n", "sj", "<cmd>lua require('fzf-lua').jumps()<CR>", { desc = "[S]earch [J]umps" })
+vim.keymap.set("n", "sk", "<cmd>lua require('fzf-lua').keymaps()<CR>", { desc = "[S]earch [K]eymaps" })
+vim.keymap.set("n", "sr", "<cmd>lua require('fzf-lua').resume()<CR>", { desc = "[S]earch [R]esume" })
+vim.keymap.set("n", "sw", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { desc = "[S]earch [W]ord" })
+vim.keymap.set("n", "sW", "<cmd>lua require('fzf-lua').grep_cWORD()<CR>", { desc = "[S]earch [W]ORD" })
+vim.keymap.set("n", "s/", "<cmd>lua require('fzf-lua').lgrep_curbuf()<CR>", { desc = "[S]earch [/]" })

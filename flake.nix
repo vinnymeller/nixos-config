@@ -33,7 +33,7 @@
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
-    twm.url = "github:vinnymeller/twm";
+    twm.url = "github:vinnymeller/twm/development";
   };
 
   outputs =

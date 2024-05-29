@@ -235,7 +235,7 @@ let
           ];
           # caution: this option must be the same for all packages.
           # TODO: when plugins are more stable enable this to get back on nightly
-          # neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
+          neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
           suffix-path = true;
         };
         # and a set of categories that you want
