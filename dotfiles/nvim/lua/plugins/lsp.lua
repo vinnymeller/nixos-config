@@ -153,7 +153,6 @@ local basic_servers = {
 	"taplo",
 	"terraformls",
 	"tsserver",
-	"yamlls",
 }
 
 local prettier_d = require("efmls-configs.formatters.prettier_d")
@@ -227,4 +226,4 @@ for _, lsp in ipairs(basic_servers) do
 end
 
 -- Turn on lsp status information
-require("fidget").setup()
+require("fidget").setup({})
