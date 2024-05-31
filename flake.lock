@@ -714,11 +714,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1717192274,
-        "narHash": "sha256-ZyDtvaEiaw6IM4sUSLPLPR7FjMjYrjp2IMs3esbopj8=",
+        "lastModified": 1717192782,
+        "narHash": "sha256-CCB7vS2GNXz/3FLa5Y04FJE4G74sy6+pLuGKlTWnXnc=",
         "owner": "vinnymeller",
         "repo": "twm",
-        "rev": "6312fe2e0a481c121596436798524ebb943a69e2",
+        "rev": "3bc3055b909c9750df17f7793e4a32daaef9bdeb",
         "type": "github"
       },
       "original": {
