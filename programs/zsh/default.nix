@@ -56,10 +56,10 @@
       export PATH=$HOME/.cargo/bin:$PATH # add cargo to the front of the path so dev tools are used > sys
       export PATH=$PATH:/$HOME/.nix-profile/bin
       export TWM_DEFAULT="default"
+      export TWM_CONFIG_FILE="$HOME/.nixdots/dotfiles/twm/twm.yaml"
 
       export EDITOR="nv"
-      export VISUAL="ncvim" # dont know what this is for tbh
-      export PATH=$HOME/.pyenv/shims:$PATH
+      export VISUAL="nv" # dont know what this is for tbh
 
       tmux has-session -t $TWM_DEFAULT >/dev/null 2>&1 || twm -d -p . -n $TWM_DEFAULT
 
