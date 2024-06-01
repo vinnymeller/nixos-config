@@ -34,7 +34,7 @@
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
     twm = {
-      url = "github:vinnymeller/twm/development";
+      url = "github:vinnymeller/twm";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
