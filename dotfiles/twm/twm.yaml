@@ -1,4 +1,5 @@
 # yaml-language-server: $schema=./twm.schema.json
+
 search_paths:
   - "~/.nixdots"
   - "~/zk"
@@ -70,4 +71,3 @@ layouts:
   - name: basic
     inherits:
       - two-windows
-

@@ -39,7 +39,7 @@ cmp.setup({
 			winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None,luaParenError:NormalFloat,luaError:NormalFloat",
 		},
 		documentation = {
-			max_height = 30,
+			max_height = 50,
 			winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None,luaParenError:NormalFloat,luaError:NormalFloat",
 		},
 	},
@@ -129,7 +129,7 @@ cmp.setup({
 		},
 	},
 	nvim_lsp_signature_help = {
-		max_height = 15,
+		max_height = 50
 	},
 	preselect = cmp.PreselectMode.None,
 	completion = {
@@ -167,7 +167,7 @@ cmp.setup.cmdline(":", {
 		{
 			name = "cmdline",
 			option = {
-				ignore_cmds = {},  -- this lets us get shell completion for ! commands, for some reason its ignored by default
+				ignore_cmds = {}, -- this lets us get shell completion for ! commands, for some reason its ignored by default
 			},
 		},
 	}),

@@ -29,6 +29,5 @@ vim.o.termguicolors = true
 vim.o.mouse = ""
 
 vim.o.spelllang = "en_us"
-vim.o.spell = true
 vim.o.cursorline = true
 vim.o.cursorcolumn = false
