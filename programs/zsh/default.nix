@@ -103,6 +103,7 @@
     nt = "sudo nixos-rebuild --flake ~/.nixdots test";
     hms = "nix run home-manager switch -- --flake ~/.nixdots";
     root = "cd $TWM_ROOT";
+    etwm = "TWM_CONFIG_FILE= twm";
     ef = "nv $(find_file_up_tree flake.nix)";
   };
 }
