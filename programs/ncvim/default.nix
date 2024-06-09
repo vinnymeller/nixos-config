@@ -72,6 +72,7 @@ let
             fzf
             gcc
             git
+            gopls
             haskellPackages.haskell-language-server
             imagemagick
             isort

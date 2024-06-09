@@ -18,9 +18,6 @@ require("nvim-treesitter.configs").setup({
 	--
 
 	auto_install = true,
-	autotag = {
-		enable = true,
-	},
 	parser_install_dir = "$HOME/.local/share/treesitter",
 	matchup = {
 		enable = true,

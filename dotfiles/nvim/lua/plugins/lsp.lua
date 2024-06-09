@@ -145,6 +145,7 @@ require("lspconfig").html.setup({
 local basic_servers = {
 	"ccls",
 	"dockerls",
+	"gopls",
 	"hls",
 	"nil_ls",
 	"ocamllsp",
@@ -175,6 +176,10 @@ local languages = {
 	-- 	prettier_d,
 	-- 	eslint,
 	-- },
+	go = {
+		require("efmls-configs.formatters.gofmt"),
+		require("efmls-configs.formatters.goimports"),
+	},
 	lua = {
 		require("efmls-configs.formatters.stylua"),
 	},
