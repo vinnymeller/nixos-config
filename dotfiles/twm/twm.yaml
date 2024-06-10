@@ -28,12 +28,12 @@ workspace_definitions:
       - Pipfile
     default_layout: basic
 
-  - name: node
+  - name: js
     has_any_file:
       - package.json
-      - yarn.lock
-      - .nvmrc
-    default_layout: basic
+      - node_modules
+      - tsconfig.json
+    default_layout: js-dev
 
   - name: rust
     has_any_file:
@@ -53,6 +53,7 @@ layouts:
     commands:
       - tmux new-window
       - tmux select-window -t 0
+
   - name: default
     commands:
       - tmux split-window -h
@@ -60,6 +61,20 @@ layouts:
       - tmux split-window -v
       - tmux select-pane -t 0
       - nv .
+
+  - name: thin-side-pane
+    commands:
+      - tmux split-window -h
+      - tmux resize-pane -x 80
+      - tmux select-pane -t 0
+
+  - name: js-dev
+    inherits:
+      - thin-side-pane
+    commands:
+      - tmux send-keys -t 1 'npm run dev' C-m
+      - nv
+
   - name: rust-dev
     commands:
       - tmux split-window -h

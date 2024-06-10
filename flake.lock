@@ -568,6 +568,22 @@
         "type": "github"
       }
     },
+    "plugins-precognition-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1717926083,
+        "narHash": "sha256-AqWYV/59ugKyOWALOCdycWVm0bZ7qb981xnuw/mAVzM=",
+        "owner": "tris203",
+        "repo": "precognition.nvim",
+        "rev": "5255b72c52b1159e9757f50389bde65e05e3bfb1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tris203",
+        "repo": "precognition.nvim",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks-nix": {
       "inputs": {
         "flake-compat": [
@@ -606,6 +622,7 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable_2",
+        "plugins-precognition-nvim": "plugins-precognition-nvim",
         "twm": "twm"
       }
     },

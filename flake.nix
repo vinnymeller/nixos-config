@@ -31,6 +31,11 @@
       inputs.flake-utils.follows = "flake-utils";
     };
 
+    plugins-precognition-nvim = {
+      url = "github:tris203/precognition.nvim";
+      flake = false;
+    };
+
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
     twm = {

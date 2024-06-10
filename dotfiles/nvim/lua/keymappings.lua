@@ -1,7 +1,6 @@
 local map = vim.keymap.set
 
 map({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
-
 -- handle wordwrap better
 map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -70,3 +69,5 @@ vim.api.nvim_create_user_command("LspFormat", lsp_format, { desc = "Format curre
 map("n", "<leader>fm", "<cmd>LspFormat<CR>", { desc = "[F]ormat [M]anually" })
 map("n", "<leader>;", ":<C-f>k", { desc = "Open command window" })
 map("n", "<leader>.", "@:", { desc = "Repeat last command" })
+map("n", "<leader>pp", "<cmd>lua require('precognition').toggle()<CR>", { desc = "[P]recognition Toggle" })
+
