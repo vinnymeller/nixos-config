@@ -168,10 +168,13 @@ local languages = {
 	-- css = {
 	-- 	prettier_d,
 	-- },
-	-- typescript = {
-	-- 	prettier_d,
-	-- 	eslint,
-	-- },
+	typescript = {
+		-- prettier_d,
+		eslint,
+	},
+	typescriptreact = {
+		eslint,
+	},
 	-- javascript = {
 	-- 	prettier_d,
 	-- 	eslint,
