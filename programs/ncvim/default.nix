@@ -82,13 +82,13 @@ let
             nil
             nixfmt-rfc-style
             nodePackages.eslint
-            nodePackages.pyright
             nodePackages.sql-formatter
             nodePackages.typescript-language-server
             nodejs
             ocamlPackages.ocaml-lsp
             postgresql
             prettierd
+            pyright
             ripgrep
             bat
             delta
