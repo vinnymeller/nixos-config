@@ -76,7 +76,6 @@ in
       nix-init
       nix-init
       obs-studio
-      obsidian
       osu-lazer-bin # re-add this when its working again
       pavucontrol
       pkg-config
@@ -89,7 +88,7 @@ in
       slack
       spotify
       unzip
-      master-pkgs.vesktop
+      vesktop
       virt-manager
       vlc
       yubioath-flutter
