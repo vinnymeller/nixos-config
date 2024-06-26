@@ -37,7 +37,7 @@
 
     plugins-dbtpal-nvim = {
       flake = false;
-      url = "github:PedramNavid/dbtpal";
+      url = "github:vinnymeller/dbtpal";
     };
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
