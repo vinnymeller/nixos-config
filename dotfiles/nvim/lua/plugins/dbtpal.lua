@@ -19,6 +19,6 @@ dbt.setup({
 
 -- Setup key mappings
 
-vim.keymap.set("n", "<leader>drf", dbt.run)
-vim.keymap.set("n", "<leader>drp", dbt.run_all)
-vim.keymap.set("n", "<leader>dtf", dbt.test)
+vim.keymap.set("n", "<leader>drf", dbt.run, { desc = "[D]BT [R]un [F]ile"})
+vim.keymap.set("n", "<leader>drp", dbt.run_all, { desc = "[D]BT [R]un [P]roject"})
+vim.keymap.set("n", "<leader>dtf", dbt.test, { desc = "[D]BT [T]est [F]ile"})
