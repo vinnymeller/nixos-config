@@ -532,6 +532,22 @@
         "type": "github"
       }
     },
+    "plugins-dbtpal-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1708903569,
+        "narHash": "sha256-XMde9XW/3zFeJ+AwROZqR4v+vopx/1Aq9BKuukiIsCk=",
+        "owner": "PedramNavid",
+        "repo": "dbtpal",
+        "rev": "0950ceb88ae898a23f78a4d12fbeeee4cb5dad5e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "PedramNavid",
+        "repo": "dbtpal",
+        "type": "github"
+      }
+    },
     "plugins-hlargs": {
       "flake": false,
       "locked": {
@@ -602,6 +618,7 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable_2",
+        "plugins-dbtpal-nvim": "plugins-dbtpal-nvim",
         "plugins-precognition-nvim": "plugins-precognition-nvim",
         "twm": "twm"
       }

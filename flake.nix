@@ -28,12 +28,16 @@
     nixCats = {
       url = "github:BirdeeHub/nixCats-nvim";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
 
     plugins-precognition-nvim = {
       url = "github:tris203/precognition.nvim";
       flake = false;
+    };
+
+    plugins-dbtpal-nvim = {
+      flake = false;
+      url = "github:PedramNavid/dbtpal";
     };
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
