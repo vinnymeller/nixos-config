@@ -94,8 +94,8 @@ let
             delta
             bat
             fd
-            rust-analyzer
-            rustfmt
+            # rust-analyzer  # provice my own rust-analyzer in a project since it sometimes causes issues having incompatible versions
+            # rustfmt  # same as above
             shellcheck
             shfmt
             src-cli
