@@ -73,7 +73,7 @@
       enable = true;
       powerOnBoot = true;
     };
-    opengl.enable = true;
+    graphics.enable = true;
     # pulseaudio.enable = true;
     xpadneo.enable = true;
     opentabletdriver.enable = true; # OSU TABLET HERE WE GOOOOOOOO
