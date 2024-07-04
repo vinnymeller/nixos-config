@@ -7,8 +7,17 @@ map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map("i", "jk", "<Esc>", { desc = "jk to escape" })
 
 -- Diagnostic keymaps
+map("n", "<leader>e", vim.diagnostic.open_float)
 map("n", "<leader>q", vim.diagnostic.setloclist)
 map("n", "<leader>Q", vim.diagnostic.setqflist)
+
+map("n", "<leader>dj", function()
+	vim.diagnostic.jump({ count = vim.v.count1 })
+end, { desc = "Jump to the next diagnostic in the current buffer" })
+
+map("n", "<leader>dk", function()
+	vim.diagnostic.jump({ count = -vim.v.count1 })
+end, { desc = "Jump to the previous diagnostic in the current buffer" })
 
 -- helpful visual mode mappings
 map("v", ">", ">gv", { noremap = true })
@@ -67,4 +76,3 @@ map("n", "<leader>fm", "<cmd>LspFormat<CR>", { desc = "[F]ormat [M]anually" })
 map("n", "<leader>;", ":<C-f>k", { desc = "Open command window" })
 map("n", "<leader>.", "@:", { desc = "Repeat last command" })
 map("n", "<leader>pp", "<cmd>lua require('precognition').toggle()<CR>", { desc = "[P]recognition Toggle" })
-

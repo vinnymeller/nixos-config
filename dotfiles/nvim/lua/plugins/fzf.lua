@@ -1,5 +1,6 @@
 local actions = require("fzf-lua").actions
 
+-- TODO: some of this stuff just doesn't do anything / is broken
 require("fzf-lua").setup({
 	fzf_opts = { ["--layout"] = "default", ["--marker"] = "+" },
 	winopts = {
@@ -32,7 +33,6 @@ require("fzf-lua").setup({
 			-- Only valid with fzf previewers (bat/cat/git/etc)
 			["f3"] = "toggle-preview-wrap",
 			["f4"] = "toggle-preview",
-			["ctrl-q"] = "select-all+accept",
 		},
 	},
 	actions = {
@@ -43,6 +43,7 @@ require("fzf-lua").setup({
 			["ctrl-t"] = actions.file_tabedit,
 			["alt-q"] = actions.file_sel_to_qf,
 			["alt-l"] = actions.file_sel_to_ll,
+			["ctrl-q"] = { fn = actions.file_sel_to_qf, prefix = "select-all+" },
 		},
 		buffers = {
 			["default"] = actions.buf_edit,
