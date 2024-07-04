@@ -190,9 +190,6 @@ local languages = {
 		require("efmls-configs.formatters.black"),
 		require("efmls-configs.formatters.isort"),
 	},
-	rust = {
-		require("efmls-configs.formatters.rustfmt"),
-	},
 	nix = {
 		require("efmls-configs.formatters.nixfmt"),
 	},
