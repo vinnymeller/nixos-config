@@ -130,6 +130,18 @@ require("lspconfig").yamlls.setup({
 	},
 })
 
+require("lspconfig").nixd.setup({
+	capabilities = capabilities,
+	cmd = { "nixd", "--semantic-tokens=false" },
+	settings = {
+		nixd = {
+			formatting = {
+				command = { "nixfmt" },
+			},
+		},
+	},
+})
+
 -- htmx lsp is fucking up all the other ones and i dont get proper html and tailwind autocomplete for some reason
 -- figure out later TODO
 -- require("lspconfig").htmx.setup({
@@ -147,7 +159,6 @@ local basic_servers = {
 	"dockerls",
 	"gopls",
 	"hls",
-	"nil_ls",
 	"ocamllsp",
 	"pyright",
 	"tailwindcss",
@@ -190,9 +201,9 @@ local languages = {
 		require("efmls-configs.formatters.black"),
 		require("efmls-configs.formatters.isort"),
 	},
-	nix = {
-		require("efmls-configs.formatters.nixfmt"),
-	},
+	-- nix = {
+	-- 	require("efmls-configs.formatters.nixfmt"),
+	-- },
 	sh = {
 		require("efmls-configs.formatters.shfmt"),
 		require("efmls-configs.linters.shellcheck"),

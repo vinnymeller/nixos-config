@@ -79,8 +79,12 @@ let
             ltex-ls
             lua-language-server
             luajitPackages.jsregexp
-            nil
+
+            # nixd uses nixpkgs-fmt
+            nixd
+            nixpkgs-fmt
             nixfmt-rfc-style
+
             nodePackages.eslint
             nodePackages.sql-formatter
             nodePackages.typescript-language-server
@@ -137,7 +141,7 @@ let
           image-nvim
           indent-blankline-nvim
           lspkind-nvim
-          ltex_extra-nvim  # goes with ltex-ls providing code action functionality for nvim (e.g. add to dict, ignore rule, etc)
+          ltex_extra-nvim # goes with ltex-ls providing code action functionality for nvim (e.g. add to dict, ignore rule, etc)
           lualine-nvim
           luasnip
           markdown-preview-nvim

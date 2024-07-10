@@ -15,7 +15,7 @@
 # Example overlay:
 /*
   importName: inputs: let
-    overlay = self: super: {
+  overlay = self: super: {
         ${importName} = {
               # define your overlay derivations here
                   };
@@ -34,4 +34,3 @@ let
   };
 in
 builtins.attrValues (builtins.mapAttrs (name: value: (value name inputs)) overlaySet)
-
