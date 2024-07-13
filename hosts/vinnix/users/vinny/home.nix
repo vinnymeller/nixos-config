@@ -57,7 +57,7 @@ in
       feh
       flameshot
       gcc
-      gnome.nautilus
+      nautilus
       gocryptfs
       gromit-mpx
       htop
