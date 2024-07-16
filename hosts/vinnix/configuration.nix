@@ -94,6 +94,22 @@
     devmon.enable = true;
     gvfs.enable = true;
     udisks2.enable = true;
+    openssh = {
+      enable = true;
+      ports = [ 2222 ];
+      settings = {
+        PermitRootLogin = "no";
+        X11Forwarding = false;
+        AllowUsers = [ "vinny" ];
+        PasswordAuthentication = false;
+      };
+      authorizedKeysInHomedir = true;
+      logLevel = "VERBOSE";
+    };
+    fail2ban = {
+      enable = true;
+
+    };
   };
 
   fonts = {
