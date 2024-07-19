@@ -144,9 +144,6 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  # Enable sound.
-  sound.enable = true;
-
   users.users.vinny = {
     isNormalUser = true;
     initialPassword = "passwordington";
