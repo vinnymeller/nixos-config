@@ -25,7 +25,6 @@ map("v", "<", "<gv", { noremap = true })
 
 -- backspace in normal mode to replace current word. can i upgrade this ? think about it
 map("n", "<bs>", "ciw", { desc = "Change current word" })
-map("n", "<tab>", "ciW", { desc = "Change current WORD" })
 
 -- open dadbod ui
 map("n", "<leader>db", "<cmd>DBUIToggle<CR>", { desc = "[D]ad[B]od Toggle" })
