@@ -44,6 +44,9 @@
       source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
       source ${pkgs.nix-zsh-completions}/share/zsh/plugins/nix/nix-zsh-completions.plugin.zsh
 
+
+      fpath=(${pkgs.zsh-completions}/share/zsh/site-functions $fpath)
+
       fpath=(${pkgs.nix-zsh-completions}/share/zsh/site-functions $fpath)
       autoload -U compinit && compinit
 
