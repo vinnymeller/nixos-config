@@ -92,6 +92,7 @@
     mullvad-vpn.enable = true;
     yubikey-agent.enable = true;
     devmon.enable = true;
+    gnome.gnome-keyring.enable = true;
     gvfs.enable = true;
     udisks2.enable = true;
     openssh = {
