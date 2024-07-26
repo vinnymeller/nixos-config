@@ -103,9 +103,9 @@
         X11Forwarding = false;
         AllowUsers = [ "ssh_tunnel" "vinny" ];
         PasswordAuthentication = false;
+        LogLevel = "VERBOSE";
       };
       authorizedKeysInHomedir = true;
-      logLevel = "VERBOSE";
     };
     fail2ban = {
       enable = true;
