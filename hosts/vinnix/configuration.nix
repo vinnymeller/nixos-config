@@ -101,7 +101,7 @@
       settings = {
         PermitRootLogin = "no";
         X11Forwarding = false;
-        AllowUsers = [ "vinny" ];
+        AllowUsers = [ "ssh_tunnel" "vinny" ];
         PasswordAuthentication = false;
       };
       authorizedKeysInHomedir = true;
@@ -145,17 +145,27 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  users.users.vinny = {
-    isNormalUser = true;
-    initialPassword = "passwordington";
-    extraGroups = [
-      "wheel"
-      "libvirtd"
-      "kvm"
-      "qemu-libvirtd"
-    ];
-    shell = pkgs.zsh;
+  users.users = {
+    vinny = {
+      isNormalUser = true;
+      initialPassword = "passwordington";
+      extraGroups = [
+        "wheel"
+        "libvirtd"
+        "kvm"
+        "qemu-libvirtd"
+      ];
+      shell = pkgs.zsh;
+    };
+    ssh_tunnel = {
+      isNormalUser = true;
+      initialPassword = "passwordington";
+      group = "ssh_tunnel";
+      shell = "${pkgs.shadow}/bin/nologin";
+    };
   };
+
+  users.groups.ssh_tunnel = {};
 
   environment.pathsToLink = [ "/share/zsh" ];
   environment.systemPackages = with pkgs; [
