@@ -101,7 +101,10 @@
       settings = {
         PermitRootLogin = "no";
         X11Forwarding = false;
-        AllowUsers = [ "ssh_tunnel" "vinny" ];
+        AllowUsers = [
+          "ssh_tunnel"
+          "vinny"
+        ];
         PasswordAuthentication = false;
         LogLevel = "VERBOSE";
       };
@@ -109,7 +112,6 @@
     };
     fail2ban = {
       enable = true;
-
     };
   };
 
@@ -165,7 +167,7 @@
     };
   };
 
-  users.groups.ssh_tunnel = {};
+  users.groups.ssh_tunnel = { };
 
   environment.pathsToLink = [ "/share/zsh" ];
   environment.systemPackages = with pkgs; [
