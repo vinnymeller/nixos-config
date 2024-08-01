@@ -49,8 +49,8 @@ in
       anki-bin
       calibre
       chromium
-      cinnamon.nemo-with-extensions
-      cinnamon.xviewer
+      nemo-with-extensions
+      xviewer
       dmenu
       dunst
       easyeffects
