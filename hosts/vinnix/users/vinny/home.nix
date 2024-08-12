@@ -65,7 +65,6 @@ in
       kompose
       kubectl
       kubernetes-helm
-      leetgo
       libreoffice
       libvirt
       lxde.lxsession
