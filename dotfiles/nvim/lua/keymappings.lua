@@ -75,3 +75,9 @@ map("n", "<leader>fm", "<cmd>LspFormat<CR>", { desc = "[F]ormat [M]anually" })
 map("n", "<leader>;", ":<C-f>k", { desc = "Open command window" })
 map("n", "<leader>.", "@:", { desc = "Repeat last command" })
 map("n", "<leader>pp", "<cmd>lua require('precognition').toggle()<CR>", { desc = "[P]recognition Toggle" })
+
+-- window resizing
+map("n", "<M-h>", "<C-w>5<", { desc = "Decrease window width 5" })
+map("n", "<M-l>", "<C-w>5>", { desc = "Increase window width 5" })
+map("n", "<M-j>", "<C-w>-", { desc = "Decrease window height" })
+map("n", "<M-k>", "<C-w>+", { desc = "Increase window height" })
