@@ -512,38 +512,6 @@
         "type": "github"
       }
     },
-    "plugins-dbtpal-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1719430347,
-        "narHash": "sha256-z105QAe6L0jEC8NkjM5LEe2bNXeYVP+/kOiVT92LtLo=",
-        "owner": "vinnymeller",
-        "repo": "dbtpal",
-        "rev": "181966a358880020293e6da4ddf57f515f69ff19",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vinnymeller",
-        "repo": "dbtpal",
-        "type": "github"
-      }
-    },
-    "plugins-precognition-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1723129598,
-        "narHash": "sha256-/3Rr3RIwDcvHzzPGxBg7GylvZ6GSQ+68wkbHxINZPZQ=",
-        "owner": "tris203",
-        "repo": "precognition.nvim",
-        "rev": "de72c68e9a5fb76b030a40122b02c2ec4c7fb029",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tris203",
-        "repo": "precognition.nvim",
-        "type": "github"
-      }
-    },
     "pre-commit-hooks-nix": {
       "inputs": {
         "flake-compat": [
@@ -582,8 +550,6 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable_2",
-        "plugins-dbtpal-nvim": "plugins-dbtpal-nvim",
-        "plugins-precognition-nvim": "plugins-precognition-nvim",
         "twm": "twm"
       }
     },
