@@ -155,9 +155,8 @@ let
           nvim-ts-autotag
           nvim-web-devicons
           oil-nvim
-          pkgs.neovimPlugins.precognition-nvim
-          pkgs.neovimPlugins.dbtpal-nvim
           plenary-nvim
+          precognition-nvim
           rustaceanvim
           sniprun
           tint-nvim

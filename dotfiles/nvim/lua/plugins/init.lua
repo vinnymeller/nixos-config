@@ -1,7 +1,6 @@
 require("plugins.autopairs")
 require("plugins.autosave")
 require("plugins.copilot")
-require("plugins.dbtpal")
 require("plugins.diffview")
 require("plugins.fzf")
 require("plugins.gitsigns")

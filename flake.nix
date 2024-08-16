@@ -30,16 +30,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    plugins-precognition-nvim = {
-      url = "github:tris203/precognition.nvim";
-      flake = false;
-    };
-
-    plugins-dbtpal-nvim = {
-      flake = false;
-      url = "github:vinnymeller/dbtpal";
-    };
-
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
     twm = {
