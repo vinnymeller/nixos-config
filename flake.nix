@@ -89,6 +89,7 @@
       homeConfigurations = {
         "vinny@wdtech-eos" = import ./hosts/wdtech-eos { inherit inputs outputs; };
         "vinny@camovinny" = import ./hosts/camovinny { inherit inputs outputs; };
+        "amina@Aminas-Macbook-Air" = import ./hosts/amina { inherit inputs outputs; };
       };
     };
 }
