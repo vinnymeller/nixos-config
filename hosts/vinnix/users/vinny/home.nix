@@ -72,7 +72,7 @@ in
       mullvad-vpn
       neofetch
       nerdfonts
-      nix-index
+      # nix-index
       nix-init
       nix-init
       obs-studio
@@ -97,10 +97,6 @@ in
     ++ builtins.attrValues cust_pkgs;
 
   programs.command-not-found.enable = false;
-  programs.nix-index = {
-    enable = true;
-    enableZshIntegration = true;
-  };
 
   home.file.".config/qtile".source = ../../../../dotfiles/qtile;
   home.file.".config/nixpkgs".source = ../../../../dotfiles/nixpkgs;
