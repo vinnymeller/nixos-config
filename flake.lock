@@ -492,6 +492,22 @@
         "type": "github"
       }
     },
+    "plugins-nvim-various-textobjs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1723897343,
+        "narHash": "sha256-3MFPlKJHQthaDY0ZR6kcqogpsJN+SiPRIpetSA4VQDo=",
+        "owner": "chrisgrieser",
+        "repo": "nvim-various-textobjs",
+        "rev": "8dbc655f794202f45ab6a1cac1cb323a218ac6a1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "chrisgrieser",
+        "repo": "nvim-various-textobjs",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks-nix": {
       "inputs": {
         "flake-compat": [
@@ -529,6 +545,7 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable_2",
+        "plugins-nvim-various-textobjs": "plugins-nvim-various-textobjs",
         "twm": "twm"
       }
     },

@@ -32,6 +32,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+
+    "plugins-nvim-various-textobjs" = {
+      url = "github:chrisgrieser/nvim-various-textobjs";
+      flake = false;
+    };
+
   };
 
   outputs =
