@@ -205,6 +205,7 @@
   # this replaces virtualisation.podman.enableNvidia
   # this replaces  virtualisation.containers.cdi.dynamic.nvidia.enable lol
   hardware.nvidia-container-toolkit.enable = true;
+  hardware.nvidia.open = true;
 
   system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
 
