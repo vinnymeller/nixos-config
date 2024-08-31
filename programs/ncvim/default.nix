@@ -21,15 +21,7 @@ let
         # `plugins-<pluginName>`
         # Once we add this overlay to our nixpkgs, we are able to
         # use `pkgs.neovimPlugins`, which is a set of our plugins.
-        dependencyOverlays = [
-          (utils.mergeOverlayLists inputs.nixCats.dependencyOverlays.${system} (
-            (import ./overlays inputs)
-            ++ [
-              (utils.standardPluginOverlay inputs)
-              # add any flake overlays here.
-            ]
-          ))
-        ];
+        dependencyOverlays = (import ./overlays inputs);
       in
       {
         inherit dependencyOverlays;
