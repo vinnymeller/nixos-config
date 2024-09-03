@@ -81,3 +81,13 @@ map("n", "<M-h>", "<C-w>5<", { desc = "Decrease window width 5" })
 map("n", "<M-l>", "<C-w>5>", { desc = "Increase window width 5" })
 map("n", "<M-j>", "<C-w>-", { desc = "Decrease window height" })
 map("n", "<M-k>", "<C-w>+", { desc = "Increase window height" })
+
+
+map("n", "<leader>dst", function()
+	vim.o.number = not vim.o.number;
+	vim.o.relativenumber = not vim.o.relativenumber;
+	require('gitsigns').toggle_signs();
+	require('ibl').setup_buffer(0, {
+		enabled = not require('ibl.config').get_config(0).enabled,
+	})
+end, { desc = "Toggle decorative stuff for copy/pasting" })
