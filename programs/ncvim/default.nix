@@ -76,7 +76,7 @@ let
             nixpkgs-fmt
             nixfmt-rfc-style
 
-            nodePackages.eslint
+            # nodePackages.eslint
             nodePackages.sql-formatter
             nodePackages.typescript-language-server
             nodejs
