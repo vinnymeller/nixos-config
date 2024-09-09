@@ -8,7 +8,7 @@
 
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
 
-    nixpkgs-avante.url = "github:vinnymeller/nixpkgs/avante-nvim";
+    nixpkgs-avante.url = "github:ttrei/nixpkgs/avante-nvim";
 
     home-manager = {
       url = "github:nix-community/home-manager";

@@ -402,15 +402,15 @@
     },
     "nixpkgs-avante": {
       "locked": {
-        "lastModified": 1725862504,
-        "narHash": "sha256-iZVRIqB6AmgEhos8CeWjxZdv+F3znaGKaEE54FFxDIA=",
-        "owner": "vinnymeller",
+        "lastModified": 1725867557,
+        "narHash": "sha256-bbkpVRRM/8uUO1U/TauEkox7m3y4xCURx74h09fKjS4=",
+        "owner": "ttrei",
         "repo": "nixpkgs",
-        "rev": "bd270a4ed0fc70a8bc320507f2f1dd6b24dd02f5",
+        "rev": "bbbb76bef2bfb14cfd9bb762ae89c31bb793e55e",
         "type": "github"
       },
       "original": {
-        "owner": "vinnymeller",
+        "owner": "ttrei",
         "ref": "avante-nvim",
         "repo": "nixpkgs",
         "type": "github"
