@@ -8,6 +8,8 @@
 
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
 
+    nixpkgs-avante.url = "github:ttrei/nixpkgs/avante-nvim";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,6 +49,7 @@
       nixpkgs,
       nixpkgs-master,
       nixpkgs-stable,
+      nixpkgs-avante,
       home-manager,
       lanzaboote,
       nixCats,

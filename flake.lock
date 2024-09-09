@@ -400,6 +400,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-avante": {
+      "locked": {
+        "lastModified": 1725821705,
+        "narHash": "sha256-GxQwUX4acHMcS8Q57XEMHjgqeoyIbFCbTOAgDjT6zq8=",
+        "owner": "ttrei",
+        "repo": "nixpkgs",
+        "rev": "9167ba6f9685bec9b25c829f385e587b88985ff4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ttrei",
+        "ref": "avante-nvim",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-master": {
       "locked": {
         "lastModified": 1725551797,
@@ -543,6 +559,7 @@
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixCats": "nixCats",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-avante": "nixpkgs-avante",
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable_2",
         "plugins-nvim-various-textobjs": "plugins-nvim-various-textobjs",

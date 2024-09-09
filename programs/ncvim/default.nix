@@ -146,6 +146,7 @@ let
           nvim-ts-autotag
           nvim-web-devicons
           oil-nvim
+          pkgs.avante.vimPlugins.avante-nvim
           pkgs.neovimPlugins.nvim-various-textobjs
           plenary-nvim
           precognition-nvim
