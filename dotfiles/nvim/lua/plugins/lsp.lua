@@ -167,7 +167,7 @@ local basic_servers = {
 	"tsserver",
 }
 
-local prettier_d = require("efmls-configs.formatters.prettier_d")
+local prettier = require("efmls-configs.formatters.prettier")
 local eslint = require("efmls-configs.linters.eslint")
 local languages = {
 	-- html = {
@@ -182,14 +182,20 @@ local languages = {
 	typescript = {
 		-- prettier_d,
 		eslint,
+		prettier,
 	},
 	typescriptreact = {
 		eslint,
+		prettier,
 	},
-	-- javascript = {
-	-- 	prettier_d,
-	-- 	eslint,
-	-- },
+	javascript = {
+		eslint,
+		prettier,
+	},
+	javascriptreact = {
+		eslint,
+		prettier,
+	},
 	go = {
 		require("efmls-configs.formatters.gofmt"),
 		require("efmls-configs.formatters.goimports"),
