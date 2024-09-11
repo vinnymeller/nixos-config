@@ -402,11 +402,11 @@
     },
     "nixpkgs-avante": {
       "locked": {
-        "lastModified": 1725867557,
-        "narHash": "sha256-bbkpVRRM/8uUO1U/TauEkox7m3y4xCURx74h09fKjS4=",
+        "lastModified": 1725911396,
+        "narHash": "sha256-IuP7DOnMqfputlSImsd8/HiSpc4OE0U1yfK13DZl2no=",
         "owner": "ttrei",
         "repo": "nixpkgs",
-        "rev": "bbbb76bef2bfb14cfd9bb762ae89c31bb793e55e",
+        "rev": "5f07b177bf436029099f25a733c0a07b9faa1034",
         "type": "github"
       },
       "original": {
