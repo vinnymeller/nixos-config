@@ -154,6 +154,7 @@ let
           sniprun
           tint-nvim
           tmux-nvim
+          typescript-tools-nvim
           undotree
           vim-dadbod
           vim-dadbod-completion

@@ -164,7 +164,6 @@ local basic_servers = {
 	"tailwindcss",
 	"taplo",
 	"terraformls",
-	"tsserver",
 }
 
 local prettier = require("efmls-configs.formatters.prettier")
@@ -249,3 +248,5 @@ end
 
 -- Turn on lsp status information
 require("fidget").setup({})
+
+require("typescript-tools").setup({})
