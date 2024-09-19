@@ -10,10 +10,6 @@
     stable-pkgs = import inputs.nixpkgs-stable { system = final.system; };
   };
 
-  avante-overlay = final: prev: {
-    avante = import inputs.nixpkgs-avante { system = final.system; };
-  };
-
   remove-0xproto-italics = final: prev: {
     _0xproto-no-italics = prev._0xproto.overrideAttrs (
       finalAttrs: prevAttrs: {

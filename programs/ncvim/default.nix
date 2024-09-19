@@ -144,10 +144,10 @@ let
           nvim-treesitter-textobjects
           nvim-treesitter.withAllGrammars
           nvim-ts-autotag
+          nvim-various-textobjs
           nvim-web-devicons
           oil-nvim
-          pkgs.avante.vimPlugins.avante-nvim
-          pkgs.neovimPlugins.nvim-various-textobjs
+          pkgs.master-pkgs.vimPlugins.avante-nvim # change this to regular pkgs eventually
           plenary-nvim
           precognition-nvim
           rustaceanvim
