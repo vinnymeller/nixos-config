@@ -48,7 +48,7 @@
   services.picom = {
     enable = true;
     backend = "glx";
-    fade = true;
+    fade = false;
     fadeDelta = 5;
     opacityRules = [ "100:QTILE_INTERNAL:32c" ];
     shadow = true;
