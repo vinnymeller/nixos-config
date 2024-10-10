@@ -216,6 +216,9 @@ local languages = {
 	sql = {
 		require("efmls-configs.formatters.sql-formatter"),
 	},
+	plsql = {
+		require("efmls-configs.formatters.sql-formatter"),
+	},
 	json = {
 		require("efmls-configs.formatters.prettier_d"),
 	},

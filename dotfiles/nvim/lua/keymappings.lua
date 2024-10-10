@@ -43,6 +43,10 @@ local lsp_format = function()
 		-- check if our efm client has documentFormattingProvider capability
 		-- check if efm has a formatCommand configured for the current filetype
 		local efm_lang = efm_client.config.settings.languages[vim.bo.filetype]
+		if efm_lang == nil then
+			vim.print("No efm configuration found for filetype: " .. vim.bo.filetype)
+			return
+		end
 		-- search all the tables in the lang config for a formatCommand key
 		for _, config in ipairs(efm_lang) do
 			if config.formatCommand ~= nil then
@@ -82,12 +86,11 @@ map("n", "<M-l>", "<C-w>5>", { desc = "Increase window width 5" })
 map("n", "<M-j>", "<C-w>-", { desc = "Decrease window height" })
 map("n", "<M-k>", "<C-w>+", { desc = "Increase window height" })
 
-
 map("n", "<leader>dst", function()
-	vim.o.number = not vim.o.number;
-	vim.o.relativenumber = not vim.o.relativenumber;
-	require('gitsigns').toggle_signs();
-	require('ibl').setup_buffer(0, {
-		enabled = not require('ibl.config').get_config(0).enabled,
+	vim.o.number = not vim.o.number
+	vim.o.relativenumber = not vim.o.relativenumber
+	require("gitsigns").toggle_signs()
+	require("ibl").setup_buffer(0, {
+		enabled = not require("ibl.config").get_config(0).enabled,
 	})
 end, { desc = "Toggle decorative stuff for copy/pasting" })
