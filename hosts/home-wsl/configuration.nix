@@ -50,7 +50,7 @@ in
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
 
   security.polkit.enable = true;
 

@@ -73,8 +73,7 @@
       enable = true;
       powerOnBoot = true;
     };
-    graphics.enable = true;
-    opengl = {
+    graphics = {
       enable = true;
       extraPackages = [ pkgs.nvidia-vaapi-driver ];
     };
