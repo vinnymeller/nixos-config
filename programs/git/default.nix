@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   programs.git = {
     enable = true;
@@ -63,6 +63,10 @@
       version = "1";
     };
   };
+
+  home.packages = with pkgs; [
+    git-spice
+  ];
 
   home.shellAliases = {
     fork = "gh repo fork --clone --default-branch-only --remote";
