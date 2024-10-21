@@ -81,9 +81,8 @@
     '';
 
     oh-my-zsh = {
-      enable = false;
-      # enable = true;
-      # plugins = [ "git" ];
+      enable = true;
+      plugins = [ "git" ];
     };
   };
 

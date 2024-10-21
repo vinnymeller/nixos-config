@@ -71,6 +71,5 @@
   home.shellAliases = {
     fork = "gh repo fork --clone --default-branch-only --remote";
     twmg = "twmg() { fork \"$1\" \"$2\"; twm -p \"$2\"; }; twmg";
-    gs = "git swap"; # depends on the git alias above
   };
 }
