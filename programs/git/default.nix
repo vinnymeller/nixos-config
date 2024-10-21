@@ -53,6 +53,7 @@
       logdr = "!f(){ git log --pretty=format:\"(%h) %ad - %an: %s\" --after=\"$\{1}\" --until=\"$\{2}\"; };f";
       graph = "log --graph --all --format='%h %s%n        (%an, %ar)%d' --abbrev-commit";
       swap = "switch @{-1}";
+      sw = "switch @{-1}";
     };
     lfs.enable = true;
   };
