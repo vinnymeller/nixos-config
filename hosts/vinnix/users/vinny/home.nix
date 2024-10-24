@@ -47,7 +47,7 @@ in
     with pkgs;
     [
       anki-bin
-      stable-pkgs.calibre # TODO: switch back to normal pkgs next update
+      calibre
       chromium
       nemo-with-extensions
       xviewer
