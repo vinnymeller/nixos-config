@@ -64,7 +64,14 @@
       version = "1";
     };
     extensions = with pkgs; [
+      gh-cal
       gh-copilot
+      gh-dash
+      gh-eco
+      gh-f
+      gh-notify
+      gh-poi
+      gh-s
     ];
   };
 
