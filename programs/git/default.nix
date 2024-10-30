@@ -63,6 +63,9 @@
     settings = {
       version = "1";
     };
+    extensions = with pkgs; [
+      gh-copilot
+    ];
   };
 
   home.packages = with pkgs; [
