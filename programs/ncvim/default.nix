@@ -83,7 +83,7 @@ let
             ocamlPackages.ocaml-lsp
             postgresql
             prettierd
-            basedpyright
+            pyright
             ripgrep
             bat
             delta
