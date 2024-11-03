@@ -154,22 +154,13 @@ require("lspconfig").html.setup({
 	filetypes = { "html", "htmldjango" },
 })
 
-require("lspconfig").basedpyright.setup({
-	basedpyright = {
-		analysis = {
-			diagnosticSeverityOverrides = {
-				reportUnknownVariableType = false,
-			},
-		},
-	},
-})
-
 local basic_servers = {
 	"ccls",
 	"dockerls",
 	"gopls",
 	"hls",
 	"ocamllsp",
+	"basedpyright",
 	"tailwindcss",
 	"taplo",
 	"terraformls",
