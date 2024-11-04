@@ -8,6 +8,22 @@
 
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
 
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
+
+    blink-cmp = {
+      url = "github:Saghen/blink.cmp";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        fenix.follows = "fenix";
+      };
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,6 +49,11 @@
       inputs.flake-utils.follows = "flake-utils";
     };
 
+    plugins-blink-compat = {
+      url = "github:Saghen/blink.compat";
+      flake = false;
+    };
+
   };
 
   outputs =
@@ -45,6 +66,7 @@
       home-manager,
       lanzaboote,
       nixCats,
+      blink-cmp,
       ...
     }:
     let

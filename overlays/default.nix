@@ -10,6 +10,10 @@
     stable-pkgs = import inputs.nixpkgs-stable { system = final.system; };
   };
 
+  blink-cmp-overlay = final: prev: {
+    blink-cmp = inputs.blink-cmp.packages.${final.system}.default;
+  };
+
   remove-0xproto-italics = final: prev: {
     _0xproto-no-italics = prev._0xproto.overrideAttrs (
       finalAttrs: prevAttrs: {
