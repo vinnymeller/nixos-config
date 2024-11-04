@@ -57,13 +57,42 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
+require("blink.compat").setup({})
+require("blink.cmp").setup({
+	trigger = {
+		signature_help = {
+			enabled = true,
+		},
+	},
+	windows = {
+		documentation = {
+			auto_show = true,
+		},
+		ghost_text = {
+			enabled = true,
+		},
+	},
+	-- sources = {
+	-- 	completion = {
+	-- 		enabled_providers = {
+	-- 			"lsp",
+	-- 			"path",
+	-- 			"buffer",
+	-- 		},
+	-- 	},
+	-- },
+})
+
 -- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- local capabilities = {}
+-- local capabilities = require("blink.cmp").get_lsp_capabilities()
+-- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+-- capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
 require("lspconfig").lua_ls.setup({
 	-- on_attach = on_attach,
-	capabilities = capabilities,
+	-- capabilities = capabilities,
 	settings = {
 		Lua = {
 			hint = {
@@ -87,7 +116,7 @@ require("lspconfig").lua_ls.setup({
 })
 
 require("lspconfig").ltex.setup({
-	capabilities = capabilities,
+	-- capabilities = capabilities,
 	on_attach = function(client, bufnr)
 		require("ltex_extra").setup({})
 	end,
@@ -107,7 +136,7 @@ vim.filetype.add({
 	},
 })
 require("lspconfig").jsonls.setup({
-	capabilities = capabilities,
+	-- capabilities = capabilities,
 	filetypes = { "json", "lock" },
 	settings = {
 		json = {
@@ -118,7 +147,7 @@ require("lspconfig").jsonls.setup({
 })
 
 require("lspconfig").yamlls.setup({
-	capabilities = capabilities,
+	-- capabilities = capabilities,
 	settings = {
 		yaml = {
 			schemaStore = {
@@ -131,7 +160,7 @@ require("lspconfig").yamlls.setup({
 })
 
 require("lspconfig").nixd.setup({
-	capabilities = capabilities,
+	-- capabilities = capabilities,
 	cmd = { "nixd", "--semantic-tokens=false" },
 	settings = {
 		nixd = {
@@ -150,7 +179,7 @@ require("lspconfig").nixd.setup({
 -- })
 
 require("lspconfig").html.setup({
-	capabilities = capabilities,
+	-- capabilities = capabilities,
 	filetypes = { "html", "htmldjango" },
 })
 
@@ -240,12 +269,12 @@ local efmls_config = {
 }
 
 require("lspconfig").efm.setup(vim.tbl_extend("force", efmls_config, {
-	capabilities = capabilities,
+	-- capabilities = capabilities,
 }))
 
 for _, lsp in ipairs(basic_servers) do
 	require("lspconfig")[lsp].setup({
-		capabilities = capabilities,
+		-- capabilities = capabilities,
 	})
 end
 
