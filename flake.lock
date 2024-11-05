@@ -561,11 +561,11 @@
     "plugins-blink-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1730700624,
-        "narHash": "sha256-HUcWcBVmgacA2T2muz/kS1OzYw08F1ZD7dT372i9BaY=",
+        "lastModified": 1730828396,
+        "narHash": "sha256-4LIjdcr1hlbCOx3Oj+JNqgpvwSKlZNmDfUVlp0XCFtE=",
         "owner": "Saghen",
         "repo": "blink.compat",
-        "rev": "b22a79cc863a9776a3841c80e0a4996e90ed29ac",
+        "rev": "7007ed9f471292f75d995988ed5a6607180850e6",
         "type": "github"
       },
       "original": {
