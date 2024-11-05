@@ -113,20 +113,21 @@ let
           autosave-nvim
           blink-cmp
           pkgs.neovimPlugins.blink-compat
-          cmp-buffer
-          cmp-cmdline
-          cmp-git
-          cmp-nvim-lsp
-          cmp-nvim-lsp-signature-help
-          cmp-nvim-lua
-          cmp-path
-          cmp_luasnip
-          copilot-cmp
+          # cmp-buffer
+          # cmp-cmdline
+          # cmp-git
+          # cmp-nvim-lsp
+          # cmp-nvim-lsp-signature-help
+          # cmp-nvim-lua
+          # cmp-path
+          # cmp_luasnip
+          # copilot-cmp
           copilot-lua
           custom-vim-plugins.leetcode-nvim
           diffview-nvim
           efmls-configs-nvim
           fidget-nvim
+          friendly-snippets
           fzf-lua
           gitsigns-nvim
           gruvbox-nvim

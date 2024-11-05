@@ -59,9 +59,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 require("blink.compat").setup({})
 require("blink.cmp").setup({
+	highlight = {
+		use_nvim_cmp_as_default = true,
+	},
 	trigger = {
 		signature_help = {
 			enabled = true,
+		},
+		completion = {
+			show_in_snippet = false,
 		},
 	},
 	windows = {
@@ -72,15 +78,16 @@ require("blink.cmp").setup({
 			enabled = true,
 		},
 	},
-	-- sources = {
-	-- 	completion = {
-	-- 		enabled_providers = {
-	-- 			"lsp",
-	-- 			"path",
-	-- 			"buffer",
-	-- 		},
-	-- 	},
-	-- },
+	sources = {
+		completion = {
+			enabled_providers = {
+				"lsp",
+				"path",
+				"snippets",
+				"buffer",
+			},
+		},
+	},
 })
 
 -- nvim-cmp supports additional completion capabilities
