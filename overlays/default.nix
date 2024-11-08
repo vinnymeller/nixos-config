@@ -11,7 +11,7 @@
   };
 
   blink-cmp-overlay = final: prev: {
-    blink-cmp = inputs.blink-cmp.packages.${final.system}.default;
+    blink-cmp-flake = inputs.blink-cmp.packages.${final.system}.default;
   };
 
   remove-0xproto-italics = final: prev: {
