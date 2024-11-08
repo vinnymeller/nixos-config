@@ -16,7 +16,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     blink-cmp = {
-      url = "github:Saghen/blink.cmp";
+      url = "github:vinnymeller/blink.cmp/fix-flake";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
