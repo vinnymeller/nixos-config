@@ -86,7 +86,6 @@ in
       sbctl
       screenkey
       slack
-      spotify
       unzip
       vesktop
       virt-manager
