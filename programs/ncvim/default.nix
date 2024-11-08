@@ -111,7 +111,7 @@ let
         general = with pkgs.vimPlugins; [
           SchemaStore-nvim
           autosave-nvim
-          blink-cmp
+          pkgs.blink-cmp-flake
           pkgs.neovimPlugins.blink-compat
           # cmp-buffer
           # cmp-cmdline
