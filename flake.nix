@@ -51,6 +51,11 @@
       flake = false;
     };
 
+    plugins-vim-dadbod-completion = {
+      url = "github:kristijanhusak/vim-dadbod-completion";
+      flake = false;
+    };
+
   };
 
   outputs =

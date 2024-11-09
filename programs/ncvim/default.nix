@@ -160,7 +160,7 @@ let
           typescript-tools-nvim
           undotree
           vim-dadbod
-          vim-dadbod-completion
+          pkgs.neovimPlugins.vim-dadbod-completion
           vim-dadbod-ui
           vim-fugitive
           vim-indent-object

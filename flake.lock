@@ -575,6 +575,22 @@
         "type": "github"
       }
     },
+    "plugins-vim-dadbod-completion": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1731089154,
+        "narHash": "sha256-ibk1q4NEo+YJE66bP7WkRmwzWG6Q1I0sF97pmEuPVSw=",
+        "owner": "kristijanhusak",
+        "repo": "vim-dadbod-completion",
+        "rev": "da0e75c09c27a82aad078d993bb1b2f4afd43427",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kristijanhusak",
+        "repo": "vim-dadbod-completion",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks-nix": {
       "inputs": {
         "flake-compat": [
@@ -616,6 +632,7 @@
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable_2",
         "plugins-blink-compat": "plugins-blink-compat",
+        "plugins-vim-dadbod-completion": "plugins-vim-dadbod-completion",
         "twm": "twm"
       }
     },
