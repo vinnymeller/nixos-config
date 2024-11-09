@@ -1,11 +1,14 @@
 require("copilot").setup({
-	panel = { enabled = false },
-	suggestion = { enabled = false },
-	-- enable all filetypes
-	filetypes = {
-		markdown = true,
-		yaml = true,
-		gitcommit = true,
-		gitrebase = true,
-	},
+    panel = { enabled = false },
+    suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        keymap = {
+            accept = "<C-c>",
+        },
+    },
+    -- enable all filetypes
+    filetypes = {
+        ["*"] = true,
+    },
 })
