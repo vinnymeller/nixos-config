@@ -54,11 +54,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
         if client ~= nil and client.server_capabilities.inlayHintProvider then
             vim.lsp.inlay_hint.enable(true)
         end
-        if client ~= nil and client.server_capabilities.semanticTokensProvider then
-            client.server_capabilities.semanticTokensProvider = vim.NIL
-        end
     end,
 })
+
+-- turn off lsp semantic string highlights to not override treesitter injection 
+vim.api.nvim_set_hl(0, "@lsp.type.string.rust", {})
 
 require("blink.compat").setup({})
 require("blink.cmp").setup({
