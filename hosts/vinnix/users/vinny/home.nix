@@ -92,6 +92,11 @@ in
       vlc
       yubioath-flutter
       zsh-powerlevel10k
+      (lutris.override {
+        extraPkgs = pkgs: [
+          wine
+        ];
+      })
     ]
     ++ builtins.attrValues cust_pkgs;
 
