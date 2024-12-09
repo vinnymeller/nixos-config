@@ -71,7 +71,7 @@ in
       man-pages # linux man pages, goes with tlpi
       mullvad-vpn
       neofetch
-      nerdfonts
+      nerd-fonts._0xproto
       # nix-index
       nix-init
       nix-init
