@@ -150,7 +150,7 @@ let
           nvim-various-textobjs
           nvim-web-devicons
           oil-nvim
-          pkgs.master-pkgs.vimPlugins.avante-nvim # change this to regular pkgs eventually
+          inputs.avante-nvim.packages.${pkgs.system}.default
           plenary-nvim
           precognition-nvim
           rustaceanvim

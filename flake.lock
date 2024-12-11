@@ -1,5 +1,45 @@
 {
   "nodes": {
+    "avante": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1733938150,
+        "narHash": "sha256-JTuVq5fil2bpkptpw+kj0PFOp9Rk7RpOxc0GN/blL6M=",
+        "owner": "yetone",
+        "repo": "avante.nvim",
+        "rev": "78dd9b0a6dba5f9cae5346fe8b421e9d10710161",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yetone",
+        "repo": "avante.nvim",
+        "type": "github"
+      }
+    },
+    "avante-nvim": {
+      "inputs": {
+        "avante": "avante",
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1733956171,
+        "narHash": "sha256-6t5of/TyFq0nFUZAvGp58D+RcfxPH+Vfb0Vvc/fZ+H8=",
+        "owner": "vinnymeller",
+        "repo": "avante-nvim-nightly-flake",
+        "rev": "5b553486a022b6f7d164f9862a72369790091b74",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vinnymeller",
+        "repo": "avante-nvim-nightly-flake",
+        "type": "github"
+      }
+    },
     "blink-cmp": {
       "inputs": {
         "fenix": "fenix",
@@ -681,6 +721,7 @@
     },
     "root": {
       "inputs": {
+        "avante-nvim": "avante-nvim",
         "blink-cmp": "blink-cmp",
         "fenix": "fenix_2",
         "flake-parts": "flake-parts_2",

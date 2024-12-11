@@ -40,6 +40,14 @@
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
+    avante-nvim = {
+      url = "github:vinnymeller/avante-nvim-nightly-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+
     twm = {
       url = "github:vinnymeller/twm";
       inputs.nixpkgs.follows = "nixpkgs";
