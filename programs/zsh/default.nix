@@ -76,6 +76,10 @@
 
       export PATH=$HOME/.local/bin:$PATH
       export ZK_NOTEBOOK_DIR=$HOME/zk
+
+      if [ -f ~/.config/.secrets.sh ]; then
+        source ~/.config/.secrets.sh
+      fi
     '';
 
     oh-my-zsh = {
