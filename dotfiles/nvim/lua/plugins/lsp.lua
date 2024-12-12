@@ -190,14 +190,12 @@ require("blink.cmp").setup({
         },
     },
     sources = {
-        completion = {
-            enabled_providers = {
-                "lsp",
-                "path",
-                "snippets",
-                "buffer",
-                "dadbod",
-            },
+        default = {
+            "lsp",
+            "path",
+            "snippets",
+            "buffer",
+            "dadbod",
         },
         providers = {
             dadbod = {
