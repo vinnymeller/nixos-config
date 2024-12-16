@@ -73,7 +73,7 @@ require("blink.cmp").setup({
 
         ["<Tab>"] = {
             function(cmp)
-                if cmp.is_in_snippet() then
+                if vim.snippet.active() then
                     return cmp.accept()
                 else
                     return cmp.select_and_accept()
