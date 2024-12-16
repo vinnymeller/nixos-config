@@ -62,18 +62,10 @@ vim.api.nvim_set_hl(0, "@lsp.type.string.rust", {})
 
 require("blink.compat").setup({})
 require("blink.cmp").setup({
-    accept = {
-        auto_brackets = {
-            enabled = true,
-        },
-    },
     fuzzy = {
         prebuilt_binaries = {
             download = false,
         },
-    },
-    highlight = {
-        use_nvim_cmp_as_default = true,
     },
     keymap = {
         ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
@@ -101,16 +93,19 @@ require("blink.cmp").setup({
         ["<C-d>"] = { "scroll_documentation_up", "fallback" },
         ["<C-f>"] = { "scroll_documentation_down", "fallback" },
     },
-    trigger = {
-        signature_help = {
-            enabled = true,
+    signature = {
+        enabled = true,
+    },
+    completion = {
+        accept = {
+            auto_brackets = {
+                enabled = true,
+            },
         },
-        completion = {
+        trigger = {
             show_in_snippet = true,
         },
-    },
-    windows = {
-        autocomplete = {
+        menu = {
             draw = {
                 align_to_component = "label",
                 padding = 1,
@@ -181,12 +176,7 @@ require("blink.cmp").setup({
                     },
                 },
             },
-        },
-        documentation = {
-            auto_show = true,
-        },
-        ghost_text = {
-            enabled = false,
+
         },
     },
     sources = {

@@ -1,3 +1,5 @@
 require("various-textobjs").setup({
-	useDefaultKeymaps = true,
+	keymaps = {
+		useDefaults = true,
+	},
 })
