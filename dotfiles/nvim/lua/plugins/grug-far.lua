@@ -1,3 +1,8 @@
 require("grug-far").setup({
-	-- default for now
+    engines = {
+        astgrep = {
+            path = "ast-grep",
+        },
+    },
+    engine = "astgrep",
 })
