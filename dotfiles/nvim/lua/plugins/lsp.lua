@@ -57,7 +57,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
--- turn off lsp semantic string highlights to not override treesitter injection 
+-- turn off lsp semantic string highlights to not override treesitter injection
 vim.api.nvim_set_hl(0, "@lsp.type.string.rust", {})
 
 require("blink.compat").setup({})
@@ -176,7 +176,6 @@ require("blink.cmp").setup({
                     },
                 },
             },
-
         },
     },
     sources = {
