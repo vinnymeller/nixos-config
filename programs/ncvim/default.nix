@@ -54,6 +54,7 @@ let
         general =
           with pkgs;
           [
+            ast-grep
             black
             cargo
             ccls
@@ -160,6 +161,7 @@ let
           typescript-tools-nvim
           undotree
           vim-dadbod
+          pkgs.neovimPlugins.grug-far-nvim
           pkgs.neovimPlugins.vim-dadbod-completion
           vim-dadbod-ui
           vim-fugitive

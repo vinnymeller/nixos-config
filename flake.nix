@@ -64,6 +64,11 @@
       flake = false;
     };
 
+    plugins-grug-far-nvim = {
+      url = "github:MagicDuck/grug-far.nvim";
+      flake = false;
+    };
+
   };
 
   outputs =

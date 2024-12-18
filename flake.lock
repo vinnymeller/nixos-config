@@ -677,6 +677,22 @@
         "type": "github"
       }
     },
+    "plugins-grug-far-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1734145788,
+        "narHash": "sha256-DkVRoxrD/9nlNORGq46CAQvIWjyga+TRvZ74uFKIq8I=",
+        "owner": "MagicDuck",
+        "repo": "grug-far.nvim",
+        "rev": "11d0fbd6fff6f4e394af95319deeaab4ef88ce97",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MagicDuck",
+        "repo": "grug-far.nvim",
+        "type": "github"
+      }
+    },
     "plugins-vim-dadbod-completion": {
       "flake": false,
       "locked": {
@@ -735,6 +751,7 @@
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable_2",
         "plugins-blink-compat": "plugins-blink-compat",
+        "plugins-grug-far-nvim": "plugins-grug-far-nvim",
         "plugins-vim-dadbod-completion": "plugins-vim-dadbod-completion",
         "twm": "twm"
       }
