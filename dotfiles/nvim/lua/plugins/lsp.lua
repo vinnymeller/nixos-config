@@ -107,7 +107,7 @@ require("blink.cmp").setup({
         },
         menu = {
             draw = {
-                align_to_component = "label",
+                align_to = "label",
                 padding = 1,
                 gap = 1,
                 columns = {
