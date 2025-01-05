@@ -112,19 +112,7 @@ let
         general = with pkgs.vimPlugins; [
           SchemaStore-nvim
           autosave-nvim
-          pkgs.blink-cmp-flake
-          pkgs.neovimPlugins.blink-compat
-          # cmp-buffer
-          # cmp-cmdline
-          # cmp-git
-          # cmp-nvim-lsp
-          # cmp-nvim-lsp-signature-help
-          # cmp-nvim-lua
-          # cmp-path
-          # cmp_luasnip
-          # copilot-cmp
           copilot-lua
-          custom-vim-plugins.leetcode-nvim
           diffview-nvim
           efmls-configs-nvim
           fidget-nvim
@@ -135,6 +123,8 @@ let
           harpoon2
           image-nvim
           indent-blankline-nvim
+          inputs.avante-nvim.packages.${pkgs.system}.default
+          leetcode-nvim
           lspkind-nvim
           ltex_extra-nvim # goes with ltex-ls providing code action functionality for nvim (e.g. add to dict, ignore rule, etc)
           lualine-nvim
@@ -151,7 +141,10 @@ let
           nvim-various-textobjs
           nvim-web-devicons
           oil-nvim
-          inputs.avante-nvim.packages.${pkgs.system}.default
+          pkgs.blink-cmp-flake
+          pkgs.neovimPlugins.blink-compat
+          pkgs.neovimPlugins.grug-far-nvim
+          pkgs.neovimPlugins.vim-dadbod-completion
           plenary-nvim
           precognition-nvim
           rustaceanvim
@@ -161,8 +154,6 @@ let
           typescript-tools-nvim
           undotree
           vim-dadbod
-          pkgs.neovimPlugins.grug-far-nvim
-          pkgs.neovimPlugins.vim-dadbod-completion
           vim-dadbod-ui
           vim-fugitive
           vim-indent-object
