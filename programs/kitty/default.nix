@@ -6,10 +6,10 @@
     font = {
       # name = "Jetbrains Mono";
       # package = pkgs.jetbrains-mono;
-      name = "0xProto"; # test out 0xProto. I love JBM, but this looked neat
-      package = pkgs._0xproto-no-italics;
+      name = "0xProto Nerd Font"; # test out 0xProto. I love JBM, but this looked neat
+      package = pkgs.nerd-fonts._0xproto;
       # name = "JetBrainsMono Nerd Font";
-      # package = pkgs.nerdfonts;
+      # package = pkgs.nerd-fonts.jetbrains-mono;
     };
 
     shellIntegration.enableZshIntegration = true;
