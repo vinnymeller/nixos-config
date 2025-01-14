@@ -6,6 +6,11 @@ inputs.nixpkgs.lib.nixosSystem {
   };
   modules = [
     ./configuration.nix
+    inputs.nixos-wsl.nixosModules.default {
+      system.stateVersion = "24.05";
+      wsl.enable = true;
+      wsl.defaultUser = "vinny";
+    }
     inputs.home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;

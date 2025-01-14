@@ -81,7 +81,7 @@ let
             nodePackages.sql-formatter
             nodePackages.typescript-language-server
             nodejs
-            ocamlPackages.ocaml-lsp
+            #ocamlPackages.ocaml-lsp
             postgresql
             prettierd
             pyright

@@ -8,14 +8,14 @@
   ...
 }:
 with lib;
-let
-  nixos-wsl = import ./nixos-wsl;
-in
+#let
+#  nixos-wsl = import ./nixos-wsl;
+#in
 {
   imports = [
-    "${modulesPath}/profiles/minimal.nix"
+#    "${modulesPath}/profiles/minimal.nix"
 
-    nixos-wsl.nixosModules.wsl
+#    nixos-wsl.nixosModules.wsl
 
     ../../programs/nix
     ../../programs/gpg
@@ -38,7 +38,7 @@ in
   nixpkgs.overlays = builtins.attrValues outputs.overlays;
   nixpkgs.config.allowBroken = true;
   # Enable nix flakes
-  nix.package = pkgs.nixFlakes;
+  nix.package = pkgs.nixVersions.stable;
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -64,7 +64,7 @@ in
     enable = true;
     enableCompletion = false;
   };
-  networking.hostName = "home-nix-wsl"; # Define your hostname.
+  networking.hostName = "vindows"; # Define your hostname.
 
   environment.systemPackages = with pkgs; [
     git
@@ -72,5 +72,5 @@ in
     neovim
   ];
   nixpkgs.config.allowUnfree = true;
-  system.stateVersion = "22.05";
+  system.stateVersion = "24.05";
 }

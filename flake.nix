@@ -8,6 +8,8 @@
 
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
 
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -75,6 +77,7 @@
     inputs@{
       self,
       flake-utils,
+      nixos-wsl,
       nixpkgs,
       nixpkgs-master,
       nixpkgs-stable,
