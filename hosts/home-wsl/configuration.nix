@@ -8,14 +8,9 @@
   ...
 }:
 with lib;
-#let
-#  nixos-wsl = import ./nixos-wsl;
-#in
 {
   imports = [
-#    "${modulesPath}/profiles/minimal.nix"
 
-#    nixos-wsl.nixosModules.wsl
 
     ../../programs/nix
     ../../programs/gpg
