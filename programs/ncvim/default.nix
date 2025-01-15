@@ -156,6 +156,7 @@ let
           vim-dadbod
           vim-dadbod-ui
           vim-fugitive
+          neogit
           vim-indent-object
           vim-matchup
           vim-repeat
