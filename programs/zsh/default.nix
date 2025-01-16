@@ -63,7 +63,6 @@
 
       export EDITOR="nv"
       export VISUAL="nv" # dont know what this is for tbh
-      export TERM="xterm-kitty"
 
       tmux has-session -t $TWM_DEFAULT >/dev/null 2>&1 || twm -d -p . -n $TWM_DEFAULT
 
