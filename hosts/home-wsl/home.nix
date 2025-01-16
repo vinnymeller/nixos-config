@@ -13,6 +13,7 @@ in
     ../../programs/git
     ../../programs/tmux
     ../../programs/kitty
+    ../../programs/zk
     outputs.myNixCats.homeModule
   ];
 
