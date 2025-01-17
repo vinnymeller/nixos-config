@@ -44,6 +44,14 @@ with lib;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  documentation = {
+    nixos.enable = true;
+    man.enable = true;
+    info.enable = true;
+    doc.enable = true;
+    dev.enable = true;
+  };
+
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.graphics.enable = true;
 

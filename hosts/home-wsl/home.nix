@@ -29,6 +29,7 @@ in
       mesa
       kubectl
       helm
+      nix-index
     ]
     ++ builtins.attrValues cust_pkgs;
 
@@ -44,4 +45,6 @@ in
   programs.zsh.sessionVariables = {
     TMUX_TMPDIR = "/tmp";
   };
+
+  home.file.".config/nixpkgs".source = ../../dotfiles/nixpkgs;
 }
