@@ -53,6 +53,25 @@ with lib;
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
+  services = {
+    openssh = {
+      enable = true;
+      ports = [ 2222 ];
+      settings = {
+        PermitRootLogin = "no";
+        X11Forwarding = false;
+        AllowUsers = [
+          "vinny"
+        ];
+        PasswordAuthentication = false;
+        LogLevel = "VERBOSE";
+      };
+      authorizedKeysInHomedir = true;
+    };
+    fail2ban = {
+      enable = true;
+    };
+  };
   hardware.graphics.enable = true;
 
   security.polkit.enable = true;
