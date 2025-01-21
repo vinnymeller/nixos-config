@@ -24,16 +24,22 @@
     };
   };
 
-  systemd.user.services."start-ngrok-ssh-tunnel" = {
+  systemd.services."ngrok-ssh-tunnel" = {
     enable = true;
-    script = ''
-      ${pkgs.ngrok}/bin/ngrok tcp 2222 --remote-addr 1.tcp.ngrok.io:27824
-    '';
+    # make it run after the sshd.service is up
+    after = [
+      "sshd.service"
+    ];
+    requires = [
+      "sshd.service"
+    ];
     serviceConfig = {
-      Restart = "always";
+      Restart = "on-failure";
       RestartSec = "10";
+      User = "vinny"; # hmm will this work?
+      ExecStart = "${pkgs.ngrok}/bin/ngrok tcp 2222 --remote-addr 1.tcp.ngrok.io:27824 --config /home/vinny/.config/ngrok/ngrok.yml";
     };
-    wantedBy = [ "default.target" ];
+    wantedBy = [ "multi-user.target" ];
   };
 
 }
