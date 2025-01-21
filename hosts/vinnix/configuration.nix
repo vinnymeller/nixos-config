@@ -11,6 +11,7 @@
     ../../programs/nix
     ../../programs/qtile # ALSO need to make sure config is copied from home manager
     ../../programs/gpg
+    ../../programs/ssh
   ];
 
   nixpkgs = {
@@ -98,24 +99,6 @@
     gnome.gnome-keyring.enable = true;
     gvfs.enable = true;
     udisks2.enable = true;
-    openssh = {
-      enable = true;
-      ports = [ 2222 ];
-      settings = {
-        PermitRootLogin = "no";
-        X11Forwarding = false;
-        AllowUsers = [
-          "ssh_tunnel"
-          "vinny"
-        ];
-        PasswordAuthentication = false;
-        LogLevel = "VERBOSE";
-      };
-      authorizedKeysInHomedir = true;
-    };
-    fail2ban = {
-      enable = true;
-    };
   };
 
   fonts = {
@@ -225,7 +208,7 @@
   };
   hardware.gpgSmartcards.enable = true; # for yubikey
 
-  # Tag each generation with Git hash 
+  # Tag each generation with Git hash
   system.configurationRevision =
     if (inputs.self ? rev) then
       inputs.self.shortRev
