@@ -1,6 +1,17 @@
 require("snacks").setup({
     dashboard = {
         preset = {
+            header = [[
+  ███▄    █ ▓█████ ▒█████   ██▒   █▓  ██  ███▄ ▄███▓
+ ██ ▀█   █ ▓█   ▀▒██▒  ██▒▓██░   █▒▒▓██ ▓██▒▀█▀ ██▒
+▓██  ▀█ ██▒▒███  ▒██░  ██▒ ▓██  █▒░░▒██ ▓██    ▓██░
+▓██▒  ▐▌██▒▒▓█  ▄▒██   ██░  ▒██ █░░ ░██ ▒██    ▒██ 
+▒██░   ▓██░░▒████░ ████▓▒░   ▒▀█░   ░██▒▒██▒   ░██▒
+░ ▒░   ▒ ▒ ░░ ▒░ ░ ▒░▒░▒░    ░ ▐░   ░▓ ░░ ▒░   ░  ░
+░ ░░   ░ ▒░ ░ ░    ░ ▒ ▒░    ░ ░░    ▒ ░░  ░      ░
+   ░   ░ ░    ░  ░ ░ ░ ▒       ░░    ▒  ░      ░   
+         ░    ░      ░ ░        ░    ░ ░       ░
+            ]],
             keys = {
                 { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
                 { icon = " ", key = "e", desc = "New File", action = ":ene | startinsert" },
@@ -38,12 +49,6 @@ require("snacks").setup({
                     vim.system({ "tmux", "switch-client", "-t", twm_name }):wait()
                 end,
             },
-            -- {
-            --     section = "terminal",
-            --     cmd = "chafa /home/vinny/.nixdots/files/nvappa.jpg --format symbols --symbols vhalf --size 60x20 --stretch; sleep .1",
-            --     height = 20,
-            --     padding = 1,
-            -- },
             {
                 pane = 2,
                 icon = " ",
@@ -52,8 +57,6 @@ require("snacks").setup({
                 key = "b",
                 action = function()
                     Snacks.gitbrowse()
-                    -- gitbrowse isnt working for some reason, so use fugitive instead
-                    -- vim.cmd("GBrowse")
                 end,
             },
             function()
