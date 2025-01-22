@@ -17,6 +17,8 @@ in
     outputs.myNixCats.homeModule
   ];
 
+  gitConfig.gpgSignDefault = false;
+
   nixCats = {
     enable = true;
     packageNames = [ "nixCats" ];
