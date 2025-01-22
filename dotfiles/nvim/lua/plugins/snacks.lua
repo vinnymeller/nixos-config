@@ -27,22 +27,15 @@ require("snacks").setup({
                 indent = 2,
                 padding = 1,
                 action = function(path)
-                    -- if env var $TWM is set, run command, else, do nothing
-                    local twm = os.getenv("TWM")
-                    print(path)
-                    local twm_name = vim.system({"/home/vinny/dev/vinnymeller/twm/target/release/twm", "-d", "-N",  "-p" ,  path}):wait()
-
-                    print(twm_name)
-                    print(vim.print(twm_name))
-                    -- if twm ~= nil then
-                    --     -- vim.cmd("qa!")
-                    --     os.execute("twm -d -p " .. path)
-                    --     vim.fn.system("tmux switch-client -t default")
-                    --     -- vim.fn.system("twm -p " .. path)
-                    --     -- os.execute("exec twm -p " .. path)
-                    -- else
-                    --     vim.print("TWM env var not set")
-                    -- end
+                    local tmux = vim.fn.getenv("TMUX")
+                    if tmux == nil then
+                        vim.print("Must be in a tmux session to open project")
+                        return
+                    end
+                    local twm_name = vim.system({ "twm", "-d", "-N", "-p", path }, { text = true })
+                        :wait().stdout
+                        :sub(1, -2)
+                    vim.system({ "tmux", "switch-client", "-t", twm_name }):wait()
                 end,
             },
             -- {
