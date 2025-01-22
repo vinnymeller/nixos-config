@@ -58,6 +58,7 @@ let
             black
             cargo
             ccls
+            chafa
             dockerfile-language-server-nodejs
             efm-langserver
             fd
@@ -103,6 +104,7 @@ let
             vscode-langservers-extracted
             xsel
             yaml-language-server
+            xdg-utils
             zk
           ]
           ++ (if stdenv.isLinux then [ pkgs.htmx-lsp ] else [ ]);
@@ -143,11 +145,13 @@ let
           oil-nvim
           pkgs.blink-cmp-flake
           pkgs.neovimPlugins.blink-compat
+          codecompanion-nvim
           pkgs.neovimPlugins.grug-far-nvim
           pkgs.neovimPlugins.vim-dadbod-completion
           plenary-nvim
           precognition-nvim
           rustaceanvim
+          snacks-nvim
           sniprun
           tint-nvim
           tmux-nvim
