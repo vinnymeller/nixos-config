@@ -56,8 +56,6 @@
       ZVM_READKEY_ENGINE=$ZVM_READKEY_ENGINE_NEX
 
       set -o vi
-      export PATH=$HOME/.cargo/bin:$PATH # add cargo to the front of the path so dev tools are used > sys
-      export PATH=$PATH:/$HOME/.nix-profile/bin
       export TWM_DEFAULT="default"
       export TWM_CONFIG_FILE="$HOME/.nixdots/dotfiles/twm/twm.yaml"
 
@@ -74,7 +72,7 @@
       bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
       bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 
-      export PATH=$HOME/.local/bin:$PATH
+      export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.nix-profile/bin:$PATH # make sure nix profile is in front of other stuff
       export ZK_NOTEBOOK_DIR=$HOME/zk
 
       if [ -f ~/.config/.secrets.sh ]; then
