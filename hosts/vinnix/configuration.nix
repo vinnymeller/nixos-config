@@ -79,7 +79,7 @@
       extraPackages = [ pkgs.nvidia-vaapi-driver ];
     };
     # pulseaudio.enable = true;
-    xpadneo.enable = true;
+    # xpadneo.enable = true;
     opentabletdriver.enable = true; # OSU TABLET HERE WE GOOOOOOOO
   };
 
