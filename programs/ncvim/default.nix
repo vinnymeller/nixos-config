@@ -19,6 +19,9 @@ let
         dependencyOverlays = (import ./overlays inputs) ++ [
           # this lets us use `pkgs.neovimPlugins`
           (utils.standardPluginOverlay inputs)
+          (final: prev: {
+            blink-cmp-flake = inputs.blink-cmp.packages.${final.system}.default;
+          })
           # add flake overlays here as needed
         ];
       in
