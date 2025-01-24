@@ -62,7 +62,19 @@
       export EDITOR="nv"
       export VISUAL="nv" # dont know what this is for tbh
 
-      tmux has-session -t $TWM_DEFAULT >/dev/null 2>&1 || twm -d -p . -n $TWM_DEFAULT
+      # create a default tmux session if it doesnt exist
+      tmux has-session -t $TWM_DEFAULT >/dev/null 2>&1 || twm -d -p $HOME -n $TWM_DEFAULT
+
+      # if we aren't currently in tmux, we will attach to something
+      if [ -z "$TMUX" ]; then
+        # if there are no clients on the default session, attach to it
+        if [ $(tmux list-clients -t $TWM_DEFAULT | wc -l) -eq 0 ]; then
+          tmux attach-session -t $TWM_DEFAULT
+        # otherwise, attach to a session grouped with the default session
+        else
+          tmux attach-session -t $(twm -d -N -g -G $TWM_DEFAULT)
+        fi
+      fi
 
 
       # zsh-autocomplete settings

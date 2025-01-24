@@ -11,7 +11,7 @@ with lib;
 {
   imports = [
     ../../programs/nix
-    ../../programs/gpg
+    # ../../programs/gpg  # no gpg here
     ../../programs/ssh
   ];
 
