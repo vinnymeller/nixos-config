@@ -75,7 +75,7 @@ require("snacks").setup({
                     },
                     {
                         title = "Open Issues",
-                        cmd = "gh issue list -L 3",
+                        cmd = "gh issue list -L 3 2>/dev/null || echo 'No git remote'",
                         key = "i",
                         action = function()
                             vim.fn.jobstart("gh issue list --web", { detach = true })
@@ -86,7 +86,7 @@ require("snacks").setup({
                     {
                         icon = " ",
                         title = "Open PRs",
-                        cmd = "gh pr list -L 3",
+                        cmd = "gh pr list -L 3 2>/dev/null || echo 'No git remote'",
                         key = "p",
                         action = function()
                             vim.fn.jobstart("gh pr list --web", { detach = true })
