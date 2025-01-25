@@ -15,6 +15,7 @@
   nixpkgs.config = {
     allowBroken = true;
     allowUnfree = true;
+    allowUnsupportedSystem = true;
   };
   nix.package = pkgs.nixVersions.stable;
   nix.settings.experimental-features = [

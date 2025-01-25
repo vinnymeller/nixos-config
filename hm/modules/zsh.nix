@@ -14,11 +14,15 @@ let
   cfg = config.mine.zsh;
 in
 {
+  imports = [
+    ./wslu.nix
+  ];
+
   options.mine.zsh = {
     enable = mkEnableOption "Enable Zsh.";
     autoStartTmux = mkOption {
       type = types.bool;
-      default = !config.programs.wslu.enable;
+      default = !config.mine.wslu.enable;
       description = ''
         Automatically enter tmux when opening a new shell.
       '';
