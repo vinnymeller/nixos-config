@@ -20,9 +20,9 @@
     blink-cmp = {
       url = "github:Saghen/blink.cmp";
       inputs = {
-        # nixpkgs.follows = "nixpkgs";
-        # flake-parts.follows = "flake-parts";
-        # fenix.follows = "fenix";
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        fenix.follows = "fenix";
       };
     };
 
