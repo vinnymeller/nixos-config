@@ -2,11 +2,10 @@
   pkgs,
   config,
   lib,
-  outputs,
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkIf mkDefault;
+  inherit (lib) mkEnableOption mkIf mkForce;
   cfg = config.mine.nix;
 in
 {
@@ -16,7 +15,7 @@ in
 
   config = mkIf cfg.enable {
     nix = {
-      package = mkDefault pkgs.nixVersions.git;
+      package = mkForce pkgs.nixVersions.git;
       settings = {
         experimental-features = [
           "nix-command"
