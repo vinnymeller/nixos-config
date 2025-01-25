@@ -77,14 +77,7 @@
     inputs@{
       self,
       flake-utils,
-      nixos-wsl,
       nixpkgs,
-      nixpkgs-master,
-      nixpkgs-stable,
-      home-manager,
-      lanzaboote,
-      nixCats,
-      blink-cmp,
       ...
     }:
     let

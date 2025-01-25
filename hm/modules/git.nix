@@ -102,6 +102,7 @@ in
 
     home.packages = with pkgs; [
       git-spice
+      (mkIf cfg.gpgSignDefault gnupg)
     ];
 
     home.shellAliases = {
