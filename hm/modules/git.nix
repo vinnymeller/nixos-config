@@ -5,18 +5,26 @@
   ...
 }:
 let
-  inherit (lib) types mkOption;
-  cfg = config.gitConfig;
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
+  cfg = config.mine.git;
 in
 {
-  options.gitConfig.gpgSignDefault = mkOption {
-    type = types.bool;
-    default = true;
-    description = ''
-      Whether to sign commits and tags with GPG by default.
-    '';
+  options.mine.git = {
+    enable = mkEnableOption "Enable Git.";
+    gpgSignDefault = mkOption {
+      type = types.bool;
+      default = true;
+      description = ''
+        Whether to sign commits and tags with GPG by default.
+      '';
+    };
   };
-  config = {
+  config = mkIf cfg.enable {
     programs.git = {
       enable = true;
       userName = "Vinny Meller";

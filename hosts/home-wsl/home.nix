@@ -9,18 +9,24 @@ let
 in
 {
   imports = [
-    ../../programs/git
-    ../../programs/tmux
-    ../../programs/kitty
-    ../../programs/zk
     ../../hm
     outputs.myNixCats.homeModule
   ];
 
-  programs.wslu.enable = true;
-  programs.zsh.autoStartTmux = false;
-
-  gitConfig.gpgSignDefault = false;
+  mine = {
+    git = {
+      enable = true;
+      gpgSignDefault = false;
+    };
+    kitty.enable = true;
+    tmux.enable = true;
+    wslu.enable = true;
+    zk.enable = true;
+    zsh = {
+      enable = true;
+      autoStartTmux = false;
+    };
+  };
 
   nixCats = {
     enable = true;
@@ -38,18 +44,7 @@ in
     ]
     ++ builtins.attrValues cust_pkgs;
 
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
-
   home.username = "vinny";
   home.homeDirectory = lib.mkForce "/home/vinny";
   home.stateVersion = "24.05";
-
-  programs.home-manager.enable = true;
-
-  programs.zsh.sessionVariables = {
-    TMUX_TMPDIR = "/tmp";
-  };
-
-  home.file.".config/nixpkgs".source = ../../dotfiles/nixpkgs;
 }

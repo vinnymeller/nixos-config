@@ -5,12 +5,18 @@
   ...
 }:
 let
-  inherit (lib) types mkOption;
-  cfg = config.programs.zsh;
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
+  cfg = config.mine.zsh;
 in
 {
-  options = {
-    programs.zsh.autoStartTmux = mkOption {
+  options.mine.zsh = {
+    enable = mkEnableOption "Enable Zsh.";
+    autoStartTmux = mkOption {
       type = types.bool;
       default = !config.programs.wslu.enable;
       description = ''
@@ -18,7 +24,7 @@ in
       '';
     };
   };
-  config = {
+  config = mkIf cfg.enable {
     # zsh doesn't have an extraPackages option, so we have to add them to home.packages
     home.packages = with pkgs; [
       twm
@@ -133,6 +139,9 @@ in
       enable = true;
       enableZshIntegration = true;
     };
+
+    programs.direnv.enable = true;
+    programs.direnv.nix-direnv.enable = true;
 
     home.shellAliases = {
       cdots = "pushd ~/.nixdots";

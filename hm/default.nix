@@ -15,4 +15,6 @@ let
 in
 {
   imports = modules;
+  programs.home-manager.enable = true;
+  home.file.".config/nixpkgs".source = ../dotfiles/nixpkgs;
 }

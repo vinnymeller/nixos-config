@@ -5,13 +5,11 @@
   ...
 }:
 let
-  cfg = config.programs.wslu;
+  cfg = config.mine.wslu;
 in
 {
-  options = {
-    programs.wslu = {
-      enable = lib.mkEnableOption "Enable WSL utilities.";
-    };
+  options.mine.wslu = {
+    enable = lib.mkEnableOption "Enable WSL utilities.";
   };
 
   config = lib.mkIf cfg.enable {
