@@ -115,7 +115,7 @@
         vindows = import ./hosts/home-wsl { inherit inputs outputs; };
       };
       homeConfigurations = {
-        "vinny@camovinny" = import ./hosts/camovinny { inherit inputs outputs; };
+        vinny = import ./hosts/camovinny { inherit inputs outputs; };
         amina = import ./hosts/amina { inherit inputs outputs; };
       };
     };

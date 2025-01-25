@@ -11,7 +11,7 @@ let
     (builtins.filter (lib.hasSuffix ".nix"))
     (builtins.map (filename: dir + "/${filename}"))
   ];
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption;
   cfg = config.profile;
 in
 {
@@ -29,6 +29,7 @@ in
     mine = {
       git.enable = cfg.vinny.enable;
       kitty.enable = cfg.vinny.enable;
+      nix.enable = cfg.vinny.enable;
       nvim.enable = cfg.vinny.enable;
       pkgs.enable = cfg.vinny.enable;
       tmux.enable = cfg.vinny.enable;
