@@ -9,13 +9,16 @@ let
 in
 {
   imports = [
-    ../../programs/zsh
     ../../programs/git
     ../../programs/tmux
     ../../programs/kitty
     ../../programs/zk
+    ../../hm
     outputs.myNixCats.homeModule
   ];
+
+  programs.wslu.enable = true;
+  programs.zsh.autoStartTmux = false;
 
   gitConfig.gpgSignDefault = false;
 

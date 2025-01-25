@@ -9,10 +9,10 @@ let
 in
 {
   imports = [
-    ../../programs/zsh
     ../../programs/git
     ../../programs/tmux
     ../../programs/kitty
+    ../../hm
     outputs.myNixCats.homeModule
   ];
 

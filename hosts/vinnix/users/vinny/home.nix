@@ -11,10 +11,10 @@ in
 {
   imports = [
     ../../../../programs/git
-    ../../../../programs/zsh
     ../../../../programs/kitty
     ../../../../programs/tmux
     ../../../../programs/zk
+    ../../../../hm
     outputs.myNixCats.homeModule
   ];
   # Let home-manager manage itself
