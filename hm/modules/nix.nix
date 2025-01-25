@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf mkDefault;
   cfg = config.mine.nix;
 in
 {
@@ -15,15 +15,8 @@ in
   };
 
   config = mkIf cfg.enable {
-    nixpkgs = {
-      overlays = builtins.attrValues outputs.overlays;
-      config = {
-        allowUnfree = true;
-        allowUnsupportedSystem = true;
-      };
-    };
     nix = {
-      package = pkgs.nixVersions.git;
+      package = mkDefault pkgs.nixVersions.git;
       settings = {
         experimental-features = [
           "nix-command"

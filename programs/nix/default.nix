@@ -1,4 +1,9 @@
-{ inputs, ... }:
+{
+  inputs,
+  pkgs,
+  outputs,
+  ...
+}:
 {
   nix = {
     settings = {
@@ -17,13 +22,14 @@
       automatic = true;
       options = "--delete-older-than 14d";
     };
-    # registry = {nixpkgs = {flake = inputs.nixpkgs;};};
+    # package = pkgs.nixVersions.git;
     registry = (inputs.nixpkgs.lib.mapAttrs (_: flake: { inherit flake; })) (
       (inputs.nixpkgs.lib.filterAttrs (_: inputs.nixpkgs.lib.isType "flake")) inputs
     );
   };
 
   nixpkgs = {
+    overlays = builtins.attrValues outputs.overlays;
     config = {
       allowUnfree = true;
     };

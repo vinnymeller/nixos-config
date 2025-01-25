@@ -28,15 +28,15 @@ with lib;
     # docker-desktop.enable = true;
   };
 
-  nixpkgs.hostPlatform = "x86_64-linux";
-  nixpkgs.overlays = builtins.attrValues outputs.overlays;
-  nixpkgs.config.allowBroken = true;
+  # nixpkgs.hostPlatform = "x86_64-linux";
+  # nixpkgs.overlays = builtins.attrValues outputs.overlays;
+  # nixpkgs.config.allowBroken = true;
   # Enable nix flakes
-  nix.package = pkgs.nixVersions.stable;
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  # nix.package = pkgs.nixVersions.stable;
+  # nix.settings.experimental-features = [
+  #   "nix-command"
+  #   "flakes"
+  # ];
   nix.gc.automatic = true;
   nix.settings.auto-optimise-store = true;
   nix.gc.options = "--delete-older-than 14d";
@@ -73,6 +73,6 @@ with lib;
     vim
     neovim
   ];
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.hostPlatform = "x86_64-linux";
   system.stateVersion = "24.05";
 }
