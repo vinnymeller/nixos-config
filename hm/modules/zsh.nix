@@ -157,6 +157,8 @@ in
       root = "cd $TWM_ROOT";
       etwm = "TWM_CONFIG_FILE= twm";
       ef = "nv $(find_file_up_tree flake.nix)";
+      da = "direnv allow";
+      dr = "direnv reload";
     };
   };
 }
