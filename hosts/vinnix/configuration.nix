@@ -145,15 +145,7 @@
       ];
       shell = pkgs.zsh;
     };
-    ssh_tunnel = {
-      isNormalUser = true;
-      initialPassword = "passwordington";
-      group = "ssh_tunnel";
-      shell = "${pkgs.shadow}/bin/nologin";
-    };
   };
-
-  users.groups.ssh_tunnel = { };
 
   environment.pathsToLink = [ "/share/zsh" ];
   environment.systemPackages = with pkgs; [
