@@ -42,4 +42,18 @@
     wantedBy = [ "multi-user.target" ];
   };
 
+  users = {
+    users = {
+      ssh_tunnel = {
+        isNormalUser = true;
+        initialPassword = "passwordington";
+        group = "ssh_tunnel";
+        shell = "${pkgs.shadow}/bin/nologin";
+      };
+    };
+    groups = {
+      ssh_tunnel = { };
+    };
+  };
+
 }
