@@ -29,6 +29,7 @@ with lib;
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernel.sysctl."vm.overcommit_memory" = "1";
 
   documentation = {
     nixos.enable = true;
