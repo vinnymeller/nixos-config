@@ -38,6 +38,18 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
+    ragenix = {
+      url = "github:yaxitech/ragenix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+
+    github-nix-ci = {
+      url = "github:juspay/github-nix-ci";
+    };
+
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";

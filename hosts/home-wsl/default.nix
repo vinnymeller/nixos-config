@@ -11,6 +11,8 @@ inputs.nixpkgs.lib.nixosSystem {
       wsl.enable = true;
       wsl.defaultUser = "vinny";
     }
+    inputs.ragenix.nixosModules.default
+    inputs.github-nix-ci.nixosModules.default
     inputs.home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;
