@@ -56,6 +56,22 @@ with lib;
   };
   networking.hostName = "vindows"; # Define your hostname.
 
+  services.github-nix-ci = {
+    age.secretsDir = ../../secrets;
+    runnerSettings = {
+      extraPackages = with pkgs; [
+        openssl # needed for nicknovitski/nix-develop
+      ];
+    };
+    orgRunners = {
+      "mxves".num = 2;
+    };
+  };
+
+  environment.systemPackages = [
+    pkgs.ragenix
+  ];
+
   nixpkgs.hostPlatform = "x86_64-linux";
   system.stateVersion = "24.05";
 }

@@ -14,6 +14,10 @@
     blink-cmp-flake = inputs.blink-cmp.packages.${final.system}.default;
   };
 
+  ragenix = final: prev: {
+    ragenix = inputs.ragenix.packages.${final.system}.default;
+  };
+
   remove-0xproto-italics = final: prev: {
     _0xproto-no-italics = prev._0xproto.overrideAttrs (
       finalAttrs: prevAttrs: {
