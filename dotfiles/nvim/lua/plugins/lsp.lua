@@ -70,6 +70,8 @@ require("blink.cmp").setup({
     keymap = {
         ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
         ["<C-e>"] = { "hide", "fallback" },
+        ["<C-s>"] = { "cancel", "fallback" },
+
 
         ["<Tab>"] = {
             function(cmp)
