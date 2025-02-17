@@ -10,28 +10,13 @@ let
 in
 {
   imports = [
-    ../../../../programs/git
-    ../../../../programs/kitty
-    ../../../../programs/tmux
-    ../../../../programs/zk
     ../../../../hm
-    outputs.myNixCats.homeModule
   ];
   # Let home-manager manage itself
-  programs.home-manager.enable = true;
-
-  nixCats = {
-    enable = true;
-    packageNames = [ "nixCats" ];
-  };
-
-  # direnv !
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
+  profile.vinny.enable = true;
 
   home.username = "vinny";
   home.homeDirectory = "/home/vinny";
-
   home.stateVersion = "22.11";
 
   services.gpg-agent = {
