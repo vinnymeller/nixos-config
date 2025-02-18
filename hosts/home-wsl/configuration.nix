@@ -58,17 +58,6 @@ with lib;
   networking.hostName = "vindows"; # Define your hostname.
 
   mine.services.github-runners.enable = true;
-  # services.github-nix-ci = {
-  #   age.secretsDir = ../../secrets;
-  #   runnerSettings = {
-  #     extraPackages = with pkgs; [
-  #       openssl # needed for nicknovitski/nix-develop
-  #     ];
-  #   };
-  #   orgRunners = {
-  #     "mxves".num = 2;
-  #   };
-  # };
 
   environment.systemPackages = [
     pkgs.ragenix
