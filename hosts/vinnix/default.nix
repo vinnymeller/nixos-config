@@ -4,6 +4,7 @@ inputs.nixpkgs.lib.nixosSystem {
     inherit inputs outputs;
   };
   modules = [
+    inputs.ragenix.nixosModules.default
     inputs.lanzaboote.nixosModules.lanzaboote
 
     (
