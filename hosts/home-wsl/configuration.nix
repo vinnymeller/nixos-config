@@ -13,6 +13,7 @@ with lib;
     ../../programs/nix
     # ../../programs/gpg  # no gpg here
     ../../programs/ssh
+    ../../modules/nixos
   ];
 
   wsl = {
@@ -56,17 +57,18 @@ with lib;
   };
   networking.hostName = "vindows"; # Define your hostname.
 
-  services.github-nix-ci = {
-    age.secretsDir = ../../secrets;
-    runnerSettings = {
-      extraPackages = with pkgs; [
-        openssl # needed for nicknovitski/nix-develop
-      ];
-    };
-    orgRunners = {
-      "mxves".num = 2;
-    };
-  };
+  mine.services.github-runners.enable = true;
+  # services.github-nix-ci = {
+  #   age.secretsDir = ../../secrets;
+  #   runnerSettings = {
+  #     extraPackages = with pkgs; [
+  #       openssl # needed for nicknovitski/nix-develop
+  #     ];
+  #   };
+  #   orgRunners = {
+  #     "mxves".num = 2;
+  #   };
+  # };
 
   environment.systemPackages = [
     pkgs.ragenix
