@@ -10,7 +10,7 @@ let
 in
 {
   imports = [
-    ../../../../hm
+    ../../../../modules/home-manager
   ];
   # Let home-manager manage itself
   profile.vinny.enable = true;

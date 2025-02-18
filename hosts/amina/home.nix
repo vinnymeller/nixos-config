@@ -12,7 +12,7 @@ in
     ../../programs/git
     ../../programs/tmux
     ../../programs/kitty
-    ../../hm
+    ../../modules/home-manager
     outputs.myNixCats.homeModule
   ];
 
