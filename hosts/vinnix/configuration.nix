@@ -12,7 +12,10 @@
     ../../programs/qtile # ALSO need to make sure config is copied from home manager
     ../../programs/gpg
     ../../programs/ssh
+    ../../modules/nixos
   ];
+
+  uses.selfhost = true;
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;

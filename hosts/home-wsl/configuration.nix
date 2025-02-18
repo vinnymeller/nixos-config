@@ -40,9 +40,6 @@ with lib;
     dev.enable = true;
   };
 
-  # services.xserver.videoDrivers = [ "nvidia" ];
-  # hardware.graphics.enable = true;
-
   security.polkit.enable = true;
 
   users.users.vinny = {
@@ -57,7 +54,7 @@ with lib;
   };
   networking.hostName = "vindows"; # Define your hostname.
 
-  mine.services.github-runners.enable = true;
+  uses.selfhost = true;
 
   environment.systemPackages = [
     pkgs.ragenix

@@ -15,4 +15,5 @@ let
 in
 {
   "github-nix-ci/mxves.token.age".publicKeys = users ++ systems;
+  "cloudflared/moves/credentials.json.age".publicKeys = systems;
 }
