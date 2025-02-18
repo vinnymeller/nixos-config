@@ -4,11 +4,11 @@
   ...
 }:
 let
-  dir = ./modules;
+  dir = ./.;
   modules = lib.pipe (builtins.readDir dir) [
     (lib.filterAttrs (_: type: type == "regular"))
     builtins.attrNames
-    (builtins.filter (lib.hasSuffix ".nix"))
+    (builtins.filter (filename: filename != "default.nix" && lib.hasSuffix ".nix" filename))
     (builtins.map (filename: dir + "/${filename}"))
   ];
   inherit (lib) mkEnableOption mkIf;
@@ -29,7 +29,7 @@ in
 
   config = {
     programs.home-manager.enable = true;
-    home.file.".config/nixpkgs".source = ../dotfiles/nixpkgs;
+    home.file.".config/nixpkgs".source = ../../dotfiles/nixpkgs;
     mine = {
       git.enable = cfg.vinny.enable;
       kitty.enable = cfg.vinny.enable;

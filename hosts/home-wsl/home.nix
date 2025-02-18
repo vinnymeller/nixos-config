@@ -4,7 +4,7 @@
 }:
 {
   imports = [
-    ../../hm
+    ../../modules/home-manager
   ];
 
   profile.vinny.enable = true;
