@@ -15,7 +15,7 @@ in
 
   config = mkIf cfg.enable {
 
-    age.secrets.shell-secrets.file = mkIf cfg.useSecrets ../../secrets/shell/secrets.sh.age;
+    age.secrets.shell-secrets.file = mkIf cfg.enable ../../secrets/shell/secrets.sh.age;
 
     environment.shellInit = ''
       source "${config.age.secrets.shell-secrets.path}"
