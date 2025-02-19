@@ -9,5 +9,8 @@ inputs.home-manager.lib.homeManagerConfiguration {
   extraSpecialArgs = {
     inherit inputs outputs;
   };
-  modules = [ ./home.nix ];
+  modules = [
+    inputs.ragenix.homeManagerModules.default
+    ./home.nix
+  ];
 }
