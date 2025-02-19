@@ -21,5 +21,5 @@ in
     vinnix-vinny
   ] ++ systems;
   "cloudflared/moves/credentials.json.age".publicKeys = systems;
-  "zsh/secrets.sh.age".publicKeys = users ++ systems;
+  "shell/secrets.sh.age".publicKeys = users ++ systems;
 }

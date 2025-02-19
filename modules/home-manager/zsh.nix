@@ -20,13 +20,6 @@ in
 
   options.mine.zsh = {
     enable = mkEnableOption "Enable Zsh.";
-    useSecrets = {
-      type = types.bool;
-      default = cfg.enable;
-      description = ''
-        Source secret env variables from a secrets file to zsh.
-      '';
-    };
     autoStartTmux = mkOption {
       type = types.bool;
       default = !config.mine.wslu.enable;
@@ -37,7 +30,6 @@ in
   };
   config = mkIf cfg.enable {
 
-    age.secrets.shell-secrets.file = mkIf cfg.useSecrets ../../secrets/zsh/secrets.sh.age;
     # zsh doesn't have an extraPackages option, so we have to add them to home.packages
     home.packages = with pkgs; [
       twm
@@ -133,14 +125,6 @@ in
                   tmux attach-session -t $(twm -d -N -g -G $TWM_DEFAULT)
                 fi
               fi
-            ''
-          else
-            ""
-        )
-        + (
-          if cfg.useSecrets then
-            ''
-              source ${config.age.secrets.shell-secrets.path}
             ''
           else
             ""
