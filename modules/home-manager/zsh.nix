@@ -105,6 +105,7 @@ in
           export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.nix-profile/bin:$PATH # make sure nix profile is in front of other stuff
           export ZK_NOTEBOOK_DIR=$HOME/zk
 
+          # leaving this in for secrets that I may not want to manage with nix
           if [ -f ~/.config/.secrets.sh ]; then
             source ~/.config/.secrets.sh
           fi
