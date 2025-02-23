@@ -137,7 +137,6 @@ let
           markdown-preview-nvim
           nui-nvim
           nvim-autopairs
-          nvim-cmp
           nvim-lspconfig
           nvim-treesitter-context
           nvim-treesitter-textobjects
