@@ -27,6 +27,7 @@ in
       runnerSettings = {
         extraPackages = with pkgs; [
           openssl # needed for nicknovitski/nix-develop
+          git-lfs # needed for lfs flag
         ];
       };
       orgRunners = {
