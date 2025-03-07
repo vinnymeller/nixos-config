@@ -28,6 +28,7 @@ in
         extraPackages = with pkgs; [
           openssl # needed for nicknovitski/nix-develop
           git-lfs # needed for lfs flag
+          gh
         ];
       };
       orgRunners = {
