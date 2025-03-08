@@ -29,11 +29,16 @@ in
           openssl # needed for nicknovitski/nix-develop
           git-lfs # needed for lfs flag
           gh
+          docker
         ];
       };
       orgRunners = {
         "mxves".num = 2;
       };
+    };
+
+    users.users.github-runner = {
+      extraGroups = [ "docker" ];
     };
   };
 }

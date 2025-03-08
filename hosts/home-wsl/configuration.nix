@@ -40,12 +40,13 @@ with lib;
     dev.enable = true;
   };
 
+  virtualisation.docker.enable = true;
   security.polkit.enable = true;
 
   users.users.vinny = {
     isNormalUser = true;
     initialPassword = "passwordington";
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" ];
     shell = pkgs.zsh;
   };
   programs.zsh = {
