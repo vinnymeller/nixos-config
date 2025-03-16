@@ -4,7 +4,10 @@ REPO_LIST=$(gh repo list --json nameWithOwner --jq '.[] | .nameWithOwner' --limi
 DEV_DIR="$HOME/dev"
 
 for REPO in $REPO_LIST; do
-	gh repo clone "$REPO" "$DEV_DIR/$REPO"
+    REPO_DIR="$DEV_DIR/$REPO"
+    if [ ! -d "$REPO_DIR" ]; then
+        gh repo clone "$REPO" "$REPO_DIR"
+    fi
 done
 
 

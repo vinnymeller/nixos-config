@@ -18,12 +18,14 @@ in
     enable = mkEnableOption "Enable qtile";
     initialSessionCommands = mkOption {
       type = types.str;
-      default = "";
+      default = ''
+        ~/.nixdots/dotfiles/xrandr_layout.sh
+      '';
       description = "Extra commands to add to the beginning of sessionCommands";
     };
     videoDrivers = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ "nvidia" ];
       description = "List of video drivers";
     };
   };
@@ -43,12 +45,13 @@ in
       dpi = 130;
       displayManager = {
         gdm.enable = true;
-        sessionCommands = cfg.initialSessionCommands + ''
-          # ~/.nixdots/dotfiles/xrandr_layout.sh
-          xset dpms 0 0 0 && xset s noblank && xset s off
-          lxsession -s qtile -e qtile &
-          feh --bg-fill ~/.nixdots/files/avatar-wallpaper.png
-        '';
+        sessionCommands =
+          cfg.initialSessionCommands
+          + ''
+            xset dpms 0 0 0 && xset s noblank && xset s off
+            lxsession -s qtile -e qtile &
+            feh --bg-fill ~/.nixdots/files/avatar-wallpaper.png
+          '';
       };
       windowManager.qtile = {
         enable = true;
