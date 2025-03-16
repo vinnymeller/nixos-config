@@ -5,19 +5,19 @@ inputs.nixpkgs.lib.nixosSystem {
   };
   modules = [
     inputs.ragenix.nixosModules.default
-    inputs.lanzaboote.nixosModules.lanzaboote
+    #inputs.lanzaboote.nixosModules.lanzaboote
 
     (
       { pkgs, lib, ... }:
       {
         environment.systemPackages = [ pkgs.sbctl ];
 
-        boot.loader.systemd-boot.enable = lib.mkForce false;
+     #   boot.loader.systemd-boot.enable = lib.mkForce false;
 
-        boot.lanzaboote = {
-          enable = true;
-          pkiBundle = "/etc/secureboot";
-        };
+     #   boot.lanzaboote = {
+     #     enable = true;
+     #     pkiBundle = "/etc/secureboot";
+     #   };
       }
     )
 

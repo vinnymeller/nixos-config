@@ -9,7 +9,7 @@
 {
   imports = [
     ../../programs/nix
-    ../../programs/qtile # ALSO need to make sure config is copied from home manager
+    # ../../programs/qtile # ALSO need to make sure config is copied from home manager
     ../../programs/gpg
     ../../programs/ssh
     ../../modules/nixos
@@ -26,13 +26,24 @@
     };
   };
 
+  boot.initrd.luks.devices = {
+    crypted = {
+      device = "/dev/disk/by-uuid/671efa4e-c795-4044-9b3a-24c1242c5394";
+      preLVM = true;
+    };
+  };
+
   boot = {
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_latest; # use newest kernel
-    kernelParams = [ "amd_iommu=on" ];
+    kernelParams = [
+      "amd_iommu=soft"
+      "processor.max_cstate=4"
+      "idle=nomwait"
+    ];
     blacklistedKernelModules = [
-      "nvidia"
-      "nouveau"
+      #"nvidia"
+      #"nouveau"
     ];
     kernelModules = [
       "kvm-amd"
@@ -42,12 +53,17 @@
       "vfio"
     ];
     extraModprobeConfig = ''
-      options vfio-pci ids=10de:13c0,10de:0fbb
       options btusb enable_autosuspend=n
     '';
     loader = {
       systemd-boot = {
         enable = true;
+        windows = {
+          "11-windows-pro" = {
+            title = "Windows 11 Pro";
+            efiDeviceHandle = "HD1b";
+          };
+        };
       };
       efi = {
         canTouchEfiVariables = true;
@@ -84,7 +100,7 @@
     };
     graphics = {
       enable = true;
-      extraPackages = [ pkgs.nvidia-vaapi-driver ];
+      #extraPackages = [ pkgs.nvidia-vaapi-driver ];
     };
     # pulseaudio.enable = true;
     # xpadneo.enable = true;
@@ -191,8 +207,8 @@
 
   # this replaces virtualisation.podman.enableNvidia
   # this replaces  virtualisation.containers.cdi.dynamic.nvidia.enable lol
-  hardware.nvidia-container-toolkit.enable = true;
-  #hardware.nvidia.open = true;
+  #hardware.nvidia-container-toolkit.enable = true;
+  hardware.nvidia.open = true;
 
   system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
 
@@ -210,65 +226,16 @@
   hardware.gpgSmartcards.enable = true; # for yubikey
 
   # Tag each generation with Git hash
-  system.configurationRevision =
-    if (inputs.self ? rev) then
-      inputs.self.shortRev
-    else
-      throw "Refusing to build from a dirty Git tree!";
-  system.nixos.label = "GitRev.${config.system.configurationRevision}.Rel.${config.system.nixos.release}";
+  # system.configurationRevision =
+  #   if (inputs.self ? rev) then
+  #     inputs.self.shortRev
+  #   else
+  #     throw "Refusing to build from a dirty Git tree!";
+  # system.nixos.label = "GitRev.${config.system.configurationRevision}.Rel.${config.system.nixos.release}";
 
   programs.command-not-found.enable = false;
 
   programs.nm-applet.enable = true;
 
   programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    alsa-lib
-    at-spi2-atk
-    at-spi2-core
-    atk
-    cairo
-    cups
-    curl
-    dbus
-    expat
-    fontconfig
-    freetype
-    fuse3
-    gdk-pixbuf
-    glib
-    gtk3
-    icu
-    libGL
-    libappindicator-gtk3
-    libdrm
-    libnotify
-    libpulseaudio
-    libusb1
-    libuuid
-    libxkbcommon
-    mesa
-    nspr
-    nss
-    openssl
-    pango
-    pipewire
-    stdenv.cc.cc
-    systemd
-    xorg.libX11
-    xorg.libXScrnSaver
-    xorg.libXcomposite
-    xorg.libXcursor
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXi
-    xorg.libXrandr
-    xorg.libXrender
-    xorg.libXtst
-    xorg.libxcb
-    xorg.libxkbfile
-    xorg.libxshmfence
-    zlib
-  ];
 }

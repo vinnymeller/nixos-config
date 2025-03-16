@@ -124,7 +124,6 @@
 
       nixosConfigurations = {
         vinnix = import ./hosts/vinnix { inherit inputs outputs; };
-	vinnix2 = import ./hosts/vinnix2 { inherit inputs outputs; };
         vindows = import ./hosts/home-wsl { inherit inputs outputs; };
       };
       homeConfigurations = {
