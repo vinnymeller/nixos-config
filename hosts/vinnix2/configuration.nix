@@ -9,7 +9,7 @@
 {
   imports = [
     ../../programs/nix
-    ../../programs/qtile # ALSO need to make sure config is copied from home manager
+    # ../../programs/qtile # ALSO need to make sure config is copied from home manager
     ../../programs/gpg
     ../../programs/ssh
     ../../modules/nixos
@@ -36,7 +36,11 @@
   boot = {
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_latest; # use newest kernel
-    kernelParams = [ "amd_iommu=soft" "processor.max_cstate=4" "idle=nomwait" ];
+    kernelParams = [
+      "amd_iommu=soft"
+      "processor.max_cstate=4"
+      "idle=nomwait"
+    ];
     blacklistedKernelModules = [
       #"nvidia"
       #"nouveau"
@@ -54,6 +58,12 @@
     loader = {
       systemd-boot = {
         enable = true;
+        windows = {
+          "11-windows-pro" = {
+            title = "Windows 11 Pro";
+            efiDeviceHandle = "HD1b";
+          };
+        };
       };
       efi = {
         canTouchEfiVariables = true;
@@ -216,12 +226,12 @@
   hardware.gpgSmartcards.enable = true; # for yubikey
 
   # Tag each generation with Git hash
-  system.configurationRevision =
-    if (inputs.self ? rev) then
-      inputs.self.shortRev
-    else
-      throw "Refusing to build from a dirty Git tree!";
-  system.nixos.label = "GitRev.${config.system.configurationRevision}.Rel.${config.system.nixos.release}";
+  # system.configurationRevision =
+  #   if (inputs.self ? rev) then
+  #     inputs.self.shortRev
+  #   else
+  #     throw "Refusing to build from a dirty Git tree!";
+  # system.nixos.label = "GitRev.${config.system.configurationRevision}.Rel.${config.system.nixos.release}";
 
   programs.command-not-found.enable = false;
 

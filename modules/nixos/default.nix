@@ -21,6 +21,7 @@ in
   config = {
     mine = {
       secrets.enable = mkDefault true;
+      dm.qtile.enable = mkDefault true;
       services = {
         cloudflared = mkIf cfg.selfhost {
           enable = mkDefault true;
