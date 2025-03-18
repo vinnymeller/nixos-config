@@ -107,6 +107,8 @@
     opentabletdriver.enable = true; # OSU TABLET HERE WE GOOOOOOOO
   };
 
+  mine.dm.qtile.enable = true;
+
   services = {
     blueman.enable = true;
     pcscd.enable = true;
