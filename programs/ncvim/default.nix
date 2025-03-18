@@ -12,25 +12,12 @@ let
   extra_pkg_config = {
     allowUnfree = true;
   };
-  inherit
-    (forEachSystem (
-      system:
-      let
-        dependencyOverlays = (import ./overlays inputs) ++ [
-          # this lets us use `pkgs.neovimPlugins`
-          (utils.standardPluginOverlay inputs)
-          (final: prev: {
-            blink-cmp-flake = inputs.blink-cmp.packages.${final.system}.default;
-          })
-          # add flake overlays here as needed
-        ];
-      in
-      {
-        inherit dependencyOverlays;
-      }
-    ))
-    dependencyOverlays
-    ;
+  dependencyOverlays = (import ./overlays inputs) ++ [
+    (utils.standardPluginOverlay inputs)
+    (final: prev: {
+      blink-cmp-flake = inputs.blink-cmp.packages.${final.system}.default;
+    })
+  ];
 
   categoryDefinitions =
     {
@@ -147,7 +134,6 @@ let
           oil-nvim
           pkgs.blink-cmp-flake
           pkgs.neovimPlugins.blink-compat
-          codecompanion-nvim
           pkgs.neovimPlugins.grug-far-nvim
           pkgs.neovimPlugins.vim-dadbod-completion
           plenary-nvim

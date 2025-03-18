@@ -16,8 +16,6 @@ in
   config = mkIf cfg.enable {
     age.secrets.cloudflared-moves-creds = mkIf cfg.moves.enable {
       file = ../../secrets/cloudflared/moves/credentials.json.age;
-      group = config.services.cloudflared.group;
-      owner = config.services.cloudflared.user;
     };
     services.cloudflared = {
       enable = true;

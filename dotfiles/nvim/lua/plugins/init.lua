@@ -1,7 +1,6 @@
 require("plugins.autopairs")
 require("plugins.autosave")
 require("plugins.blink")
-require("plugins.codecompanion")
 require("plugins.copilot")
 require("plugins.diffview")
 require("plugins.fzf")
