@@ -146,10 +146,7 @@ require("blink.cmp").setup({
                 module = "vim_dadbod_completion.blink",
             },
             cmdline = {
-                enabled = function()
-                    -- this is broken on wsl for some reason so idk
-                    return os.getenv("WSL_DISTRO_NAME") == nil
-                end,
+                enabled = true,
             },
         },
     },
