@@ -7,7 +7,6 @@
   modulesPath,
   ...
 }:
-with lib;
 {
   imports = [
     ../../programs/nix
@@ -18,7 +17,7 @@ with lib;
 
   wsl = {
     enable = true;
-    automountPath = "/mnt";
+    wslConf.automount.root = "/mnt";
     defaultUser = "vinny";
     startMenuLaunchers = true;
 
@@ -46,7 +45,10 @@ with lib;
   users.users.vinny = {
     isNormalUser = true;
     initialPassword = "passwordington";
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = [
+      "wheel"
+      "docker"
+    ];
     shell = pkgs.zsh;
   };
   programs.zsh = {

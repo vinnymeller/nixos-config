@@ -136,7 +136,6 @@ require("blink.cmp").setup({
         default = {
             "lsp",
             "path",
-            "codecompanion",
             "snippets",
             "buffer",
             "dadbod",
