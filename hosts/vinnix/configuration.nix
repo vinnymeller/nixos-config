@@ -184,7 +184,6 @@
     pkgs.stable-pkgs.looking-glass-client
     man-pages
     man-pages-posix
-    podman-compose
     scrot
     spice
     vim
@@ -200,12 +199,6 @@
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
 
-  virtualisation.podman = {
-    enable = true;
-    dockerSocket.enable = true;
-    autoPrune.enable = true;
-    dockerCompat = true;
-  };
 
   # this replaces virtualisation.podman.enableNvidia
   # this replaces  virtualisation.containers.cdi.dynamic.nvidia.enable lol
