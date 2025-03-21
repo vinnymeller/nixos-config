@@ -58,12 +58,12 @@
     loader = {
       systemd-boot = {
         enable = true;
-        windows = {
-          "11-windows-pro" = {
-            title = "Windows 11 Pro";
-            efiDeviceHandle = "HD1b";
-          };
-        };
+        # windows = {
+        #   "11-windows-pro" = {
+        #     title = "Windows 11 Pro";
+        #     efiDeviceHandle = "HD1b";
+        #   };
+        # };
       };
       efi = {
         canTouchEfiVariables = true;

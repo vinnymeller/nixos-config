@@ -5,19 +5,23 @@ inputs.nixpkgs.lib.nixosSystem {
   };
   modules = [
     inputs.ragenix.nixosModules.default
-    #inputs.lanzaboote.nixosModules.lanzaboote
+    inputs.lanzaboote.nixosModules.lanzaboote
 
     (
       { pkgs, lib, ... }:
       {
         environment.systemPackages = [ pkgs.sbctl ];
 
-     #   boot.loader.systemd-boot.enable = lib.mkForce false;
+        # Lanzaboote currently replaces the systemd-boot module.
+        # This setting is usually set to true in configuration.nix
+        # generated at installation time. So we  force it to false
+        # for now.
+        boot.loader.systemd-boot.enable = lib.mkForce false;
 
-     #   boot.lanzaboote = {
-     #     enable = true;
-     #     pkiBundle = "/etc/secureboot";
-     #   };
+        boot.lanzaboote = {
+          enable = true;
+          pkiBundle = "/var/lib/sbctl";
+        };
       }
     )
 
