@@ -32,3 +32,5 @@ vim.o.spelllang = "en_us"
 vim.o.cursorline = true
 vim.o.cursorcolumn = false
 vim.o.timeoutlen = 500
+
+vim.o.showmode = false
