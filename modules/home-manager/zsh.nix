@@ -161,6 +161,7 @@ in
       ef = "nv $(find_file_up_tree flake.nix)";
       da = "direnv allow";
       dr = "direnv reload";
+      nfu = "nix flake update";
     };
   };
 }
