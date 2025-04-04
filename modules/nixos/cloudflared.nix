@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -19,6 +20,7 @@ in
     };
     services.cloudflared = {
       enable = true;
+      package = pkgs.stable-pkgs.cloudflared;
       tunnels = {
         "96279372-faa6-4f6d-8ccb-1d7552202fb5" = mkIf cfg.moves.enable {
           credentialsFile = config.age.secrets.cloudflared-moves-creds.path;
