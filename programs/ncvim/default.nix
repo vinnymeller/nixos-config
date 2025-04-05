@@ -133,9 +133,9 @@ let
           nvim-web-devicons
           oil-nvim
           pkgs.blink-cmp-flake
-          pkgs.neovimPlugins.blink-compat
-          pkgs.neovimPlugins.grug-far-nvim
-          pkgs.neovimPlugins.vim-dadbod-completion
+          blink-compat
+          grug-far-nvim
+          vim-dadbod-completion
           plenary-nvim
           precognition-nvim
           rustaceanvim

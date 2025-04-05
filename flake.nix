@@ -68,21 +68,6 @@
       inputs.flake-utils.follows = "flake-utils";
     };
 
-    plugins-blink-compat = {
-      url = "github:Saghen/blink.compat";
-      flake = false;
-    };
-
-    plugins-vim-dadbod-completion = {
-      url = "github:kristijanhusak/vim-dadbod-completion";
-      flake = false;
-    };
-
-    plugins-grug-far-nvim = {
-      url = "github:MagicDuck/grug-far.nvim";
-      flake = false;
-    };
-
   };
 
   outputs =
