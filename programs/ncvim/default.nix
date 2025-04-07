@@ -104,7 +104,9 @@ let
         general = with pkgs.vimPlugins; [
           SchemaStore-nvim
           autosave-nvim
-          copilot-lua # TODO: change when issues with copilot-language-server are resolved
+          # copilot-lua # TODO: change when issues with copilot-language-server are resolved
+          copilot-vim
+          blink-copilot
           diffview-nvim
           efmls-configs-nvim
           fidget-nvim

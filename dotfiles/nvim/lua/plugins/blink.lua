@@ -138,12 +138,19 @@ require("blink.cmp").setup({
             "path",
             "snippets",
             "buffer",
+            "copilot",
             "dadbod",
         },
         providers = {
             dadbod = {
                 name = "Dadbod",
                 module = "vim_dadbod_completion.blink",
+            },
+            copilot = {
+                name = "copilot",
+                module = "blink-copilot",
+                score_offset = 100,
+                async = true,
             },
             cmdline = {
                 enabled = true,
