@@ -59,7 +59,7 @@ let
             haskellPackages.haskell-language-server
             imagemagick
             isort
-            ltex-ls
+            ltex-ls-plus
             lua-language-server
             luajitPackages.jsregexp
 
