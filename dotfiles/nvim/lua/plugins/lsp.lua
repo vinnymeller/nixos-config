@@ -92,7 +92,7 @@ require("lspconfig").lua_ls.setup({
     },
 })
 
-require("lspconfig").ltex.setup({
+require("lspconfig").ltex_plus.setup({
     -- capabilities = capabilities,
     on_attach = function(client, bufnr)
         require("ltex_extra").setup({})
