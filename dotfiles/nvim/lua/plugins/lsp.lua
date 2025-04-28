@@ -167,10 +167,11 @@ local basic_servers = {
     "hls",
     "ocamllsp",
     "pyright",
-    "tailwindcss",
     "taplo",
     "terraformls",
 }
+
+require("tailwind-tools").setup({})
 
 local prettier = require("efmls-configs.formatters.prettier")
 local eslint = require("efmls-configs.linters.eslint")

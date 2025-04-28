@@ -142,6 +142,7 @@ let
           rustaceanvim
           snacks-nvim
           sniprun
+          tailwind-tools-nvim
           tint-nvim
           tmux-nvim
           typescript-tools-nvim
