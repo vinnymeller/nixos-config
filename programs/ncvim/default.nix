@@ -188,6 +188,10 @@ let
         test = [ ''--set CATTESTVAR2 "It worked again!"'' ];
       };
 
+      python3.libraries = {
+        python = py: with py; [ ];
+      };
+
       # populates $LUA_PATH and $LUA_CPATH
       extraLuaPackages = {
         lua = [ (l: with l; [ magick ]) ];
@@ -216,6 +220,11 @@ let
           # TODO: when plugins are more stable enable this to get back on nightly
           neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
           suffix-path = true;
+          hosts = {
+            python3 = {
+              enable = true;
+            };
+          };
         };
         # and a set of categories that you want
         # (and other information to pass to lua)
@@ -223,6 +232,8 @@ let
           general = true;
           generalBuildInputs = true;
           test = true;
+          python = true;
+          lua = true;
           example = {
             youCan = "add more than just booleans";
             toThisSet = [
