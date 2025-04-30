@@ -188,19 +188,6 @@ let
         test = [ ''--set CATTESTVAR2 "It worked again!"'' ];
       };
 
-      # lists of the functions you would have passed to
-      # python.withPackages or lua.withPackages
-
-      # get the path to this python environment
-      # in your lua config via
-      # vim.g.python3_host_prog
-      # or run from nvim terminal via :!<packagename>-python3
-      extraPython3Packages = {
-        python = py: with py; [ ];
-      };
-      extraPythonPackages = {
-        test = _: [ ];
-      };
       # populates $LUA_PATH and $LUA_CPATH
       extraLuaPackages = {
         lua = [ (l: with l; [ magick ]) ];
