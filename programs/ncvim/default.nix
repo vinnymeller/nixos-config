@@ -139,6 +139,7 @@ let
           vim-dadbod-completion
           plenary-nvim
           precognition-nvim
+          rainbow_csv
           rustaceanvim
           snacks-nvim
           sniprun
