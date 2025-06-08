@@ -40,7 +40,7 @@ in
       zsh-fast-syntax-highlighting
       zsh-autocomplete
       zsh-completions
-      master-pkgs.aider-chat
+      aider-chat-full
     ];
     programs.zsh = {
       enable = true;

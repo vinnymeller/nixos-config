@@ -101,7 +101,7 @@ in
     };
 
     home.packages = with pkgs; [
-      # git-spice
+      git-spice
       (mkIf cfg.gpgSignDefault gnupg)
     ];
 
