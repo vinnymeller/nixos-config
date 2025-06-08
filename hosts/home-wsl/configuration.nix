@@ -62,6 +62,9 @@
   environment.systemPackages = [
     pkgs.ragenix
   ];
+  environment.pathsToLink = [
+    "/"
+  ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
   system.stateVersion = "24.05";
