@@ -61,3 +61,13 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.keymap.set("n", "<leader>xml", "<cmd>FormatXML<CR>", { buffer = 0, desc = "Format XML file" })
     end,
 })
+
+-- turn wrapping off for some files
+vim.api.nvim_create_augroup("MyFilePatternSettings", { clear = true })
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    group = "MyFilePatternSettings",
+    pattern = "*.keymap",
+    callback = function()
+        vim.opt_local.wrap = false
+    end,
+})
