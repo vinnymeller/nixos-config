@@ -40,7 +40,11 @@ in
       zsh-fast-syntax-highlighting
       zsh-autocomplete
       zsh-completions
-      aider-chat-full
+      (aider-chat.withOptional {
+        withPlaywright = true;
+        withBrowser = true;
+        withBedrock = true;
+      })
     ];
     programs.zsh = {
       enable = true;
