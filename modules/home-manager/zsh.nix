@@ -33,6 +33,7 @@ in
     # zsh doesn't have an extraPackages option, so we have to add them to home.packages
     home.packages = with pkgs; [
       twm
+      ijq
       nix-zsh-completions
       zsh-powerlevel10k
       zsh-vi-mode
