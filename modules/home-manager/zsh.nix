@@ -42,7 +42,7 @@ in
       zsh-autocomplete
       zsh-completions
       (aider-chat.withOptional {
-        withPlaywright = true;
+        # withPlaywright = true; # constant problems with playwright
         withBrowser = true;
         withBedrock = true;
       })
