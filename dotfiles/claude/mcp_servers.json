@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "hyper-mcp": {
+      "type": "stdio",
+      "command": "hyper-mcp",
+      "args": [],
+      "env": {}
+    },
+    "playwright-mcp": {
+      "type": "stdio",
+      "command": "nix",
+      "args": [
+        "run",
+        "github:akirak/nix-playwright-mcp"
+      ],
+      "env": {}
+    }
+  }
+}

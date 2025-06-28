@@ -31,6 +31,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hyper-mcp = {
+      url = "github:vinnymeller/nix-hyper-mcp";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";

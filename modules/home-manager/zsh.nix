@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 let
@@ -16,6 +17,7 @@ in
 {
   imports = [
     ./wslu.nix
+    inputs.hyper-mcp.homeModules.default
   ];
 
   options.mine.zsh = {
@@ -30,9 +32,12 @@ in
   };
   config = mkIf cfg.enable {
 
+    xdg.enable = true;
+
     # zsh doesn't have an extraPackages option, so we have to add them to home.packages
     home.packages = with pkgs; [
       twm
+      jq
       ijq
       nix-zsh-completions
       zsh-powerlevel10k
@@ -46,7 +51,71 @@ in
         withBrowser = true;
         withBedrock = true;
       })
+      (claude-code.overrideAttrs (
+        finalAttrs: prevAttrs: {
+          postInstall = ''
+            wrapProgram $out/bin/claude \
+              --set DISABLE_AUTOUPDATER 1 \
+              --prefix PATH : ${pkgs.nodejs_latest}/bin \
+              --add-flags "--mcp-config ${config.home.homeDirectory}/.claude/mcp_servers.json"
+          '';
+        }
+      ))
     ];
+    programs.hyper-mcp = {
+      enable = true;
+      transport = "stdio";
+      plugins = [
+        {
+          name = "time";
+          path = "oci://ghcr.io/tuananh/time-plugin:latest";
+        }
+        {
+          name = "qr-code";
+          path = "oci://ghcr.io/tuananh/qrcode-plugin:latest";
+        }
+        {
+          name = "hash";
+          path = "oci://ghcr.io/tuananh/hash-plugin:latest";
+        }
+        {
+          name = "fetch";
+          path = "oci://ghcr.io/tuananh/fetch-plugin:latest";
+          runtime_config = {
+            allowed_hosts = [ "*" ];
+            memory_limit = "500 MB";
+          };
+        }
+        {
+          name = "fs";
+          path = "oci://ghcr.io/tuananh/fs-plugin:latest";
+          runtime_config = {
+            allowed_paths = [ "/home/vinny" ];
+          };
+        }
+        {
+          name = "myip";
+          path = "oci://ghcr.io/tuananh/myip-plugin:latest";
+          runtime_config = {
+            allowed_hosts = [ "1.1.1.1" ];
+          };
+        }
+        {
+          name = "eval-py";
+          path = "oci://ghcr.io/tuananh/eval-py-plugin:latest";
+        }
+        {
+          name = "memory";
+          path = "oci://ghcr.io/tuananh/memory-plugin:latest";
+          runtime_config = {
+            allowed_paths = [ "${config.xdg.dataHome}/hyper-mcp" ];
+            env_vars = {
+              db_path = "${config.xdg.dataHome}/hyper-mcp/memory.db";
+            };
+          };
+        }
+      ];
+    };
     programs.zsh = {
       enable = true;
       enableCompletion = false;
@@ -146,10 +215,10 @@ in
     # copy our powerlevel10k config over
     home.file.".config/zsh/.p10k.zsh".source = ../../dotfiles/zsh/.p10k.zsh;
     home.file.".aider.conf.yml".source = ../../dotfiles/.aider.conf.yml;
-
-    programs.atuin = {
-      enable = true;
-      enableZshIntegration = true;
+    home.file.".claude/mcp_servers.json".source = ../../dotfiles/claude/mcp_servers.json;
+    home.file.".claude/anthropic_key.sh" = {
+      text = "echo $ANTHROPIC_API_KEY";
+      executable = true;
     };
 
     programs.direnv.enable = true;
