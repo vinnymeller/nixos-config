@@ -9,10 +9,13 @@
     "playwright-mcp": {
       "type": "stdio",
       "command": "nix",
-      "args": [
-        "run",
-        "github:akirak/nix-playwright-mcp"
-      ],
+      "args": ["run", "github:akirak/nix-playwright-mcp"],
+      "env": {}
+    },
+    "context7-mcp": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
       "env": {}
     }
   }

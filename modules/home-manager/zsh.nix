@@ -35,33 +35,41 @@ in
     xdg.enable = true;
 
     # zsh doesn't have an extraPackages option, so we have to add them to home.packages
-    home.packages = with pkgs; [
-      twm
-      jq
-      ijq
-      nix-zsh-completions
-      zsh-powerlevel10k
-      zsh-vi-mode
-      zsh-you-should-use
-      zsh-fast-syntax-highlighting
-      zsh-autocomplete
-      zsh-completions
-      (aider-chat.withOptional {
-        # withPlaywright = true; # constant problems with playwright
-        withBrowser = true;
-        withBedrock = true;
-      })
-      (claude-code.overrideAttrs (
-        finalAttrs: prevAttrs: {
-          postInstall = ''
-            wrapProgram $out/bin/claude \
-              --set DISABLE_AUTOUPDATER 1 \
-              --prefix PATH : ${pkgs.nodejs_latest}/bin \
-              --add-flags "--mcp-config ${config.home.homeDirectory}/.claude/mcp_servers.json"
-          '';
-        }
-      ))
-    ];
+    home.packages =
+      with pkgs;
+      [
+        twm
+        jq
+        ijq
+        nix-zsh-completions
+        zsh-powerlevel10k
+        zsh-vi-mode
+        zsh-you-should-use
+        zsh-fast-syntax-highlighting
+        zsh-autocomplete
+        zsh-completions
+        (aider-chat.withOptional {
+          # withPlaywright = true; # constant problems with playwright
+          withBrowser = true;
+          withBedrock = true;
+        })
+      ]
+      ++ [
+        (pkgs.claude-code.overrideAttrs (
+          finalAttrs: prevAttrs: {
+            postInstall = ''
+              wrapProgram $out/bin/claude \
+                --set DISABLE_AUTOUPDATER 1 \
+                --prefix PATH : ${
+                  lib.makeBinPath [
+                    pkgs.nodejs_latest
+                  ]
+                } \
+                --add-flags "--mcp-config ${config.home.homeDirectory}/.claude/mcp_servers.json"
+            '';
+          }
+        ))
+      ];
     programs.hyper-mcp = {
       enable = true;
       transport = "stdio";
