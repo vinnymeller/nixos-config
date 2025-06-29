@@ -98,7 +98,7 @@ in
           name = "fs";
           path = "oci://ghcr.io/tuananh/fs-plugin:latest";
           runtime_config = {
-            allowed_paths = [ "/home/vinny" ];
+            allowed_paths = [ "${config.home.homeDirectory}" ];
           };
         }
         {
