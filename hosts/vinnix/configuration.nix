@@ -123,6 +123,7 @@
     gvfs.enable = true;
     udisks2.enable = true;
   };
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   fonts = {
     fontconfig = {
