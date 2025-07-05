@@ -243,6 +243,7 @@ in
       da = "direnv allow";
       dr = "direnv reload";
       nfu = "nix flake update";
+      nru = "NIXPKGS_ALLOW_UNFREE=1 nix run --impure";
     };
   };
 }
