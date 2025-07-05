@@ -9,7 +9,6 @@
 {
   imports = [
     ../../programs/nix
-    # ../../programs/qtile # ALSO need to make sure config is copied from home manager
     ../../programs/gpg
     ../../programs/ssh
     ../../modules/nixos
@@ -107,8 +106,6 @@
     opentabletdriver.enable = true; # OSU TABLET HERE WE GOOOOOOOO
   };
 
-  mine.dm.qtile.enable = true;
-
   services = {
     blueman.enable = true;
     pcscd.enable = true;
@@ -199,11 +196,9 @@
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
 
-
   # this replaces virtualisation.podman.enableNvidia
   # this replaces  virtualisation.containers.cdi.dynamic.nvidia.enable lol
   #hardware.nvidia-container-toolkit.enable = true;
-  hardware.nvidia.open = true;
 
   system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
 
@@ -233,4 +228,30 @@
   programs.nm-applet.enable = true;
 
   programs.nix-ld.enable = true;
+
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
+  security.pam.services.hyprlock = { };
+  services.xserver.videoDrivers = [
+    "nvidia"
+  ];
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    nvidiaSettings = true;
+    open = true;
+  };
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd hyprland";
+        user = "vinny";
+      };
+    };
+  };
+
 }

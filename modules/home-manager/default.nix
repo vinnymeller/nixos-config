@@ -17,6 +17,7 @@ in
       vinny = {
         enable = mkEnableOption "Enable Vinny's default configuration.";
         wsl = mkEnableOption "Enable WSL configuration.";
+        hyprland = mkEnableOption "Enable Hyprland config.";
       };
     };
     hmStandalone = mkEnableOption "Enable standalone home-manager configuration.";
@@ -27,6 +28,7 @@ in
     home.file.".config/nixpkgs".source = ../../dotfiles/nixpkgs;
     mine = {
       git.enable = cfg.vinny.enable;
+      hyprland.enable = cfg.vinny.hyprland;
       kitty.enable = cfg.vinny.enable;
       nix.enable = cfg.vinny.enable;
       nixpkgs.enable = mkIf config.hmStandalone true;

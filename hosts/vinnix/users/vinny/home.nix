@@ -14,6 +14,7 @@ in
   ];
   # Let home-manager manage itself
   profile.vinny.enable = true;
+  profile.vinny.hyprland = true;
 
   home.username = "vinny";
   home.homeDirectory = "/home/vinny";
@@ -34,6 +35,7 @@ in
       anki-bin
       # stable-pkgs.calibre # TODO: switch back to normal pkgs next update
       chromium
+      google-chrome
       nemo-with-extensions
       xviewer
       dmenu
@@ -87,7 +89,6 @@ in
 
   programs.command-not-found.enable = false;
 
-  home.file.".config/qtile".source = ../../../../dotfiles/qtile;
   home.file.".config/nixpkgs".source = ../../../../dotfiles/nixpkgs;
   home.file.".Xresources".source = ../../../../dotfiles/.Xresources;
 }

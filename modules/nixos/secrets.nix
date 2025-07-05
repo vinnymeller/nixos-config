@@ -22,8 +22,14 @@ in
       mode = "640";
     };
 
-    environment.shellInit = ''
-      source "${config.age.secrets.shell-secrets.path}"
-    '';
+    environment.shellInit =
+      let
+        secretPath = config.age.secrets.shell-secrets.path;
+      in
+      ''
+        if [ -f "${secretPath}" ] && [ -r "${secretPath}" ]; then
+          source "${secretPath}"
+        fi
+      '';
   };
 }
