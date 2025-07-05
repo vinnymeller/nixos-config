@@ -33,7 +33,6 @@ in
     with pkgs;
     [
       anki-bin
-      # stable-pkgs.calibre # TODO: switch back to normal pkgs next update
       chromium
       google-chrome
       nemo-with-extensions
@@ -42,11 +41,10 @@ in
       dunst
       easyeffects
       feh
-      flameshot
       gcc
+      discord
       nautilus
       gocryptfs
-      gromit-mpx
       htop
       inkscape
       kompose
@@ -61,20 +59,16 @@ in
       nerd-fonts._0xproto
       # nix-index
       nix-init
-      nix-init
       obs-studio
       osu-lazer-bin # re-add this when its working again
       pavucontrol
       pkg-config
-      popcorntime
       protonup-qt
       qemu
       rofi
       sbctl
       screenkey
-      slack
       unzip
-      vesktop
       virt-manager
       vlc
       yubioath-flutter
