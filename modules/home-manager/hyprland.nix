@@ -3,6 +3,7 @@
   lib,
   pkgs,
   inputs,
+  services,
   ...
 }:
 let
@@ -53,12 +54,13 @@ in
             "$mod, T, exec, uwsm app -- $terminal"
             "$mod, RETURN, exec, $terminal"
             "$mod, SPACE, exec, rofi -show drun"
+            "$mod, V, exec, kitty --class clipse -e clipse"
 
             "$mod SHIFT ALT, L, exec, hyprlock"
 
             "$mod, W, killactive"
-            "$mod, R, togglesplit"
-            "$mod, V, togglefloating"
+            # "$mod, R, togglesplit"
+            "$mod, R, togglefloating"
             "$mod, U, focusurgentorlast"
             "$mod, TAB, focuscurrentorlast"
 
@@ -80,6 +82,7 @@ in
             "$mod SHIFT, k, resizeactive, 0 50"
 
             "$mod, G, togglegroup"
+            "$mod CTRL, G, moveoutofgroup"
             "$mod CTRL, N, changegroupactive, f"
             "$mod CTRL, P, changegroupactive, b"
 
@@ -104,6 +107,12 @@ in
               ]
             ) 9
           ));
+        windowrulev2 = [
+          "float,class:(clipse)"
+          "size 622 652,class:(clipse)"
+          "stayfocused,class:(clipse)"
+          "stayfocused,class:(gcr-prompter)"
+        ];
         general = {
           gaps_in = 0;
           gaps_out = 0;
@@ -189,6 +198,7 @@ in
         };
         exec-once = [
           "${pkgs.hyprpaper}/bin/hyprpaper"
+          # "${pkgs.clipse}/bin/clipse -listen"
         ];
       };
     };
@@ -202,6 +212,12 @@ in
           ", ${config.home.homeDirectory}/.nixdots/files/avatar-wallpaper.png"
         ];
       };
+    };
+    services.clipse = {
+      enable = true;
+      imageDisplay.type = "kitty";
+      historySize = 1000;
+      allowDuplicates = false;
     };
     programs.hyprlock = {
       enable = true;
@@ -239,5 +255,9 @@ in
       name = "Bibata-Modern-Classic";
       size = 16;
     };
+    home.packages = with pkgs; [
+      clipse
+      wl-clipboard
+    ];
   };
 }

@@ -182,11 +182,10 @@
     pkgs.stable-pkgs.looking-glass-client
     man-pages
     man-pages-posix
-    scrot
     spice
     vim
     wget
-    xclip
+    wl-clipboard
     zsh
     libva-utils
   ];
