@@ -42,7 +42,8 @@ in
       easyeffects
       feh
       gcc
-      discord
+      # discord
+      vesktop
       nautilus
       gocryptfs
       htop
@@ -72,6 +73,7 @@ in
       virt-manager
       vlc
       yubioath-flutter
+      yubikey-manager
       zsh-powerlevel10k
       (lutris.override {
         extraPkgs = pkgs: [

@@ -54,28 +54,30 @@ in
             "$mod, RETURN, exec, $terminal"
             "$mod, SPACE, exec, rofi -show drun"
 
-            "$mod ALT, L, exec, hyprlock"
+            "$mod SHIFT ALT, L, exec, hyprlock"
 
             "$mod, W, killactive"
-            "$mod, F, fullscreen"
             "$mod, R, togglesplit"
             "$mod, V, togglefloating"
             "$mod, U, focusurgentorlast"
             "$mod, TAB, focuscurrentorlast"
 
+            "$mod, F, fullscreen"
+            "$mod CTRL, F, fullscreenstate, 0, 2"
+
             "$mod, h, movefocus, l"
             "$mod, l, movefocus, r"
             "$mod, j, movefocus, d"
             "$mod, k, movefocus, u"
-            "$mod SHIFT, h, movewindow, l"
-            "$mod SHIFT, l, movewindow, r"
-            "$mod SHIFT, j, movewindow, d"
-            "$mod SHIFT, k, movewindow, u"
+            "$mod CTRL, h, movewindow, l"
+            "$mod CTRL, l, movewindow, r"
+            "$mod CTRL, j, movewindow, d"
+            "$mod CTRL, k, movewindow, u"
 
-            "$mod CTRL, h, resizeactive, -50 0"
-            "$mod CTRL, l, resizeactive, 50 0"
-            "$mod CTRL, j, resizeactive, 0 -50"
-            "$mod CTRL, k, resizeactive, 0 50"
+            "$mod SHIFT, h, resizeactive, -50 0"
+            "$mod SHIFT, l, resizeactive, 50 0"
+            "$mod SHIFT, j, resizeactive, 0 -50"
+            "$mod SHIFT, k, resizeactive, 0 50"
 
             "$mod, G, togglegroup"
             "$mod CTRL, N, changegroupactive, f"
@@ -125,6 +127,10 @@ in
           kb_layout = "us";
           follow_mouse = 2; # 2 = keyboard only follows if click on new window
         };
+        cursor = {
+          no_hardware_cursors = 2;
+          default_monitor = "DP-4";
+        };
         animations = {
           enabled = true;
           bezier = [
@@ -159,6 +165,7 @@ in
         };
         env = [
           "NIXOS_OZONE_WL,1"
+          "NVD_BACKEND,direct"
           "_JAVA_AWT_WM_NONREPARENTING,1"
           "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
           "QT_QPA_PLATFORM,wayland"
@@ -170,6 +177,7 @@ in
           "XDG_CURRENT_DESKTOP,Hyprland"
           "GBM_BACKEND,nvidia-drm"
           "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+          "WLR_NO_HARDWARE_CURSORS,1"
         ];
         ecosystem = {
           no_update_news = true;

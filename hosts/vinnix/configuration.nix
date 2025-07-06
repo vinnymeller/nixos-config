@@ -99,7 +99,7 @@
     };
     graphics = {
       enable = true;
-      #extraPackages = [ pkgs.nvidia-vaapi-driver ];
+      extraPackages = [ pkgs.nvidia-vaapi-driver ];
     };
     # pulseaudio.enable = true;
     # xpadneo.enable = true;
@@ -188,6 +188,7 @@
     wget
     xclip
     zsh
+    libva-utils
   ];
 
   systemd.tmpfiles.rules = [
@@ -236,14 +237,14 @@
   };
   security.pam.services.hyprlock = { };
   services.xserver.videoDrivers = [
+    "amdgpu" # for integrated GPU
     "nvidia"
   ];
   hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
+    powerManagement.enable = true;
     open = true;
+    nvidiaSettings = true;
   };
   services.greetd = {
     enable = true;
