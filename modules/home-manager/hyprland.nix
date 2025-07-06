@@ -25,7 +25,7 @@ in
       settings = {
         "$mod" = "SUPER";
         "$terminal" = "kitty";
-        "$browser" = "google-chrome-stable";
+        "$browser" = "google-chrome-stable --ozone-platform=x11 --force-device-scale-factor=1.5";
 
         monitor = [
           "DP-4, 7680x2160@120.00, 0x0, 1.5"
@@ -54,7 +54,7 @@ in
             "$mod, T, exec, uwsm app -- $terminal"
             "$mod, RETURN, exec, $terminal"
             "$mod, SPACE, exec, rofi -show drun"
-            "$mod, V, exec, kitty --class clipse -e clipse"
+            "$mod, V, exec, $terminal --class clipse -e clipse"
 
             "$mod SHIFT ALT, L, exec, hyprlock"
 
@@ -140,6 +140,11 @@ in
           no_hardware_cursors = 2;
           default_monitor = "DP-4";
         };
+        xwayland = {
+          enabled = true;
+          force_zero_scaling = true;
+
+        };
         animations = {
           enabled = true;
           bezier = [
@@ -177,9 +182,10 @@ in
           "NVD_BACKEND,direct"
           "_JAVA_AWT_WM_NONREPARENTING,1"
           "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
-          "QT_QPA_PLATFORM,wayland"
+          "QT_QPA_PLATFORM,wayland;xcb"
           "SDL_VIDEODRIVER,wayland"
-          "GDK_BACKEND,wayland"
+          "CLUTTER_BACKEND,wayland"
+          "GDK_BACKEND,wayland,x11,*"
           "LIBVA_DRIVER_NAME,nvidia"
           "XDG_SESSION_TYPE,wayland"
           "XDG_SESSION_DESKTOP,Hyprland"
@@ -187,6 +193,8 @@ in
           "GBM_BACKEND,nvidia-drm"
           "__GLX_VENDOR_LIBRARY_NAME,nvidia"
           "WLR_NO_HARDWARE_CURSORS,1"
+          "AQ_DRM_DEVICES,/dev/dri/card2:/dev/dri/card1"
+          "QT_AUTO_SCREEN_SCALE_FACTOR,1"
         ];
         ecosystem = {
           no_update_news = true;

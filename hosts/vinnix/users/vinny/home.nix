@@ -42,8 +42,8 @@ in
       easyeffects
       feh
       gcc
-      # discord
-      vesktop
+      discord
+      # vesktop
       nautilus
       gocryptfs
       htop

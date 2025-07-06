@@ -99,7 +99,12 @@
     };
     graphics = {
       enable = true;
-      extraPackages = [ pkgs.nvidia-vaapi-driver ];
+      enable32Bit = true;
+      extraPackages = with pkgs; [
+        mesa
+        vaapiVdpau
+        nvidia-vaapi-driver
+      ];
     };
     # pulseaudio.enable = true;
     # xpadneo.enable = true;
@@ -241,7 +246,7 @@
   ];
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.latest;
-    powerManagement.enable = true;
+    modesetting.enable = true;
     open = true;
     nvidiaSettings = true;
   };
