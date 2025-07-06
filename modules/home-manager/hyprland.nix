@@ -112,6 +112,7 @@ in
           "size 622 652,class:(clipse)"
           "stayfocused,class:(clipse)"
           "stayfocused,class:(gcr-prompter)"
+          "stayfocused,class:(Google-chrome),title:(Bitwarden)"
         ];
         general = {
           gaps_in = 0;
