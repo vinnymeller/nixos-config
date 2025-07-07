@@ -55,6 +55,7 @@ in
             "$mod, RETURN, exec, $terminal"
             "$mod, SPACE, exec, rofi -show drun"
             "$mod, V, exec, $terminal --class clipse -e clipse"
+            "$mod CTRL, S, exec, hyprshot -m region output --clipboard-only | wl-copy"
 
             "$mod SHIFT ALT, L, exec, hyprlock"
 
@@ -267,6 +268,7 @@ in
     home.packages = with pkgs; [
       clipse
       wl-clipboard
+      hyprshot
     ];
   };
 }
