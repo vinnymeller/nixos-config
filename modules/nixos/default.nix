@@ -20,7 +20,6 @@ in
 
   config = {
     mine = {
-      secrets.enable = mkDefault true;
       services = {
         cloudflared = mkIf cfg.selfhost {
           enable = mkDefault true;

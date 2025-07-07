@@ -10,7 +10,6 @@ inputs.home-manager.lib.homeManagerConfiguration {
     inherit inputs outputs;
   };
   modules = [
-    inputs.ragenix.homeManagerModules.default
     ./home.nix
   ];
 }

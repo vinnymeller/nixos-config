@@ -34,6 +34,7 @@ in
       nixpkgs.enable = mkIf config.hmStandalone true;
       nvim.enable = cfg.vinny.enable;
       pkgs.enable = cfg.vinny.enable;
+      secrets.enable = cfg.vinny.enable;
       tmux.enable = cfg.vinny.enable;
       wsl.enable = cfg.vinny.wsl;
       zk.enable = cfg.vinny.enable;

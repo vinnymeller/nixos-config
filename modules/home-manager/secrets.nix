@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 let
@@ -8,6 +9,9 @@ let
   cfg = config.mine.secrets;
 in
 {
+  imports = [
+    inputs.ragenix.homeManagerModules.default
+  ];
 
   options.mine.secrets = {
     enable = mkEnableOption "Enable useful secrets management.";
@@ -17,12 +21,10 @@ in
 
     age.secrets.shell-secrets = mkIf cfg.enable {
       file = ../../secrets/shell/secrets.sh.age;
-      owner = "root";
-      group = "wheel";
-      mode = "640";
+      mode = "440";
     };
 
-    environment.shellInit =
+    programs.zsh.envExtra =
       let
         secretPath = config.age.secrets.shell-secrets.path;
       in
