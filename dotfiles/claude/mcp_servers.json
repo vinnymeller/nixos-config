@@ -17,6 +17,12 @@
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp"],
       "env": {}
+    },
+    "github-mcp": {
+      "type": "stdio",
+      "command": "nix",
+      "args": ["run", "nixpkgs#github-mcp-server", "--", "stdio"],
+      "env": {}
     }
   }
 }
