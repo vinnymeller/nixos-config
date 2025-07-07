@@ -20,9 +20,17 @@ let
     vinnix
     vinnix2
   ];
+
+  camovinny = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILieUmZBNFDpv/dCbfqC0hgfH2hdrCYYz2Jag4+jQe2A";
+  camovinny-vinny = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJD0xnm6ozJiSEPX6ot9qADGPPXWuePO+kjwTM3RYgWL";
+  work = [
+    camovinny
+    camovinny-vinny
+  ];
+
 in
 {
   "github-nix-ci/mxves.token.age".publicKeys = users ++ systems;
   "cloudflared/moves/credentials.json.age".publicKeys = users ++ systems;
-  "shell/secrets.sh.age".publicKeys = users ++ systems;
+  "shell/secrets.sh.age".publicKeys = users ++ systems ++ work;
 }
