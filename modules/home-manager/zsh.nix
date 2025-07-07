@@ -55,14 +55,14 @@ in
         })
       ]
       ++ [
-        (pkgs.claude-code.overrideAttrs (
+        (pkgs.master-pkgs.claude-code.overrideAttrs (
           finalAttrs: prevAttrs: {
             postInstall = ''
               wrapProgram $out/bin/claude \
                 --set DISABLE_AUTOUPDATER 1 \
                 --prefix PATH : ${
                   lib.makeBinPath [
-                    pkgs.nodejs_latest
+                    pkgs.nodejs_20
                   ]
                 } \
                 --add-flags "--mcp-config ${config.home.homeDirectory}/.claude/mcp_servers.json"

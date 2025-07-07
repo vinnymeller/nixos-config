@@ -3,7 +3,10 @@
   cust-pkgs = final: prev: import ../pkgs { pkgs = final; };
 
   master-pkgs-overlay = final: prev: {
-    master-pkgs = import inputs.nixpkgs-master { system = final.system; };
+    master-pkgs = import inputs.nixpkgs-master {
+      system = final.system;
+      config.allowUnfree = true;
+    };
   };
 
   stable-pkgs-overlay = final: prev: {
