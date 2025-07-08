@@ -206,10 +206,6 @@ in
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
         };
-        exec-once = [
-          "${pkgs.hyprpaper}/bin/hyprpaper"
-          # "${pkgs.clipse}/bin/clipse -listen"
-        ];
       };
     };
     services.hyprpaper = {

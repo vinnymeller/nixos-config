@@ -145,7 +145,10 @@
   };
 
   networking.hostName = "vinnix"; # Define your hostname.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager = {
+    enable = true; # Easiest to use and most distros use this by default.
+    wifi.powersave = false;
+  };
 
   # Set your time zone.
   time.timeZone = "America/Detroit";
@@ -170,6 +173,7 @@
         "libvirtd"
         "kvm"
         "qemu-libvirtd"
+        "docker"
       ];
       shell = pkgs.zsh;
     };
