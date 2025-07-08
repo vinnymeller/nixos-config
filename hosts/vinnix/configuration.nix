@@ -121,7 +121,6 @@
       alsa.enable = true;
       jack.enable = true;
     };
-    mullvad-vpn.enable = true;
     yubikey-agent.enable = true;
     devmon.enable = true;
     gnome.gnome-keyring.enable = true;

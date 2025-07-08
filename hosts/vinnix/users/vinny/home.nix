@@ -55,7 +55,6 @@ in
       libvirt
       lxde.lxsession
       man-pages # linux man pages, goes with tlpi
-      mullvad-vpn
       neofetch
       nerd-fonts._0xproto
       # nix-index
