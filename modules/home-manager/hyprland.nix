@@ -63,7 +63,9 @@ in
             "$mod CTRL, S, exec, hyprshot -m region output --clipboard-only"
 
             "$mod SHIFT ALT, L, exec, hyprlock"
-            "$god, S, exec, swap_audio_output"
+            "$god, O, exec, swap_audio_output"
+            "$god, P, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+"
+            "$god, N, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"
 
             "$mod, W, killactive"
             # "$mod, R, togglesplit"
