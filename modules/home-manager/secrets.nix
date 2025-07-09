@@ -21,7 +21,7 @@ in
 
     age.secrets.shell-secrets = mkIf cfg.enable {
       file = ../../secrets/shell/secrets.sh.age;
-      mode = "440";
+      mode = "400";
     };
 
     programs.zsh.envExtra =
