@@ -24,6 +24,11 @@ in
       systemd.variables = [ "--all" ];
       settings = {
         "$mod" = "SUPER";
+        "$switch" = "CTRL ALT";
+        "$supsw" = "SUPER CTRL ALT";
+        "$meh" = "CTRL ALT SHIFT";
+        "$god" = "SUPER CTRL ALT SHIFT";
+
         "$terminal" = "kitty";
         "$browser" = "google-chrome-stable --ozone-platform=x11 --force-device-scale-factor=1.5";
 
@@ -58,6 +63,7 @@ in
             "$mod CTRL, S, exec, hyprshot -m region output --clipboard-only"
 
             "$mod SHIFT ALT, L, exec, hyprlock"
+            "$god, S, exec, swap_audio_output"
 
             "$mod, W, killactive"
             # "$mod, R, togglesplit"
