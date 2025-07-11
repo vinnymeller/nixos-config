@@ -28,25 +28,27 @@ in
         "$supsw" = "SUPER CTRL ALT";
         "$meh" = "CTRL ALT SHIFT";
         "$god" = "SUPER CTRL ALT SHIFT";
+        "$ml" = "DP-2";
+        "$mr" = "DP-1";
 
         "$terminal" = "kitty";
-        "$browser" = "google-chrome-stable --ozone-platform=x11 --force-device-scale-factor=1.5";
+        "$browser" = "google-chrome-stable";
 
         monitor = [
-          "DP-4, 7680x2160@120.00, 0x0, 1.5"
-          "DP-3, 3840x2160@60.00, 5120x-559, 1.5, transform, 3"
+          "$ml, 7680x2160@120.00, 0x0, 1.5"
+          "$mr, 3840x2160@60.00, 5120x-559, 1.5, transform, 3"
         ];
         workspace = [
-          "1,monitor:DP-4"
-          "2,monitor:DP-4"
-          "3,monitor:DP-4"
-          "4,monitor:DP-4"
-          "5,monitor:DP-4"
-          "6,monitor:DP-3"
-          "7,monitor:DP-3"
-          "8,monitor:DP-3"
-          "9,monitor:DP-3"
-          "0,monitor:DP-3"
+          "1,monitor:$ml"
+          "2,monitor:$ml"
+          "3,monitor:$ml"
+          "4,monitor:$ml"
+          "5,monitor:$ml"
+          "6,monitor:$mr"
+          "7,monitor:$mr"
+          "8,monitor:$mr"
+          "9,monitor:$mr"
+          "0,monitor:$mr"
         ];
         bindm = [
           "$mod, mouse:272, movewindow"
@@ -148,7 +150,7 @@ in
         };
         cursor = {
           no_hardware_cursors = 2;
-          default_monitor = "DP-4";
+          default_monitor = "$ml";
         };
         xwayland = {
           enabled = true;

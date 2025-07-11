@@ -195,6 +195,7 @@
     wl-clipboard
     zsh
     libva-utils
+    nvtopPackages.full
   ];
 
   systemd.tmpfiles.rules = [
