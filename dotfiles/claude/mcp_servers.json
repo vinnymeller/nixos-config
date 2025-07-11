@@ -1,28 +1,37 @@
 {
   "mcpServers": {
-    "hyper-mcp": {
+    "hyper": {
       "type": "stdio",
       "command": "hyper-mcp",
       "args": [],
       "env": {}
     },
-    "playwright-mcp": {
+    "playwright": {
       "type": "stdio",
       "command": "nix",
       "args": ["run", "github:akirak/nix-playwright-mcp"],
       "env": {}
     },
-    "context7-mcp": {
+    "context7": {
       "type": "stdio",
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp"],
       "env": {}
     },
-    "github-mcp": {
+    "github": {
       "type": "stdio",
       "command": "nix",
       "args": ["run", "nixpkgs#github-mcp-server", "--", "stdio"],
       "env": {}
+    },
+    "zen": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/BeehiveInnovations/zen-mcp-server.git",
+        "zen-mcp-server"
+      ]
     }
   }
 }

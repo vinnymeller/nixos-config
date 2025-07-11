@@ -63,9 +63,9 @@ in
                 --prefix PATH : ${
                   lib.makeBinPath [
                     pkgs.nodejs_20
+                    pkgs.uv
                   ]
-                } \
-                --add-flags "--mcp-config ${config.home.homeDirectory}/.claude/mcp_servers.json"
+                }
             '';
           }
         ))
@@ -223,12 +223,34 @@ in
     # copy our powerlevel10k config over
     home.file.".config/zsh/.p10k.zsh".source = ../../dotfiles/zsh/.p10k.zsh;
     home.file.".aider.conf.yml".source = ../../dotfiles/.aider.conf.yml;
-    home.file.".claude/mcp_servers.json".source = ../../dotfiles/claude/mcp_servers.json;
     home.file.".claude/CLAUDE.md".source = ../../dotfiles/claude/CLAUDE.md;
-    home.file.".claude/settings.json".source = ../../dotfiles/claude/settings.json;
+    # home.file.".claude/settings.json".source = ../../dotfiles/claude/settings.json;
     home.file.".claude/anthropic_key.sh" = {
       text = "echo $ANTHROPIC_API_KEY";
       executable = true;
+    };
+
+    home.activation = {
+      mergeClaudeFiles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        if [ ! -f ${config.home.homeDirectory}/.claude.json ]; then
+          echo "{}" > ${config.home.homeDirectory}/.claude.json
+        fi
+        cp ${config.home.homeDirectory}/.claude.json ${config.home.homeDirectory}/.claude.json.bak
+        # jq -s '.[0] * .[1]' ${config.home.homeDirectory}/.claude.json ${../../dotfiles/claude/mcp_servers.json} > ${config.home.homeDirectory}/.claude.json.tmp
+        jq -s '
+          .[0] as $f1 |
+          .[1] as $f2 |
+          ($f1 | with_entries(select(.key as $k | $f2 | has($k) | not))) * $f2
+        ' ${config.home.homeDirectory}/.claude.json ${../../dotfiles/claude/mcp_servers.json} > ${config.home.homeDirectory}/.claude.json.tmp
+        mv ${config.home.homeDirectory}/.claude.json.tmp ${config.home.homeDirectory}/.claude.json
+
+        if [ ! -f ${config.home.homeDirectory}/.claude/settings.json ]; then
+          echo "{}" > ${config.home.homeDirectory}/.claude/settings.json
+        fi
+        cp ${config.home.homeDirectory}/.claude/settings.json ${config.home.homeDirectory}/.claude/settings.json.bak
+        jq -s '.[0] * .[1]' ${config.home.homeDirectory}/.claude/settings.json ${../../dotfiles/claude/settings.json} > ${config.home.homeDirectory}/.claude/settings.json.tmp
+        mv ${config.home.homeDirectory}/.claude/settings.json.tmp ${config.home.homeDirectory}/.claude/settings.json
+      '';
     };
 
     programs.direnv.enable = true;
