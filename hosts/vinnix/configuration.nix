@@ -186,7 +186,6 @@
     firefox
     gnupg
     killall
-    pkgs.stable-pkgs.looking-glass-client
     man-pages
     man-pages-posix
     spice
@@ -196,10 +195,6 @@
     zsh
     libva-utils
     nvtopPackages.full
-  ];
-
-  systemd.tmpfiles.rules = [
-    "f /dev/shm/looking-glass 0660 vinny kvm -" # looking-glass shmem
   ];
 
   virtualisation.libvirtd.enable = true;
@@ -244,7 +239,6 @@
   };
   security.pam.services.hyprlock = { };
   services.xserver.videoDrivers = [
-    "amdgpu" # for integrated GPU
     "nvidia"
   ];
   hardware.nvidia = {
