@@ -204,7 +204,7 @@
   # this replaces  virtualisation.containers.cdi.dynamic.nvidia.enable lol
   #hardware.nvidia-container-toolkit.enable = true;
 
-  system.stateVersion = "22.11"; # read documentation on configuration.nix before possibly changing this
+  system.stateVersion = "25.05"; # read documentation on configuration.nix before possibly changing this
 
   programs.steam.enable = true;
   programs.zsh = {
