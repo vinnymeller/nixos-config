@@ -102,7 +102,7 @@ in
     };
 
     home.packages = with pkgs; [
-      git-spice
+      pkgs.stable-pkgs.git-spice
       (mkIf cfg.gpgSignDefault gnupg)
     ];
 

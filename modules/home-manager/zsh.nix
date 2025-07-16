@@ -48,11 +48,11 @@ in
         zsh-fast-syntax-highlighting
         zsh-autocomplete
         zsh-completions
-        (aider-chat.withOptional {
-          # withPlaywright = true; # constant problems with playwright
-          withBrowser = true;
-          withBedrock = true;
-        })
+        # (aider-chat.withOptional {
+        #   # withPlaywright = true; # constant problems with playwright
+        #   withBrowser = true;
+        #   withBedrock = true;
+        # })
       ]
       ++ [
         (pkgs.master-pkgs.claude-code.overrideAttrs (

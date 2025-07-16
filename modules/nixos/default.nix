@@ -21,10 +21,6 @@ in
   config = {
     mine = {
       services = {
-        cloudflared = mkIf cfg.selfhost {
-          enable = mkDefault true;
-          moves.enable = mkDefault true;
-        };
         github-runners = mkIf cfg.selfhost {
           enable = mkDefault true;
         };
