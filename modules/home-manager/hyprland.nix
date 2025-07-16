@@ -60,7 +60,7 @@ in
             "$mod, B, exec, $browser"
             "$mod, T, exec, uwsm app -- $terminal"
             "$mod, RETURN, exec, $terminal"
-            "$mod, SPACE, exec, rofi -show drun"
+            "$mod, SPACE, exec, rofi -theme gruvbox-dark -show drun"
             "$mod, V, exec, $terminal --class clipse -e clipse"
             "$mod CTRL, S, exec, hyprshot -m region output --clipboard-only"
 
@@ -270,6 +270,45 @@ in
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Classic";
       size = 16;
+    };
+
+    gtk = {
+      enable = true;
+
+      gtk2.extraConfig = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+
+      gtk3.extraConfig = {
+        gtk-application-prefer-dark-theme = true;
+      };
+
+      gtk4.extraConfig = {
+        gtk-application-prefer-dark-theme = true;
+      };
+
+      theme = {
+        package = pkgs.gruvbox-gtk-theme;
+        name = "Gruvbox-Dark";
+      };
+
+      iconTheme = {
+        package = pkgs.papirus-icon-theme;
+        name = "Papirus-Dark";
+      };
+
+    };
+
+    dconf = {
+      enable = true;
+      settings = {
+        "org/gnome/desktop/interface" = {
+          color-scheme = "prefer-dark";
+        };
+        "org/freedesktop/appearance" = {
+          color-scheme = 1;
+        };
+      };
     };
     home.packages = with pkgs; [
       clipse
