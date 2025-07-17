@@ -123,7 +123,10 @@ in
           "size 622 652,class:(clipse)"
           "stayfocused,class:(clipse)"
           "stayfocused,class:(gcr-prompter)"
-          "stayfocused,class:(Google-chrome),title:(Bitwarden)"
+
+          # bw popups
+          "float,class:(chrome-nngceckbapebfimnlniiiahkandclblb-.*)"
+          "stayfocused,class:(chrome-nngceckbapebfimnlniiiahkandclblb-.*)"
         ];
         general = {
           gaps_in = 0;
