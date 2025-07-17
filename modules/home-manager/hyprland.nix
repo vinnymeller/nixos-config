@@ -78,6 +78,8 @@ in
             "$mod, F, fullscreen"
             "$mod CTRL, F, fullscreenstate, 0, 2"
 
+            "$mod, P, pin"
+
             "$mod, h, movefocus, l"
             "$mod, l, movefocus, r"
             "$mod, j, movefocus, d"
