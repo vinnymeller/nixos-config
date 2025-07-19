@@ -86,6 +86,9 @@ require("nvim-treesitter.configs").setup({
 })
 
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+require("treesitter-context").setup({
+    enable = true
+})
 local gs = require("gitsigns")
 
 local next_hunk_repeat, prev_hunk_repeat = ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
