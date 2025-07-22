@@ -38,6 +38,7 @@ in
     home.packages =
       with pkgs;
       [
+        devenv
         twm
         jq
         ijq
