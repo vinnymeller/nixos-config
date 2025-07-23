@@ -101,4 +101,5 @@ map("n", "<leader>lo", "<cmd>Leet open<CR>", { desc = "[L]eetcode [O]pen" })
 map("n", "<leader>ll", "<cmd>Leet list<CR>", { desc = "[L]eetcode [L]ist" })
 
 
-map("n", "<leader>df", "<cmd>DiffviewFileHistory %<CR>", { desc = "[D]iffview current [File]" })
+map("n", "<leader>df", "<cmd>DiffviewOpen<CR>", { desc = "[D]iffview current [File]" })
+map("n", "<leader>dF", "<cmd>DiffviewFileHistory %<CR>", { desc = "[D]iffview current [File]" })
