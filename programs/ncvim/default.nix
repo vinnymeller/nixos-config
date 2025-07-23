@@ -105,6 +105,7 @@ let
           SchemaStore-nvim
           autosave-nvim
           copilot-lua
+          blink-cmp-avante
           blink-copilot
           diffview-nvim
           efmls-configs-nvim
