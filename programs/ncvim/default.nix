@@ -75,7 +75,7 @@ let
             #ocamlPackages.ocaml-lsp
             postgresql
             prettierd
-            pyright
+            basedpyright
             ripgrep
             bat
             delta

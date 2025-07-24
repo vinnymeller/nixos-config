@@ -166,7 +166,7 @@ local basic_servers = {
     "gopls",
     "hls",
     "ocamllsp",
-    "pyright",
+    "basedpyright",
     "taplo",
     "terraformls",
 }
