@@ -166,12 +166,22 @@ local basic_servers = {
     "gopls",
     "hls",
     "ocamllsp",
-    "basedpyright",
     "taplo",
     "terraformls",
 }
 
 require("tailwind-tools").setup({})
+
+require("lspconfig").basedpyright.setup({
+    settings = {
+        basedpyright = {
+            analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForype = true,
+            },
+        },
+    },
+})
 
 local prettier = require("efmls-configs.formatters.prettier")
 local eslint = require("efmls-configs.linters.eslint")
