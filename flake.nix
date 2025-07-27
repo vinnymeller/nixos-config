@@ -8,13 +8,24 @@
 
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+      };
+    };
 
     hyprland = {
       url = "github:hyprwm/Hyprland";
       inputs = {
+        pre-commit-hooks.follows = "git-hooks";
         nixpkgs.follows = "nixpkgs";
       };
+    };
+
+    crane = {
+      url = "github:ipetkov/crane";
     };
 
     fenix = {
@@ -22,7 +33,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
+
     flake-parts.url = "github:hercules-ci/flake-parts";
+    hercules-ci-effects = {
+      url = "github:hercules-ci/hercules-ci-effects";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
 
     blink-cmp = {
       url = "github:Saghen/blink.cmp";
@@ -42,21 +65,39 @@
       url = "github:vinnymeller/nix-hyper-mcp";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        rust-overlay.follows = "rust-overlay";
+        crane.follows = "crane";
       };
     };
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        crane.follows = "crane";
+        rust-overlay.follows = "rust-overlay";
+        flake-compat.follows = "flake-compat";
+        flake-parts.follows = "flake-parts";
+      };
     };
 
     flake-utils.url = "github:numtide/flake-utils";
 
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
     ragenix = {
       url = "github:yaxitech/ragenix";
       inputs = {
+        agenix.follows = "agenix";
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
+        crane.follows = "crane";
+        rust-overlay.follows = "rust-overlay";
       };
     };
 
@@ -70,7 +111,18 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        hercules-ci-effects.follows = "hercules-ci-effects";
+        git-hooks.follows = "git-hooks";
         flake-parts.follows = "flake-parts";
+        flake-compat.follows = "flake-compat";
+      };
+    };
+
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
       };
     };
 
@@ -86,6 +138,12 @@
       url = "github:vinnymeller/twm";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
+      inputs.rust-overlay.follows = "rust-overlay";
+    };
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
   };
