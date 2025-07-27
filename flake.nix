@@ -191,7 +191,6 @@
       };
       homeConfigurations = {
         vinny = import ./hosts/camovinny { inherit inputs outputs; };
-        amina = import ./hosts/amina { inherit inputs outputs; };
       };
     };
 }
