@@ -7,7 +7,7 @@
   ];
 
   profile.vinny.enable = true;
-  mine.pkgs.exclude = [ "swap_audio_output" ];
+  mine.pkgs.exclude = [ "swap-audio-output" ];
   hmStandalone = true;
 
   home.username = "vinny";

@@ -3,7 +3,7 @@
 with pkgs;
 
 writeShellApplication {
-  name = "swap_audio_output";
+  name = "swap-audio-output";
   runtimeInputs = [
     bash
     coreutils
@@ -11,5 +11,5 @@ writeShellApplication {
     wireplumber
   ];
 
-  text = builtins.readFile ../../scripts/swap_audio_output.sh;
+  text = builtins.readFile ../../scripts/swap-audio-output.sh;
 }

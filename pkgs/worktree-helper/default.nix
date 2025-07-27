@@ -3,15 +3,15 @@
 with pkgs;
 
 writeShellApplication {
-  name = "worktree_helper";
+  name = "worktree-helper";
   runtimeInputs = [
     bash
     coreutils
     gawk
     git
     fzf
-    master-pkgs.twm
+    twm
   ];
 
-  text = builtins.readFile ../../scripts/worktree_helper.sh;
+  text = builtins.readFile ../../scripts/worktree-helper.sh;
 }

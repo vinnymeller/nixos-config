@@ -259,7 +259,7 @@ in
       hms = "nix run home-manager switch -- --flake ~/.nixdots";
       root = "cd $TWM_ROOT";
       etwm = "TWM_CONFIG_FILE= twm";
-      ef = "nv $(find_file_up_tree flake.nix)";
+      ef = "nv $(find-file-up-tree flake.nix)";
       da = "direnv allow";
       dr = "direnv reload";
       nfu = "nix flake update";

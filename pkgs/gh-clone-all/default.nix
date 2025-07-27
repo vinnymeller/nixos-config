@@ -3,11 +3,11 @@
 with pkgs;
 
 writeShellApplication {
-  name = "gh_clone_all";
+  name = "gh-clone-all";
   runtimeInputs = [
     bash
     gh
   ];
 
-  text = builtins.readFile ../../scripts/gh_clone_all.sh;
+  text = builtins.readFile ../../scripts/gh-clone-all.sh;
 }

@@ -29,6 +29,9 @@ in
         ];
       };
     };
+    home.packages = with pkgs; [
+      check-duplicate-flake-deps
+    ];
   };
 
 }
