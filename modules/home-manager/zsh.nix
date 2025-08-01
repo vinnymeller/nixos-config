@@ -129,7 +129,7 @@ in
       enable = true;
       enableCompletion = false;
       autosuggestion.enable = true;
-      dotDir = ".config/zsh";
+      dotDir = "${config.xdg.configHome}/zsh";
 
       history = {
         size = 10000;
