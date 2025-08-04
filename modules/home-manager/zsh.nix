@@ -174,6 +174,7 @@ in
 
           export EDITOR="nv"
           export VISUAL="nv" # dont know what this is for tbh
+          export MANPAGER="nv +Man!"
 
 
           # zsh-autocomplete settings
