@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   outputs,
   config,
   pkgs,
@@ -249,7 +250,7 @@
   };
   services.greetd = {
     enable = true;
-    vt = 2;
+    settings.terminal.vt = lib.mkForce 2; # some genius made it default to 1
     settings = {
       default_session = {
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd hyprland";
