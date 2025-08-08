@@ -54,13 +54,20 @@ in
         #   withBrowser = true;
         #   withBedrock = true;
         # })
+        nix-ai-tools.claude-code-router
+        nix-ai-tools.gemini-cli
+        nix-ai-tools.opencode
       ]
       ++ [
-        (pkgs.master-pkgs.claude-code.overrideAttrs (
+        (pkgs.nix-ai-tools.claude-code.overrideAttrs (
           finalAttrs: prevAttrs: {
             postInstall = ''
               wrapProgram $out/bin/claude \
                 --set DISABLE_AUTOUPDATER 1 \
+                --set CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC 1 \
+                --set DISABLE_NON_ESSENTIAL_MODEL_CALLS 1 \
+                --set DISABLE_TELEMETRY 1 \
+                --unset DEV \
                 --prefix PATH : ${
                   lib.makeBinPath [
                     pkgs.nodejs_20

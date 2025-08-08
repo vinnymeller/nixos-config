@@ -21,6 +21,10 @@
     ragenix = inputs.ragenix.packages.${final.system}.default;
   };
 
+  nix-ai-tools = final: prev: {
+    nix-ai-tools = inputs.nix-ai-tools.packages.${final.system};
+  };
+
   remove-0xproto-italics = final: prev: {
     _0xproto-no-italics = prev._0xproto.overrideAttrs (
       finalAttrs: prevAttrs: {
