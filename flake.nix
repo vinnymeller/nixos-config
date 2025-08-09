@@ -21,6 +21,14 @@
       };
     };
 
+    naersk = {
+      url = "github:nix-community/naersk";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        fenix.follows = "fenix";
+      };
+    };
+
     hyprland = {
       url = "github:hyprwm/Hyprland";
       inputs = {
@@ -142,6 +150,7 @@
     twm = {
       url = "github:vinnymeller/twm";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.naersk.follows = "naersk";
       inputs.flake-utils.follows = "flake-utils";
       inputs.rust-overlay.follows = "rust-overlay";
     };

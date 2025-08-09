@@ -723,19 +723,23 @@
     },
     "naersk": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "fenix": [
+          "fenix"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
-        "lastModified": 1736429655,
-        "narHash": "sha256-BwMekRuVlSB9C0QgwKMICiJ5EVbLGjfe4qyueyNQyGI=",
+        "lastModified": 1752689277,
+        "narHash": "sha256-uldUBFkZe/E7qbvxa3mH1ItrWZyT6w1dBKJQF/3ZSsc=",
         "owner": "nix-community",
         "repo": "naersk",
-        "rev": "0621e47bd95542b8e1ce2ee2d65d6a1f887a13ce",
+        "rev": "0e72363d0938b0208d6c646d10649164c43f4d64",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "master",
         "repo": "naersk",
         "type": "github"
       }
@@ -914,19 +918,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1736798957,
-        "narHash": "sha256-qwpCtZhSsSNQtK4xYGzMiyEDhkNzOCz/Vfu4oL2ETsQ=",
-        "path": "/nix/store/7hw19rbs6p20l2gxbf13la04pcs2znmz-source",
-        "rev": "9abb87b552b7f55ac8916b6fc9e5cb486656a2f3",
-        "type": "path"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "type": "indirect"
-      }
-    },
     "pre-commit-hooks-nix": {
       "inputs": {
         "flake-compat": [
@@ -1002,6 +993,7 @@
         "hyper-mcp": "hyper-mcp",
         "hyprland": "hyprland",
         "lanzaboote": "lanzaboote",
+        "naersk": "naersk",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-ai-tools": "nix-ai-tools",
         "nixCats": "nixCats",
@@ -1158,7 +1150,9 @@
         "flake-utils": [
           "flake-utils"
         ],
-        "naersk": "naersk",
+        "naersk": [
+          "naersk"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -1167,11 +1161,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1744589968,
-        "narHash": "sha256-wWOG4bwXvem201pi/fWJS2W2tr9bOCjczievRWK54mk=",
+        "lastModified": 1754770837,
+        "narHash": "sha256-lH4gaJ4T1rGhO6RUw6LEqXIJTa4PuUG4HThBusppd6w=",
         "owner": "vinnymeller",
         "repo": "twm",
-        "rev": "970f308f9f9ce787b381fd29e0fedd5553e0f4f2",
+        "rev": "f7de12b2eb113384b289b942b0a9517579fa49e9",
         "type": "github"
       },
       "original": {

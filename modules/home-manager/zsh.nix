@@ -57,6 +57,7 @@ in
         nix-ai-tools.claude-code-router
         nix-ai-tools.gemini-cli
         nix-ai-tools.opencode
+        nix-ai-tools.qwen-code
       ]
       ++ [
         (pkgs.nix-ai-tools.claude-code.overrideAttrs (

@@ -2,13 +2,11 @@
 
 with pkgs;
 
-writeShellApplication {
+stdenv.mkDerivation {
   name = "check-duplicate-flake-deps";
-  runtimeInputs = [
-    bash
-    jq
-    lix
+  propagatedBuildInputs = [
+    python3
   ];
-
-  text = builtins.readFile ../../scripts/check-duplicate-flake-deps.sh;
+  dontUnpack = true;
+  installPhase = "install -Dm755 ${../../scripts/check-duplicate-flake-deps.py} $out/bin/check-duplicate-flake-deps";
 }
