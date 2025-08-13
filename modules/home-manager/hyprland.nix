@@ -3,7 +3,6 @@
   lib,
   pkgs,
   inputs,
-  services,
   ...
 }:
 let
@@ -55,71 +54,66 @@ in
           "$mod, mouse:273, resizewindow"
           "$mod ALT, mouse:272, movewindow"
         ];
-        bind =
-          [
-            "$mod, B, exec, $browser"
-            "$mod, T, exec, uwsm app -- $terminal"
-            "$mod, RETURN, exec, $terminal"
-            "$mod, SPACE, exec, rofi -theme gruvbox-dark -show drun"
-            "$mod, V, exec, $terminal --class clipse -e clipse"
-            "$mod CTRL, S, exec, hyprshot -m region output --clipboard-only"
+        bind = [
+          "$mod, B, exec, $browser"
+          "$mod, T, exec, uwsm app -- $terminal"
+          "$mod, RETURN, exec, $terminal"
+          "$mod, SPACE, exec, rofi -theme gruvbox-dark -show drun"
+          "$mod, V, exec, $terminal --class clipse -e clipse"
+          "$mod CTRL, S, exec, hyprshot -m region output --clipboard-only"
+          "$mod SHIFT ALT, L, exec, hyprlock"
+          "$mod, W, killactive"
+          "$mod, R, togglefloating"
+          "$mod, U, focusurgentorlast"
+          "$mod, TAB, focuscurrentorlast"
+          "$mod, F, fullscreen"
+          "$mod CTRL, F, fullscreenstate, 0, 2"
+          "$mod, P, pin"
+          "$mod, h, movefocus, l"
+          "$mod, l, movefocus, r"
+          "$mod, j, movefocus, d"
+          "$mod, k, movefocus, u"
+          "$mod CTRL, h, movewindow, l"
+          "$mod CTRL, l, movewindow, r"
+          "$mod CTRL, j, movewindow, d"
+          "$mod CTRL, k, movewindow, u"
+          "$mod SHIFT, h, resizeactive, -50 0"
+          "$mod SHIFT, l, resizeactive, 50 0"
+          "$mod SHIFT, j, resizeactive, 0 -50"
+          "$mod SHIFT, k, resizeactive, 0 50"
+          "$mod, G, togglegroup"
+          "$mod CTRL, G, moveoutofgroup"
+          "$mod CTRL, N, changegroupactive, f"
+          "$mod CTRL, P, changegroupactive, b"
+          # cycle workspaces
+          "$mod, bracketleft, workspace, m-1"
+          "$mod, bracketright, workspace, m+1"
+          # cycle monitors
+          "$mod CTRL, bracketleft, focusmonitor, l"
+          "$mod CTRL, bracketright, focusmonitor, r"
 
-            "$mod SHIFT ALT, L, exec, hyprlock"
-            "$god, O, exec, swap-audio-output"
-            "$god, P, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+"
-            "$god, N, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"
+          # God keybinds
+          "$god, O, exec, swap-audio-output"
+          "$god, P, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+"
+          "$god, N, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"
+          "$god, R, exec, hyprctl hyprsunset temperature -500"
+          "$god, D, exec, hyprctl hyprsunset temperature 6500"
+          "$god, B, exec, hyprctl hyprsunset temperature +500"
 
-            "$mod, W, killactive"
-            # "$mod, R, togglesplit"
-            "$mod, R, togglefloating"
-            "$mod, U, focusurgentorlast"
-            "$mod, TAB, focuscurrentorlast"
-
-            "$mod, F, fullscreen"
-            "$mod CTRL, F, fullscreenstate, 0, 2"
-
-            "$mod, P, pin"
-
-            "$mod, h, movefocus, l"
-            "$mod, l, movefocus, r"
-            "$mod, j, movefocus, d"
-            "$mod, k, movefocus, u"
-            "$mod CTRL, h, movewindow, l"
-            "$mod CTRL, l, movewindow, r"
-            "$mod CTRL, j, movewindow, d"
-            "$mod CTRL, k, movewindow, u"
-
-            "$mod SHIFT, h, resizeactive, -50 0"
-            "$mod SHIFT, l, resizeactive, 50 0"
-            "$mod SHIFT, j, resizeactive, 0 -50"
-            "$mod SHIFT, k, resizeactive, 0 50"
-
-            "$mod, G, togglegroup"
-            "$mod CTRL, G, moveoutofgroup"
-            "$mod CTRL, N, changegroupactive, f"
-            "$mod CTRL, P, changegroupactive, b"
-
-            # cycle workspaces
-            "$mod, bracketleft, workspace, m-1"
-            "$mod, bracketright, workspace, m+1"
-
-            # cycle monitors
-            "$mod CTRL, bracketleft, focusmonitor, l"
-            "$mod CTRL, bracketright, focusmonitor, r"
-          ]
-          ++ (builtins.concatLists (
-            builtins.genList (
-              i:
-              let
-                ws = i + 1;
-              in
-              [
-                "$mod, code:1${toString i}, workspace, ${toString ws}"
-                "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-                "$mod CTRL, code:1${toString i}, movetoworkspacesilent, ${toString ws}"
-              ]
-            ) 9
-          ));
+        ]
+        ++ (builtins.concatLists (
+          builtins.genList (
+            i:
+            let
+              ws = i + 1;
+            in
+            [
+              "$mod, code:1${toString i}, workspace, ${toString ws}"
+              "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+              "$mod CTRL, code:1${toString i}, movetoworkspacesilent, ${toString ws}"
+            ]
+          ) 9
+        ));
         windowrulev2 = [
           "float,class:(clipse)"
           "size 622 652,class:(clipse)"
@@ -275,6 +269,10 @@ in
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Classic";
       size = 16;
+    };
+
+    services.hyprsunset = {
+      enable = true;
     };
 
     gtk = {
