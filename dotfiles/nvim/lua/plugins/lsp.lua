@@ -176,7 +176,9 @@ require("lspconfig").basedpyright.setup({
     settings = {
         basedpyright = {
             analysis = {
+                autoImportCompletions = true,
                 autoSearchPaths = true,
+                diagnosticMode = "workspace",
                 useLibraryCodeForype = true,
             },
         },
