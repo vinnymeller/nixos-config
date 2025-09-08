@@ -381,50 +381,6 @@
         "type": "github"
       }
     },
-    "hyper-mcp": {
-      "inputs": {
-        "crane": [
-          "crane"
-        ],
-        "hyper-mcp-src": "hyper-mcp-src",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "rust-overlay": [
-          "rust-overlay"
-        ]
-      },
-      "locked": {
-        "lastModified": 1751762969,
-        "narHash": "sha256-fxvoB5qipFrkJg7IUZ4PfGTxqd79qw9k1EC/Xu8Zh7s=",
-        "owner": "vinnymeller",
-        "repo": "nix-hyper-mcp",
-        "rev": "27b680fe1ddbda2474da3f2cbeb58d4af4912cc0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vinnymeller",
-        "repo": "nix-hyper-mcp",
-        "type": "github"
-      }
-    },
-    "hyper-mcp-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1751554248,
-        "narHash": "sha256-H5FIeBQEwnZ8XdNoyLHUQ9FEFveBnrRDg32Rn9jt+7s=",
-        "owner": "tuananh",
-        "repo": "hyper-mcp",
-        "rev": "141c5713e362612e582f75bae05bd4b5ca32ce1c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tuananh",
-        "ref": "v0.1.4",
-        "repo": "hyper-mcp",
-        "type": "github"
-      }
-    },
     "hyprcursor": {
       "inputs": {
         "hyprlang": [
@@ -990,7 +946,6 @@
         "github-nix-ci": "github-nix-ci",
         "hercules-ci-effects": "hercules-ci-effects",
         "home-manager": "home-manager",
-        "hyper-mcp": "hyper-mcp",
         "hyprland": "hyprland",
         "lanzaboote": "lanzaboote",
         "naersk": "naersk",

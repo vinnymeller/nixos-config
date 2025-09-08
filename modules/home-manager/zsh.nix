@@ -53,6 +53,7 @@ in
         #   withBedrock = true;
         # })
         nix-ai-tools.claude-code-router
+        nix-ai-tools.codex
         nix-ai-tools.gemini-cli
         nix-ai-tools.opencode
         nix-ai-tools.qwen-code
@@ -71,6 +72,7 @@ in
                   lib.makeBinPath [
                     pkgs.nodejs_20
                     pkgs.uv
+                    pkgs.python3
                   ]
                 }
             '';
