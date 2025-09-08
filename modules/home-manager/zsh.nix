@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 let
@@ -17,7 +16,6 @@ in
 {
   imports = [
     ./wslu.nix
-    inputs.hyper-mcp.homeModules.default
   ];
 
   options.mine.zsh = {
@@ -79,60 +77,6 @@ in
           }
         ))
       ];
-    programs.hyper-mcp = {
-      enable = true;
-      transport = "stdio";
-      plugins = [
-        {
-          name = "time";
-          path = "oci://ghcr.io/tuananh/time-plugin:latest";
-        }
-        {
-          name = "qr-code";
-          path = "oci://ghcr.io/tuananh/qrcode-plugin:latest";
-        }
-        {
-          name = "hash";
-          path = "oci://ghcr.io/tuananh/hash-plugin:latest";
-        }
-        {
-          name = "fetch";
-          path = "oci://ghcr.io/tuananh/fetch-plugin:latest";
-          runtime_config = {
-            allowed_hosts = [ "*" ];
-            memory_limit = "500 MB";
-          };
-        }
-        {
-          name = "fs";
-          path = "oci://ghcr.io/tuananh/fs-plugin:latest";
-          runtime_config = {
-            allowed_paths = [ "${config.home.homeDirectory}" ];
-          };
-        }
-        {
-          name = "myip";
-          path = "oci://ghcr.io/tuananh/myip-plugin:latest";
-          runtime_config = {
-            allowed_hosts = [ "1.1.1.1" ];
-          };
-        }
-        {
-          name = "eval-py";
-          path = "oci://ghcr.io/tuananh/eval-py-plugin:latest";
-        }
-        {
-          name = "memory";
-          path = "oci://ghcr.io/tuananh/memory-plugin:latest";
-          runtime_config = {
-            allowed_paths = [ "${config.xdg.dataHome}/hyper-mcp" ];
-            env_vars = {
-              db_path = "${config.xdg.dataHome}/hyper-mcp/memory.db";
-            };
-          };
-        }
-      ];
-    };
     programs.zsh = {
       enable = true;
       enableCompletion = false;

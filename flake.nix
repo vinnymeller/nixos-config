@@ -74,15 +74,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyper-mcp = {
-      url = "github:vinnymeller/nix-hyper-mcp";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        rust-overlay.follows = "rust-overlay";
-        crane.follows = "crane";
-      };
-    };
-
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs = {
