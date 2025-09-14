@@ -49,7 +49,7 @@ let
             cargo
             ccls
             chafa
-            dockerfile-language-server-nodejs
+            dockerfile-language-server
             efm-langserver
             fd
             fzf
