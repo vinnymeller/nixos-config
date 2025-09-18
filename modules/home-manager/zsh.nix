@@ -96,13 +96,7 @@ in
         zsh-fast-syntax-highlighting
         zsh-autocomplete
         zsh-completions
-        # (aider-chat.withOptional {
-        #   # withPlaywright = true; # constant problems with playwright
-        #   withBrowser = true;
-        #   withBedrock = true;
-        # })
         nix-ai-tools.claude-code-router
-        nix-ai-tools.gemini-cli
         nix-ai-tools.opencode
         nix-ai-tools.qwen-code
       ]
@@ -134,6 +128,21 @@ in
                 --prefix PATH : ${
                   lib.makeBinPath [
                     pkgs.nodejs_20
+                    pkgs.uv
+                    pkgs.python3
+                  ]
+                }
+            '';
+          }
+        ))
+        (nix-ai-tools.gemini-cli.overrideAttrs (
+          finalAttrs: prevAttrs: {
+            buildInputs = (prevAttrs.buildInputs or [ ]) ++ [ pkgs.makeWrapper ];
+            postInstall = ''
+              wrapProgram $out/bin/gemini \
+                --prefix PATH : ${
+                  lib.makeBinPath [
+                    pkgs.nodejs
                     pkgs.uv
                     pkgs.python3
                   ]
@@ -248,27 +257,35 @@ in
     home.activation =
       let
         claudeMcpFile = builtins.toFile "claude-mcp.json" (std.serde.toJSON claudeMcpConfig);
+        mergeJsonTopLevel =
+          mergeInto: mergeFrom:
+          lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+            if [ ! -f ${mergeInto} ]; then
+              echo "{}" > ${mergeInto}
+            fi
+            cp ${mergeInto} ${mergeInto}.bak
+            jq -s '
+              .[0] as $f1 |
+              .[1] as $f2 |
+              ($f1 | with_entries(select(.key as $k | $f2 | has($k) | not))) * $f2
+            ' ${mergeInto} ${mergeFrom} > ${mergeInto}.tmp
+            mv ${mergeInto}.tmp ${mergeInto}
+          '';
+        mergeJsonDeep =
+          mergeInto: mergeFrom:
+          lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+            if [ ! -f ${mergeInto} ]; then
+              echo "{}" > ${mergeInto}
+            fi
+            cp ${mergeInto} ${mergeInto}.bak
+            jq -s '.[0] * .[1]' ${mergeInto} ${mergeFrom} > ${mergeInto}.tmp
+            mv ${mergeInto}.tmp ${mergeInto}
+          '';
       in
       {
-        mergeClaudeFiles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          if [ ! -f ${config.home.homeDirectory}/.claude.json ]; then
-            echo "{}" > ${config.home.homeDirectory}/.claude.json
-          fi
-          cp ${config.home.homeDirectory}/.claude.json ${config.home.homeDirectory}/.claude.json.bak
-          jq -s '
-            .[0] as $f1 |
-            .[1] as $f2 |
-            ($f1 | with_entries(select(.key as $k | $f2 | has($k) | not))) * $f2
-          ' ${config.home.homeDirectory}/.claude.json ${claudeMcpFile} > ${config.home.homeDirectory}/.claude.json.tmp
-          mv ${config.home.homeDirectory}/.claude.json.tmp ${config.home.homeDirectory}/.claude.json
-
-          if [ ! -f ${config.home.homeDirectory}/.claude/settings.json ]; then
-            echo "{}" > ${config.home.homeDirectory}/.claude/settings.json
-          fi
-          cp ${config.home.homeDirectory}/.claude/settings.json ${config.home.homeDirectory}/.claude/settings.json.bak
-          jq -s '.[0] * .[1]' ${config.home.homeDirectory}/.claude/settings.json ${../../dotfiles/claude/settings.json} > ${config.home.homeDirectory}/.claude/settings.json.tmp
-          mv ${config.home.homeDirectory}/.claude/settings.json.tmp ${config.home.homeDirectory}/.claude/settings.json
-        '';
+        mergeClaudeDotJson = mergeJsonTopLevel "${config.home.homeDirectory}/.claude.json" claudeMcpFile;
+        mergeGeminiDotJson = mergeJsonTopLevel "${config.home.homeDirectory}/.gemini/settings.json" claudeMcpFile;
+        mergeClaudeSettings = mergeJsonDeep "${config.home.homeDirectory}/.claude/settings.json" "${../../dotfiles/claude/settings.json}";
       };
 
     programs.direnv.enable = true;
