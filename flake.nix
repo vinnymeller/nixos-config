@@ -8,6 +8,8 @@
 
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
+    nix-std.url = "github:chessai/nix-std";
+
     nix-ai-tools = {
       url = "github:numtide/nix-ai-tools";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 let
@@ -12,6 +13,54 @@ let
     types
     ;
   cfg = config.mine.zsh;
+  std = inputs.nix-std.lib;
+  mcpConfig = {
+    playwright = {
+      type = "stdio";
+      command = "nix";
+      args = [
+        "run"
+        "github:akirak/nix-playwright-mcp"
+      ];
+      env = { };
+    };
+    context7 = {
+      type = "stdio";
+      command = "npx";
+      args = [
+        "-y"
+        "@upstash/context7-mcp"
+      ];
+      env = { };
+    };
+    github = {
+      type = "stdio";
+      command = "nix";
+      args = [
+        "run"
+        "nixpkgs#github-mcp-server"
+        "--"
+        "stdio"
+      ];
+      env = { };
+    };
+    zen = {
+      type = "stdio";
+      command = "uvx";
+      args = [
+        "--from"
+        "git+https://github.com/BeehiveInnovations/zen-mcp-server.git"
+        "zen-mcp-server"
+      ];
+      env = { };
+    };
+  };
+  claudeMcpConfig = {
+    mcpServers = mcpConfig;
+  };
+  codexMcpConfig = {
+    mcp_servers = mcpConfig;
+  };
 in
 {
   imports = [
@@ -53,12 +102,26 @@ in
         #   withBedrock = true;
         # })
         nix-ai-tools.claude-code-router
-        nix-ai-tools.codex
         nix-ai-tools.gemini-cli
         nix-ai-tools.opencode
         nix-ai-tools.qwen-code
       ]
       ++ [
+        (nix-ai-tools.codex.overrideAttrs (
+          finalAttrs: prevAttrs: {
+            buildInputs = (prevAttrs.buildInputs or [ ]) ++ [ pkgs.makeWrapper ];
+            postInstall = ''
+              wrapProgram $out/bin/codex \
+                --prefix PATH : ${
+                  lib.makeBinPath [
+                    pkgs.nodejs
+                    pkgs.uv
+                    pkgs.python3
+                  ]
+                }
+            '';
+          }
+        ))
         (pkgs.nix-ai-tools.claude-code.overrideAttrs (
           finalAttrs: prevAttrs: {
             postInstall = ''
@@ -180,29 +243,33 @@ in
       text = "echo $ANTHROPIC_API_KEY";
       executable = true;
     };
+    home.file.".codex/config.toml".text = std.serde.toTOML codexMcpConfig;
 
-    home.activation = {
-      mergeClaudeFiles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        if [ ! -f ${config.home.homeDirectory}/.claude.json ]; then
-          echo "{}" > ${config.home.homeDirectory}/.claude.json
-        fi
-        cp ${config.home.homeDirectory}/.claude.json ${config.home.homeDirectory}/.claude.json.bak
-        # jq -s '.[0] * .[1]' ${config.home.homeDirectory}/.claude.json ${../../dotfiles/claude/mcp_servers.json} > ${config.home.homeDirectory}/.claude.json.tmp
-        jq -s '
-          .[0] as $f1 |
-          .[1] as $f2 |
-          ($f1 | with_entries(select(.key as $k | $f2 | has($k) | not))) * $f2
-        ' ${config.home.homeDirectory}/.claude.json ${../../dotfiles/claude/mcp_servers.json} > ${config.home.homeDirectory}/.claude.json.tmp
-        mv ${config.home.homeDirectory}/.claude.json.tmp ${config.home.homeDirectory}/.claude.json
+    home.activation =
+      let
+        claudeMcpFile = builtins.toFile "claude-mcp.json" (std.serde.toJSON claudeMcpConfig);
+      in
+      {
+        mergeClaudeFiles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          if [ ! -f ${config.home.homeDirectory}/.claude.json ]; then
+            echo "{}" > ${config.home.homeDirectory}/.claude.json
+          fi
+          cp ${config.home.homeDirectory}/.claude.json ${config.home.homeDirectory}/.claude.json.bak
+          jq -s '
+            .[0] as $f1 |
+            .[1] as $f2 |
+            ($f1 | with_entries(select(.key as $k | $f2 | has($k) | not))) * $f2
+          ' ${config.home.homeDirectory}/.claude.json ${claudeMcpFile} > ${config.home.homeDirectory}/.claude.json.tmp
+          mv ${config.home.homeDirectory}/.claude.json.tmp ${config.home.homeDirectory}/.claude.json
 
-        if [ ! -f ${config.home.homeDirectory}/.claude/settings.json ]; then
-          echo "{}" > ${config.home.homeDirectory}/.claude/settings.json
-        fi
-        cp ${config.home.homeDirectory}/.claude/settings.json ${config.home.homeDirectory}/.claude/settings.json.bak
-        jq -s '.[0] * .[1]' ${config.home.homeDirectory}/.claude/settings.json ${../../dotfiles/claude/settings.json} > ${config.home.homeDirectory}/.claude/settings.json.tmp
-        mv ${config.home.homeDirectory}/.claude/settings.json.tmp ${config.home.homeDirectory}/.claude/settings.json
-      '';
-    };
+          if [ ! -f ${config.home.homeDirectory}/.claude/settings.json ]; then
+            echo "{}" > ${config.home.homeDirectory}/.claude/settings.json
+          fi
+          cp ${config.home.homeDirectory}/.claude/settings.json ${config.home.homeDirectory}/.claude/settings.json.bak
+          jq -s '.[0] * .[1]' ${config.home.homeDirectory}/.claude/settings.json ${../../dotfiles/claude/settings.json} > ${config.home.homeDirectory}/.claude/settings.json.tmp
+          mv ${config.home.homeDirectory}/.claude/settings.json.tmp ${config.home.homeDirectory}/.claude/settings.json
+        '';
+      };
 
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;
