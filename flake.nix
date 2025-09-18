@@ -160,6 +160,7 @@
       self,
       flake-utils,
       nixpkgs,
+      home-manager,
       ...
     }:
     let
@@ -168,9 +169,16 @@
       forAllSystems = nixpkgs.lib.genAttrs flake-utils.lib.defaultSystems; # change this if i need some weird systems
 
       myNixCats = import ./programs/ncvim { inherit inputs; };
+
+      mkUtils = import ./utils {
+        lib = nixpkgs.lib;
+        hmLib = home-manager.lib;
+      };
     in
     {
       myNixCats = myNixCats;
+
+      lib.myUtils = mkUtils;
 
       packages =
         forAllSystems (
@@ -193,11 +201,20 @@
       overlays = import ./overlays { inherit inputs; };
 
       nixosConfigurations = {
-        vinnix = import ./hosts/vinnix { inherit inputs outputs; };
-        vindows = import ./hosts/home-wsl { inherit inputs outputs; };
+        vinnix = import ./hosts/vinnix {
+          inherit inputs outputs;
+          inherit (self.lib) myUtils;
+        };
+        vindows = import ./hosts/home-wsl {
+          inherit inputs outputs;
+          inherit (self.lib) myUtils;
+        };
       };
       homeConfigurations = {
-        vinny = import ./hosts/camovinny { inherit inputs outputs; };
+        vinny = import ./hosts/camovinny {
+          inherit inputs outputs;
+          inherit (self.lib) myUtils;
+        };
       };
     };
 }

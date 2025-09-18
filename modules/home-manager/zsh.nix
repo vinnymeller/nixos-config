@@ -3,6 +3,7 @@
   lib,
   pkgs,
   inputs,
+  myUtils,
   ...
 }:
 let
@@ -257,35 +258,11 @@ in
     home.activation =
       let
         claudeMcpFile = builtins.toFile "claude-mcp.json" (std.serde.toJSON claudeMcpConfig);
-        mergeJsonTopLevel =
-          mergeInto: mergeFrom:
-          lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            if [ ! -f ${mergeInto} ]; then
-              echo "{}" > ${mergeInto}
-            fi
-            cp ${mergeInto} ${mergeInto}.bak
-            jq -s '
-              .[0] as $f1 |
-              .[1] as $f2 |
-              ($f1 | with_entries(select(.key as $k | $f2 | has($k) | not))) * $f2
-            ' ${mergeInto} ${mergeFrom} > ${mergeInto}.tmp
-            mv ${mergeInto}.tmp ${mergeInto}
-          '';
-        mergeJsonDeep =
-          mergeInto: mergeFrom:
-          lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            if [ ! -f ${mergeInto} ]; then
-              echo "{}" > ${mergeInto}
-            fi
-            cp ${mergeInto} ${mergeInto}.bak
-            jq -s '.[0] * .[1]' ${mergeInto} ${mergeFrom} > ${mergeInto}.tmp
-            mv ${mergeInto}.tmp ${mergeInto}
-          '';
       in
       {
-        mergeClaudeDotJson = mergeJsonTopLevel "${config.home.homeDirectory}/.claude.json" claudeMcpFile;
-        mergeGeminiDotJson = mergeJsonTopLevel "${config.home.homeDirectory}/.gemini/settings.json" claudeMcpFile;
-        mergeClaudeSettings = mergeJsonDeep "${config.home.homeDirectory}/.claude/settings.json" "${../../dotfiles/claude/settings.json}";
+        mergeClaudeDotJson = myUtils.mergeJsonTopLevel "${config.home.homeDirectory}/.claude.json" claudeMcpFile;
+        mergeGeminiDotJson = myUtils.mergeJsonTopLevel "${config.home.homeDirectory}/.gemini/settings.json" claudeMcpFile;
+        mergeClaudeSettings = myUtils.mergeJsonDeep "${config.home.homeDirectory}/.claude/settings.json" "${../../dotfiles/claude/settings.json}";
       };
 
     programs.direnv.enable = true;

@@ -1,12 +1,18 @@
-{ inputs, outputs, ... }:
+{
+  inputs,
+  outputs,
+  myUtils,
+  ...
+}:
 
 inputs.nixpkgs.lib.nixosSystem {
   specialArgs = {
-    inherit inputs outputs;
+    inherit inputs outputs myUtils;
   };
   modules = [
     ./configuration.nix
-    inputs.nixos-wsl.nixosModules.default {
+    inputs.nixos-wsl.nixosModules.default
+    {
       system.stateVersion = "24.05";
       wsl.enable = true;
       wsl.defaultUser = "vinny";
@@ -19,7 +25,7 @@ inputs.nixpkgs.lib.nixosSystem {
       home-manager.useUserPackages = true;
       home-manager.users.vinny = import ./home.nix;
       home-manager.extraSpecialArgs = {
-        inherit inputs outputs;
+        inherit inputs outputs myUtils;
       };
     }
   ];

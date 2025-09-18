@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  myUtils,
   ...
 }:
 let
-  utils = import ../../utils { inherit lib; };
-  modules = utils.readModuleFiles ./.;
+  # utils = import ../../utils { inherit lib; };
+  modules = myUtils.readModuleFiles ./.;
   inherit (lib) mkEnableOption mkIf;
   cfg = config.profile;
 in

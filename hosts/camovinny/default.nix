@@ -1,4 +1,9 @@
-{ inputs, outputs, ... }:
+{
+  inputs,
+  outputs,
+  myUtils,
+  ...
+}:
 inputs.home-manager.lib.homeManagerConfiguration {
   pkgs = import inputs.nixpkgs {
     system = "aarch64-darwin";
@@ -7,7 +12,7 @@ inputs.home-manager.lib.homeManagerConfiguration {
     };
   };
   extraSpecialArgs = {
-    inherit inputs outputs;
+    inherit inputs outputs myUtils;
   };
   modules = [
     ./home.nix
