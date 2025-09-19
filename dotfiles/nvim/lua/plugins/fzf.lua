@@ -60,7 +60,7 @@ require("fzf-lua").setup({
 
 vim.keymap.set("n", "sb", "<cmd>lua require('fzf-lua').buffers()<CR>", { desc = "[S]earch [B]uffers" })
 vim.keymap.set("n", "sc", "<cmd>lua require('fzf-lua').changes()<CR>", { desc = "[S]earch [C]hanges" })
-vim.keymap.set("n", "sc", "<cmd>lua require('fzf-lua').commands()<CR>", { desc = "[S]earch [C]ommands" })
+vim.keymap.set("n", "sC", "<cmd>lua require('fzf-lua').commands()<CR>", { desc = "[S]earch [C]ommands" })
 vim.keymap.set(
 	"n",
 	"s<C-c>",
