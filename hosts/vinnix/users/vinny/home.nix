@@ -53,7 +53,7 @@ in
       kubernetes-helm
       libreoffice
       libvirt
-      lxde.lxsession
+      lxsession
       man-pages # linux man pages, goes with tlpi
       neofetch
       nerd-fonts._0xproto
