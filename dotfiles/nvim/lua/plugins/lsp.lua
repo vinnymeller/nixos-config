@@ -168,6 +168,7 @@ local basic_servers = {
     "ocamllsp",
     "taplo",
     "terraformls",
+    "zls",
 }
 
 require("tailwind-tools").setup({})
