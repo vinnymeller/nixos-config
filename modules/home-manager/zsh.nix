@@ -246,7 +246,6 @@ in
 
     # copy our powerlevel10k config over
     home.file.".config/zsh/.p10k.zsh".source = ../../dotfiles/zsh/.p10k.zsh;
-    home.file.".aider.conf.yml".source = ../../dotfiles/.aider.conf.yml;
     home.file.".claude/CLAUDE.md".source = ../../dotfiles/claude/CLAUDE.md;
     # home.file.".claude/settings.json".source = ../../dotfiles/claude/settings.json;
     home.file.".claude/anthropic_key.sh" = {
