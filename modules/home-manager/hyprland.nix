@@ -32,6 +32,7 @@ in
 
         "$terminal" = "kitty";
         "$browser" = "google-chrome-stable";
+        "$filemanager" = "nemo";
 
         monitor = [
           "$ml, 7680x2160@120.00, 0x0, 1.5"
@@ -56,6 +57,7 @@ in
         ];
         bind = [
           "$mod, B, exec, $browser"
+          "$mod, D, exec, $filemanager"
           "$mod, T, exec, uwsm app -- $terminal"
           "$mod, RETURN, exec, $terminal"
           "$mod, SPACE, exec, rofi -theme gruvbox-dark -show drun"
@@ -116,6 +118,8 @@ in
         ));
         windowrulev2 = [
           "float,class:(clipse)"
+          "float,class:(nemo)"
+          "float,class:(feh)"
           "size 622 652,class:(clipse)"
           "stayfocused,class:(clipse)"
           "stayfocused,class:(gcr-prompter)"

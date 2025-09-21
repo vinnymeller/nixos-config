@@ -56,6 +56,7 @@ in
       sbctl
       screenkey
       unzip
+      koreader
       virt-manager
       yubioath-flutter
       yubikey-manager
@@ -71,5 +72,4 @@ in
   programs.command-not-found.enable = false;
 
   home.file.".config/nixpkgs".source = ../../../../dotfiles/nixpkgs;
-  home.file.".Xresources".source = ../../../../dotfiles/.Xresources;
 }
