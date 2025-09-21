@@ -33,24 +33,12 @@ in
     with pkgs;
     [
       anki-bin
-      chromium
-      google-chrome
-      nemo-with-extensions
-      xviewer
-      dmenu
-      dunst
-      easyeffects
       feh
       gcc
       discord
       # vesktop
-      nautilus
       gocryptfs
       htop
-      inkscape
-      kompose
-      kubectl
-      kubernetes-helm
       libreoffice
       libvirt
       lxsession
@@ -65,12 +53,10 @@ in
       pkg-config
       protonup-qt
       qemu
-      rofi
       sbctl
       screenkey
       unzip
       virt-manager
-      vlc
       yubioath-flutter
       yubikey-manager
       zsh-powerlevel10k

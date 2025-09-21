@@ -313,10 +313,64 @@ in
         };
       };
     };
+
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications =
+        let
+          browser = "google-chrome.desktop";
+          discord = "discord.desktop";
+          imageViewer = "feh.desktop";
+          videoPlayer = "vlc.desktop";
+          editor = "nixCats.desktop";
+          fileManager = "nemo.desktop";
+        in
+        {
+          "text/html" = browser;
+          "x-scheme-handler/http" = browser;
+          "x-scheme-handler/https" = browser;
+          "x-scheme-handler/about" = browser;
+          "x-scheme-handler/unknown" = browser;
+          "inode/directory" = fileManager;
+          "text/plain" = editor;
+          "application/pdf" = browser;
+          "image/jpeg" = imageViewer;
+          "image/png" = imageViewer;
+          "image/gif" = imageViewer;
+          "image/bmp" = imageViewer;
+          "image/tiff" = imageViewer;
+          "image/x-bmp" = imageViewer;
+          "image/x-pcx" = imageViewer;
+          "image/x-tga" = imageViewer;
+          "image/x-portable-pixmap" = imageViewer;
+          "image/x-portable-bitmap" = imageViewer;
+          "image/heic" = imageViewer;
+          "image/heif" = imageViewer;
+          "application/pcx" = imageViewer;
+          "video/mp4" = videoPlayer;
+          "video/mpeg" = videoPlayer;
+          "video/webm" = videoPlayer;
+          "video/quicktime" = videoPlayer;
+          "video/x-matroska" = videoPlayer;
+          "video/x-msvideo" = videoPlayer;
+          "video/x-flv" = videoPlayer;
+          "video/3gpp" = videoPlayer;
+          "video/3gpp2" = videoPlayer;
+          "x-scheme-handler/discord" = discord;
+
+        };
+    };
     home.packages = with pkgs; [
       clipse
-      wl-clipboard
+      google-chrome
       hyprshot
+      libheif
+      nemo-with-extensions
+      rofi
+      wl-clipboard
+      dunst
+      feh
+      vlc
     ];
   };
 }
