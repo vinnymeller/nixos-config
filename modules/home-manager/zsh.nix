@@ -252,7 +252,9 @@ in
       text = "echo $ANTHROPIC_API_KEY";
       executable = true;
     };
-    home.file.".codex/config.toml".text = std.serde.toTOML codexMcpConfig;
+
+    # TODO: need to figure out how to merge toml
+    # home.file.".codex/config.toml".text = std.serde.toTOML codexMcpConfig;
 
     home.activation =
       let
