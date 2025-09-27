@@ -97,9 +97,6 @@ in
         zsh-fast-syntax-highlighting
         zsh-autocomplete
         zsh-completions
-        nix-ai-tools.claude-code-router
-        nix-ai-tools.opencode
-        nix-ai-tools.qwen-code
       ]
       ++ [
         (nix-ai-tools.codex.overrideAttrs (
@@ -126,6 +123,7 @@ in
                 --set DISABLE_NON_ESSENTIAL_MODEL_CALLS 1 \
                 --set DISABLE_TELEMETRY 1 \
                 --unset DEV \
+                --unset ANTHROPIC_API_KEY \
                 --prefix PATH : ${
                   lib.makeBinPath [
                     pkgs.nodejs_20
@@ -253,17 +251,32 @@ in
       executable = true;
     };
 
-    # TODO: need to figure out how to merge toml
-    home.file.".codex/config.toml".text = std.serde.toTOML codexMcpConfig;
-
     home.activation =
       let
         claudeMcpFile = builtins.toFile "claude-mcp.json" (std.serde.toJSON claudeMcpConfig);
+        codexMcpFile = builtins.toFile "codex-mcp.json" (std.serde.toJSON codexMcpConfig);
       in
       {
-        mergeClaudeDotJson = myUtils.mergeJsonTopLevel "${config.home.homeDirectory}/.claude.json" claudeMcpFile;
-        mergeGeminiDotJson = myUtils.mergeJsonTopLevel "${config.home.homeDirectory}/.gemini/settings.json" claudeMcpFile;
-        mergeClaudeSettings = myUtils.mergeJsonDeep "${config.home.homeDirectory}/.claude/settings.json" "${../../dotfiles/claude/settings.json}";
+        mergeClaudeDotJson = myUtils.mergeJsonTopLevel {
+          pkgs = pkgs;
+          mergeInto = "${config.home.homeDirectory}/.claude.json";
+          mergeFrom = claudeMcpFile;
+        };
+        mergeGeminiDotJson = myUtils.mergeJsonTopLevel {
+          pkgs = pkgs;
+          mergeInto = "${config.home.homeDirectory}/.gemini/settings.json";
+          mergeFrom = claudeMcpFile;
+        };
+        mergeCodexDotToml = myUtils.mergeIntoTomlFromJsonTopLevel {
+          pkgs = pkgs;
+          mergeInto = "${config.home.homeDirectory}/.codex/config.toml";
+          mergeFrom = codexMcpFile;
+        };
+        mergeClaudeSettings = myUtils.mergeJsonDeep {
+          pkgs = pkgs;
+          mergeInto = "${config.home.homeDirectory}/.claude/settings.json";
+          mergeFrom = "${../../dotfiles/claude/settings.json}";
+        };
       };
 
     programs.direnv.enable = true;
