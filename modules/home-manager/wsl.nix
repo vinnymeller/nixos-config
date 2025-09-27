@@ -11,7 +11,7 @@ in
   imports = [
     ./git.nix
     ./wslu.nix
-    ./zsh.nix
+    ./zsh
   ];
 
   options.mine.wsl = {

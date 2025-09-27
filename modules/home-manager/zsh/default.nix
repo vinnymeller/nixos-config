@@ -15,47 +15,7 @@ let
     ;
   cfg = config.mine.zsh;
   std = inputs.nix-std.lib;
-  mcpConfig = {
-    playwright = {
-      type = "stdio";
-      command = "nix";
-      args = [
-        "run"
-        "github:akirak/nix-playwright-mcp"
-      ];
-      env = { };
-    };
-    context7 = {
-      type = "stdio";
-      command = "npx";
-      args = [
-        "-y"
-        "@upstash/context7-mcp"
-      ];
-      env = { };
-    };
-    github = {
-      type = "stdio";
-      command = "nix";
-      args = [
-        "run"
-        "nixpkgs#github-mcp-server"
-        "--"
-        "stdio"
-      ];
-      env = { };
-    };
-    zen = {
-      type = "stdio";
-      command = "uvx";
-      args = [
-        "--from"
-        "git+https://github.com/BeehiveInnovations/zen-mcp-server.git"
-        "zen-mcp-server"
-      ];
-      env = { };
-    };
-  };
+  mcpConfig = import ./mcpConfig.nix;
   claudeMcpConfig = {
     mcpServers = mcpConfig;
   };
@@ -65,7 +25,7 @@ let
 in
 {
   imports = [
-    ./wslu.nix
+    ../wslu.nix
   ];
 
   options.mine.zsh = {
@@ -242,10 +202,8 @@ in
 
     programs.bash.enable = true; # just in case
 
-    # copy our powerlevel10k config over
-    home.file.".config/zsh/.p10k.zsh".source = ../../dotfiles/zsh/.p10k.zsh;
-    home.file.".claude/CLAUDE.md".source = ../../dotfiles/claude/CLAUDE.md;
-    # home.file.".claude/settings.json".source = ../../dotfiles/claude/settings.json;
+    home.file.".config/zsh/.p10k.zsh".source = ../../../dotfiles/zsh/.p10k.zsh;
+    home.file.".claude/CLAUDE.md".source = ../../../dotfiles/claude/CLAUDE.md;
     home.file.".claude/anthropic_key.sh" = {
       text = "echo $ANTHROPIC_API_KEY";
       executable = true;
@@ -275,7 +233,7 @@ in
         mergeClaudeSettings = myUtils.mergeJsonDeep {
           pkgs = pkgs;
           mergeInto = "${config.home.homeDirectory}/.claude/settings.json";
-          mergeFrom = "${../../dotfiles/claude/settings.json}";
+          mergeFrom = "${../../../dotfiles/claude/settings.json}";
         };
       };
 

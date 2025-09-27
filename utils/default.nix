@@ -3,10 +3,10 @@
   readModuleFiles =
     dir:
     lib.pipe (builtins.readDir dir) [
-      (lib.filterAttrs (_: type: type == "regular"))
+      (lib.filterAttrs (name: type: type == "directory" || lib.hasSuffix ".nix" name ))
       builtins.attrNames
-      (builtins.filter (filename: filename != "default.nix" && lib.hasSuffix ".nix" filename))
-      (builtins.map (filename: dir + "/${filename}"))
+      (builtins.filter (name: name != "default.nix" ))
+      (builtins.map (name: dir + "/${name}"))
     ];
 
   mergeJsonTopLevel =
