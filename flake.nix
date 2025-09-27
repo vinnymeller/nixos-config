@@ -8,11 +8,16 @@
 
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
+    systems.url = "github:nix-systems/default";
+
     nix-std.url = "github:chessai/nix-std";
 
     nix-ai-tools = {
       url = "github:numtide/nix-ai-tools";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        blueprint.follows = "blueprint";
+      };
     };
 
     nixos-wsl = {
@@ -87,13 +92,25 @@
       };
     };
 
-    flake-utils.url = "github:numtide/flake-utils";
+    blueprint = {
+      url = "github:numtide/blueprint";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
+    };
+
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
 
     agenix = {
       url = "github:ryantm/agenix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         home-manager.follows = "home-manager";
+        systems.follows = "systems";
       };
     };
     ragenix = {
@@ -158,15 +175,24 @@
   outputs =
     inputs@{
       self,
-      flake-utils,
       nixpkgs,
       home-manager,
+      systems,
       ...
     }:
     let
       inherit (self) outputs;
+      inherit (nixpkgs) lib;
 
-      forAllSystems = nixpkgs.lib.genAttrs flake-utils.lib.defaultSystems; # change this if i need some weird systems
+      eachSystem = lib.genAttrs (import systems);
+
+      pkgsFor = eachSystem (
+        system:
+        import nixpkgs {
+          localSystem = system;
+          overlays = self.overlays;
+        }
+      );
 
       myNixCats = import ./programs/ncvim { inherit inputs; };
 
@@ -180,23 +206,11 @@
 
       lib.myUtils = mkUtils;
 
-      packages =
-        forAllSystems (
-          system:
-          let
-            pkgs = nixpkgs.legacyPackages.${system};
-          in
-          import ./pkgs { inherit pkgs; }
-        )
-        // myNixCats.packages;
+      formatter = eachSystem (system: pkgsFor.${system}.nixfmt);
 
-      devShells = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        import ./shell.nix { inherit pkgs; }
-      );
+      packages = eachSystem (system: import ./pkgs { pkgs = pkgsFor.${system}; }) // myNixCats.packages;
+
+      devShells = eachSystem (system: import ./shell.nix { pkgs = pkgsFor.${system}; });
 
       overlays = import ./overlays { inherit inputs; };
 
