@@ -3,9 +3,9 @@
   readModuleFiles =
     dir:
     lib.pipe (builtins.readDir dir) [
-      (lib.filterAttrs (name: type: type == "directory" || lib.hasSuffix ".nix" name ))
+      (lib.filterAttrs (name: type: type == "directory" || lib.hasSuffix ".nix" name))
       builtins.attrNames
-      (builtins.filter (name: name != "default.nix" ))
+      (builtins.filter (name: name != "default.nix"))
       (builtins.map (name: dir + "/${name}"))
     ];
 
