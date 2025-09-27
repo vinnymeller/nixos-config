@@ -254,7 +254,7 @@ in
     };
 
     # TODO: need to figure out how to merge toml
-    # home.file.".codex/config.toml".text = std.serde.toTOML codexMcpConfig;
+    home.file.".codex/config.toml".text = std.serde.toTOML codexMcpConfig;
 
     home.activation =
       let
