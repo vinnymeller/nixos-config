@@ -159,7 +159,12 @@ in
 
           export EDITOR="nv"
           export VISUAL="nv" # dont know what this is for tbh
+
+          # let nvim handle wrapping
+          export MANWIDTH=999
+
           export MANPAGER="nv +Man!"
+          export PAGER="nv +Man!"
 
 
           # zsh-autocomplete settings
