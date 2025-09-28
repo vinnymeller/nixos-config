@@ -56,11 +56,11 @@ in
           "$mod ALT, mouse:272, movewindow"
         ];
         bind = [
-          "$mod, B, exec, $browser"
+          "$mod, B, exec, rofi -modi 'Chrome Profile':rofi-chrome-profile-launcher -show 'Chrome Profile' -theme gruvbox-dark"
           "$mod, D, exec, $filemanager"
           "$mod, T, exec, uwsm app -- $terminal"
           "$mod, RETURN, exec, $terminal"
-          "$mod, SPACE, exec, rofi -theme gruvbox-dark -show drun"
+          "$mod, SPACE, exec, rofi -theme gruvbox-dark -show drun -show-icons"
           "$mod, V, exec, $terminal --class clipse -e clipse"
           "$mod CTRL, S, exec, hyprshot -m region output --clipboard-only"
           "$mod SHIFT ALT, L, exec, hyprlock"
@@ -375,6 +375,7 @@ in
       dunst
       feh
       vlc
+      rofi-chrome-profile-launcher
     ];
   };
 }
