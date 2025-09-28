@@ -164,7 +164,6 @@ in
           export MANWIDTH=999
 
           export MANPAGER="nv +Man!"
-          export PAGER="nv +Man!"
 
 
           # zsh-autocomplete settings
