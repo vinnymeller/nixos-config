@@ -47,5 +47,5 @@ if [ "$#" -eq 0 ]; then
 	done
 else
 	NAME="$*"
-	$CHROME_EXECUTABLE --profile-directory="${profiles[$NAME]}" >/dev/null 2>&1
+	exec $CHROME_EXECUTABLE --profile-directory="${profiles[$NAME]}" >/dev/null 2>&1
 fi
