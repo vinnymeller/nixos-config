@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         --
         -- In this case, we create a function that lets us more easily define mappings specific
         -- for LSP related items. It sets the mode, buffer and description for us each time.
-        local client = vim.lsp.get_client_by_id(event.data.client_id)
+        -- local client = vim.lsp.get_client_by_id(event.data.client_id)
         local map = function(mode, keys, func, desc)
             if desc then
                 desc = "LSP: " .. desc
@@ -51,25 +51,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
             end
         end, { desc = "Format current buffer with LSP" })
 
-        if client ~= nil and client.server_capabilities.inlayHintProvider then
-            vim.lsp.inlay_hint.enable(true)
-        end
+        -- if client ~= nil and client.server_capabilities.inlayHintProvider then
+        --     vim.lsp.inlay_hint.enable(true)
+        -- end
     end,
 })
 
 -- turn off lsp semantic string highlights to not override treesitter injection
 vim.api.nvim_set_hl(0, "@lsp.type.string.rust", {})
 
--- nvim-cmp supports additional completion capabilities
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- local capabilities = {}
--- local capabilities = require("blink.cmp").get_lsp_capabilities()
--- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
--- capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
-
-require("lspconfig").lua_ls.setup({
-    -- on_attach = on_attach,
-    -- capabilities = capabilities,
+vim.lsp.config("lua_ls", {
     settings = {
         Lua = {
             hint = {
@@ -91,9 +82,9 @@ require("lspconfig").lua_ls.setup({
         },
     },
 })
+vim.lsp.enable("lua_ls")
 
-require("lspconfig").ltex_plus.setup({
-    -- capabilities = capabilities,
+vim.lsp.config("ltex_plus", {
     on_attach = function(client, bufnr)
         require("ltex_extra").setup({})
     end,
@@ -106,14 +97,14 @@ require("lspconfig").ltex_plus.setup({
         },
     },
 })
+vim.lsp.enable("ltex_plus")
 
 vim.filetype.add({
     extension = {
         lock = "json",
     },
 })
-require("lspconfig").jsonls.setup({
-    -- capabilities = capabilities,
+vim.lsp.config("jsonls", {
     filetypes = { "json", "lock" },
     settings = {
         json = {
@@ -122,9 +113,9 @@ require("lspconfig").jsonls.setup({
         },
     },
 })
+vim.lsp.enable("jsonls")
 
-require("lspconfig").yamlls.setup({
-    -- capabilities = capabilities,
+vim.lsp.config("yamlls", {
     settings = {
         yaml = {
             schemaStore = {
@@ -135,9 +126,9 @@ require("lspconfig").yamlls.setup({
         },
     },
 })
+vim.lsp.enable("yamlls")
 
-require("lspconfig").nixd.setup({
-    -- capabilities = capabilities,
+vim.lsp.config("nixd", {
     cmd = { "nixd", "--semantic-tokens=false" },
     settings = {
         nixd = {
@@ -147,18 +138,12 @@ require("lspconfig").nixd.setup({
         },
     },
 })
+vim.lsp.enable("nixd")
 
--- htmx lsp is fucking up all the other ones and i dont get proper html and tailwind autocomplete for some reason
--- figure out later TODO
--- require("lspconfig").htmx.setup({
--- 	capabilities = capabilities,
--- 	filetypes = { "html", "htmldjango" },
--- })
-
-require("lspconfig").html.setup({
-    -- capabilities = capabilities,
+vim.lsp.config("html", {
     filetypes = { "html", "htmldjango" },
 })
+vim.lsp.enable("html")
 
 local basic_servers = {
     "ccls",
@@ -171,9 +156,10 @@ local basic_servers = {
     "zls",
 }
 
-require("tailwind-tools").setup({})
+-- TODO: check upstream for when they fix the annoying issue with nvim 0.11
+-- require("tailwind-tools").setup({})
 
-require("lspconfig").basedpyright.setup({
+vim.lsp.config("basedpyright", {
     settings = {
         basedpyright = {
             analysis = {
@@ -185,6 +171,7 @@ require("lspconfig").basedpyright.setup({
         },
     },
 })
+vim.lsp.enable("basedpyright")
 
 local prettier = require("efmls-configs.formatters.prettier")
 local eslint = require("efmls-configs.linters.eslint")
@@ -259,14 +246,11 @@ local efmls_config = {
     },
 }
 
-require("lspconfig").efm.setup(vim.tbl_extend("force", efmls_config, {
-    -- capabilities = capabilities,
-}))
+vim.lsp.config("efm", vim.tbl_extend("force", efmls_config, {}))
+vim.lsp.enable("efm")
 
 for _, lsp in ipairs(basic_servers) do
-    require("lspconfig")[lsp].setup({
-        -- capabilities = capabilities,
-    })
+    vim.lsp.enable(lsp)
 end
 
 -- Turn on lsp status information
