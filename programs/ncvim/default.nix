@@ -127,6 +127,7 @@ let
           nui-nvim
           nvim-autopairs
           nvim-lspconfig
+          nvim-luapad
           nvim-treesitter-context
           nvim-treesitter-textobjects
           nvim-treesitter.withAllGrammars
