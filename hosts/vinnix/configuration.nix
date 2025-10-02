@@ -145,10 +145,6 @@
   };
 
   networking.hostName = "vinnix"; # Define your hostname.
-  networking.networkmanager = {
-    enable = true; # Easiest to use and most distros use this by default.
-    wifi.powersave = false;
-  };
 
   # Set your time zone.
   time.timeZone = "America/Detroit";

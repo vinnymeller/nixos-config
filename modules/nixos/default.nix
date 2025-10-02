@@ -5,7 +5,6 @@
   ...
 }:
 let
-  # utils = import ../../utils { inherit lib; };
   modules = myUtils.readModuleFiles ./.;
   inherit (lib) mkEnableOption mkIf mkDefault;
   cfg = config.uses;
@@ -26,7 +25,7 @@ in
           enable = mkDefault true;
         };
       };
+      networking.enable = mkDefault true;
     };
-
   };
 }
