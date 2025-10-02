@@ -34,8 +34,8 @@ require("nvim-treesitter.configs").setup({
     incremental_selection = {
         enable = true,
         keymaps = {
-            init_selection = "<tab>",
-            node_incremental = "<tab>",
+            init_selection = "<enter>",
+            node_incremental = "<enter>",
             node_decremental = "<bs>",
         },
     },
@@ -87,7 +87,7 @@ require("nvim-treesitter.configs").setup({
 
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 require("treesitter-context").setup({
-    enable = true
+    enable = true,
 })
 local gs = require("gitsigns")
 
