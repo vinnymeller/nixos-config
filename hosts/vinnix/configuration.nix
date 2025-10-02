@@ -9,7 +9,7 @@
 }:
 {
   imports = [
-    ../../programs/nix
+    # ../../programs/nix
     ../../programs/gpg
     ../../programs/ssh
     ../../modules/nixos

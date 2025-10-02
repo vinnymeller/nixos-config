@@ -26,6 +26,7 @@ in
         };
       };
       networking.enable = mkDefault true;
+      nix.enable = mkDefault true;
     };
   };
 }
