@@ -1,10 +1,11 @@
+{ pkgs }:
 {
-  playwright = {
+  chrome-devtools = {
     type = "stdio";
-    command = "nix";
+    command = "npx";
     args = [
-      "run"
-      "github:akirak/nix-playwright-mcp"
+      "chrome-devtools-mcp@latest"
+      "--executablePath=${pkgs.google-chrome}/bin/google-chrome-stable"
     ];
     env = { };
   };
@@ -19,11 +20,8 @@
   };
   github = {
     type = "stdio";
-    command = "nix";
+    command = "${pkgs.github-mcp-server}/bin/github-mcp-server";
     args = [
-      "run"
-      "nixpkgs#github-mcp-server"
-      "--"
       "stdio"
     ];
     env = { };

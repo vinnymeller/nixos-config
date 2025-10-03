@@ -15,7 +15,7 @@ let
     ;
   cfg = config.mine.zsh;
   std = inputs.nix-std.lib;
-  mcpConfig = import ./mcpConfig.nix;
+  mcpConfig = import ./mcpConfig.nix { inherit pkgs; };
   claudeMcpConfig = {
     mcpServers = mcpConfig;
   };
@@ -215,8 +215,14 @@ in
 
     home.activation =
       let
-        claudeMcpFile = builtins.toFile "claude-mcp.json" (std.serde.toJSON claudeMcpConfig);
-        codexMcpFile = builtins.toFile "codex-mcp.json" (std.serde.toJSON codexMcpConfig);
+        claudeMcpFile = pkgs.writeTextFile {
+          name = "claude-mcp.json";
+          text = (std.serde.toJSON claudeMcpConfig);
+        };
+        codexMcpFile = pkgs.writeTextFile {
+          name = "codex-mcp.json";
+          text = (std.serde.toJSON codexMcpConfig);
+        };
       in
       {
         mergeClaudeDotJson = myUtils.mergeJsonTopLevel {
