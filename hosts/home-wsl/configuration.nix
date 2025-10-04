@@ -15,6 +15,8 @@
     ../../modules/nixos
   ];
 
+  mine.networking.enable = false;
+
   wsl = {
     enable = true;
     wslConf.automount.root = "/mnt";
