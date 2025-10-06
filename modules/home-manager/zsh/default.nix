@@ -62,7 +62,6 @@ in
         duf
         eza
         fd
-        zoxide
         nix-zsh-completions
         zsh-powerlevel10k
         zsh-vi-mode
@@ -218,6 +217,10 @@ in
     };
 
     programs.bash.enable = true; # just in case
+    programs.zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
 
     home.file.".config/zsh/.p10k.zsh".source = ../../../dotfiles/zsh/.p10k.zsh;
     home.file.".claude/CLAUDE.md".source = ../../../dotfiles/claude/CLAUDE.md;
