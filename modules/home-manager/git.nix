@@ -91,7 +91,6 @@ in
       };
       extensions = with pkgs; [
         gh-contribs
-        gh-copilot
         gh-dash
         gh-eco
         gh-f
