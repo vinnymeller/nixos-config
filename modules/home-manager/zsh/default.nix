@@ -263,6 +263,7 @@ in
       nfu = "nix flake update";
       nru = "NIXPKGS_ALLOW_UNFREE=1 nix run --impure";
       nsu = "NIXPKGS_ALLOW_UNFREE=1 nix shell --impure";
+      path = "path() { realpath $(which $1); }; path";
     };
   };
 }
