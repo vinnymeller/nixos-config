@@ -50,6 +50,19 @@ in
         twm
         jq
         ijq
+        lsof
+        yj
+        ripgrep
+        lazygit
+        watchexec
+        yazi
+        dua
+        bat
+        broot
+        duf
+        eza
+        fd
+        zoxide
         nix-zsh-completions
         zsh-powerlevel10k
         zsh-vi-mode
