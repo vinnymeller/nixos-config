@@ -195,7 +195,6 @@
   ];
 
   virtualisation.libvirtd.enable = true;
-  virtualisation.libvirtd.qemu.ovmf.enable = true;
 
   # this replaces virtualisation.podman.enableNvidia
   # this replaces  virtualisation.containers.cdi.dynamic.nvidia.enable lol
