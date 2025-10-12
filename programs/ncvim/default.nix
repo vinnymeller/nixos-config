@@ -47,7 +47,7 @@ let
             ast-grep
             black
             cargo
-            ccls
+            # ccls
             chafa
             dockerfile-language-server
             efm-langserver
