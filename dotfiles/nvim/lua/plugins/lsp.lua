@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         --
         -- In this case, we create a function that lets us more easily define mappings specific
         -- for LSP related items. It sets the mode, buffer and description for us each time.
-        -- local client = vim.lsp.get_client_by_id(event.data.client_id)
+        local client = vim.lsp.get_client_by_id(event.data.client_id)
         local map = function(mode, keys, func, desc)
             if desc then
                 desc = "LSP: " .. desc
@@ -51,9 +51,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
             end
         end, { desc = "Format current buffer with LSP" })
 
-        -- if client ~= nil and client.server_capabilities.inlayHintProvider then
-        --     vim.lsp.inlay_hint.enable(true)
-        -- end
+        if client ~= nil and client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true)
+        end
     end,
 })
 
