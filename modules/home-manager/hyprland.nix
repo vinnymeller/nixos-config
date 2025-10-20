@@ -364,18 +364,36 @@ in
 
         };
     };
-    home.packages = with pkgs; [
-      clipse
-      google-chrome
-      hyprshot
-      libheif
-      nemo-with-extensions
-      rofi
-      wl-clipboard
-      dunst
-      feh
-      vlc
-      rofi-chrome-profile-launcher
-    ];
+    home.packages =
+      let
+        heif-thumbnailer = pkgs.writeTextFile {
+          name = "heif-thumbnailer";
+          destination = "/share/thumbnailers/heif.thumbnailer";
+          text = ''
+            [Thumbnailer Entry]
+            TryExec=heif-thumbnailer
+            Exec=heif-thumbnailer -s %s %i %o
+            MimeType=image/heif;image/avif;
+          '';
+        };
+      in
+      with pkgs;
+      [
+        clipse
+        google-chrome
+        hyprshot
+        nemo-with-extensions
+        rofi
+        wl-clipboard
+        dunst
+        feh
+        vlc
+        rofi-chrome-profile-launcher
+
+        # thumbnailers
+        libheif
+        heif-thumbnailer
+        ffmpegthumbnailer
+      ];
   };
 }
