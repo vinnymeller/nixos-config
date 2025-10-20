@@ -129,7 +129,7 @@ in
       dotDir = "${config.xdg.configHome}/zsh";
 
       history = {
-        size = 10000;
+        size = 100000;
         path = "${config.xdg.dataHome}/zsh/history";
       };
 
