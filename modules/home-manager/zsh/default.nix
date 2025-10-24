@@ -269,9 +269,12 @@ in
 
     home.shellAliases = {
       cdots = "pushd ~/.nixdots";
-      nb = "sudo nixos-rebuild --flake ~/.nixdots switch";
-      nt = "sudo nixos-rebuild --flake ~/.nixdots test";
-      hms = "nix run home-manager switch -- --flake ~/.nixdots";
+      # nb = "sudo nixos-rebuild --flake ~/.nixdots switch";
+      nb = "nh os switch ~/.nixdots";
+      # nt = "sudo nixos-rebuild --flake ~/.nixdots test";
+      nt = "nh os test ~/.nixdots";
+      # hms = "nix run home-manager switch -- --flake ~/.nixdots";
+      hms = "nh home switch ~/.nixdots";
       root = "cd $TWM_ROOT";
       etwm = "TWM_CONFIG_FILE= twm";
       ef = "nv $(find-file-up-tree flake.nix)";
