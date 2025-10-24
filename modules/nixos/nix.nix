@@ -18,7 +18,7 @@ in
 
   config = mkIf cfg.enable {
     nix = {
-      package = pkgs.nixVersions.latest;
+      package = pkgs.lixPackageSets.latest.lix;
       settings = {
         experimental-features = [
           "nix-command"

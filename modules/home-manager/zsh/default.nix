@@ -59,6 +59,7 @@ in
         dua
         bat
         broot
+        nh
         duf
         eza
         fd
