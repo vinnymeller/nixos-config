@@ -124,8 +124,13 @@ let
           lualine-nvim
           luasnip
           markdown-preview-nvim
+          neotest
           nui-nvim
           nvim-autopairs
+          nvim-dap
+          nvim-dap-lldb
+          nvim-dap-python
+          nvim-dap-ui
           nvim-lspconfig
           nvim-luapad
           nvim-treesitter-context
@@ -182,6 +187,7 @@ let
       environmentVariables = {
         test = {
           CATTESTVAR = "It worked!";
+          CODELLDB_PATH = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
         };
       };
 

@@ -31,7 +31,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         nmap("<leader>lr", "<cmd>LspRestart | e!<CR>", "[L]sp [R]estart")
 
         -- See `:help K` for why this keymap
-        nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+        nmap("K", "<cmd>lua vim.lsp.buf.hover({border='rounded'})<CR>", "Hover Documentation")
         imap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation") -- this gets rid of digraphs but i didnt even know it existed until i set this
 
         -- Lesser used LSP functionality
