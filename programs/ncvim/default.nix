@@ -126,7 +126,6 @@ let
           luasnip
           markdown-preview-nvim
           neotest
-          neotest-python
           nui-nvim
           nvim-autopairs
           nvim-dap
