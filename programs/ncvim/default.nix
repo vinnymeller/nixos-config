@@ -47,6 +47,7 @@ let
             ast-grep
             black
             cargo
+            cargo-nextest
             # ccls
             chafa
             dockerfile-language-server
