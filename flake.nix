@@ -134,10 +134,7 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        hercules-ci-effects.follows = "hercules-ci-effects";
-        git-hooks.follows = "git-hooks";
         flake-parts.follows = "flake-parts";
-        flake-compat.follows = "flake-compat";
       };
     };
 
