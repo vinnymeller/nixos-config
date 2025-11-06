@@ -35,7 +35,7 @@ in
       anki-bin
       feh
       gcc
-      discord
+      # discord
       # vesktop
       gocryptfs
       htop
@@ -48,7 +48,8 @@ in
       # nix-index
       nix-init
       obs-studio
-      osu-lazer-bin # re-add this when its working again
+      # osu-lazer-bin # re-add this when its working again
+      (osu-lazer.override { nativeWayland = true; })
       pavucontrol
       pkg-config
       protonup-qt
@@ -68,6 +69,9 @@ in
       })
     ]
     ++ builtins.attrValues cust_pkgs;
+
+  programs.vesktop.enable = true;
+  programs.spotify-player.enable = true;
 
   programs.command-not-found.enable = false;
 
