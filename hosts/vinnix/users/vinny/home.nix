@@ -70,7 +70,10 @@ in
     ]
     ++ builtins.attrValues cust_pkgs;
 
-  programs.vesktop.enable = true;
+  programs.vesktop = {
+    enable = true;
+    vencord.useSystem = true;
+  };
   programs.spotify-player.enable = true;
 
   programs.command-not-found.enable = false;
