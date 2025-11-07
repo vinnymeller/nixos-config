@@ -103,7 +103,7 @@
       enable32Bit = true;
       extraPackages = with pkgs; [
         mesa
-        vaapiVdpau
+        libva-vdpau-driver
         nvidia-vaapi-driver
       ];
     };

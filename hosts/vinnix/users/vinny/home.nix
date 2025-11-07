@@ -62,11 +62,6 @@ in
       yubioath-flutter
       yubikey-manager
       zsh-powerlevel10k
-      (lutris.override {
-        extraPkgs = pkgs: [
-          wine
-        ];
-      })
     ]
     ++ builtins.attrValues cust_pkgs;
 
