@@ -35,7 +35,7 @@ in
       anki-bin
       feh
       gcc
-      # discord
+      discord-canary
       # vesktop
       gocryptfs
       htop
