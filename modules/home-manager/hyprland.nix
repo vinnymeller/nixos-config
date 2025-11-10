@@ -17,11 +17,23 @@ in
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland = {
       enable = true;
+      plugins = [
+        inputs.hyprland-plugins.packages.${pkgs.system}.hyprscrolling
+      ];
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
       portalPackage = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
       xwayland.enable = true;
       systemd.variables = [ "--all" ];
       settings = {
+
+        "plugin:hyprscrolling" = {
+          focus_fit_method = 1;
+          follow_focus = true;
+          fullscreen_on_one_column = false;
+          column_width = 0.5;
+          explicit_column_widths = "0.333, 0.5, 0.667, 0.8, 1.0";
+        };
+
         "$mod" = "SUPER";
         "$switch" = "CTRL ALT";
         "$supsw" = "SUPER CTRL ALT";
@@ -102,6 +114,14 @@ in
           "$god, D, exec, hyprctl hyprsunset temperature 6500"
           "$god, B, exec, hyprctl hyprsunset temperature +500"
 
+          # scrolling layout
+          "$mod ALT, n, layoutmsg, colresize +conf"
+          "$mod ALT SHIFT, n, layoutmsg, colresize -conf"
+          "$mod ALT, p, layoutmsg, promote"
+          "$mod ALT, h, layoutmsg, swapcol l"
+          "$mod ALT, l, layoutmsg, swapcol r"
+          "$mod ALT, t, layoutmsg, togglefit"
+
         ]
         ++ (builtins.concatLists (
           builtins.genList (
@@ -137,6 +157,7 @@ in
           snap = {
             enabled = true;
           };
+          layout = "scrolling";
         };
         group = {
           groupbar = {
