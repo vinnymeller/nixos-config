@@ -118,9 +118,11 @@ in
           "$mod ALT, n, layoutmsg, colresize +conf"
           "$mod ALT SHIFT, n, layoutmsg, colresize -conf"
           "$mod ALT, p, layoutmsg, promote"
-          "$mod ALT, h, layoutmsg, swapcol l"
-          "$mod ALT, l, layoutmsg, swapcol r"
+          "$mod CTRL ALT, h, layoutmsg, swapcol l"
+          "$mod CTRL ALT, l, layoutmsg, swapcol r"
           "$mod ALT, t, layoutmsg, togglefit"
+          "$mod ALT, h, layoutmsg, focus l"
+          "$mod ALT, l, layoutmsg, focus r"
 
         ]
         ++ (builtins.concatLists (
@@ -138,8 +140,8 @@ in
         ));
         windowrulev2 = [
           "float,class:(clipse)"
-          "float,class:(nemo)"
-          "float,class:(feh)"
+          # "float,class:(nemo)"
+          # "float,class:(feh)"
           "size 622 652,class:(clipse)"
           "stayfocused,class:(clipse)"
           "stayfocused,class:(gcr-prompter)"
