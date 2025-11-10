@@ -44,15 +44,6 @@
       };
     };
 
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        hyprland.follows = "hyprland";
-        systems.follows = "systems";
-      };
-    };
-
     crane = {
       url = "github:ipetkov/crane";
     };
