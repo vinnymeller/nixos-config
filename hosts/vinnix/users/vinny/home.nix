@@ -36,7 +36,6 @@ in
       feh
       gcc
       discord-canary
-      # vesktop
       gocryptfs
       htop
       libreoffice
@@ -45,10 +44,8 @@ in
       man-pages # linux man pages, goes with tlpi
       neofetch
       nerd-fonts._0xproto
-      # nix-index
       nix-init
       obs-studio
-      # osu-lazer-bin # re-add this when its working again
       (osu-lazer.override { nativeWayland = true; })
       pavucontrol
       pkg-config

@@ -180,7 +180,7 @@
     # linuxPackages_latest.perf  # TODO: readd this when its working
     # openvpn
     ragenix
-    firefox
+    # firefox
     gnupg
     killall
     man-pages
