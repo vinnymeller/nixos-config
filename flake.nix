@@ -87,8 +87,6 @@
         nixpkgs.follows = "nixpkgs";
         crane.follows = "crane";
         rust-overlay.follows = "rust-overlay";
-        flake-compat.follows = "flake-compat";
-        flake-parts.follows = "flake-parts";
       };
     };
 
