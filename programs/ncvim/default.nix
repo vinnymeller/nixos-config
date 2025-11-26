@@ -122,7 +122,7 @@ let
           leetcode-nvim
           lspkind-nvim
           ltex_extra-nvim # goes with ltex-ls providing code action functionality for nvim (e.g. add to dict, ignore rule, etc)
-          lualine-nvim
+          pkgs.master-pkgs.vimPlugins.lualine-nvim
           luasnip
           markdown-preview-nvim
           neotest
