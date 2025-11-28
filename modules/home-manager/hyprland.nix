@@ -116,17 +116,38 @@ in
             ]
           ) 9
         ));
-        windowrulev2 = [
-          "float,class:(clipse)"
-          "float,class:(nemo)"
-          "float,class:(feh)"
-          "size 622 652,class:(clipse)"
-          "stayfocused,class:(clipse)"
-          "stayfocused,class:(gcr-prompter)"
-
-          # bw popups
-          "float,class:(chrome-nngceckbapebfimnlniiiahkandclblb-.*)"
-          "stayfocused,class:(chrome-nngceckbapebfimnlniiiahkandclblb-.*)"
+        windowrule = [
+          {
+            name = "clipse";
+            "match:class" = "clipse";
+            size = "622 652";
+            stay_focused = true;
+            float = true;
+            center = true;
+          }
+          {
+            name = "nemo";
+            "match:class" = "nemo";
+            float = true;
+          }
+          {
+            name = "feh";
+            "match:class" = "feh";
+            float = true;
+          }
+          {
+            name = "gcr-prompter";
+            "match:class" = "gcr-prompter";
+            stay_focused = true;
+            center = true;
+          }
+          {
+            name = "bitwarden";
+            "match:class" = "chrome-nngceckbapebfimnlniiiahkandclblb-.*";
+            float = true;
+            stay_focused = true;
+            center = true;
+          }
         ];
         general = {
           gaps_in = 0;
