@@ -147,7 +147,7 @@
   networking.hostName = "vinnix"; # Define your hostname.
 
   # Set your time zone.
-  time.timeZone = "America/Detroit";
+  time.timeZone = "America/Chicago";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
