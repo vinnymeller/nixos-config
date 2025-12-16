@@ -86,6 +86,12 @@ in
         user.signingkey = "36CBEC89D5C8540C"; # key that goes with the email above
       };
 
+      spice = {
+        submit = {
+          navigationComment = false;
+        };
+      };
+
       lfs.enable = true;
     };
 
