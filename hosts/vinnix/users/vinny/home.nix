@@ -46,7 +46,7 @@ in
       nerd-fonts._0xproto
       nix-init
       obs-studio
-      (osu-lazer.override { nativeWayland = true; })
+      (master-pkgs.osu-lazer.override { nativeWayland = true; })
       pavucontrol
       pkg-config
       protonup-qt
