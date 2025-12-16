@@ -84,12 +84,14 @@ in
         commit.gpgSign = cfg.gpgSignDefault;
         tag.gpgSign = cfg.gpgSignDefault;
         user.signingkey = "36CBEC89D5C8540C"; # key that goes with the email above
-      };
 
-      spice = {
-        submit = {
-          navigationComment = false;
+        # git-spice settings
+        spice = {
+          submit = {
+            navigationComment = false;
+          };
         };
+
       };
 
       lfs.enable = true;

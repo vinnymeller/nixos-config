@@ -13,10 +13,6 @@
     stable-pkgs = import inputs.nixpkgs-stable { system = final.system; };
   };
 
-  blink-cmp-overlay = final: prev: {
-    blink-cmp-flake = inputs.blink-cmp.packages.${final.system}.default;
-  };
-
   ragenix = final: prev: {
     ragenix = inputs.ragenix.packages.${final.system}.default;
   };

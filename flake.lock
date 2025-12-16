@@ -100,32 +100,6 @@
         "type": "github"
       }
     },
-    "blink-cmp": {
-      "inputs": {
-        "fenix": [
-          "fenix"
-        ],
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1765811174,
-        "narHash": "sha256-HyzeuM9znmP8AXJDPWREpk8Qf5hvydLG4m9hopleLPA=",
-        "owner": "Saghen",
-        "repo": "blink.cmp",
-        "rev": "ee7cfac8e1d0bf9b90a27d7a9823c13389bead08",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Saghen",
-        "repo": "blink.cmp",
-        "type": "github"
-      }
-    },
     "blueprint": {
       "inputs": {
         "nixpkgs": [
@@ -1015,7 +989,6 @@
       "inputs": {
         "agenix": "agenix",
         "avante-nvim": "avante-nvim",
-        "blink-cmp": "blink-cmp",
         "blueprint": "blueprint",
         "crane": "crane",
         "fenix": "fenix",

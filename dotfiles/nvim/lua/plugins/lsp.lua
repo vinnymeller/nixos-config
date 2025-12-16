@@ -149,8 +149,6 @@ local basic_servers = {
     "ccls",
     "dockerls",
     "gopls",
-    "hls",
-    "ocamllsp",
     "taplo",
     "terraformls",
     "zls",

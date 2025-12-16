@@ -14,9 +14,6 @@ let
   };
   dependencyOverlays = (import ./overlays inputs) ++ [
     (utils.standardPluginOverlay inputs)
-    (final: prev: {
-      blink-cmp-flake = inputs.blink-cmp.packages.${final.system}.default;
-    })
   ];
 
   categoryDefinitions =
@@ -57,7 +54,6 @@ let
             gcc
             git
             gopls
-            haskellPackages.haskell-language-server
             imagemagick
             isort
             ltex-ls-plus
@@ -73,7 +69,6 @@ let
             nodePackages.sql-formatter
             nodePackages.typescript-language-server
             nodejs
-            #ocamlPackages.ocaml-lsp
             postgresql
             prettierd
             basedpyright
@@ -141,7 +136,7 @@ let
           nvim-various-textobjs
           nvim-web-devicons
           oil-nvim
-          pkgs.blink-cmp-flake
+          blink-cmp
           blink-compat
           grug-far-nvim
           vim-dadbod-completion
