@@ -12,9 +12,12 @@ let
   extra_pkg_config = {
     allowUnfree = true;
   };
-  dependencyOverlays = (import ./overlays inputs) ++ [
-    (utils.standardPluginOverlay inputs)
-  ];
+  dependencyOverlays =
+    (import ./overlays inputs)
+    ++ [
+      (utils.standardPluginOverlay inputs)
+    ]
+    ++ builtins.attrValues (import ../../overlays { inherit inputs; });
 
   categoryDefinitions =
     {
@@ -113,7 +116,7 @@ let
           harpoon2
           image-nvim
           indent-blankline-nvim
-          inputs.avante-nvim.packages.${pkgs.system}.default
+          avante-nvim
           leetcode-nvim
           lspkind-nvim
           ltex_extra-nvim # goes with ltex-ls providing code action functionality for nvim (e.g. add to dict, ignore rule, etc)

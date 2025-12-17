@@ -60,46 +60,6 @@
         "type": "github"
       }
     },
-    "avante": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1765305702,
-        "narHash": "sha256-Ig4yMpoNEWMIHqh3Cq6taAkyBFesLk+C+nb/Kld18ag=",
-        "owner": "yetone",
-        "repo": "avante.nvim",
-        "rev": "bbf6d8f0d9aa072a2ccffc7701936eaa71985f92",
-        "type": "github"
-      },
-      "original": {
-        "owner": "yetone",
-        "repo": "avante.nvim",
-        "type": "github"
-      }
-    },
-    "avante-nvim": {
-      "inputs": {
-        "avante": "avante",
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1765327597,
-        "narHash": "sha256-1nxipPbNXCB9/qt6UWMaOpUC3WxGkSr64atmw1KpbvA=",
-        "owner": "vinnymeller",
-        "repo": "avante-nvim-nightly-flake",
-        "rev": "9e46d0af5f5fffd32bc29fb6172f785482987242",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vinnymeller",
-        "repo": "avante-nvim-nightly-flake",
-        "type": "github"
-      }
-    },
     "blueprint": {
       "inputs": {
         "nixpkgs": [
@@ -988,7 +948,6 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
-        "avante-nvim": "avante-nvim",
         "blueprint": "blueprint",
         "crane": "crane",
         "fenix": "fenix",
