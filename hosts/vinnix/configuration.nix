@@ -192,6 +192,7 @@
     zsh
     libva-utils
     nvtopPackages.full
+    inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   virtualisation.libvirtd.enable = true;

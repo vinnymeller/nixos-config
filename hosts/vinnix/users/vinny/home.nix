@@ -11,7 +11,67 @@ in
 {
   imports = [
     ../../../../modules/home-manager
+    inputs.noctalia.homeModules.default
   ];
+  programs.noctalia-shell = {
+    enable = true;
+    systemd.enable = true;
+    settings = {
+      # configure noctalia here
+      bar = {
+        density = "compact";
+        position = "right";
+        showCapsule = true;
+        widgets = {
+          left = [
+            {
+              id = "ControlCenter";
+              useDistroLogo = true;
+            }
+            {
+              id = "WiFi";
+            }
+            {
+              id = "Bluetooth";
+            }
+          ];
+          center = [
+            {
+              hideUnoccupied = false;
+              id = "Workspace";
+              labelMode = "none";
+            }
+          ];
+          right = [
+            {
+              formatHorizontal = "HH:mm";
+              formatVertical = "HH mm";
+              id = "Clock";
+              useMonospacedFont = true;
+              usePrimaryColor = true;
+            }
+          ];
+        };
+      };
+      colorSchemes.predefinedScheme = "Gruvbox";
+      general = {
+        avatarImage = ../../../../files/avatar.png;
+        radiusRatio = 0.2;
+      };
+      location = {
+        monthBeforeDay = true;
+        name = "Chicago, United States";
+        useFahrenheit = true;
+      };
+    };
+  };
+
+  home.file.".cache/noctalia/wallpapers.json" = {
+    text = builtins.toJSON {
+      defaultWallpaper = ../../../../files/avatar-wallpaper.png;
+    };
+  };
+
   # Let home-manager manage itself
   profile.vinny.enable = true;
   profile.vinny.hyprland = true;
