@@ -147,7 +147,7 @@
         system:
         import nixpkgs {
           localSystem = system;
-          overlays = self.overlays;
+          overlays = self.overlayList;
         }
       );
 
@@ -170,6 +170,8 @@
       devShells = eachSystem (system: import ./shell.nix { pkgs = pkgsFor.${system}; });
 
       overlays = import ./overlays { inherit inputs; };
+
+      overlayList = builtins.attrValues self.overlays;
 
       nixosConfigurations = {
         vinnix = import ./hosts/vinnix {
