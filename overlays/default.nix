@@ -32,6 +32,4 @@
     );
   };
 
-  twm-src = final: _prev: { twm = inputs.twm.packages.${final.system}.default; };
-
 }
