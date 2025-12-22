@@ -59,6 +59,7 @@ in
       yubioath-flutter
       yubikey-manager
       zsh-powerlevel10k
+      zed-editor
     ]
     ++ builtins.attrValues cust_pkgs;
 
