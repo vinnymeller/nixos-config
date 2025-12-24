@@ -56,11 +56,12 @@ in
           "$mod ALT, mouse:272, movewindow"
         ];
         bind = [
-          "$mod, B, exec, rofi -modi 'Chrome Profile':rofi-chrome-profile-launcher -show 'Chrome Profile' -theme gruvbox-dark"
+          "$mod, SPACE, exec, rofi -show drun -show-icons"
+          "$mod, B, exec, rofi -modi 'Chrome Profile':rofi-chrome-profile-launcher -show 'Chrome Profile'"
+          "$mod CTRL, W, exec, rofi -show window --show-icons"
           "$mod, D, exec, $filemanager"
           "$mod, T, exec, uwsm app -- $terminal"
           "$mod, RETURN, exec, $terminal"
-          "$mod, SPACE, exec, rofi -theme gruvbox-dark -show drun -show-icons"
           "$mod, V, exec, $terminal --class clipse -e clipse"
           "$mod CTRL, S, exec, hyprshot -m region output --clipboard-only"
           "$mod SHIFT ALT, L, exec, hyprlock"
@@ -295,6 +296,18 @@ in
       name = "Bibata-Modern-Classic";
       size = 16;
     };
+    programs.rofi = {
+      enable = true;
+      theme = "gruvbox-dark";
+      modes = [
+        "window"
+        "run"
+        "ssh"
+        "drun"
+        "combi"
+        "keys"
+      ];
+    };
 
     services.hyprsunset = {
       enable = true;
@@ -404,7 +417,6 @@ in
         google-chrome
         hyprshot
         nemo-with-extensions
-        rofi
         wl-clipboard
         dunst
         feh
