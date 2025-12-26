@@ -102,6 +102,7 @@ in
                     pkgs.nodejs_20
                     pkgs.uv
                     pkgs.python3
+                    pkgs.libnotify
                   ]
                 }
             '';

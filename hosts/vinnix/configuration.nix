@@ -43,7 +43,7 @@
     ];
     blacklistedKernelModules = [
       #"nvidia"
-      #"nouveau"
+      "nouveau"
     ];
     kernelModules = [
       "kvm-amd"
@@ -252,6 +252,12 @@
       };
     };
   };
+
+  services.udev.extraRules = ''
+    # 3090
+    KERNEL=="card*", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", KERNELS=="0000:01:00.0", SYMLINK+="dri/nvidia"
+  '';
+
   security.pam.services = {
     greetd.enableGnomeKeyring = true;
     login.enableGnomeKeyring = true;

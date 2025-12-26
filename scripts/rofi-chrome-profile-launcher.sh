@@ -47,5 +47,5 @@ if [ "$#" -eq 0 ]; then
 	done
 else
 	NAME="$*"
-	exec $CHROME_EXECUTABLE --profile-directory="${profiles[$NAME]}" >/dev/null 2>&1
+	exec $CHROME_EXECUTABLE --profile-directory="${profiles[$NAME]}" --ozone-platform=x11 --use-angle=vulkan --enable-features=TouchpadOverscrollHistoryNavigation,Vulkan,VulkanFromANGLE,DefaultANGLEVulkan,VaapiIgnoreDriverChecks,VaapiVideoDecoder,UseMultiPlaneFormatForHardwareVideo,VaapiVideoEncoder --force-device-scale-factor=1.5 >/dev/null 2>&1
 fi

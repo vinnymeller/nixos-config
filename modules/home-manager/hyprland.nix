@@ -230,7 +230,7 @@ in
           "GBM_BACKEND,nvidia-drm"
           "__GLX_VENDOR_LIBRARY_NAME,nvidia"
           "WLR_NO_HARDWARE_CURSORS,1"
-          "AQ_DRM_DEVICES,/dev/dri/card2:/dev/dri/card1"
+          "AQ_DRM_DEVICES,/dev/dri/nvidia"
           "QT_AUTO_SCREEN_SCALE_FACTOR,1"
         ];
         ecosystem = {
