@@ -132,6 +132,9 @@ vim.lsp.config("nixd", {
     cmd = { "nixd", "--semantic-tokens=false" },
     settings = {
         nixd = {
+            nixpkgs = {
+                expr = "import <nixpkgs> { }",
+            },
             formatting = {
                 command = { "nixfmt" },
             },

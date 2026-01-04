@@ -26,17 +26,83 @@
     };
   };
 
-  boot.initrd.luks.devices = {
-    crypted = {
-      device = "/dev/disk/by-uuid/671efa4e-c795-4044-9b3a-24c1242c5394";
-      preLVM = true;
-    };
+  age.secrets.vinnix-wpa-initrd = {
+    file = ../../secrets/vinnix/wpa_supplicant.conf.age;
+    path = "/etc/secrets/initrd/wpa_supplicant.conf";
+    symlink = false;
   };
+
+  boot.initrd =
+    let
+      deviceUuid = "671efa4e-c795-4044-9b3a-24c1242c5394";
+      device = "/dev/disk/by-uuid/${deviceUuid}";
+      interface = "wlp8s0";
+    in
+    {
+      kernelModules = [
+        "rtw89_8922ae"
+        "ccm"
+        "ctr"
+        "cmac" # for IGTK / management frame protection
+      ];
+
+      network = {
+        enable = true;
+        ssh = {
+          enable = true;
+          port = 2222;
+          authorizedKeys = config.users.users.vinny.openssh.authorizedKeys.keys;
+          hostKeys = [
+            "/etc/secrets/initrd/ssh_host_rsa_key"
+            "/etc/secrets/initrd/ssh_host_ed25519_key"
+          ];
+        };
+      };
+
+      luks.devices.crypted = {
+        device = device;
+        preLVM = true;
+      };
+
+      systemd = {
+        enable = true;
+        packages = [ pkgs.wpa_supplicant ];
+        initrdBin = [ pkgs.wpa_supplicant ];
+        targets.initrd.wants = [ "wpa_supplicant@${interface}.service" ];
+        services = {
+          "wpa_supplicant@" = {
+            unitConfig.DefaultDependencies = false;
+            after = lib.mkForce [ "sys-subsystem-net-devices-%i.device" ];
+            requires = lib.mkForce [ "sys-subsystem-net-devices-%i.device" ];
+          };
+          sshd = {
+            after = lib.mkForce [ "network.target" ];
+            wants = lib.mkForce [ ];
+            requires = lib.mkForce [ ];
+          };
+        };
+        network = {
+          enable = true;
+          networks."10-wlan" = {
+            matchConfig.Name = interface;
+            networkConfig.DHCP = "no";
+            address = [ "172.16.100.201/24" ];
+            gateway = [ "172.16.100.1" ];
+            dns = [ "172.16.100.1" ];
+          };
+        };
+      };
+
+      # need to rebuild twice
+      secrets."/etc/wpa_supplicant/wpa_supplicant-${interface}.conf" =
+        config.age.secrets.vinnix-wpa-initrd.path;
+    };
 
   boot = {
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_latest; # use newest kernel
     kernelParams = [
+      "ip=dhcp"
       "amd_iommu=soft"
       "processor.max_cstate=4"
       "idle=nomwait"
@@ -175,6 +241,14 @@
         "docker"
       ];
       shell = pkgs.zsh;
+      openssh = {
+        authorizedKeys = {
+          keys = [
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIZZ4L3vUmq827YJYRgupHjefxXX87OPPRpr+K0JB8NG"
+            "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDkkYpg0w3r7I7NgQn3tTUbMZ3BSYeEQ1jA5zcQ8f6u9POWl///j5uIkJGUJ7ULNQJjAGxGiwXZ3pTqWm6kbErlP+SjzuNAznXmhbu/4xVb7ui0OCHq5riK62O3zLKMiK7ZWqeSUwc+iJHWNCmBaS0TXjqwj++1fU1o3xBZX2shNQQD6Ke6VDqJ1bEbE3d8yLfFiKjfZXTJ6/YKxyVO15hCn5urEIG6efEG+t0w7fwuHyA1dFfuUXSw9VuHcMxPNeYqVJa29ITz+CXdDvcXGXb4qOz60nvUHVZpBl/WjyhB3N+UXopAvd0v/ZB9Y0wqPNB8VX25+LURVpcPqeOOCEiDHrQmX6DCgVp07Y52wpgcBf5iiEk586BaeQBuA0Tn25m31YX9j10teLYp2pwJ7a1/DXUJtkO1IKLWGs0Hs38VgB5jmXjlsSXsnMkgpt8is7Uacm11BTmnJrPyF+sqWfT7WPuG5FsQ6Bk/rgnTP7LOs+kdJVxTMIyOCEskVW7u0eykofgs1zBAe9UyUp5UeQlCos++o3W0MO4xmBFhkkss7klRCHLJK0M047BFUX4WbnfqUDpXjON3kUl0LQwtm5QeFoSWH+tu3Y4o1B0+lIq47Up2Q2X4BDdfGS0dvmgGMXfXUcz467pYqLMzOfJpI/zZC7nAPlzRtA2JJvdK7fAtow=="
+          ];
+        };
+      };
     };
   };
 
