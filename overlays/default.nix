@@ -17,8 +17,8 @@
     ragenix = inputs.ragenix.packages.${final.system}.default;
   };
 
-  nix-ai-tools = final: prev: {
-    nix-ai-tools = inputs.nix-ai-tools.packages.${final.system};
+  llm-agents = final: prev: {
+    llm-agents = inputs.llm-agents.packages.${final.system};
   };
 
   remove-0xproto-italics = final: prev: {

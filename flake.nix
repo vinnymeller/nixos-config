@@ -12,8 +12,8 @@
 
     nix-std.url = "github:chessai/nix-std";
 
-    nix-ai-tools = {
-      url = "github:numtide/nix-ai-tools";
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         blueprint.follows = "blueprint";

@@ -72,22 +72,7 @@ in
         zsh-completions
       ]
       ++ [
-        (nix-ai-tools.codex.overrideAttrs (
-          finalAttrs: prevAttrs: {
-            buildInputs = (prevAttrs.buildInputs or [ ]) ++ [ pkgs.makeWrapper ];
-            postInstall = ''
-              wrapProgram $out/bin/codex \
-                --prefix PATH : ${
-                  lib.makeBinPath [
-                    pkgs.nodejs
-                    pkgs.uv
-                    pkgs.python3
-                  ]
-                }
-            '';
-          }
-        ))
-        (pkgs.nix-ai-tools.claude-code.overrideAttrs (
+        (pkgs.llm-agents.claude-code.overrideAttrs (
           finalAttrs: prevAttrs: {
             postInstall = ''
               wrapProgram $out/bin/claude \
@@ -95,30 +80,22 @@ in
                 --set CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC 1 \
                 --set DISABLE_NON_ESSENTIAL_MODEL_CALLS 1 \
                 --set DISABLE_TELEMETRY 1 \
+                --set DISABLE_INSTALLATION_CHECKS 1 \
                 --unset DEV \
                 --unset ANTHROPIC_API_KEY \
                 --prefix PATH : ${
-                  lib.makeBinPath [
-                    pkgs.nodejs_20
-                    pkgs.uv
-                    pkgs.python3
-                    pkgs.libnotify
-                  ]
-                }
-            '';
-          }
-        ))
-        (nix-ai-tools.gemini-cli.overrideAttrs (
-          finalAttrs: prevAttrs: {
-            buildInputs = (prevAttrs.buildInputs or [ ]) ++ [ pkgs.makeWrapper ];
-            postInstall = ''
-              wrapProgram $out/bin/gemini \
-                --prefix PATH : ${
-                  lib.makeBinPath [
-                    pkgs.nodejs
-                    pkgs.uv
-                    pkgs.python3
-                  ]
+                  lib.makeBinPath (
+                    with pkgs;
+                    [
+                      nodejs_24
+                      uv
+                      bun
+                      python3
+                      libnotify
+                      jq
+                      bash
+                    ]
+                  )
                 }
             '';
           }
