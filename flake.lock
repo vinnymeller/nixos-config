@@ -216,15 +216,15 @@
     },
     "github-nix-ci": {
       "locked": {
-        "lastModified": 1754092430,
-        "narHash": "sha256-S4Oe9aZK/UnWuj6zUlVeSDmC/QjEPHJm2gaSk/VMir4=",
-        "owner": "juspay",
+        "lastModified": 1767568978,
+        "narHash": "sha256-PQO2eKPiNLsfAiG7QXIlWFYCtH/ao+3OmKgYnwQwkrE=",
+        "owner": "vinnymeller",
         "repo": "github-nix-ci",
-        "rev": "edd0486a9208524eff40712a8ce835260c5b412a",
+        "rev": "0014b10d7be533bfc50440ddce5e311feb1ae4ec",
         "type": "github"
       },
       "original": {
-        "owner": "juspay",
+        "owner": "vinnymeller",
         "repo": "github-nix-ci",
         "type": "github"
       }

@@ -101,7 +101,7 @@
     };
 
     github-nix-ci = {
-      url = "github:juspay/github-nix-ci";
+      url = "github:vinnymeller/github-nix-ci";
     };
 
     nixCats.url = "github:BirdeeHub/nixCats-nvim";

@@ -25,6 +25,7 @@ in
     services.github-nix-ci = {
       age.secretsDir = ../../secrets;
       runnerSettings = {
+        extraLabels = [ "nix" ];
         extraPackages = with pkgs; [
           openssl # needed for nicknovitski/nix-develop
           git-lfs # needed for lfs flag
