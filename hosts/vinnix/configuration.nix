@@ -31,6 +31,10 @@
     path = "/etc/secrets/initrd/wpa_supplicant.conf";
     symlink = false;
   };
+  age.secrets.vinnix-tailscale-authkey = {
+    file = ../../secrets/vinnix/tailscale-authkey.age;
+    mode = "0400";
+  };
 
   boot.initrd =
     let
@@ -195,6 +199,7 @@
     udisks2.enable = true;
     tailscale = {
       enable = true;
+      authKeyFile = config.age.secrets.vinnix-tailscale-authkey.path;
     };
   };
 

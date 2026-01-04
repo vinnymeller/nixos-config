@@ -20,12 +20,15 @@ let
     camovinny-vinny
   ];
 
+  host-vinnix = [
+    vinnix
+    vinnix-vinny
+  ];
+
 in
 {
   "github-nix-ci/mxves.token.age".publicKeys = users ++ systems;
   "shell/secrets.sh.age".publicKeys = users ++ systems ++ work;
-  "vinnix/wpa_supplicant.conf.age".publicKeys = [
-    vinnix-vinny
-    vinnix
-  ];
+  "vinnix/wpa_supplicant.conf.age".publicKeys = host-vinnix;
+  "vinnix/tailscale-authkey.age".publicKeys = host-vinnix;
 }
