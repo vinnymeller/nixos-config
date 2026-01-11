@@ -90,4 +90,4 @@ vim.keymap.set("n", "sk", "<cmd>lua require('fzf-lua').keymaps()<CR>", { desc = 
 vim.keymap.set("n", "sr", "<cmd>lua require('fzf-lua').resume()<CR>", { desc = "[S]earch [R]esume" })
 vim.keymap.set("n", "sw", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { desc = "[S]earch [W]ord" })
 vim.keymap.set("n", "sW", "<cmd>lua require('fzf-lua').grep_cWORD()<CR>", { desc = "[S]earch [W]ORD" })
-vim.keymap.set("n", "s/", "<cmd>lua require('fzf-lua').lgrep_curbuf()<CR>", { desc = "[S]earch [/]" })
+vim.keymap.set("n", "s/", "<cmd>lua require('fzf-lua').grep_curbuf()<CR>", { desc = "[S]earch [/]" })
