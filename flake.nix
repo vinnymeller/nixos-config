@@ -10,6 +10,14 @@
 
     systems.url = "github:nix-systems/default";
 
+    rsvpub = {
+      url = "github:vinnymeller/rsvpub";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
+    };
+
     nix-std.url = "github:chessai/nix-std";
 
     llm-agents = {

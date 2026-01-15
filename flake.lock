@@ -676,11 +676,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1768187947,
-        "narHash": "sha256-AKKMXAzXRj9qc10H7yCwgbfifOK9sQPIJxY+RmnbEEQ=",
+        "lastModified": 1768463046,
+        "narHash": "sha256-otQlBRANSuPjZE1A2co6I+VQoucYEZFQQmbXuFi2E6s=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "aaf9b420caf594ebaabf8679c165d8b8793c09e4",
+        "rev": "523a7770e5c36a59cffc3e5210e405f6f0312e0c",
         "type": "github"
       },
       "original": {
@@ -924,8 +924,32 @@
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable",
         "ragenix": "ragenix",
+        "rsvpub": "rsvpub",
         "rust-overlay": "rust-overlay",
         "systems": "systems_2"
+      }
+    },
+    "rsvpub": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": [
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768380297,
+        "narHash": "sha256-wZqNl2o7xLgB/jVKt1v2UulTuYIZGwJP5WWWrQ8H0G8=",
+        "owner": "vinnymeller",
+        "repo": "rsvpub",
+        "rev": "c9e09daf6680269654ff65f1481e31cd1e5bf42a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vinnymeller",
+        "repo": "rsvpub",
+        "type": "github"
       }
     },
     "rust-overlay": {

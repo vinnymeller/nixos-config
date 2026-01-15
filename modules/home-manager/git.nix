@@ -114,7 +114,8 @@ in
     };
 
     home.packages = with pkgs; [
-      pkgs.git-spice
+      git-spice
+      git-filter-repo
       (mkIf cfg.gpgSignDefault gnupg)
     ];
 

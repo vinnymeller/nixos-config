@@ -24,6 +24,9 @@ in
         github-runners = mkIf cfg.selfhost {
           enable = mkDefault true;
         };
+        rsvpub = mkIf cfg.selfhost {
+          enable = mkDefault true;
+        };
       };
       networking.enable = mkDefault true;
       nix.enable = mkDefault true;
