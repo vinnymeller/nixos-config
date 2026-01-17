@@ -51,6 +51,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
             end
         end, { desc = "Format current buffer with LSP" })
 
+        -- for python files, auto format on save
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = event.buf,
+            callback = function()
+                if vim.bo.filetype == "python" then
+                    vim.lsp.buf.format()
+                end
+            end,
+        })
+
         if client ~= nil and client.server_capabilities.inlayHintProvider then
             vim.lsp.inlay_hint.enable(true)
         end
