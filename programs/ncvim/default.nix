@@ -74,7 +74,9 @@ let
             nodejs
             postgresql
             prettierd
-            basedpyright
+            # basedpyright
+            ty
+            ruff
             ripgrep
             bat
             delta

@@ -160,19 +160,27 @@ local basic_servers = {
 -- TODO: check upstream for when they fix the annoying issue with nvim 0.11
 -- require("tailwind-tools").setup({})
 
-vim.lsp.config("basedpyright", {
+-- try ty for a bit
+-- vim.lsp.config("basedpyright", {
+--     settings = {
+--         basedpyright = {
+--             analysis = {
+--                 autoImportCompletions = true,
+--                 autoSearchPaths = true,
+--                 diagnosticMode = "openFilesOnly",
+--                 useLibraryCodeForype = true,
+--             },
+--         },
+--     },
+-- })
+-- vim.lsp.enable("basedpyright")
+
+vim.lsp.config("ty", {
     settings = {
-        basedpyright = {
-            analysis = {
-                autoImportCompletions = true,
-                autoSearchPaths = true,
-                diagnosticMode = "openFilesOnly",
-                useLibraryCodeForype = true,
-            },
-        },
+        ty = {},
     },
 })
-vim.lsp.enable("basedpyright")
+vim.lsp.enable("ty")
 
 local prettier = require("efmls-configs.formatters.prettier")
 local eslint = require("efmls-configs.linters.eslint")
@@ -211,8 +219,9 @@ local languages = {
         require("efmls-configs.formatters.stylua"),
     },
     python = {
-        require("efmls-configs.formatters.black"),
-        require("efmls-configs.formatters.isort"),
+        -- require("efmls-configs.formatters.black"),
+        -- require("efmls-configs.formatters.isort"),
+        require("efmls-configs.formatters.ruff"),
     },
     -- nix = {
     -- 	require("efmls-configs.formatters.nixfmt"),
