@@ -676,11 +676,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1768463046,
-        "narHash": "sha256-otQlBRANSuPjZE1A2co6I+VQoucYEZFQQmbXuFi2E6s=",
+        "lastModified": 1768705402,
+        "narHash": "sha256-o+yAv571zSGJAd+hsREfAu6VHxhgoWaHcjHyYDLJ38E=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "523a7770e5c36a59cffc3e5210e405f6f0312e0c",
+        "rev": "f829ced7880158daadcc68378cb349f632b41dc3",
         "type": "github"
       },
       "original": {
@@ -926,7 +926,8 @@
         "ragenix": "ragenix",
         "rsvpub": "rsvpub",
         "rust-overlay": "rust-overlay",
-        "systems": "systems_2"
+        "systems": "systems_2",
+        "wrappers": "wrappers"
       }
     },
     "rsvpub": {
@@ -1020,6 +1021,26 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "wrappers": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768743035,
+        "narHash": "sha256-W1zQsOm0c6qozBVAF1NZSVQgxYrQS4LWiDUFlV62kHI=",
+        "owner": "BirdeeHub",
+        "repo": "nix-wrapper-modules",
+        "rev": "521bef75e6e8c3731ae7c2dfc513960101352041",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BirdeeHub",
+        "repo": "nix-wrapper-modules",
         "type": "github"
       }
     },

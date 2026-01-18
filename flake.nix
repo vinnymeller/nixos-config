@@ -8,6 +8,11 @@
 
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
+    wrappers = {
+      url = "github:BirdeeHub/nix-wrapper-modules";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     systems.url = "github:nix-systems/default";
 
     rsvpub = {

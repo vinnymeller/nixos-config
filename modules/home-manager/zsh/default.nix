@@ -72,34 +72,20 @@ in
         zsh-completions
       ]
       ++ [
-        (pkgs.llm-agents.claude-code.overrideAttrs (
-          finalAttrs: prevAttrs: {
-            postInstall = ''
-              wrapProgram $out/bin/claude \
-                --set DISABLE_AUTOUPDATER 1 \
-                --set CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC 1 \
-                --set DISABLE_NON_ESSENTIAL_MODEL_CALLS 1 \
-                --set DISABLE_TELEMETRY 1 \
-                --set DISABLE_INSTALLATION_CHECKS 1 \
-                --unset DEV \
-                --unset ANTHROPIC_API_KEY \
-                --prefix PATH : ${
-                  lib.makeBinPath (
-                    with pkgs;
-                    [
-                      nodejs_24
-                      uv
-                      bun
-                      python3
-                      libnotify
-                      jq
-                      bash
-                    ]
-                  )
-                }
-            '';
-          }
-        ))
+        (inputs.wrappers.wrappedModules.claude-code.wrap {
+          inherit pkgs;
+          package = pkgs.llm-agents.claude-code;
+          extraPackages = with pkgs; [
+            nodejs_24
+            uv
+            bun
+            python3
+            libnotify
+            jq
+            bash
+          ];
+          strictMcpConfig = false;
+        })
       ];
     programs.zsh = {
       enable = true;
@@ -261,6 +247,7 @@ in
       nfu = "nix flake update";
       nru = "NIXPKGS_ALLOW_UNFREE=1 nix run --impure";
       nsu = "NIXPKGS_ALLOW_UNFREE=1 nix shell --impure";
+      nbu = "NIXPKGS_ALLOW_UNFREE=1 nix build --impure";
       path = "path() { realpath $(which $1); }; path";
       lg = "lazygit";
     };
