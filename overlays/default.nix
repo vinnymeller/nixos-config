@@ -8,21 +8,21 @@ in
 
   master-pkgs-overlay = final: prev: {
     master-pkgs = import inputs.nixpkgs-master {
-      system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
   };
 
   stable-pkgs-overlay = final: prev: {
-    stable-pkgs = import inputs.nixpkgs-stable { system = final.system; };
+    stable-pkgs = import inputs.nixpkgs-stable { system = final.stdenv.hostPlatform.system; };
   };
 
   ragenix = final: prev: {
-    ragenix = inputs.ragenix.packages.${final.system}.default;
+    ragenix = inputs.ragenix.packages.${final.stdenv.hostPlatform.system}.default;
   };
 
   llm-agents = final: prev: {
-    llm-agents = inputs.llm-agents.packages.${final.system};
+    llm-agents = inputs.llm-agents.packages.${final.stdenv.hostPlatform.system};
   };
 
   remove-0xproto-italics = final: prev: {
