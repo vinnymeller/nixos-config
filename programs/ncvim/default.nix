@@ -65,8 +65,7 @@ let
 
             # nixd uses nixpkgs-fmt
             nixd
-            nixpkgs-fmt
-            nixfmt-rfc-style
+            nixfmt
 
             # nodePackages.eslint
             nodePackages.sql-formatter

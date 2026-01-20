@@ -197,6 +197,12 @@
     gnome.gnome-keyring.enable = true;
     gvfs.enable = true;
     udisks2.enable = true;
+    resolved = {
+      enable = true;
+      settings = {
+        Resolve = { };
+      };
+    };
     tailscale = {
       enable = true;
       authKeyFile = config.age.secrets.vinnix-tailscale-authkey.path;
