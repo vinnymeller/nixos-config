@@ -28,7 +28,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         nmap("gr", "<cmd>lua require('fzf-lua').lsp_references()<CR>", "[G]oto [R]eferences")
         nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
         nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
-        nmap("<leader>lr", "<cmd>LspRestart | e!<CR>", "[L]sp [R]estart")
+        nmap("<leader>lr", "<cmd>lsp restart<CR>", "[L]sp [R]estart")
 
         -- See `:help K` for why this keymap
         nmap("K", "<cmd>lua vim.lsp.buf.hover({border='rounded'})<CR>", "Hover Documentation")
@@ -51,15 +51,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
             end
         end, { desc = "Format current buffer with LSP" })
 
-        -- for python files, auto format on save
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = event.buf,
-            callback = function()
-                if vim.bo.filetype == "python" then
-                    vim.lsp.buf.format()
-                end
-            end,
-        })
 
         if client ~= nil and client.server_capabilities.inlayHintProvider then
             vim.lsp.inlay_hint.enable(true)
