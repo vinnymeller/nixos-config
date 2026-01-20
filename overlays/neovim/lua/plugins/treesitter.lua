@@ -1,92 +1,133 @@
 vim.opt.runtimepath:append("$HOME/.local/share/treesitter")
 
+---@param buf integer
+---@param language string
+local function treesitter_try_attach(buf, language)
+	-- check if parser exists and load it
+	if not vim.treesitter.language.add(language) then
+		return false
+	end
+	-- enables syntax highlighting and other treesitter features
+	vim.treesitter.start(buf, language)
+
+	-- enables treesitter based folds
+	vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+	vim.opt.foldlevel = 99
+	vim.opt.foldlevelstart = 99
+
+	-- enables treesitter based indentation
+	vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+	return true
+end
+
+local installable_parsers = require("nvim-treesitter").get_available()
+vim.api.nvim_create_autocmd("FileType", {
+	callback = function(args)
+		local buf, filetype = args.buf, args.match
+		local language = vim.treesitter.language.get_lang(filetype)
+		if not language then
+			return
+		end
+
+		if not treesitter_try_attach(buf, language) then
+			if vim.tbl_contains(installable_parsers, language) then
+				-- not already installed, so try to install them via nvim-treesitter if possible
+				require("nvim-treesitter").install(language):await(function()
+					treesitter_try_attach(buf, language)
+				end)
+			end
+		end
+	end,
+})
+
 vim.api.nvim_create_augroup("_cmd_win", { clear = true })
 vim.api.nvim_create_autocmd("CmdWinEnter", {
-    callback = function()
-        vim.keymap.del("n", "<CR>", { buffer = true })
-    end,
-    group = "_cmd_win",
+	callback = function()
+		vim.keymap.del("n", "<CR>", { buffer = true })
+	end,
+	group = "_cmd_win",
 })
 
 require("nvim-treesitter-textobjects").setup({
-    select = {
-        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-    },
+	select = {
+		lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+	},
 })
 
 -- select keymaps
 vim.keymap.set({ "x", "o" }, "am", function()
-    require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")
+	require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")
 end)
 vim.keymap.set({ "x", "o" }, "im", function()
-    require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects")
+	require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects")
 end)
 vim.keymap.set({ "x", "o" }, "ac", function()
-    require("nvim-treesitter-textobjects.select").select_textobject("@class.outer", "textobjects")
+	require("nvim-treesitter-textobjects.select").select_textobject("@class.outer", "textobjects")
 end)
 vim.keymap.set({ "x", "o" }, "ic", function()
-    require("nvim-treesitter-textobjects.select").select_textobject("@class.inner", "textobjects")
+	require("nvim-treesitter-textobjects.select").select_textobject("@class.inner", "textobjects")
 end)
 -- You can also use captures from other query groups like `locals.scm`
 vim.keymap.set({ "x", "o" }, "as", function()
-    require("nvim-treesitter-textobjects.select").select_textobject("@local.scope", "locals")
+	require("nvim-treesitter-textobjects.select").select_textobject("@local.scope", "locals")
 end)
 
 -- swap keymaps
 vim.keymap.set("n", "<leader>a", function()
-    require("nvim-treesitter-textobjects.swap").swap_next("@parameter.inner")
+	require("nvim-treesitter-textobjects.swap").swap_next("@parameter.inner")
 end)
 vim.keymap.set("n", "<leader>A", function()
-    require("nvim-treesitter-textobjects.swap").swap_previous("@parameter.outer")
+	require("nvim-treesitter-textobjects.swap").swap_previous("@parameter.outer")
 end)
 
 -- move keymaps
 vim.keymap.set({ "n", "x", "o" }, "]m", function()
-    require("nvim-treesitter-textobjects.move").goto_next_start("@function.outer", "textobjects")
+	require("nvim-treesitter-textobjects.move").goto_next_start("@function.outer", "textobjects")
 end)
 vim.keymap.set({ "n", "x", "o" }, "]]", function()
-    require("nvim-treesitter-textobjects.move").goto_next_start("@class.outer", "textobjects")
+	require("nvim-treesitter-textobjects.move").goto_next_start("@class.outer", "textobjects")
 end)
 -- You can also pass a list to group multiple queries.
 vim.keymap.set({ "n", "x", "o" }, "]o", function()
-    require("nvim-treesitter-textobjects.move").goto_next_start({ "@loop.inner", "@loop.outer" }, "textobjects")
+	require("nvim-treesitter-textobjects.move").goto_next_start({ "@loop.inner", "@loop.outer" }, "textobjects")
 end)
 -- You can also use captures from other query groups like `locals.scm` or `folds.scm`
 vim.keymap.set({ "n", "x", "o" }, "]s", function()
-    require("nvim-treesitter-textobjects.move").goto_next_start("@local.scope", "locals")
+	require("nvim-treesitter-textobjects.move").goto_next_start("@local.scope", "locals")
 end)
 vim.keymap.set({ "n", "x", "o" }, "]z", function()
-    require("nvim-treesitter-textobjects.move").goto_next_start("@fold", "folds")
+	require("nvim-treesitter-textobjects.move").goto_next_start("@fold", "folds")
 end)
 
 vim.keymap.set({ "n", "x", "o" }, "]M", function()
-    require("nvim-treesitter-textobjects.move").goto_next_end("@function.outer", "textobjects")
+	require("nvim-treesitter-textobjects.move").goto_next_end("@function.outer", "textobjects")
 end)
 vim.keymap.set({ "n", "x", "o" }, "][", function()
-    require("nvim-treesitter-textobjects.move").goto_next_end("@class.outer", "textobjects")
+	require("nvim-treesitter-textobjects.move").goto_next_end("@class.outer", "textobjects")
 end)
 
 vim.keymap.set({ "n", "x", "o" }, "[m", function()
-    require("nvim-treesitter-textobjects.move").goto_previous_start("@function.outer", "textobjects")
+	require("nvim-treesitter-textobjects.move").goto_previous_start("@function.outer", "textobjects")
 end)
 vim.keymap.set({ "n", "x", "o" }, "[[", function()
-    require("nvim-treesitter-textobjects.move").goto_previous_start("@class.outer", "textobjects")
+	require("nvim-treesitter-textobjects.move").goto_previous_start("@class.outer", "textobjects")
 end)
 
 vim.keymap.set({ "n", "x", "o" }, "[M", function()
-    require("nvim-treesitter-textobjects.move").goto_previous_end("@function.outer", "textobjects")
+	require("nvim-treesitter-textobjects.move").goto_previous_end("@function.outer", "textobjects")
 end)
 vim.keymap.set({ "n", "x", "o" }, "[]", function()
-    require("nvim-treesitter-textobjects.move").goto_previous_end("@class.outer", "textobjects")
+	require("nvim-treesitter-textobjects.move").goto_previous_end("@class.outer", "textobjects")
 end)
 
 -- Go to either the start or the end, whichever is closer.
 -- Use if you want more granular movements
 vim.keymap.set({ "n", "x", "o" }, "]d", function()
-    require("nvim-treesitter-textobjects.move").goto_next("@conditional.outer", "textobjects")
+	require("nvim-treesitter-textobjects.move").goto_next("@conditional.outer", "textobjects")
 end)
 vim.keymap.set({ "n", "x", "o" }, "[d", function()
-    require("nvim-treesitter-textobjects.move").goto_previous("@conditional.outer", "textobjects")
+	require("nvim-treesitter-textobjects.move").goto_previous("@conditional.outer", "textobjects")
 end)
 
 -- repeatables
@@ -104,7 +145,7 @@ vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = t
 vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
 
 require("treesitter-context").setup({
-    enable = true,
+	enable = true,
 })
 
 local gs = require("gitsigns")
@@ -115,7 +156,7 @@ vim.keymap.set({ "n", "x", "o" }, "[h", gs.prev_hunk, { desc = "Previous Git hun
 vim.keymap.set({ "x", "o" }, "ih", gs.select_hunk, { desc = "Select Git hunk" })
 
 vim.keymap.set("n", "[c", function()
-    require("treesitter-context").go_to_context(vim.v.count1)
+	require("treesitter-context").go_to_context(vim.v.count1)
 end, { silent = true })
 
 -- folds
