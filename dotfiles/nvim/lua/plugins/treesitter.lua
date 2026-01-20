@@ -110,8 +110,12 @@ require("treesitter-context").setup({
 local gs = require("gitsigns")
 --
 -- local next_hunk_repeat, prev_hunk_repeat = ts_repeat_move.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
-vim.keymap.set({ "n", "x", "o" }, "]h", gs.next_hunk, { desc = "Next Git hunk" })
-vim.keymap.set({ "n", "x", "o" }, "[h", gs.prev_hunk, { desc = "Previous Git hunk" })
+vim.keymap.set({ "n", "x", "o" }, "]h", function()
+    gs.nav_hunk("next")
+end, { desc = "Next Git hunk" })
+vim.keymap.set({ "n", "x", "o" }, "[h", function()
+    gs.nav_hunk("prev")
+end, { desc = "Previous Git hunk" })
 vim.keymap.set({ "x", "o" }, "ih", gs.select_hunk, { desc = "Select Git hunk" })
 
 vim.keymap.set("n", "[c", function()
