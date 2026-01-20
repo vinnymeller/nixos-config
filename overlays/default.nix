@@ -33,3 +33,4 @@
   };
 
 }
+// import ./agents { inherit inputs; }

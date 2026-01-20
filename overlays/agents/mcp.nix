@@ -1,8 +1,12 @@
 { pkgs }:
+let
+  npx = "${pkgs.nodejs}/bin/npx";
+  uvx = "${pkgs.uv}/bin/uvx";
+in
 {
   chrome-devtools = {
     type = "stdio";
-    command = "npx";
+    command = npx;
     args = [
       "chrome-devtools-mcp@latest"
       "--executablePath=${pkgs.google-chrome}/bin/google-chrome-stable"
@@ -11,7 +15,7 @@
   };
   context7 = {
     type = "stdio";
-    command = "npx";
+    command = npx;
     args = [
       "-y"
       "@upstash/context7-mcp"
@@ -26,9 +30,9 @@
     ];
     env = { };
   };
-  zen = {
+  pal = {
     type = "stdio";
-    command = "uvx";
+    command = uvx;
     args = [
       "--from"
       "git+https://github.com/BeehiveInnovations/pal-mcp-server.git"

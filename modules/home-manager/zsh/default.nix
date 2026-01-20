@@ -2,8 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
-  myUtils,
   ...
 }:
 let
@@ -14,14 +12,6 @@ let
     types
     ;
   cfg = config.mine.zsh;
-  std = inputs.nix-std.lib;
-  mcpConfig = import ./mcpConfig.nix { inherit pkgs; };
-  claudeMcpConfig = {
-    mcpServers = mcpConfig;
-  };
-  codexMcpConfig = {
-    mcp_servers = mcpConfig;
-  };
 in
 {
   imports = [
@@ -43,50 +33,33 @@ in
     xdg.enable = true;
 
     # zsh doesn't have an extraPackages option, so we have to add them to home.packages
-    home.packages =
-      with pkgs;
-      [
-        devenv
-        twm
-        jq
-        ijq
-        lsof
-        yj
-        ripgrep
-        lazygit
-        watchexec
-        yazi
-        dua
-        bat
-        broot
-        nh
-        duf
-        eza
-        fd
-        nix-zsh-completions
-        zsh-powerlevel10k
-        zsh-vi-mode
-        zsh-you-should-use
-        zsh-fast-syntax-highlighting
-        zsh-autocomplete
-        zsh-completions
-      ]
-      ++ [
-        (inputs.wrappers.wrappedModules.claude-code.wrap {
-          inherit pkgs;
-          package = pkgs.llm-agents.claude-code;
-          extraPackages = with pkgs; [
-            nodejs_24
-            uv
-            bun
-            python3
-            libnotify
-            jq
-            bash
-          ];
-          strictMcpConfig = false;
-        })
-      ];
+    home.packages = with pkgs; [
+      devenv
+      twm
+      jq
+      ijq
+      lsof
+      yj
+      ripgrep
+      lazygit
+      watchexec
+      yazi
+      dua
+      bat
+      broot
+      nh
+      duf
+      eza
+      fd
+      nix-zsh-completions
+      zsh-powerlevel10k
+      zsh-vi-mode
+      zsh-you-should-use
+      zsh-fast-syntax-highlighting
+      zsh-autocomplete
+      zsh-completions
+      claude-code
+    ];
     programs.zsh = {
       enable = true;
       enableCompletion = false;
@@ -193,40 +166,6 @@ in
       text = "echo $ANTHROPIC_API_KEY";
       executable = true;
     };
-
-    home.activation =
-      let
-        claudeMcpFile = pkgs.writeTextFile {
-          name = "claude-mcp.json";
-          text = (std.serde.toJSON claudeMcpConfig);
-        };
-        codexMcpFile = pkgs.writeTextFile {
-          name = "codex-mcp.json";
-          text = (std.serde.toJSON codexMcpConfig);
-        };
-      in
-      {
-        mergeClaudeDotJson = myUtils.mergeJsonTopLevel {
-          pkgs = pkgs;
-          mergeInto = "${config.home.homeDirectory}/.claude.json";
-          mergeFrom = claudeMcpFile;
-        };
-        mergeGeminiDotJson = myUtils.mergeJsonTopLevel {
-          pkgs = pkgs;
-          mergeInto = "${config.home.homeDirectory}/.gemini/settings.json";
-          mergeFrom = claudeMcpFile;
-        };
-        mergeCodexDotToml = myUtils.mergeIntoTomlFromJsonTopLevel {
-          pkgs = pkgs;
-          mergeInto = "${config.home.homeDirectory}/.codex/config.toml";
-          mergeFrom = codexMcpFile;
-        };
-        mergeClaudeSettings = myUtils.mergeJsonDeep {
-          pkgs = pkgs;
-          mergeInto = "${config.home.homeDirectory}/.claude/settings.json";
-          mergeFrom = "${../../../dotfiles/claude/settings.json}";
-        };
-      };
 
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;

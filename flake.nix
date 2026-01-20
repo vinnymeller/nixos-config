@@ -161,6 +161,7 @@
         import nixpkgs {
           localSystem = system;
           overlays = self.overlayList;
+          config.allowUnfree = true;
         }
       );
 
@@ -178,7 +179,16 @@
 
       formatter = eachSystem (system: pkgsFor.${system}.nixfmt);
 
-      packages = eachSystem (system: import ./pkgs { pkgs = pkgsFor.${system}; }) // myNixCats.packages;
+      packages = eachSystem (
+        system:
+        let
+          pkgs = pkgsFor.${system};
+        in
+        {
+          neovim = myNixCats.packages.${system}.default;
+          claude-code = pkgs.claude-code;
+        }
+      );
 
       devShells = eachSystem (system: import ./shell.nix { pkgs = pkgsFor.${system}; });
 
