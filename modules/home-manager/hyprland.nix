@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 let
@@ -17,8 +16,8 @@ in
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland = {
       enable = true;
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-      portalPackage = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+      package = null;
+      portalPackage = null;
       xwayland.enable = true;
       systemd.variables = [ "--all" ];
       settings = {
@@ -246,11 +245,19 @@ in
     services.hyprpaper = {
       enable = true;
       settings = {
+        splash = false;
         preload = [
-          "${config.home.homeDirectory}/.nixdots/files/avatar-wallpaper.png"
+          "${../../files/avatar-wallpaper.png}"
         ];
         wallpaper = [
-          ", ${config.home.homeDirectory}/.nixdots/files/avatar-wallpaper.png"
+          {
+            monitor = "DP-2";
+            path = "${../../files/avatar-wallpaper.png}";
+          }
+          {
+            monitor = "DP-1";
+            path = "${../../files/avatar-wallpaper.png}";
+          }
         ];
       };
     };
@@ -272,7 +279,7 @@ in
 
         background = [
           {
-            path = "${config.home.homeDirectory}/.nixdots/files/avatar-wallpaper.png";
+            path = "${../../files/avatar-wallpaper.png}";
             blur_passes = 3;
             blur_size = 8;
           }
