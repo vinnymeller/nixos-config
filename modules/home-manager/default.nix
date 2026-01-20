@@ -33,7 +33,6 @@ in
       kitty.enable = cfg.vinny.enable;
       nix.enable = cfg.vinny.enable;
       nixpkgs.enable = mkIf config.hmStandalone true;
-      nvim.enable = cfg.vinny.enable;
       pkgs.enable = cfg.vinny.enable;
       secrets.enable = cfg.vinny.enable;
       tmux.enable = cfg.vinny.enable;

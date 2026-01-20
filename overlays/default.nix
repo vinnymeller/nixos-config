@@ -1,4 +1,8 @@
 { inputs, ... }:
+let
+  nvimmod = inputs.nixpkgs.lib.modules.importApply ./neovim inputs;
+  nvimWrapper = inputs.wrappers.lib.evalModule nvimmod;
+in
 {
   cust-pkgs = final: prev: import ../pkgs { pkgs = final; };
 
@@ -32,5 +36,8 @@
     );
   };
 
+  claude-code = import ./agents { inherit inputs; };
+
+  neovim = final: prev: { neovim = nvimWrapper.config.wrap { pkgs = final; }; };
+
 }
-// import ./agents { inherit inputs; }

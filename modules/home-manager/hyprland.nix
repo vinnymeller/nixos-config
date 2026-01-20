@@ -364,10 +364,10 @@ in
       defaultApplications =
         let
           browser = "google-chrome.desktop";
-          discord = "discord.desktop";
+          discord = "discord-canary.desktop";
           imageViewer = "feh.desktop";
           videoPlayer = "vlc.desktop";
-          editor = "nixCats.desktop";
+          editor = "nvim.desktop";
           fileManager = "nemo.desktop";
         in
         {

@@ -117,8 +117,6 @@
       url = "github:vinnymeller/github-nix-ci";
     };
 
-    nixCats.url = "github:BirdeeHub/nixCats-nvim";
-
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs = {
@@ -165,15 +163,12 @@
         }
       );
 
-      myNixCats = import ./programs/ncvim { inherit inputs; };
-
       mkUtils = import ./utils {
         lib = nixpkgs.lib;
         hmLib = home-manager.lib;
       };
     in
     {
-      myNixCats = myNixCats;
 
       lib.myUtils = mkUtils;
 
@@ -185,7 +180,7 @@
           pkgs = pkgsFor.${system};
         in
         {
-          neovim = myNixCats.packages.${system}.default;
+          neovim = pkgs.neovim;
           claude-code = pkgs.claude-code;
         }
       );

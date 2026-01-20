@@ -59,6 +59,7 @@ in
       zsh-autocomplete
       zsh-completions
       claude-code
+      neovim
     ];
     programs.zsh = {
       enable = true;

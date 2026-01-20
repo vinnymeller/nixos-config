@@ -1,0 +1,10 @@
+-- TODO: uncomment gitsigns every so often to see if it fuckin works yet because im too lazy to debug the issue
+require("gitsigns").setup({
+    signs = {
+        add = { text = "+" },
+        change = { text = "~" },
+        delete = { text = "_" },
+        topdelete = { text = "‾" },
+        changedelete = { text = "~" },
+    },
+})
