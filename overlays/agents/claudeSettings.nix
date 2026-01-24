@@ -4,6 +4,8 @@
   includeCoAuthoredBy = false;
   permissions = {
     allow = [
+      "Skill" # allow all skills
+
       "Bash(cat:*)"
       "Bash(head:*)"
       "Bash(tail:*)"
@@ -18,7 +20,6 @@
       "Bash(find:*)"
       "Bash(fd:*)"
       "Bash(jq:*)"
-      "Skill(superpowers:*)"
       "WebFetch(domain:github.com)"
       "WebSearch"
 
@@ -50,7 +51,7 @@
       "mcp__chrome-devtools__wait_for"
 
       "mcp__context7__resolve-library-id"
-      "mcp__context7__get-library-docs"
+      "mcp__context7__query-docs"
 
       "mcp__github__add_issue_comment"
       "mcp__github__add_pull_request_review_comment_to_pending_review"

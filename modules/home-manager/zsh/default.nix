@@ -162,11 +162,6 @@ in
     };
 
     home.file.".config/zsh/.p10k.zsh".source = ../../../dotfiles/zsh/.p10k.zsh;
-    home.file.".claude/CLAUDE.md".source = ../../../dotfiles/claude/CLAUDE.md;
-    home.file.".claude/anthropic_key.sh" = {
-      text = "echo $ANTHROPIC_API_KEY";
-      executable = true;
-    };
 
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;
