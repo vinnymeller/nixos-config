@@ -1,6 +1,6 @@
 { inputs, ... }:
 final: prev: {
-  claude-code = inputs.wrappers.wrappedModules.claude-code.wrap {
+  claude-code = inputs.wrapper-modules.wrappers.claude-code.wrap {
     pkgs = final;
     package = final.llm-agents.claude-code;
     extraPackages = with final; [

@@ -1,7 +1,7 @@
 { inputs, ... }:
 let
   nvimmod = inputs.nixpkgs.lib.modules.importApply ./neovim inputs;
-  nvimWrapper = inputs.wrappers.lib.evalModule nvimmod;
+  nvimWrapper = inputs.wrapper-modules.lib.evalModule nvimmod;
 in
 {
   cust-pkgs = final: prev: import ../pkgs { pkgs = final; };
