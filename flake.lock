@@ -83,6 +83,54 @@
         "type": "github"
       }
     },
+    "claude-plugins-gsd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769213553,
+        "narHash": "sha256-zm6Qr5Fk8AvlG7PcJOGBeed+PfbEPzE0swIljlgzyuY=",
+        "owner": "glittercowboy",
+        "repo": "get-shit-done",
+        "rev": "3d2a960cd9432147597bd71bfc70b77f2ff8667c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "glittercowboy",
+        "repo": "get-shit-done",
+        "type": "github"
+      }
+    },
+    "claude-plugins-official": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1768973887,
+        "narHash": "sha256-OxIrvISdHK/gULDc4alD4T4tivjfb5R6wBs/kUhVhiY=",
+        "owner": "anthropics",
+        "repo": "claude-plugins-official",
+        "rev": "e30768372b4150ca1bc0839d93283e8edc30d60d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anthropics",
+        "repo": "claude-plugins-official",
+        "type": "github"
+      }
+    },
+    "claude-plugins-superpowers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769198953,
+        "narHash": "sha256-qccVXJuYR4HCHKmcozFxmWtvP4SK7tbVrnoNIpUB/6g=",
+        "owner": "obra",
+        "repo": "superpowers",
+        "rev": "469a6d81ebb8b827e284d4afb090c6c622d97747",
+        "type": "github"
+      },
+      "original": {
+        "owner": "obra",
+        "repo": "superpowers",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1768873933,
@@ -890,6 +938,9 @@
       "inputs": {
         "agenix": "agenix",
         "blueprint": "blueprint",
+        "claude-plugins-gsd": "claude-plugins-gsd",
+        "claude-plugins-official": "claude-plugins-official",
+        "claude-plugins-superpowers": "claude-plugins-superpowers",
         "crane": "crane",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
@@ -1015,15 +1066,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1769218183,
-        "narHash": "sha256-4VKcuNhkl03W9A/KMWx3Evpcc3Po4+Th7uC5VmFyqAM=",
-        "owner": "BirdeeHub",
+        "lastModified": 1769290103,
+        "narHash": "sha256-9f17T/Ukvl8L4eA+tWaL6zFZCxsOHhtDp9sE7ovCCTs=",
+        "owner": "vinnymeller",
         "repo": "nix-wrapper-modules",
-        "rev": "9a9f10119294b22de06f62b38cf7c41f12adbdc6",
+        "rev": "29dc3151aaf050ef19f4514e91f33ff77a52fe7b",
         "type": "github"
       },
       "original": {
-        "owner": "BirdeeHub",
+        "owner": "vinnymeller",
+        "ref": "improve-claude-module",
         "repo": "nix-wrapper-modules",
         "type": "github"
       }

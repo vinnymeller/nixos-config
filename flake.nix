@@ -9,8 +9,23 @@
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
     wrapper-modules = {
-      url = "github:BirdeeHub/nix-wrapper-modules";
+      url = "github:vinnymeller/nix-wrapper-modules/improve-claude-module";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    claude-plugins-official = {
+      url = "github:anthropics/claude-plugins-official";
+      flake = false;
+    };
+
+    claude-plugins-superpowers = {
+      url = "github:obra/superpowers";
+      flake = false;
+    };
+
+    claude-plugins-gsd = {
+      url = "github:glittercowboy/get-shit-done";
+      flake = false;
     };
 
     systems.url = "github:nix-systems/default";
