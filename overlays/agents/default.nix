@@ -1,8 +1,19 @@
 { inputs, ... }:
 final: prev:
 let
-  claudePluginsPatched = final.stdenvNoCC.mkDerivation {
-    pname = "claude-plugins-official-patched";
+  # List of official plugins to include (explicit list for clarity)
+  officialPluginNames = [
+    "ralph-loop"
+    "pr-review-toolkit"
+    "frontend-design"
+    "feature-dev"
+    "code-review"
+    "code-simplifier"
+  ];
+
+  # Extract and patch only the plugins we actually use
+  patchedPlugins = final.stdenvNoCC.mkDerivation {
+    pname = "claude-plugins-patched";
     version = "0";
     src = inputs.claude-plugins-official;
     dontBuild = true;
@@ -13,16 +24,44 @@ let
 
     installPhase = ''
       runHook preInstall
-
-      mkdir -p "$out"
-      cp -R . "$out/"
+      mkdir -p "$out/plugins"
+      ${final.lib.concatMapStringsSep "\n" (name: ''
+        cp -R "./plugins/${name}" "$out/plugins/"
+      '') officialPluginNames}
       chmod -R u+w "$out"
-
       patchShebangs "$out"
-
       runHook postInstall
     '';
   };
+
+  pluginPath = name: "${patchedPlugins}/plugins/${name}";
+
+  # Auto-discover skills from the skills/ directory
+  skillsDir = ./skills;
+  skillFiles = builtins.attrNames (
+    final.lib.filterAttrs (name: type: type == "regular" && final.lib.hasSuffix ".md" name) (
+      builtins.readDir skillsDir
+    )
+  );
+
+  # Build a skill plugin from a markdown file
+  mkSkill =
+    filename:
+    let
+      name = final.lib.removeSuffix ".md" filename;
+      content = builtins.readFile (skillsDir + "/${filename}");
+    in
+    final.symlinkJoin {
+      name = "skill-${name}";
+      paths = [
+        (final.writeTextDir "skills/${name}/SKILL.md" content)
+        (final.writeTextDir ".claude-plugin/plugin.json" ''
+          {"name": "${name}", "version": "1.0.0"}
+        '')
+      ];
+    };
+
+  customSkills = map mkSkill skillFiles;
 in
 {
   claude-code = inputs.wrapper-modules.wrappers.claude-code.wrap {
@@ -36,6 +75,8 @@ in
       libnotify
       jq
       bash
+      codex
+      gemini-cli
     ];
     mcpConfig = import ./mcp.nix { pkgs = final; };
     strictMcpConfig = false;
@@ -49,20 +90,6 @@ in
       '';
     };
     pluginDirs =
-      let
-        official' = pname: "${claudePluginsPatched}/plugins/${pname}";
-        official = map official' [
-          "ralph-loop"
-          "pr-review-toolkit"
-          "frontend-design"
-          "feature-dev"
-          "code-review"
-          "code-simplifier"
-        ];
-      in
-      [
-        inputs.claude-plugins-superpowers
-      ]
-      ++ official;
+      (map pluginPath officialPluginNames) ++ [ inputs.claude-plugins-superpowers ] ++ customSkills;
   };
 }
