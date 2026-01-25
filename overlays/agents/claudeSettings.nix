@@ -9,6 +9,7 @@
   feedbackSurveyState = {
     lastShownTime = 2754365161758;
   };
+  plansDirectory = "./plans";
   permissions = {
     allow = [
       "Skill" # allow all skills
