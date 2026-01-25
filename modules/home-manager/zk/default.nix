@@ -18,6 +18,6 @@ in
       fzf
     ];
 
-    home.file.".config/zk".source = ../../dotfiles/zk;
+    home.file.".config/zk".source = ./cfg;
   };
 }

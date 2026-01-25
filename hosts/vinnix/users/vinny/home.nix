@@ -70,6 +70,4 @@ in
   programs.spotify-player.enable = true;
 
   programs.command-not-found.enable = false;
-
-  home.file.".config/nixpkgs".source = ../../../../dotfiles/nixpkgs;
 }

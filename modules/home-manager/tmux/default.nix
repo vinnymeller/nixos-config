@@ -14,7 +14,7 @@ in
 
   config = mkIf cfg.enable {
     programs.tmux.enable = true;
-    programs.tmux.extraConfig = builtins.readFile ../../dotfiles/.tmux.conf;
+    programs.tmux.extraConfig = builtins.readFile ./.tmux.conf;
     home.sessionVariables = {
       TMUX_TMPDIR = mkForce "/tmp";
     };

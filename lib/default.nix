@@ -6,7 +6,7 @@
       (lib.filterAttrs (name: type: type == "directory" || lib.hasSuffix ".nix" name))
       builtins.attrNames
       (builtins.filter (name: name != "default.nix"))
-      (builtins.map (name: dir + "/${name}"))
+      (map (name: dir + "/${name}"))
     ];
 
   mergeJsonTopLevel =

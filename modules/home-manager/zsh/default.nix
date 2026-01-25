@@ -88,7 +88,8 @@ in
           source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
           source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-          source ${config.xdg.configHome}/zsh/.p10k.zsh
+          # source ${config.xdg.configHome}/zsh/.p10k.zsh
+          source ${./.p10k.zsh}
           source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
           source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
           source ${pkgs.nix-zsh-completions}/share/zsh/plugins/nix/nix-zsh-completions.plugin.zsh
@@ -106,7 +107,6 @@ in
 
           set -o vi
           export TWM_DEFAULT="default"
-          export TWM_CONFIG_FILE="$HOME/.nixdots/dotfiles/twm/twm.yaml"
 
           export EDITOR="nv"
           export VISUAL="nv" # dont know what this is for tbh
@@ -161,7 +161,7 @@ in
       enableZshIntegration = true;
     };
 
-    home.file.".config/zsh/.p10k.zsh".source = ../../../dotfiles/zsh/.p10k.zsh;
+    home.file.".config/twm".source = ./twm;
 
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;

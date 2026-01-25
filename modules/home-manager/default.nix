@@ -26,7 +26,6 @@ in
 
   config = {
     programs.home-manager.enable = true;
-    home.file.".config/nixpkgs".source = ../../dotfiles/nixpkgs;
     mine = {
       git.enable = cfg.vinny.enable;
       hyprland.enable = cfg.vinny.hyprland;
