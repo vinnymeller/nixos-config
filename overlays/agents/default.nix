@@ -4,7 +4,6 @@ let
   # List of official plugins to include (explicit list for clarity)
   officialPluginNames = [
     "ralph-loop"
-    "pr-review-toolkit"
     "frontend-design"
     "feature-dev"
     "code-review"
@@ -28,6 +27,7 @@ let
       ${final.lib.concatMapStringsSep "\n" (name: ''
         cp -R "./plugins/${name}" "$out/plugins/"
       '') officialPluginNames}
+      cp -R ".claude-plugin" "$out/"
       chmod -R u+w "$out"
       patchShebangs "$out"
       runHook postInstall
@@ -36,32 +36,6 @@ let
 
   pluginPath = name: "${patchedPlugins}/plugins/${name}";
 
-  # Auto-discover skills from the skills/ directory
-  skillsDir = ./skills;
-  skillFiles = builtins.attrNames (
-    final.lib.filterAttrs (name: type: type == "regular" && final.lib.hasSuffix ".md" name) (
-      builtins.readDir skillsDir
-    )
-  );
-
-  # Build a skill plugin from a markdown file
-  mkSkill =
-    filename:
-    let
-      name = final.lib.removeSuffix ".md" filename;
-      content = builtins.readFile (skillsDir + "/${filename}");
-    in
-    final.symlinkJoin {
-      name = "skill-${name}";
-      paths = [
-        (final.writeTextDir "skills/${name}/SKILL.md" content)
-        (final.writeTextDir ".claude-plugin/plugin.json" ''
-          {"name": "${name}", "version": "1.0.0"}
-        '')
-      ];
-    };
-
-  customSkills = map mkSkill skillFiles;
 in
 {
   claude-code = inputs.wrapper-modules.wrappers.claude-code.wrap {
@@ -89,7 +63,9 @@ in
         - ALWAYS make sure to check which skills or agents might match the user's request before getting started.
       '';
     };
-    pluginDirs =
-      (map pluginPath officialPluginNames) ++ [ inputs.claude-plugins-superpowers ] ++ customSkills;
+    pluginDirs = (map pluginPath officialPluginNames) ++ [
+      inputs.claude-plugins-superpowers
+      ./customPlug
+    ];
   };
 }
