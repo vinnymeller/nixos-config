@@ -9,13 +9,11 @@
 }:
 {
   imports = [
-    # ../../programs/nix
-    # ../../programs/gpg  # no gpg here
-    ../../programs/ssh
     ../../modules/nixos
   ];
 
   mine.networking.enable = false;
+  mine.gpg.enable = false;
 
   wsl = {
     enable = true;

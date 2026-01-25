@@ -20,6 +20,8 @@ in
 
   config = {
     mine = {
+      gpg.enable = mkDefault true;
+      ssh.enable = mkDefault true;
       services = {
         github-runners = mkIf cfg.selfhost {
           enable = mkDefault true;
