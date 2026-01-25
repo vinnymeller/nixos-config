@@ -27,65 +27,69 @@ in
       };
 
       shellIntegration.enableZshIntegration = true;
-      extraConfig = ''
-        term xterm-kitty
-        background_opacity   0.85
-        confirm_os_window_close 0
-        enable_audio_bell    no
+      extraConfig =
+        let
+          c = config.mine.colors;
+        in
+        ''
+          term xterm-kitty
+          background_opacity   0.85
+          confirm_os_window_close 0
+          enable_audio_bell    no
 
-        cursor                  #928374
-        cursor_text_color       background
+          cursor                  ${c.gray}
+          cursor_text_color       background
 
-        url_color               #83a598
+          url_color               ${c.blue-bright}
 
-        visual_bell_color       #8ec07c
-        bell_border_color       #8ec07c
+          visual_bell_color       ${c.cyan-bright}
+          bell_border_color       ${c.cyan-bright}
 
-        active_border_color     #d3869b
-        inactive_border_color   #665c54
+          active_border_color     ${c.magenta-bright}
+          inactive_border_color   ${c.black}
 
-        foreground              #ebdbb2
-        background              #000000
-        selection_foreground    #928374
-        selection_background    #ebdbb2
+          foreground              ${c.fg}
+          background              ${c.bg-dark}
+          selection_foreground    ${c.gray}
+          selection_background    ${c.fg}
 
-        active_tab_foreground   #fbf1c7
-        active_tab_background   #665c54
-        inactive_tab_foreground #a89984
-        inactive_tab_background #3c3836
+          active_tab_foreground   ${c.fg0}
+          active_tab_background   ${c.black}
+          inactive_tab_foreground ${c.white}
+          inactive_tab_background ${c.bg1}
 
-        # black  (bg3/bg4)
-        color0                  #665c54
-        color8                  #7c6f64
+          # black  (bg3/bg4)
+          color0                  ${c.black}
+          color8                  ${c.black-bright}
 
-        # red
-        color1                  #cc241d
-        color9                  #fb4934
+          # red
+          color1                  ${c.red}
+          color9                  ${c.red-bright}
 
-        #: green
-        color2                  #98971a
-        color10                 #b8bb26
+          #: green
+          color2                  ${c.green}
+          color10                 ${c.green-bright}
 
-        # yellow
-        color3                  #d79921
-        color11                 #fabd2f
+          # yellow
+          color3                  ${c.yellow}
+          color11                 ${c.yellow-bright}
 
-        # blue
-        color4                  #458588
-        color12                 #83a598
+          # blue
+          color4                  ${c.blue}
+          color12                 ${c.blue-bright}
 
-        # purple
-        color5                  #b16286
-        color13                 #d3869b
+          # purple
+          color5                  ${c.magenta}
+          color13                 ${c.magenta-bright}
 
-        # aqua
-        color6                  #689d6a
-        color14                 #8ec07c
+          # aqua
+          color6                  ${c.cyan}
+          color14                 ${c.cyan-bright}
 
-        # white (fg4/fg3)
-        color7                  #a89984
-        color15                 #bdae93
-      '';
+          # white (fg4/fg3)
+          color7                  ${c.white}
+          color15                 ${c.white-bright}
+        '';
     };
   };
 }

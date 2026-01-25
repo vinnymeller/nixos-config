@@ -267,6 +267,41 @@ in
       historySize = 1000;
       allowDuplicates = false;
     };
+    services.dunst = {
+      enable = true;
+      iconTheme = {
+        name = "Papirus-Dark";
+        package = pkgs.papirus-icon-theme;
+      };
+      settings = {
+        global = {
+          width = "(200,500)";
+          height = 400;
+          offset = "30x50";
+          origin = "top-right";
+          frame_color = config.mine.colors.black;
+          font = "0xProto Nerd Font 10";
+          corner_radius = 8;
+        };
+        urgency_low = {
+          background = config.mine.colors.bg;
+          foreground = config.mine.colors.white;
+          timeout = 5;
+        };
+        urgency_normal = {
+          background = config.mine.colors.bg;
+          foreground = config.mine.colors.fg;
+          timeout = 10;
+        };
+        urgency_critical = {
+          background = config.mine.colors.bg;
+          foreground = config.mine.colors.red-bright;
+          frame_color = config.mine.colors.red;
+          timeout = 0;
+        };
+
+      };
+    };
     programs.hyprlock = {
       enable = true;
       settings = {

@@ -1,7 +1,14 @@
 { pkgs, ... }:
 {
+  "$schema" = "https://json.schemastore.org/claude-code-settings.json";
   forceLoginMethod = "claudeai";
   includeCoAuthoredBy = false;
+  alwaysThinkingEnabled = true;
+  # undocumented setting state that most likely controls when ill be shown another feedback survey
+  # this timestsamp is in 2057
+  feedbackSurveyState = {
+    lastShownTime = 2754365161758;
+  };
   permissions = {
     allow = [
       "Skill" # allow all skills
@@ -23,120 +30,10 @@
       "WebFetch(domain:github.com)"
       "WebSearch"
 
-      "mcp__chrome-devtools__list_console_messages"
-      "mcp__chrome-devtools__emulate_cpu"
-      "mcp__chrome-devtools__emulate_network"
-      "mcp__chrome-devtools__click"
-      "mcp__chrome-devtools__drag"
-      "mcp__chrome-devtools__fill"
-      "mcp__chrome-devtools__fill_form"
-      "mcp__chrome-devtools__hover"
-      "mcp__chrome-devtools__upload_file"
-      "mcp__chrome-devtools__get_network_request"
-      "mcp__chrome-devtools__list_network_requests"
-      "mcp__chrome-devtools__close_page"
-      "mcp__chrome-devtools__handle_dialog"
-      "mcp__chrome-devtools__list_pages"
-      "mcp__chrome-devtools__navigate_page"
-      "mcp__chrome-devtools__navigate_page_history"
-      "mcp__chrome-devtools__new_page"
-      "mcp__chrome-devtools__resize_page"
-      "mcp__chrome-devtools__select_page"
-      "mcp__chrome-devtools__performance_analyze_insight"
-      "mcp__chrome-devtools__performance_start_trace"
-      "mcp__chrome-devtools__performance_stop_trace"
-      "mcp__chrome-devtools__take_screenshot"
-      "mcp__chrome-devtools__evaluate_script"
-      "mcp__chrome-devtools__take_snapshot"
-      "mcp__chrome-devtools__wait_for"
-
-      "mcp__context7__resolve-library-id"
-      "mcp__context7__query-docs"
-
-      "mcp__github__add_issue_comment"
-      "mcp__github__add_pull_request_review_comment_to_pending_review"
-      "mcp__github__assign_copilot_to_issue"
-      "mcp__github__cancel_workflow_run"
-      "mcp__github__create_and_submit_pull_request_review"
-      "mcp__github__create_branch"
-      "mcp__github__create_issue"
-      "mcp__github__create_or_update_file"
-      "mcp__github__create_pending_pull_request_review"
-      "mcp__github__create_pull_request"
-      "mcp__github__create_repository"
-      "mcp__github__delete_file"
-      "mcp__github__delete_pending_pull_request_review"
-      "mcp__github__delete_workflow_run_logs"
-      "mcp__github__dismiss_notification"
-      "mcp__github__download_workflow_run_artifact"
-      "mcp__github__fork_repository"
-      "mcp__github__get_code_scanning_alert"
-      "mcp__github__get_commit"
-      "mcp__github__get_file_contents"
-      "mcp__github__get_issue"
-      "mcp__github__get_issue_comments"
-      "mcp__github__get_job_logs"
-      "mcp__github__get_me"
-      "mcp__github__get_notification_details"
-      "mcp__github__get_pull_request"
-      "mcp__github__get_pull_request_comments"
-      "mcp__github__get_pull_request_diff"
-      "mcp__github__get_pull_request_files"
-      "mcp__github__get_pull_request_reviews"
-      "mcp__github__get_pull_request_status"
-      "mcp__github__get_secret_scanning_alert"
-      "mcp__github__get_tag"
-      "mcp__github__get_workflow_run"
-      "mcp__github__get_workflow_run_logs"
-      "mcp__github__get_workflow_run_usage"
-      "mcp__github__list_branches"
-      "mcp__github__list_code_scanning_alerts"
-      "mcp__github__list_commits"
-      "mcp__github__list_issues"
-      "mcp__github__list_notifications"
-      "mcp__github__list_pull_requests"
-      "mcp__github__list_secret_scanning_alerts"
-      "mcp__github__list_tags"
-      "mcp__github__list_workflow_jobs"
-      "mcp__github__list_workflow_run_artifacts"
-      "mcp__github__list_workflow_runs"
-      "mcp__github__list_workflows"
-      "mcp__github__manage_notification_subscription"
-      "mcp__github__manage_repository_notification_subscription"
-      "mcp__github__mark_all_notifications_read"
-      "mcp__github__merge_pull_request"
-      "mcp__github__push_files"
-      "mcp__github__request_copilot_review"
-      "mcp__github__rerun_failed_jobs"
-      "mcp__github__rerun_workflow_run"
-      "mcp__github__run_workflow"
-      "mcp__github__search_code"
-      "mcp__github__search_issues"
-      "mcp__github__search_orgs"
-      "mcp__github__search_pull_requests"
-      "mcp__github__search_repositories"
-      "mcp__github__search_users"
-      "mcp__github__submit_pending_pull_request_review"
-      "mcp__github__update_issue"
-      "mcp__github__update_pull_request"
-      "mcp__github__update_pull_request_branch"
-
-      "mcp__zen__chat"
-      "mcp__zen__thinkdeep"
-      "mcp__zen__planner"
-      "mcp__zen__consensus"
-      "mcp__zen__codereview"
-      "mcp__zen__precommit"
-      "mcp__zen__debug"
-      "mcp__zen__secaudit"
-      "mcp__zen__docgen"
-      "mcp__zen__analyze"
-      "mcp__zen__refactor"
-      "mcp__zen__tracer"
-      "mcp__zen__testgen"
-      "mcp__zen__challenge"
-      "mcp__zen__listmodels"
-      "mcp__zen__version"
+      "mcp__chrome-devtools"
+      "mcp__context7"
+      "mcp__github"
+      "mcp__pal"
     ];
     deny = [
       "Bash(sudo:*)"
@@ -152,17 +49,62 @@
       "Read(id_ed25519)"
     ];
   };
-  hooks = {
-    Notification = [
-      {
-        matcher = "";
-        hooks = [
-          {
-            type = "command";
-            command = "${pkgs.libnotify}/bin/notify-send 'Claude Code' 'Waiting for your input...'";
-          }
-        ];
-      }
-    ];
-  };
+  hooks =
+    let
+      jq = "${pkgs.jq}/bin/jq";
+      notify-send = "${pkgs.libnotify}/bin/notify-send";
+      notifyHook = pkgs.writeShellScript "notify-hook" ''
+        PAYLOAD=$(cat)
+        TYPE=$(echo "$PAYLOAD" | ${jq} -r '.hook_event_name')
+        TITLE="Claude"
+        MESSAGE=""
+
+        pretty_cwd() {
+          echo "$PAYLOAD" | ${jq} -r '.cwd' | awk -F'/' '{print $(NF-1)"/"$NF}'
+        }
+
+        if [ "$TYPE" == "Notification" ]; then
+          TITLE="Claude - Action Required"
+          MESSAGE=$(echo "$PAYLOAD" | ${jq} -r '.message')
+          MESSAGE="$MESSAGE at $(pretty_cwd)"
+        elif [ "$TYPE" == "Stop" ]; then
+          TITLE="Claude - Ready"
+          CWD=$(echo "$PAYLOAD" | ${jq} -r '.cwd')
+          MESSAGE="Waiting for input at $(pretty_cwd)"
+        fi
+
+        if [ ! -z "$MESSAGE" ] && [ "$MESSAGE" != "null" ]; then
+          if [ "$(uname)" == "Linux" ]; then
+            ${notify-send} "$TITLE" "$MESSAGE"
+          elif [ "$(uname)" == "Darwin" ]; then
+            # osascript is builtin on darwin
+            osascript -e "display notification \"$MESSAGE\" with title \"$TITLE\""
+          fi
+        fi
+      '';
+    in
+    {
+      Notification = [
+        {
+          matcher = ".*";
+          hooks = [
+            {
+              type = "command";
+              command = "${notifyHook}";
+            }
+          ];
+        }
+      ];
+      Stop = [
+        {
+          matcher = ".*";
+          hooks = [
+            {
+              type = "command";
+              command = "${notifyHook}";
+            }
+          ];
+        }
+      ];
+    };
 }
