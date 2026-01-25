@@ -4,5 +4,5 @@ with pkgs;
 
 writeShellApplication {
   name = "find-file-up-tree";
-  text = builtins.readFile ../../scripts/find-file-up-tree.sh;
+  text = builtins.readFile ./find-file-up-tree.sh;
 }

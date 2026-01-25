@@ -9,5 +9,5 @@ writeShellApplication {
     git
   ];
 
-  text = builtins.readFile ../../scripts/build-nix-pkg-update.sh;
+  text = builtins.readFile ./build-nix-pkg-update.sh;
 }

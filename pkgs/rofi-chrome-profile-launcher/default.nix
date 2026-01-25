@@ -10,5 +10,5 @@ writeShellApplication {
     google-chrome
   ];
 
-  text = builtins.readFile ../../scripts/rofi-chrome-profile-launcher.sh;
+  text = builtins.readFile ./rofi-chrome-profile-launcher.sh;
 }

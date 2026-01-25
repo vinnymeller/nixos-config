@@ -8,5 +8,5 @@ stdenv.mkDerivation {
     python3
   ];
   dontUnpack = true;
-  installPhase = "install -Dm755 ${../../scripts/check-duplicate-flake-deps.py} $out/bin/check-duplicate-flake-deps";
+  installPhase = "install -Dm755 ${./check-duplicate-flake-deps.py} $out/bin/check-duplicate-flake-deps";
 }

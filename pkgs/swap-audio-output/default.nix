@@ -11,5 +11,5 @@ writeShellApplication {
     wireplumber
   ];
 
-  text = builtins.readFile ../../scripts/swap-audio-output.sh;
+  text = builtins.readFile ./swap-audio-output.sh;
 }

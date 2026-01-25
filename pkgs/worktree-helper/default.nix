@@ -13,5 +13,5 @@ writeShellApplication {
     twm
   ];
 
-  text = builtins.readFile ../../scripts/worktree-helper.sh;
+  text = builtins.readFile ./worktree-helper.sh;
 }

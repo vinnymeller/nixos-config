@@ -9,5 +9,5 @@ writeShellApplication {
     gh
   ];
 
-  text = builtins.readFile ../../scripts/gh-clone-all.sh;
+  text = builtins.readFile ./gh-clone-all.sh;
 }

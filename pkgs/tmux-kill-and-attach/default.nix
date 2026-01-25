@@ -8,5 +8,5 @@ writeShellApplication {
     bash
     tmux
   ];
-  text = builtins.readFile ../../scripts/tmux-kill-and-attach.sh;
+  text = builtins.readFile ./tmux-kill-and-attach.sh;
 }
