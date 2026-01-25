@@ -173,14 +173,14 @@
         }
       );
 
-      mkUtils = import ./utils {
+      vlib = import ./lib {
         lib = nixpkgs.lib;
         hmLib = home-manager.lib;
       };
     in
     {
 
-      lib.myUtils = mkUtils;
+      lib.vlib = vlib;
 
       formatter = eachSystem (system: pkgsFor.${system}.nixfmt);
 
@@ -204,17 +204,17 @@
       nixosConfigurations = {
         vinnix = import ./hosts/vinnix {
           inherit inputs outputs;
-          inherit (self.lib) myUtils;
+          inherit (self.lib) vlib;
         };
         vindows = import ./hosts/home-wsl {
           inherit inputs outputs;
-          inherit (self.lib) myUtils;
+          inherit (self.lib) vlib;
         };
       };
       homeConfigurations = {
         vinny = import ./hosts/camovinny {
           inherit inputs outputs;
-          inherit (self.lib) myUtils;
+          inherit (self.lib) vlib;
         };
       };
     };

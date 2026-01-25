@@ -1,12 +1,12 @@
 {
   inputs,
   outputs,
-  myUtils,
+  vlib,
   ...
 }:
 inputs.nixpkgs.lib.nixosSystem {
   specialArgs = {
-    inherit inputs outputs myUtils;
+    inherit inputs outputs vlib;
   };
   modules = [
     inputs.ragenix.nixosModules.default
@@ -39,7 +39,7 @@ inputs.nixpkgs.lib.nixosSystem {
       home-manager.useUserPackages = true;
       home-manager.users.vinny = import ./users/vinny/home.nix;
       home-manager.extraSpecialArgs = {
-        inherit inputs outputs myUtils;
+        inherit inputs outputs vlib;
       };
     }
   ];

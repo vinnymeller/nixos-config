@@ -1,7 +1,7 @@
 {
   inputs,
   outputs,
-  myUtils,
+  vlib,
   ...
 }:
 inputs.home-manager.lib.homeManagerConfiguration {
@@ -12,7 +12,7 @@ inputs.home-manager.lib.homeManagerConfiguration {
     };
   };
   extraSpecialArgs = {
-    inherit inputs outputs myUtils;
+    inherit inputs outputs vlib;
   };
   modules = [
     ./home.nix
