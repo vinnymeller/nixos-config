@@ -9,6 +9,18 @@
   feedbackSurveyState = {
     lastShownTime = 2754365161758;
   };
+  statusLine = {
+    type = "command";
+    command =
+      let
+        statusline = pkgs.writeShellApplication {
+          name = "claude-status-line";
+          runtimeInputs = with pkgs; [ jq git gawk coreutils ];
+          text = builtins.readFile ./claudeStatusLine.sh;
+        };
+      in
+      "${statusline}/bin/claude-status-line";
+  };
   plansDirectory = "./plans";
   permissions = {
     allow = [
