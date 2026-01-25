@@ -7,6 +7,8 @@
 let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.mine.hyprland;
+  c = config.mine.colors;
+  toRgb = color: "rgb(${builtins.substring 1 6 color})";
 in
 {
   options.mine.hyprland = {
@@ -154,7 +156,7 @@ in
           gaps_out = 0;
           border_size = 1;
           allow_tearing = true;
-          "col.active_border" = "rgb(ff5757)";
+          "col.active_border" = toRgb c.red-bright;
           snap = {
             enabled = true;
           };
@@ -162,8 +164,8 @@ in
         group = {
           groupbar = {
             render_titles = false;
-            "col.active" = "rgb(ffff80)";
-            "col.inactive" = "rgb(b5b5b5)";
+            "col.active" = toRgb c.yellow-bright;
+            "col.inactive" = toRgb c.white;
           };
         };
         input = {
