@@ -26,8 +26,8 @@ in
           X11Forwarding = false;
           AllowUsers = [
             "vinny"
-            (mkIf cfg.withTunnelUser "ssh_tunnel")
-          ];
+          ]
+          ++ lib.optionals cfg.withTunnelUser [ "ssh_tunnel" ];
           PasswordAuthentication = false;
           LogLevel = "VERBOSE";
         };
