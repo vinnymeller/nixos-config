@@ -56,6 +56,8 @@
       xdg-utils
       zk
       alejandra
+
+      llm-agents.claude-code-acp
     ]
     ++ (vlib.sharedDeps pkgs).lsps;
   # your config/plugin specifications
