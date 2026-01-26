@@ -15,48 +15,49 @@ inputs:
   config.package = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
 
   # The makeWrapper options are available
-  config.extraPackages = with pkgs; [
-    ast-grep
-    # black
-    cargo
-    cargo-nextest
-    chafa
-    efm-langserver
-    fd
-    fzf
-    gcc
-    git
-    imagemagick
-    # isort
-    lazygit
-    luajitPackages.jsregexp
+  config.extraPackages =
+    with pkgs;
+    [
+      ast-grep
+      # black
+      cargo
+      cargo-nextest
+      chafa
+      efm-langserver
+      fzf
+      gcc
+      git
+      imagemagick
+      # isort
+      lazygit
+      luajitPackages.jsregexp
 
-    # nixd uses nixpkgs-fmt
-    nixfmt
+      # nixd uses nixpkgs-fmt
+      nixfmt
 
-    # nodePackages.eslint
-    nodePackages.sql-formatter
-    nodejs
-    postgresql
-    prettierd
-    # ty
-    ruff
-    ripgrep
-    bat
-    delta
-    bat
-    fd
-    # rust-analyzer  # provice my own rust-analyzer in a project since it sometimes causes issues having incompatible versions
-    # rustfmt  # same as above
-    shellcheck
-    shfmt
-    stylua
-    tree-sitter
-    xsel
-    xdg-utils
-    zk
-    alejandra
-  ] ++ pkgs.sharedDeps.lsps;
+      # nodePackages.eslint
+      nodePackages.sql-formatter
+      nodejs
+      postgresql
+      prettierd
+      # ty
+      ruff
+      ripgrep
+      delta
+      bat
+      fd
+      # rust-analyzer  # provice my own rust-analyzer in a project since it sometimes causes issues having incompatible versions
+      # rustfmt  # same as above
+      shellcheck
+      shfmt
+      stylua
+      tree-sitter
+      xsel
+      xdg-utils
+      zk
+      alejandra
+    ]
+    ++ pkgs.sharedDeps.lsps;
   # your config/plugin specifications
   # a set of plugins or specs, which can contain a list of plugins or specs if desired.
   config.specs.general = with pkgs.vimPlugins; [

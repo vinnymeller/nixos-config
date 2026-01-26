@@ -215,6 +215,7 @@
         vinny = import ./hosts/camovinny {
           inherit inputs outputs;
           inherit (self.lib) vlib;
+          pkgs = pkgsFor."aarch64-darwin";
         };
       };
     };

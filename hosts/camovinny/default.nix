@@ -2,15 +2,11 @@
   inputs,
   outputs,
   vlib,
+  pkgs,
   ...
 }:
 inputs.home-manager.lib.homeManagerConfiguration {
-  pkgs = import inputs.nixpkgs {
-    system = "aarch64-darwin";
-    config = {
-      allowUnfree = true;
-    };
-  };
+  inherit pkgs;
   extraSpecialArgs = {
     inherit inputs outputs vlib;
   };
