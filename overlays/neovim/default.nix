@@ -1,4 +1,4 @@
-inputs:
+{ inputs, vlib }:
 {
   config,
   wlib,
@@ -57,7 +57,7 @@ inputs:
       zk
       alejandra
     ]
-    ++ pkgs.sharedDeps.lsps;
+    ++ (vlib.sharedDeps pkgs).lsps;
   # your config/plugin specifications
   # a set of plugins or specs, which can contain a list of plugins or specs if desired.
   config.specs.general = with pkgs.vimPlugins; [

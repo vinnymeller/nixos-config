@@ -57,7 +57,7 @@
   };
   networking.hostName = "vindows"; # Define your hostname.
 
-  uses.selfhost = true;
+  profile.selfhost = true;
 
   environment.systemPackages = [
     pkgs.ragenix

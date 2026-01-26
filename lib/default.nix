@@ -27,6 +27,7 @@
       ' ${mergeInto} ${mergeFrom} > ${mergeInto}.tmp
       mv ${mergeInto}.tmp ${mergeInto}
     '';
+
   mergeJsonDeep =
     {
       pkgs,
@@ -41,6 +42,7 @@
       ${pkgs.jq}/bin/jq -s '.[0] * .[1]' ${mergeInto} ${mergeFrom} > ${mergeInto}.tmp
       mv ${mergeInto}.tmp ${mergeInto}
     '';
+
   mergeIntoTomlFromJsonTopLevel =
     {
       pkgs,
@@ -62,4 +64,22 @@
       cat ${mergeInto}.tmp | ${pkgs.yj}/bin/yj -jt > ${mergeInto}
       rm ${mergeInto}.tmp ${mergeInto}.tmp.json
     '';
+
+  sharedDeps = pkgs: {
+    lsps = with pkgs; [
+      basedpyright
+      ccls
+      dockerfile-language-server
+      gopls
+      ltex-ls-plus
+      lua-language-server
+      nixd
+      nodePackages_latest.typescript-language-server
+      tailwindcss-language-server
+      taplo
+      terraform-ls
+      vscode-langservers-extracted
+      yaml-language-server
+    ];
+  };
 }

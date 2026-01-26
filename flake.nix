@@ -197,7 +197,7 @@
 
       devShells = eachSystem (system: import ./shell.nix { pkgs = pkgsFor.${system}; });
 
-      overlays = import ./overlays { inherit inputs; };
+      overlays = import ./overlays { inherit inputs vlib; };
 
       overlayList = builtins.attrValues self.overlays;
 

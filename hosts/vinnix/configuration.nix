@@ -12,7 +12,7 @@
     ../../modules/nixos
   ];
 
-  uses.selfhost = true;
+  profile.selfhost = true;
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;

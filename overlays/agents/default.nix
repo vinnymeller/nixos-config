@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, vlib, ... }:
 final: prev:
 let
   # List of official plugins to include (explicit list for clarity)
@@ -41,17 +41,20 @@ in
   claude-code = inputs.wrapper-modules.wrappers.claude-code.wrap {
     pkgs = final;
     package = final.llm-agents.claude-code;
-    extraPackages = with final; [
-      nodejs
-      uv
-      bun
-      python3
-      libnotify
-      jq
-      bash
-      codex
-      gemini-cli
-    ] ++ final.sharedDeps.lsps;
+    extraPackages =
+      with final;
+      [
+        nodejs
+        uv
+        bun
+        python3
+        libnotify
+        jq
+        bash
+        codex
+        gemini-cli
+      ]
+      ++ (vlib.sharedDeps final).lsps;
     mcpConfig = import ./mcp.nix { pkgs = final; };
     strictMcpConfig = false;
     settings = import ./claudeSettings.nix { pkgs = final; };

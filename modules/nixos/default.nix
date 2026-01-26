@@ -7,13 +7,13 @@
 let
   modules = vlib.readModuleFiles ./.;
   inherit (lib) mkEnableOption mkIf mkDefault;
-  cfg = config.uses;
+  cfg = config.profile;
 in
 {
   imports = modules;
 
   options = {
-    uses = {
+    profile = {
       selfhost = mkEnableOption "Enable self-hosted configuration.";
     };
   };
