@@ -21,6 +21,9 @@
       in
       "${statusline}/bin/claude-status-line";
   };
+  env = {
+    ENABLE_LSP_TOOL = "true";
+  };
   plansDirectory = "./plans";
   permissions = {
     allow = [

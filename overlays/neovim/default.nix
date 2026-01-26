@@ -17,37 +17,29 @@ inputs:
   # The makeWrapper options are available
   config.extraPackages = with pkgs; [
     ast-grep
-    black
+    # black
     cargo
     cargo-nextest
-    # ccls
     chafa
-    dockerfile-language-server
     efm-langserver
     fd
     fzf
     gcc
     git
-    gopls
     imagemagick
-    isort
-    ltex-ls-plus
+    # isort
     lazygit
-    lua-language-server
     luajitPackages.jsregexp
 
     # nixd uses nixpkgs-fmt
-    nixd
     nixfmt
 
     # nodePackages.eslint
     nodePackages.sql-formatter
-    nodePackages.typescript-language-server
     nodejs
     postgresql
     prettierd
-    # basedpyright
-    ty
+    # ty
     ruff
     ripgrep
     bat
@@ -58,19 +50,13 @@ inputs:
     # rustfmt  # same as above
     shellcheck
     shfmt
-    src-cli
     stylua
-    tailwindcss-language-server
-    taplo
-    terraform-ls
     tree-sitter
-    vscode-langservers-extracted
     xsel
-    yaml-language-server
     xdg-utils
     zk
     alejandra
-  ];
+  ] ++ pkgs.sharedDeps.lsps;
   # your config/plugin specifications
   # a set of plugins or specs, which can contain a list of plugins or specs if desired.
   config.specs.general = with pkgs.vimPlugins; [

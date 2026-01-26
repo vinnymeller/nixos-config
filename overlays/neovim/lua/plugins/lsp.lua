@@ -151,37 +151,36 @@ vim.lsp.enable("html")
 
 local basic_servers = {
     "ccls",
-    "dockerls",
+    "docker_language_server",
     "gopls",
     "taplo",
     "terraformls",
-    "zls",
 }
 
 -- TODO: check upstream for when they fix the annoying issue with nvim 0.11
 -- require("tailwind-tools").setup({})
 
 -- try ty for a bit
--- vim.lsp.config("basedpyright", {
---     settings = {
---         basedpyright = {
---             analysis = {
---                 autoImportCompletions = true,
---                 autoSearchPaths = true,
---                 diagnosticMode = "openFilesOnly",
---                 useLibraryCodeForype = true,
---             },
---         },
---     },
--- })
--- vim.lsp.enable("basedpyright")
-
-vim.lsp.config("ty", {
+vim.lsp.config("basedpyright", {
     settings = {
-        ty = {},
+        basedpyright = {
+            analysis = {
+                autoImportCompletions = true,
+                autoSearchPaths = true,
+                diagnosticMode = "openFilesOnly",
+                useLibraryCodeForype = true,
+            },
+        },
     },
 })
-vim.lsp.enable("ty")
+vim.lsp.enable("basedpyright")
+
+-- vim.lsp.config("ty", {
+--     settings = {
+--         ty = {},
+--     },
+-- })
+-- vim.lsp.enable("ty")
 
 local prettier = require("efmls-configs.formatters.prettier")
 local eslint = require("efmls-configs.linters.eslint")
@@ -220,13 +219,11 @@ local languages = {
         require("efmls-configs.formatters.stylua"),
     },
     python = {
-        -- require("efmls-configs.formatters.black"),
-        -- require("efmls-configs.formatters.isort"),
         require("efmls-configs.formatters.ruff"),
     },
-    -- nix = {
-    -- 	require("efmls-configs.formatters.nixfmt"),
-    -- },
+    nix = {
+    	require("efmls-configs.formatters.nixfmt"),
+    },
     sh = {
         require("efmls-configs.formatters.shfmt"),
         require("efmls-configs.linters.shellcheck"),

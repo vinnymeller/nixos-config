@@ -1,5 +1,73 @@
 {
-  "typescript": {
+  "basedpyright": {
+    "command": "basedpyright-langserver",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".py": "python",
+      ".pyi": "python"
+    }
+  },
+  "ccls": {
+    "command": "ccls",
+    "extensionToLanguage": {
+      ".c": "c",
+      ".cpp": "cpp",
+      ".objc": "objective-c",
+      ".objcpp": "objective-cpp",
+      ".cuda": "cuda"
+    }
+  },
+  "gopls": {
+    "command": "gopls",
+    "extensionToLanguage": {
+      ".go": "go",
+      ".work": "gowork",
+      ".mod": "gomod",
+      ".gotmpl": "gotmpl"
+    }
+  },
+  "jsonls": {
+    "command": "vscode-json-language-server",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".json": "json",
+      ".jsonc": "jsonc"
+    }
+  },
+  "lua-language-server": {
+    "command": "lua-language-server",
+    "extensionToLanguage": {
+      ".lua": "lua"
+    }
+  },
+  "nixd": {
+    "command": "nixd",
+    "extensionToLanguage": {
+      ".nix": "nix"
+    }
+  },
+  "rust-analyzer": {
+    "command": "rust-analyzer",
+    "extensionToLanguage": {
+      ".rs": "rust"
+    }
+  },
+  "taplo": {
+    "command": "taplo",
+    "args": ["lsp", "stdio"],
+    "extensionToLanguage": {
+      ".toml": "toml"
+    }
+  },
+  "terraform-ls": {
+    "command": "terraform-ls",
+    "args": ["serve"],
+    "extensionToLanguage": {
+      ".tf": "terraform",
+      ".tfvars": "terraform-vars"
+    }
+  },
+  "typescript-language-server": {
     "command": "typescript-language-server",
     "args": ["--stdio"],
     "extensionToLanguage": {
@@ -13,17 +81,12 @@
       ".cjs": "javascript"
     }
   },
-  "rust-analyzer": {
-    "command": "rust-analyzer",
+  "yaml-language-server": {
+    "command": "yaml-language-server",
+    "args": ["--stdio"],
     "extensionToLanguage": {
-      ".rs": "rust"
-    }
-  },
-  "ty": {
-    "command": "ty",
-    "args": ["server"],
-    "extensionToLanguage": {
-      ".py": "python"
+      ".yaml": "yaml",
+      ".yml": "yaml"
     }
   }
 }

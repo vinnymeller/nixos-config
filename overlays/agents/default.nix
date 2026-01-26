@@ -51,7 +51,7 @@ in
       bash
       codex
       gemini-cli
-    ];
+    ] ++ final.sharedDeps.lsps;
     mcpConfig = import ./mcp.nix { pkgs = final; };
     strictMcpConfig = false;
     settings = import ./claudeSettings.nix { pkgs = final; };

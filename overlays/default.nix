@@ -36,6 +36,27 @@ in
     );
   };
 
+  shared-deps = final: prev: {
+    sharedDeps = {
+      lsps = with final; [
+        basedpyright
+        ccls
+        dockerfile-language-server
+        gopls
+        ltex-ls-plus
+        lua-language-server
+        nixd
+        nodePackages_latest.typescript-language-server
+        tailwindcss-language-server
+        taplo
+        terraform-ls
+        vscode-langservers-extracted
+        yaml-language-server
+      ];
+
+    };
+  };
+
   claude-code = import ./agents { inherit inputs; };
 
   neovim = final: prev: { neovim = nvimWrapper.config.wrap { pkgs = final; }; };
