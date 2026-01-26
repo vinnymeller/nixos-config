@@ -17,6 +17,7 @@ Based on the user's question or task, you will spawn Codex and/or Gemini subagen
 
 2. **Launch agents** using the Task tool with `subagent_type: "customPlug:gemini-analyzer"` and `subagent_type: "customPlug:codex-analyzer"`, respectively:
    - If the user doesn't specify which agent to use, use both.
+     - **IMPORTANT**: IF the user DID specify a preference for one agent over the other, e.g. "Ask codex ...", then only invoke that one agent.
    - Both subagents already know how to invoke their respective CLIs with the correct flags so just provide the prompt to them.
    - If either agent fails, retry once. If they fail again, just report the failure to the user.
 
