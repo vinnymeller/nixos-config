@@ -1,5 +1,5 @@
 ---
-name: interviewer
+name: interview
 description: Interview me about the features to be implemented before starting planning or development.
 user-invocable: true
 ---

@@ -1,5 +1,5 @@
 {
   "name": "xv",
-  "description": "Custom plugin with LSP servers, skills, and agents",
+  "description": "Custom plugin with LSP servers & skills",
   "version": "0.0.1"
 }

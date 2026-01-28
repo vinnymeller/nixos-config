@@ -49,7 +49,7 @@
       "mcp__chrome-devtools"
       "mcp__context7"
       "mcp__github"
-      "mcp__pal"
+      "mcp__codex"
     ];
     deny = [
       "Bash(sudo:*)"

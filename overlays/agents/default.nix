@@ -44,10 +44,6 @@ in
     extraPackages =
       with final;
       [
-        nodejs
-        uv
-        bun
-        python3
         libnotify
         jq
         bash

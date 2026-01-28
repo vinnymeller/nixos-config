@@ -1,7 +1,7 @@
 { pkgs }:
 let
   npx = "${pkgs.nodejs}/bin/npx";
-  uvx = "${pkgs.uv}/bin/uvx";
+  codex = "${pkgs.codex}/bin/codex";
 in
 {
   chrome-devtools = {
@@ -10,6 +10,14 @@ in
     args = [
       "chrome-devtools-mcp@latest"
       "--executablePath=${pkgs.google-chrome}/bin/google-chrome-stable"
+    ];
+    env = { };
+  };
+  codex = {
+    type = "stdio";
+    command = codex;
+    args = [
+      "mcp-server"
     ];
     env = { };
   };
@@ -27,16 +35,6 @@ in
     command = "${pkgs.github-mcp-server}/bin/github-mcp-server";
     args = [
       "stdio"
-    ];
-    env = { };
-  };
-  pal = {
-    type = "stdio";
-    command = uvx;
-    args = [
-      "--from"
-      "git+https://github.com/BeehiveInnovations/pal-mcp-server.git"
-      "pal-mcp-server"
     ];
     env = { };
   };
