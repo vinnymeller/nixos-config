@@ -37,7 +37,7 @@ Codex is available via its MCP server which provides two tools:
 
 1. `mcp__codex__codex`
    - This tool is for starting a new conversation with Codex. If we aren't already in an active conversation with Codex, you'll always start here.
-   - If the user passes any specific arguments (e.g., `-a`, `-m`, `-s`, `-t`, or a prompt), use this tool to invoke Codex with those arguments. Even if this skill is invoked without the specific flag syntax, use the context of the conversation / skill invocation to determine what values to pass to Codex.
+   - If the user passes any specific arguments (e.g., `-a`, `-m`, `-s`, `-t`, or a prompt), use this tool to invoke Codex with those arguments. Even if this skill is invoked without the specific flag syntax, use the context of the conversation / skill invocation to determine what values to pass to Codex. **IMPORTANT:** ALL tool parameters below MUST be provided when invoking the mcp tool.
       - The `-m` flag maps to the `model` tool parameter. If not provided, use `gpt-5.2-codex`.
       - The `-s` flag maps to the `sandbox` tool parameter. If not provided, generally you should default to `read-only`. However, if you e.g. want Codex to try fixing a bug you're stuck on, or something like that, you can set it to `workspace-write`. `danger-full-access` should only ever be used if the user manually invokes this skill with that flag.
       - The `-a` flag maps to the `approval-policy` tool parameter. If the sandbox mode is set to read-only, this parameter can safely be set to `never`. If the sandbox mode is set to `workspace-write` or `danger-full-access`, this parameter should default to `on-failure`, unless this skill was manually invoked with a different value.
