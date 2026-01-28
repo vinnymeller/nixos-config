@@ -1,18 +1,10 @@
 { pkgs }:
 let
+  inherit (pkgs) lib;
   npx = "${pkgs.nodejs}/bin/npx";
   codex = "${pkgs.codex}/bin/codex";
 in
 {
-  chrome-devtools = {
-    type = "stdio";
-    command = npx;
-    args = [
-      "chrome-devtools-mcp@latest"
-      "--executablePath=${pkgs.google-chrome}/bin/google-chrome-stable"
-    ];
-    env = { };
-  };
   codex = {
     type = "stdio";
     command = codex;
@@ -35,6 +27,17 @@ in
     command = "${pkgs.github-mcp-server}/bin/github-mcp-server";
     args = [
       "stdio"
+    ];
+    env = { };
+  };
+}
+// lib.optionalAttrs (pkgs.stdenv.hostPlatform.system != "aarch64-linux") {
+  chrome-devtools = {
+    type = "stdio";
+    command = npx;
+    args = [
+      "chrome-devtools-mcp@latest"
+      "--executablePath=${pkgs.google-chrome}/bin/google-chrome-stable"
     ];
     env = { };
   };
