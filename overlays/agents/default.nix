@@ -44,6 +44,7 @@ in
     extraPackages =
       with final;
       [
+        nodejs
         libnotify
         jq
         bash

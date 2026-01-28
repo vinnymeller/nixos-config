@@ -15,7 +15,12 @@
       let
         statusline = pkgs.writeShellApplication {
           name = "claude-status-line";
-          runtimeInputs = with pkgs; [ jq git gawk coreutils ];
+          runtimeInputs = with pkgs; [
+            jq
+            git
+            gawk
+            coreutils
+          ];
           text = builtins.readFile ./claudeStatusLine.sh;
         };
       in
@@ -23,6 +28,7 @@
   };
   env = {
     ENABLE_LSP_TOOL = "true";
+    ENABLE_EXPERIMENTAL_MCP_CLI = "true";
   };
   plansDirectory = "./plans";
   permissions = {
