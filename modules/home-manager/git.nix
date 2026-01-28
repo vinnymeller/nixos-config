@@ -90,6 +90,10 @@ in
           submit = {
             navigationComment = false;
           };
+          experiment = {
+            commitFixup = true;
+            commitPick = true;
+          };
         };
 
       };
