@@ -49,7 +49,6 @@ in
         jq
         bash
         codex
-        gemini-cli
       ]
       ++ (vlib.sharedDeps final).lsps;
     mcpConfig = import ./mcp.nix { pkgs = final; };
