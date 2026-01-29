@@ -15,6 +15,7 @@ exclude_path_components:
   - .mnt
   - .local
   - .cargo
+  - .podman
 
 max_search_depth: 5
 session_name_path_components: 2
