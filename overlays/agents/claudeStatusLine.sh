@@ -35,9 +35,33 @@ if [ -n "$session_cost" ] && [ "$session_cost" != "null" ]; then
 	cost_info=" | ${MAGENTA}\$$formatted_cost${RESET}"
 fi
 
+format_tokens() {
+	local tokens=$1
+	local val
+	if [ "$tokens" -ge 1000000 ]; then
+		val=$(echo "scale=2; $tokens / 1000000" | bc)
+		if [ "$(echo "$val < 10" | bc)" -eq 1 ]; then
+			printf "%.1fm" "$val"
+		else
+			printf "%.0fm" "$val"
+		fi
+	elif [ "$tokens" -ge 1000 ]; then
+		val=$(echo "scale=2; $tokens / 1000" | bc)
+		if [ "$(echo "$val < 10" | bc)" -eq 1 ]; then
+			printf "%.1fk" "$val"
+		else
+			printf "%.0fk" "$val"
+		fi
+	else
+		echo "$tokens"
+	fi
+}
+
 token_info=""
 if [ -n "$input_tokens" ] && [ "$input_tokens" != "null" ]; then
-	token_info=" ${MAGENTA}in:${input_tokens} out:${output_tokens}${RESET}"
+	formatted_in=$(format_tokens "$input_tokens")
+	formatted_out=$(format_tokens "$output_tokens")
+	token_info=" ${MAGENTA}in:${formatted_in} out:${formatted_out}${RESET}"
 fi
 
 echo -e "$git_info | $model${context_info}${cost_info}${token_info}"

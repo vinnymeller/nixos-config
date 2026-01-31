@@ -20,6 +20,7 @@
             git
             gawk
             coreutils
+            bc
           ];
           text = builtins.readFile ./claudeStatusLine.sh;
         };
