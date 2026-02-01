@@ -2,7 +2,10 @@
 {
   "$schema" = "https://json.schemastore.org/claude-code-settings.json";
   forceLoginMethod = "claudeai";
-  includeCoAuthoredBy = false;
+  attribution = {
+    commit = "";
+    pr = "";
+  };
   alwaysThinkingEnabled = true;
   # undocumented setting state that most likely controls when ill be shown another feedback survey
   # this timestsamp is in 2057
