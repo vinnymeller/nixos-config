@@ -31,4 +31,5 @@ in
   "shell/secrets.sh.age".publicKeys = users ++ systems ++ work;
   "vinnix/wpa_supplicant.conf.age".publicKeys = host-vinnix;
   "vinnix/tailscale-authkey.age".publicKeys = host-vinnix;
+  "vinnix/immich.age".publicKeys = host-vinnix;
 }

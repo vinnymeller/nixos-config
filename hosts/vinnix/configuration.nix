@@ -7,6 +7,10 @@
   users,
   ...
 }:
+let
+  immichUser = "immich";
+  immichGroup = "immich";
+in
 {
   imports = [
     ../../modules/nixos
@@ -139,7 +143,6 @@
     kernel = {
       sysctl = {
         "net.ipv4.ip_forward" = 1;
-        "vm.overcommit_memory" = 1;
       };
     };
   };
@@ -351,5 +354,25 @@
     greetd.enableGnomeKeyring = true;
     login.enableGnomeKeyring = true;
   };
+
+  age.secrets.immich = {
+    file = ../../secrets/vinnix/immich.age;
+    owner = immichUser;
+    group = immichGroup;
+    mode = "0400";
+  };
+
+  services.immich = {
+    enable = true;
+    user = immichUser;
+    group = immichGroup;
+    accelerationDevices = null; # null gives access to all devices
+    secretsFile = config.age.secrets.immich.path;
+    host = "0.0.0.0";
+  };
+  users.users.immich.extraGroups = [
+    "video"
+    "render"
+  ];
 
 }

@@ -18,7 +18,7 @@ in
 
   home.username = "vinny";
   home.homeDirectory = "/home/vinny";
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
 
   services.gpg-agent = {
     enable = true;
