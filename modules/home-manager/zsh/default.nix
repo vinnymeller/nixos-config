@@ -169,11 +169,9 @@ in
     home.shellAliases = {
       cdots = "pushd ~/.nixdots";
       # nb = "sudo nixos-rebuild --flake ~/.nixdots switch";
-      nb = "nh os switch ~/.nixdots";
-      # nt = "sudo nixos-rebuild --flake ~/.nixdots test";
-      nt = "nh os test ~/.nixdots";
+      nb = "nh os switch -j 4 --cores 8 ~/.nixdots";
       # hms = "nix run home-manager switch -- --flake ~/.nixdots";
-      hms = "nh home switch ~/.nixdots";
+      hms = "nh home switch -j 4 --cores 4 ~/.nixdots";
       root = "cd $TWM_ROOT";
       etwm = "TWM_CONFIG_FILE= twm";
       ef = "nv $(find-file-up-tree flake.nix)";
