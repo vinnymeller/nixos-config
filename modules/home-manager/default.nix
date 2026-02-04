@@ -5,7 +5,6 @@
   ...
 }:
 let
-  # utils = import ../../utils { inherit lib; };
   modules = vlib.readModuleFiles ./.;
   inherit (lib) mkEnableOption mkIf;
   cfg = config.profile;
@@ -34,6 +33,7 @@ in
       nixpkgs.enable = mkIf config.hmStandalone true;
       pkgs.enable = cfg.vinny.enable;
       secrets.enable = cfg.vinny.enable;
+      ssh.enable = cfg.vinny.enable;
       tmux.enable = cfg.vinny.enable;
       wsl.enable = cfg.vinny.wsl;
       zk.enable = cfg.vinny.enable;
