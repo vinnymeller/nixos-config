@@ -31,8 +31,9 @@
       "${statusline}/bin/claude-status-line";
   };
   env = {
-    ENABLE_LSP_TOOL = "true";
-    ENABLE_EXPERIMENTAL_MCP_CLI = "true";
+    CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
+    ENABLE_LSP_TOOL = "1";
+    ENABLE_EXPERIMENTAL_MCP_CLI = "1";
   };
   plansDirectory = "./plans";
   permissions = {
