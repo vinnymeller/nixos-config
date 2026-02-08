@@ -86,11 +86,11 @@
     "claude-plugins-official": {
       "flake": false,
       "locked": {
-        "lastModified": 1770328672,
-        "narHash": "sha256-L1YiqwropW/Uic0ggeoIajb3YxZTK9ZEWVQAvJs+j8k=",
+        "lastModified": 1770421243,
+        "narHash": "sha256-BcErQpkDLWetv/Tdi12zlHibHg2VsuCbnIlfrqBhpkY=",
         "owner": "anthropics",
         "repo": "claude-plugins-official",
-        "rev": "236752ad9ab36029b648bfd94707944760242768",
+        "rev": "2cd88e7947b7382e045666abee790c7f55f669f3",
         "type": "github"
       },
       "original": {
@@ -708,11 +708,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1770349810,
-        "narHash": "sha256-rB4d4zBQlhm1J1CxsIIstyRZzuODVeJCAxutWBmt35w=",
+        "lastModified": 1770521775,
+        "narHash": "sha256-ZYdadYL/s8dtY4KcvUMspwgKPpeR2QHYwt7sbSwn5Fw=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "398181e94b91ad081fad17d9b5eab140411d6a29",
+        "rev": "ab28ccc8ae39071ec4833def4ea90ad5aadb5644",
         "type": "github"
       },
       "original": {
@@ -1049,11 +1049,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1770339291,
-        "narHash": "sha256-BdIGn2BeqoNqRu0tt2E99P9+dXeITN/tJoClq34cuk8=",
+        "lastModified": 1770519351,
+        "narHash": "sha256-Tsnoa5e0oUDrXk6wgvzZ3jQ898yaNcmbYD+5dEL4Nqg=",
         "owner": "BirdeeHub",
         "repo": "nix-wrapper-modules",
-        "rev": "1166016e5263273de5018eeb263f7337ece3ef67",
+        "rev": "fe93d0c1e2f736ec8cc281bf82cc5dc8b25abe29",
         "type": "github"
       },
       "original": {

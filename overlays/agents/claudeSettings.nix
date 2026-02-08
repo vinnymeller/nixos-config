@@ -40,6 +40,14 @@
     allow = [
       "Skill" # allow all skills
 
+      "mcp__chrome-devtools"
+      "mcp__context7"
+      "mcp__github"
+      "mcp__codex"
+
+      "WebFetch(domain:github.com)"
+      "WebSearch"
+
       "Bash(cat:*)"
       "Bash(head:*)"
       "Bash(tail:*)"
@@ -54,13 +62,7 @@
       "Bash(find:*)"
       "Bash(fd:*)"
       "Bash(jq:*)"
-      "WebFetch(domain:github.com)"
-      "WebSearch"
 
-      "mcp__chrome-devtools"
-      "mcp__context7"
-      "mcp__github"
-      "mcp__codex"
     ];
     deny = [
       "Bash(sudo:*)"
