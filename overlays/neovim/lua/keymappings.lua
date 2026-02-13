@@ -12,11 +12,11 @@ map("n", "<leader>q", vim.diagnostic.setloclist)
 map("n", "<leader>Q", vim.diagnostic.setqflist)
 
 map("n", "<leader>dj", function()
-    vim.diagnostic.jump({ count = vim.v.count1 })
+	vim.diagnostic.jump({ count = vim.v.count1 })
 end, { desc = "Jump to the next diagnostic in the current buffer" })
 
 map("n", "<leader>dk", function()
-    vim.diagnostic.jump({ count = -vim.v.count1 })
+	vim.diagnostic.jump({ count = -vim.v.count1 })
 end, { desc = "Jump to the previous diagnostic in the current buffer" })
 
 -- helpful visual mode mappings
@@ -30,48 +30,48 @@ map("n", "<bs>", "ciw", { desc = "Change current word" })
 map("n", "<leader>db", "<cmd>DBUIToggle<CR>", { desc = "[D]ad[B]od Toggle" })
 
 local lsp_format = function()
-    local fmt_server_name = nil
-    local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+	local fmt_server_name = nil
+	local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
 
-    -- if efm client is available and can format, use it
-    local efm_client = vim.tbl_filter(function(client)
-        return client.name == "efm"
-    end, clients)
+	-- if efm client is available and can format, use it
+	local efm_client = vim.tbl_filter(function(client)
+		return client.name == "efm"
+	end, clients)
 
-    if not vim.tbl_isempty(efm_client) then
-        efm_client = efm_client[1]
-        -- check if our efm client has documentFormattingProvider capability
-        -- check if efm has a formatCommand configured for the current filetype
-        local efm_lang = efm_client.config.settings.languages[vim.bo.filetype]
-        if efm_lang == nil then
-            vim.print("No efm configuration found for filetype: " .. vim.bo.filetype)
-            return
-        end
-        -- search all the tables in the lang config for a formatCommand key
-        for _, config in ipairs(efm_lang) do
-            if config.formatCommand ~= nil then
-                fmt_server_name = efm_client.name
-                break
-            end
-        end
-    end
+	if not vim.tbl_isempty(efm_client) then
+		efm_client = efm_client[1]
+		-- check if our efm client has documentFormattingProvider capability
+		-- check if efm has a formatCommand configured for the current filetype
+		local efm_lang = efm_client.config.settings.languages[vim.bo.filetype]
+		if efm_lang == nil then
+			vim.print("No efm configuration found for filetype: " .. vim.bo.filetype)
+			return
+		end
+		-- search all the tables in the lang config for a formatCommand key
+		for _, config in ipairs(efm_lang) do
+			if config.formatCommand ~= nil then
+				fmt_server_name = efm_client.name
+				break
+			end
+		end
+	end
 
-    -- if efm client isn't available, check if any other client can format
-    if fmt_server_name == nil then
-        for _, client in ipairs(clients) do
-            if client.server_capabilities.documentFormattingProvider then
-                fmt_server_name = client.name
-                break
-            end
-        end
-    end
+	-- if efm client isn't available, check if any other client can format
+	if fmt_server_name == nil then
+		for _, client in ipairs(clients) do
+			if client.server_capabilities.documentFormattingProvider then
+				fmt_server_name = client.name
+				break
+			end
+		end
+	end
 
-    if fmt_server_name ~= nil then
-        vim.lsp.buf.format({ name = fmt_server_name })
-        vim.print("Formatted with LSP server: " .. fmt_server_name)
-    else
-        vim.print("No formatters available!")
-    end
+	if fmt_server_name ~= nil then
+		vim.lsp.buf.format({ name = fmt_server_name })
+		vim.print("Formatted with LSP server: " .. fmt_server_name)
+	else
+		vim.print("No formatters available!")
+	end
 end
 
 vim.api.nvim_create_user_command("LspFormat", lsp_format, { desc = "Format current buffer with LSP" })
@@ -87,71 +87,71 @@ map("n", "<leader>pp", "<cmd>lua require('precognition').toggle()<CR>", { desc =
 local resize_amount = 5
 
 local function is_at_edge(edge)
-    local win_id = vim.api.nvim_get_current_win()
-    -- Renamed to nvim_win_get_position in recent Neovim versions
-    local win_pos = vim.api.nvim_win_get_position(win_id)
-    local win_width = vim.api.nvim_win_get_width(win_id)
-    local win_height = vim.api.nvim_win_get_height(win_id)
+	local win_id = vim.api.nvim_get_current_win()
+	-- Renamed to nvim_win_get_position in recent Neovim versions
+	local win_pos = vim.api.nvim_win_get_position(win_id)
+	local win_width = vim.api.nvim_win_get_width(win_id)
+	local win_height = vim.api.nvim_win_get_height(win_id)
 
-    local row = win_pos[1]
-    local col = win_pos[2]
-    if edge == "left" then
-        return col == 0
-    elseif edge == "right" then
-        return (col + win_width) == vim.o.columns
-    elseif edge == "top" then
-        return row == 0
-    elseif edge == "bottom" then
-        -- the extra -1 is for lualine
-        return (row + win_height) == vim.o.lines - vim.o.cmdheight - 1
-    end
-    return false
+	local row = win_pos[1]
+	local col = win_pos[2]
+	if edge == "left" then
+		return col == 0
+	elseif edge == "right" then
+		return (col + win_width) == vim.o.columns
+	elseif edge == "top" then
+		return row == 0
+	elseif edge == "bottom" then
+		-- the extra -1 is for lualine
+		return (row + win_height) == vim.o.lines - vim.o.cmdheight - 1
+	end
+	return false
 end
 
 local function directional_push_left()
-    if is_at_edge("left") then
-        vim.cmd("vertical resize -" .. resize_amount)
-    else
-        local original_win = vim.api.nvim_get_current_win()
-        vim.cmd.wincmd("h") -- Move to the left neighbor
-        vim.cmd("vertical resize -" .. resize_amount) -- Shrink it
-        vim.api.nvim_set_current_win(original_win) -- Go back
-    end
+	if is_at_edge("left") then
+		vim.cmd("vertical resize -" .. resize_amount)
+	else
+		local original_win = vim.api.nvim_get_current_win()
+		vim.cmd.wincmd("h") -- Move to the left neighbor
+		vim.cmd("vertical resize -" .. resize_amount) -- Shrink it
+		vim.api.nvim_set_current_win(original_win) -- Go back
+	end
 end
 
 local function directional_push_right()
-    if is_at_edge("right") then
-        local original_win = vim.api.nvim_get_current_win()
-        vim.cmd.wincmd("h") -- Move to the left neighbor
-        vim.cmd("vertical resize +" .. resize_amount) -- Expand it
-        vim.api.nvim_set_current_win(original_win) -- Go back
-    else
-        vim.cmd("vertical resize +" .. resize_amount)
-    end
+	if is_at_edge("right") then
+		local original_win = vim.api.nvim_get_current_win()
+		vim.cmd.wincmd("h") -- Move to the left neighbor
+		vim.cmd("vertical resize +" .. resize_amount) -- Expand it
+		vim.api.nvim_set_current_win(original_win) -- Go back
+	else
+		vim.cmd("vertical resize +" .. resize_amount)
+	end
 end
 
 local function directional_push_up()
-    if is_at_edge("top") then
-        local original_cmdheight = vim.o.cmdheight
-        vim.cmd("resize -" .. resize_amount)
-        vim.o.cmdheight = original_cmdheight -- Restore cmdheight
-    else
-        local original_win = vim.api.nvim_get_current_win()
-        vim.cmd.wincmd("k") -- Move to the neighbor above
-        vim.cmd("resize -" .. resize_amount) -- Shrink it
-        vim.api.nvim_set_current_win(original_win) -- Go back
-    end
+	if is_at_edge("top") then
+		local original_cmdheight = vim.o.cmdheight
+		vim.cmd("resize -" .. resize_amount)
+		vim.o.cmdheight = original_cmdheight -- Restore cmdheight
+	else
+		local original_win = vim.api.nvim_get_current_win()
+		vim.cmd.wincmd("k") -- Move to the neighbor above
+		vim.cmd("resize -" .. resize_amount) -- Shrink it
+		vim.api.nvim_set_current_win(original_win) -- Go back
+	end
 end
 
 local function directional_push_down()
-    if is_at_edge("bottom") then
-        local original_win = vim.api.nvim_get_current_win()
-        vim.cmd.wincmd("k") -- Move to the neighbor above
-        vim.cmd("resize +" .. resize_amount) -- Expand it
-        vim.api.nvim_set_current_win(original_win) -- Go back
-    else
-        vim.cmd("resize +" .. resize_amount)
-    end
+	if is_at_edge("bottom") then
+		local original_win = vim.api.nvim_get_current_win()
+		vim.cmd.wincmd("k") -- Move to the neighbor above
+		vim.cmd("resize +" .. resize_amount) -- Expand it
+		vim.api.nvim_set_current_win(original_win) -- Go back
+	else
+		vim.cmd("resize +" .. resize_amount)
+	end
 end
 
 map("n", "<M-h>", directional_push_left, { silent = true, desc = "Push window left" })
@@ -160,12 +160,12 @@ map("n", "<M-j>", directional_push_down, { silent = true, desc = "Push window do
 map("n", "<M-k>", directional_push_up, { silent = true, desc = "Push window up" })
 
 map("n", "<leader>dst", function()
-    vim.o.number = not vim.o.number
-    vim.o.relativenumber = not vim.o.relativenumber
-    require("gitsigns").toggle_signs()
-    require("ibl").setup_buffer(0, {
-        enabled = not require("ibl.config").get_config(0).enabled,
-    })
+	vim.o.number = not vim.o.number
+	vim.o.relativenumber = not vim.o.relativenumber
+	require("gitsigns").toggle_signs()
+	require("ibl").setup_buffer(0, {
+		enabled = not require("ibl.config").get_config(0).enabled,
+	})
 end, { desc = "Toggle decorative stuff for copy/pasting" })
 
 map("n", "<leader>lt", "<cmd>Leet test<CR>", { desc = "[L]eetcode [T]est" })
@@ -175,3 +175,77 @@ map("n", "<leader>ll", "<cmd>Leet list<CR>", { desc = "[L]eetcode [L]ist" })
 
 map("n", "<leader>df", "<cmd>DiffviewOpen<CR>", { desc = "[D]iffview current [File]" })
 map("n", "<leader>dF", "<cmd>DiffviewFileHistory %<CR>", { desc = "[D]iffview current [File]" })
+
+-- resurrected dadbod treesitter keybind
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "sql",
+	callback = function(args)
+		local function find_statement()
+			local node = vim.treesitter.get_node()
+			while node and node:type() ~= "statement" do
+				node = node:parent()
+			end
+			if not node then
+				local row = vim.api.nvim_win_get_cursor(0)[1] - 1
+				while row >= 0 do
+					node = vim.treesitter.get_node({ pos = { row, 0 } })
+					while node and node:type() ~= "statement" do
+						node = node:parent()
+					end
+					if node then
+						break
+					end
+					row = row - 1
+				end
+			end
+			return node
+		end
+
+		local execute_plug = vim.api.nvim_replace_termcodes("<Plug>(DBUI_ExecuteQuery)", true, true, true)
+
+		vim.keymap.set("n", "<leader>e", function()
+			local cursor = vim.api.nvim_win_get_cursor(0)
+			local node = find_statement()
+			if not node then
+				vim.notify("No SQL statement found", vim.log.levels.WARN)
+				return
+			end
+			local sr, sc, er, ec = node:range()
+			vim.api.nvim_win_set_cursor(0, { sr + 1, sc })
+			vim.cmd("normal! v")
+			vim.api.nvim_win_set_cursor(0, { er + 1, ec - 1 })
+			vim.fn.feedkeys(execute_plug, "x")
+			vim.schedule(function()
+				vim.api.nvim_win_set_cursor(0, cursor)
+			end)
+		end, { buffer = args.buf, desc = "Execute current SQL statement" })
+
+		vim.keymap.set("v", "<leader>e", function()
+			vim.fn.feedkeys(execute_plug, "x")
+		end, { buffer = args.buf, desc = "Execute selected SQL" })
+
+		vim.keymap.set("n", "<leader>j", function()
+			local node = find_statement()
+			if not node then
+				return
+			end
+			local sibling = node:next_named_sibling()
+			if sibling and sibling:type() == "statement" then
+				local row, col = sibling:range()
+				vim.api.nvim_win_set_cursor(0, { row + 1, col })
+			end
+		end, { buffer = args.buf, desc = "Jump to next SQL statement" })
+
+		vim.keymap.set("n", "<leader>k", function()
+			local node = find_statement()
+			if not node then
+				return
+			end
+			local sibling = node:prev_named_sibling()
+			if sibling and sibling:type() == "statement" then
+				local row, col = sibling:range()
+				vim.api.nvim_win_set_cursor(0, { row + 1, col })
+			end
+		end, { buffer = args.buf, desc = "Jump to previous SQL statement" })
+	end,
+})
