@@ -55,7 +55,6 @@
       url = "github:hyprwm/Hyprland";
       inputs = {
         pre-commit-hooks.follows = "git-hooks";
-        nixpkgs.follows = "nixpkgs";
       };
     };
 
