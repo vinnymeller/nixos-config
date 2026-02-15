@@ -48,7 +48,7 @@ in
         libnotify
         jq
         bash
-        codex
+        final.llm-agents.codex
       ]
       ++ (vlib.sharedDeps final).lsps;
     mcpConfig = import ./mcp.nix { pkgs = final; };
