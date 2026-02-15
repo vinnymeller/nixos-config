@@ -2,7 +2,7 @@
 let
   inherit (pkgs) lib;
   npx = "${pkgs.nodejs}/bin/npx";
-  codex = "${pkgs.codex}/bin/codex";
+  codex = "${pkgs.llm-agents.codex}/bin/codex";
 in
 {
   codex = {
