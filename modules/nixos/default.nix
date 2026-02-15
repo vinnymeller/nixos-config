@@ -6,7 +6,7 @@
 }:
 let
   modules = vlib.readModuleFiles ./.;
-  inherit (lib) mkEnableOption mkIf mkDefault;
+  inherit (lib) mkEnableOption mkDefault;
   cfg = config.profile;
 in
 {
@@ -23,12 +23,9 @@ in
       gpg.enable = mkDefault true;
       ssh.enable = mkDefault true;
       services = {
-        github-runners = mkIf cfg.selfhost {
-          enable = mkDefault true;
-        };
-        rsvpub = mkIf cfg.selfhost {
-          enable = mkDefault true;
-        };
+        github-runners.enable = mkDefault cfg.selfhost;
+        immich.enable = mkDefault cfg.selfhost;
+        rsvpub.enable = mkDefault cfg.selfhost;
       };
       networking.enable = mkDefault true;
       nix.enable = mkDefault true;
