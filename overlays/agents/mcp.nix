@@ -2,17 +2,8 @@
 let
   inherit (pkgs) lib;
   npx = "${pkgs.nodejs}/bin/npx";
-  codex = "${pkgs.llm-agents.codex}/bin/codex";
 in
 {
-  codex = {
-    type = "stdio";
-    command = codex;
-    args = [
-      "mcp-server"
-    ];
-    env = { };
-  };
   context7 = {
     type = "stdio";
     command = npx;
