@@ -3,7 +3,6 @@ final: prev:
 let
   # List of official plugins to include (explicit list for clarity)
   officialPluginNames = [
-    "ralph-loop"
     "frontend-design"
     "feature-dev"
     "code-review"
