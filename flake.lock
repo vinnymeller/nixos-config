@@ -973,6 +973,7 @@
         "rsvpub": "rsvpub",
         "rust-overlay": "rust-overlay",
         "systems": "systems_2",
+        "voxtype": "voxtype",
         "wrapper-modules": "wrapper-modules"
       }
     },
@@ -1067,6 +1068,29 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "voxtype": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1771480504,
+        "narHash": "sha256-sz75SI0nFkzUL8RwoDO9LZMaG0/BUom9I1P4oF03Vyk=",
+        "owner": "peteonrails",
+        "repo": "voxtype",
+        "rev": "1a7fb9ada8a8146c90a124bfde7ac10630d69914",
+        "type": "github"
+      },
+      "original": {
+        "owner": "peteonrails",
+        "repo": "voxtype",
         "type": "github"
       }
     },

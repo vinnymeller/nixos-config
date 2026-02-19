@@ -56,6 +56,9 @@ in
           "$mod, mouse:273, resizewindow"
           "$mod ALT, mouse:272, movewindow"
         ];
+        bindr = [
+          "ALT, R, exec, voxtype record stop"
+        ];
         bind = [
           "$mod, SPACE, exec, rofi -show drun -show-icons"
           "$mod, B, exec, rofi -modi 'Chrome Profile':rofi-chrome-profile-launcher -show 'Chrome Profile'"
@@ -66,6 +69,7 @@ in
           "$mod, V, exec, $terminal --class clipse -e clipse"
           "$mod CTRL, S, exec, hyprshot -m region output --clipboard-only"
           "$mod SHIFT ALT, L, exec, hyprlock"
+          "ALT, R, exec, voxtype record start"
           "$mod, W, killactive"
           "$mod, R, togglefloating"
           "$mod, U, focusurgentorlast"

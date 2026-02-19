@@ -11,6 +11,7 @@ in
 {
   imports = [
     ../../../../modules/home-manager
+    inputs.voxtype.homeManagerModules.default
   ];
   # Let home-manager manage itself
   profile.vinny.enable = true;
@@ -69,5 +70,27 @@ in
   };
   programs.spotify-player.enable = true;
 
+  programs.voxtype = {
+    enable = true;
+    package = inputs.voxtype.packages.${pkgs.stdenv.hostPlatform.system}.vulkan;
+    model.name = "large-v3";
+    service.enable = true;
+    settings = {
+      audio = {
+        device = "default";
+        sample_rate = 16000;
+        max_duration_secs = 60;
+      };
+      hotkey.enabled = false;
+      whisper.language = "en";
+      output.mode = "type";
+      output.auto_submit = true;
+      output.notification.on_recording_start = true;
+      output.notification.on_recording_stop = true;
+      text.replacements = {
+        "Knicks" = "Nix";
+      };
+    };
+  };
   programs.command-not-found.enable = false;
 }
