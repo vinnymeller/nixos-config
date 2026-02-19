@@ -99,6 +99,7 @@
     };
 
   boot = {
+    tmp.cleanOnBoot = true;
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_latest; # use newest kernel
     kernelParams = [

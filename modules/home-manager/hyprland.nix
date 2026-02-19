@@ -67,6 +67,7 @@ in
           "$mod CTRL, S, exec, hyprshot -m region output --clipboard-only"
           "$mod SHIFT ALT, L, exec, hyprlock"
           "ALT, R, exec, vtt"
+          ", mouse:274, exec, vtt"
           "$mod, W, killactive"
           "$mod, R, togglefloating"
           "$mod, U, focusurgentorlast"
