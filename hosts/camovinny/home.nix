@@ -8,12 +8,15 @@
   ];
 
   profile.vinny.enable = true;
-  mine.pkgs.exclude = [ "swap-audio-output" ];
+  mine.pkgs.exclude = [
+    "swap-audio-output"
+    "vtt"
+  ];
   hmStandalone = true;
 
   home.username = "vinny";
   home.homeDirectory = "/Users/vinny";
-  home.stateVersion = "22.11";
+  home.stateVersion = "25.11";
 
   home.packages = with pkgs; [
     awscli2

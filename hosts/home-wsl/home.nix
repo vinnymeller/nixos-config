@@ -12,5 +12,5 @@
 
   home.username = "vinny";
   home.homeDirectory = lib.mkForce "/home/vinny";
-  home.stateVersion = "24.05";
+  home.stateVersion = "25.11";
 }
