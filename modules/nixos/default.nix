@@ -26,6 +26,7 @@ in
         github-runners.enable = mkDefault cfg.selfhost;
         immich.enable = mkDefault cfg.selfhost;
         rsvpub.enable = mkDefault cfg.selfhost;
+        vtt.enable = mkDefault true;
       };
       networking.enable = mkDefault true;
       nix.enable = mkDefault true;

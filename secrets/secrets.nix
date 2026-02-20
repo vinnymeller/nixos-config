@@ -32,4 +32,5 @@ in
   "vinnix/wpa_supplicant.conf.age".publicKeys = host-vinnix;
   "vinnix/tailscale-authkey.age".publicKeys = host-vinnix;
   "vinnix/immich.age".publicKeys = host-vinnix;
+  "vtt/gemini.age".publicKeys = host-vinnix;
 }

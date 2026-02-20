@@ -8,6 +8,5 @@ with pkgs;
   rofi-chrome-profile-launcher = callPackage ./rofi-chrome-profile-launcher { };
   swap-audio-output = callPackage ./swap-audio-output { };
   tmux-kill-and-attach = callPackage ./tmux-kill-and-attach { };
-  vtt = callPackage ./vtt { };
   worktree-helper = callPackage ./worktree-helper { };
 }

@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  geminiKeyFile,
+}:
 
 let
   model = pkgs.fetchurl {
@@ -11,11 +14,27 @@ pkgs.writeShellApplication {
   name = "vtt";
   runtimeInputs = with pkgs; [
     coreutils
+    curl
+    hyprland
+    hyprshot
+    jq
     libnotify
+    procps
     sox
+    tmux
     whisper-cpp
-    wtype
+    ydotool
   ];
 
-  text = builtins.replaceStrings [ "@MODEL_PATH@" ] [ "${model}" ] (builtins.readFile ./vtt.sh);
+  text =
+    builtins.replaceStrings
+      [
+        "@MODEL_PATH@"
+        "@GEMINI_KEY_FILE@"
+      ]
+      [
+        "${model}"
+        geminiKeyFile
+      ]
+      (builtins.readFile ./vtt.sh);
 }
