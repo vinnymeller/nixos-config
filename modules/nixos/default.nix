@@ -25,6 +25,14 @@ in
       services = {
         github-runners.enable = mkDefault cfg.selfhost;
         immich.enable = mkDefault cfg.selfhost;
+        offsiteSync = {
+          enable = mkDefault cfg.selfhost;
+          rclone.secretFile = ../../secrets/vinnix/rclone.conf.age;
+          onFailure = {
+            enable = true;
+            notifyUser = "vinny";
+          };
+        };
         rsvpub.enable = mkDefault cfg.selfhost;
         vtt.enable = mkDefault true;
       };
