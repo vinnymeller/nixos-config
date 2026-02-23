@@ -396,7 +396,7 @@ in
               timer = {
                 onCalendar = mkOption {
                   type = types.str;
-                  default = "weekly";
+                  default = "daily";
                   description = "Systemd OnCalendar expression for the main sync job.";
                 };
                 persistent = mkOption {
