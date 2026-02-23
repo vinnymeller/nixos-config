@@ -1,3 +1,4 @@
+# modules/nixos/offsite-sync.nix
 {
   config,
   lib,
@@ -54,6 +55,22 @@ let
     };
   };
 
+  # Generate effective destinations for a job from module-level providers
+  mkEffectiveDestinations =
+    jobName: jobCfg:
+    let
+      folder = if jobCfg.folder != null then jobCfg.folder else jobName;
+      enabledProviders = lib.filterAttrs (
+        name: prov: prov.enable && !(builtins.elem name jobCfg.excludeProviders)
+      ) cfg.providers;
+    in
+    lib.mapAttrs (provName: provCfg: {
+      remote = "${provCfg.remote}:${folder}";
+      extraArgs = provCfg.extraArgs;
+      checkExtraArgs = provCfg.checkExtraArgs;
+      timer = null;
+    }) enabledProviders;
+
   mkJobDestService =
     jobName: jobCfg: destName: destCfg:
     let
@@ -99,7 +116,7 @@ let
         description = "Offsite sync (${jobName} -> ${destName}) via rclone";
         after = [ "network-online.target" ] ++ jobCfg.afterUnits;
         wants = [ "network-online.target" ];
-        wantedBy = [ ];
+        wantedBy = [ ]; # timer starts it
         serviceConfig = {
           Type = "oneshot";
           User = jobCfg.user;
@@ -115,6 +132,7 @@ let
       };
     };
 
+  # Build per-destination timer (lets you stagger remotes independently)
   mkJobDestTimer =
     jobName: jobCfg: destName: destCfg:
     let
@@ -211,11 +229,12 @@ let
 
   enabledJobs = lib.filterAttrs (_: j: j.enable) cfg.jobs;
 
+  # Flatten (job, destination) pairs for enabled jobs
   jobDestPairs = lib.concatLists (
     mapAttrsToList (
       jobName: jobCfg:
       let
-        enabledDests = lib.filterAttrs (_: d: d.enable) jobCfg.destinations;
+        effectiveDests = mkEffectiveDestinations jobName jobCfg;
       in
       mapAttrsToList (destName: destCfg: {
         inherit
@@ -224,7 +243,7 @@ let
           destName
           destCfg
           ;
-      }) enabledDests
+      }) effectiveDests
     ) enabledJobs
   );
 
@@ -258,6 +277,40 @@ in
       example = ../../secrets/vinnix/rclone.conf.age;
     };
 
+    providers = mkOption {
+      description = "Cloud storage providers available for sync jobs. Each job syncs to all enabled providers by default.";
+      default = { };
+      type = types.attrsOf (
+        types.submodule (
+          { name, ... }:
+          {
+            options = {
+              enable = mkEnableOption "provider ${name}" // {
+                default = true;
+              };
+
+              remote = mkOption {
+                type = types.str;
+                description = "Base rclone remote name (without path), e.g. gdrive-crypt";
+              };
+
+              extraArgs = mkOption {
+                type = types.listOf types.str;
+                default = [ ];
+                description = "Extra rclone args for this provider.";
+              };
+
+              checkExtraArgs = mkOption {
+                type = types.listOf types.str;
+                default = [ ];
+                description = "Extra rclone check args for this provider.";
+              };
+            };
+          }
+        )
+      );
+    };
+
     onFailure = {
       enable = mkEnableOption "desktop notifications (notify-send) on sync/check failure";
       notifyUser = mkOption {
@@ -269,7 +322,7 @@ in
 
     jobs = mkOption {
       default = { };
-      description = "Named offsite sync jobs.";
+      description = "Named offsite sync jobs. Each job syncs to all enabled providers by default.";
       type = types.attrsOf (
         types.submodule (
           { name, ... }:
@@ -289,6 +342,19 @@ in
                 type = types.str;
                 description = "Local source directory to sync/copy.";
                 example = "/var/lib/immich";
+              };
+
+              folder = mkOption {
+                type = types.nullOr types.str;
+                default = null;
+                description = "Remote folder name appended to each provider remote. Defaults to the job name.";
+              };
+
+              excludeProviders = mkOption {
+                type = types.listOf types.str;
+                default = [ ];
+                description = "Provider names to exclude from this job.";
+                example = [ "onedrive" ];
               };
 
               mode = mkOption {
@@ -439,71 +505,6 @@ in
                   description = "Extra args passed to rclone check for all destinations.";
                 };
               };
-
-              destinations = mkOption {
-                description = "Per-destination remote definitions. Each destination gets its own service/timer.";
-                type = types.attrsOf (
-                  types.submodule (
-                    { name, ... }:
-                    {
-                      options = {
-                        enable = mkEnableOption "destination ${name}" // {
-                          default = true;
-                        };
-
-                        remote = mkOption {
-                          type = types.str;
-                          description = "Fully qualified rclone remote path, e.g. gdrive_crypt:backups/immich";
-                        };
-
-                        extraArgs = mkOption {
-                          type = types.listOf types.str;
-                          default = [ ];
-                          description = "Extra rclone args only for this destination.";
-                        };
-
-                        checkExtraArgs = mkOption {
-                          type = types.listOf types.str;
-                          default = [ ];
-                          description = "Extra rclone check args only for this destination.";
-                        };
-
-                        timer = mkOption {
-                          type = types.nullOr (
-                            types.submodule {
-                              options = {
-                                onCalendar = mkOption { type = types.str; };
-                                persistent = mkOption {
-                                  type = types.bool;
-                                  default = true;
-                                };
-                                randomizedDelaySec = mkOption {
-                                  type = types.str;
-                                  default = "0";
-                                };
-                              };
-                            }
-                          );
-                          default = null;
-                          description = "Optional timer override for this destination (useful for staggering remotes).";
-                        };
-                      };
-                    }
-                  )
-                );
-                default = { };
-                example = {
-                  gdrive.remote = "gdrive_crypt:backups/immich";
-                  onedrive = {
-                    remote = "onedrive_crypt:backups/immich";
-                    extraArgs = [ "--tpslimit=6" ];
-                    timer = {
-                      onCalendar = "Sun *-*-* 03:30:00";
-                      randomizedDelaySec = "5m";
-                    };
-                  };
-                };
-              };
             };
           }
         )
@@ -523,9 +524,10 @@ in
           message = "offsite-sync: duplicate destination remotes detected. Each destination must have a unique remote path.";
         }
       ];
+
       age.secrets.offsite-sync-rclone = {
         file = cfg.rclone.secretFile;
-        mode = "0600";
+        mode = "0600"; # writable so rclone can refresh OAuth tokens
       };
 
       environment.systemPackages = [ pkgs.rclone ];

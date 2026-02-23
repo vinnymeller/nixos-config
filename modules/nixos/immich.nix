@@ -49,14 +49,6 @@ in
     mine.services.offsiteSync.jobs.immich = {
       source = config.services.immich.mediaLocation;
       afterUnits = [ "immich-server.service" ];
-      destinations = {
-        gdrive = {
-          remote = "gdrive-crypt:immich";
-          extraArgs = [ "--drive-chunk-size=256M" ];
-        };
-        storj.remote = "storj-crypt:immich";
-        onedrive.remote = "onedrive-crypt:immich";
-      };
     };
 
     users.users.${cfg.user}.extraGroups = [

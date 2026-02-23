@@ -28,6 +28,14 @@ in
         offsiteSync = {
           enable = mkDefault cfg.selfhost;
           rclone.secretFile = ../../secrets/vinnix/rclone.conf.age;
+          providers = {
+            gdrive = {
+              remote = "gdrive-crypt";
+              extraArgs = [ "--drive-chunk-size=256M" ];
+            };
+            storj.remote = "storj-crypt";
+            onedrive.remote = "onedrive-crypt";
+          };
           onFailure = {
             enable = true;
             notifyUser = "vinny";
