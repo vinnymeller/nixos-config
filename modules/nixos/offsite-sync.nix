@@ -1,4 +1,3 @@
-# modules/nixos/offsite-sync.nix
 {
   config,
   lib,
@@ -100,7 +99,7 @@ let
         description = "Offsite sync (${jobName} -> ${destName}) via rclone";
         after = [ "network-online.target" ] ++ jobCfg.afterUnits;
         wants = [ "network-online.target" ];
-        wantedBy = [ ]; # timer starts it
+        wantedBy = [ ];
         serviceConfig = {
           Type = "oneshot";
           User = jobCfg.user;
@@ -116,7 +115,6 @@ let
       };
     };
 
-  # Build per-destination timer (lets you stagger remotes independently)
   mkJobDestTimer =
     jobName: jobCfg: destName: destCfg:
     let
@@ -213,7 +211,6 @@ let
 
   enabledJobs = lib.filterAttrs (_: j: j.enable) cfg.jobs;
 
-  # Flatten (job, destination) pairs only for enabled destinations
   jobDestPairs = lib.concatLists (
     mapAttrsToList (
       jobName: jobCfg:
@@ -318,7 +315,6 @@ in
                 default = "root";
                 description = "Group to run the rclone service as.";
               };
-
 
               excludes = mkOption {
                 type = types.listOf types.str;
@@ -515,14 +511,26 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
-    age.secrets.offsite-sync-rclone = {
-      file = cfg.rclone.secretFile;
-      mode = "0600"; # writable so rclone can refresh OAuth tokens
-    };
+  config = mkIf cfg.enable (
+    let
+      allRemotes = map (x: x.destCfg.remote) jobDestPairs;
+      uniqueRemotes = lib.unique allRemotes;
+    in
+    {
+      assertions = [
+        {
+          assertion = lib.length allRemotes == lib.length uniqueRemotes;
+          message = "offsite-sync: duplicate destination remotes detected. Each destination must have a unique remote path.";
+        }
+      ];
+      age.secrets.offsite-sync-rclone = {
+        file = cfg.rclone.secretFile;
+        mode = "0600";
+      };
 
-    environment.systemPackages = [ pkgs.rclone ];
-    systemd.services = servicesAttr // checkServicesAttr // failureNotifyService;
-    systemd.timers = timersAttr // checkTimersAttr;
-  };
+      environment.systemPackages = [ pkgs.rclone ];
+      systemd.services = servicesAttr // checkServicesAttr // failureNotifyService;
+      systemd.timers = timersAttr // checkTimersAttr;
+    }
+  );
 }
