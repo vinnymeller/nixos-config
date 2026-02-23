@@ -55,6 +55,7 @@ in
           extraArgs = [ "--drive-chunk-size=256M" ];
         };
         storj.remote = "storj-crypt:immich";
+        onedrive.remote = "onedrive-crypt:immich";
       };
     };
 
