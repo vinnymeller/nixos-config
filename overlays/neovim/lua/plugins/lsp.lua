@@ -155,6 +155,7 @@ local basic_servers = {
     "gopls",
     "taplo",
     "terraformls",
+    "tinymist",
 }
 
 -- TODO: check upstream for when they fix the annoying issue with nvim 0.11

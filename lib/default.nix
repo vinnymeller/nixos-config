@@ -78,6 +78,7 @@
       tailwindcss-language-server
       taplo
       terraform-ls
+      tinymist
       vscode-langservers-extracted
       yaml-language-server
     ];
