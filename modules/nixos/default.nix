@@ -29,12 +29,13 @@ in
           enable = mkDefault cfg.selfhost;
           rclone.secretFile = ../../secrets/vinnix/rclone.conf.age;
           providers = {
+            backblaze.remote = "backblaze-crypt";
             gdrive = {
               remote = "gdrive-crypt";
               extraArgs = [ "--drive-chunk-size=256M" ];
             };
-            storj.remote = "storj-crypt";
             onedrive.remote = "onedrive-crypt";
+            storj.remote = "storj-crypt";
           };
           onFailure = {
             enable = true;
