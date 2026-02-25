@@ -395,7 +395,7 @@ in
 
               createEmptySrcDirs = mkOption {
                 type = types.bool;
-                default = true;
+                default = false;
                 description = "Pass --create-empty-src-dirs to rclone.";
               };
 
