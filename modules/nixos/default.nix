@@ -34,7 +34,6 @@ in
               remote = "gdrive-crypt";
               extraArgs = [ "--drive-chunk-size=256M" ];
             };
-            onedrive.remote = "onedrive-crypt";
             storj.remote = "storj-crypt";
           };
           onFailure = {
