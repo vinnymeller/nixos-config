@@ -117,6 +117,7 @@ let
         after = [ "network-online.target" ] ++ jobCfg.afterUnits;
         wants = [ "network-online.target" ];
         wantedBy = [ ]; # timer starts it
+        restartIfChanged = false;
         serviceConfig = {
           Type = "oneshot";
           User = jobCfg.user;
@@ -291,7 +292,7 @@ in
 
               remote = mkOption {
                 type = types.str;
-                description = "Base rclone remote name (without path), e.g. gdrive-crypt";
+                description = "Base rclone remote name (without path), e.g. storj. This should match your rclone.conf";
               };
 
               extraArgs = mkOption {

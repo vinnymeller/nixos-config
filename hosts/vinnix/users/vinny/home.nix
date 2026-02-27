@@ -32,7 +32,6 @@ in
   home.packages =
     with pkgs;
     [
-      anki-bin
       feh
       gcc
       discord-canary
@@ -53,8 +52,6 @@ in
       qemu
       sbctl
       screenkey
-      unzip
-      koreader
       virt-manager
       yubioath-flutter
       yubikey-manager

@@ -275,6 +275,10 @@
     wl-clipboard
     zsh
     libva-utils
+    python3
+    nodejs
+    unzip
+
     nvtopPackages.full
   ];
 
@@ -326,7 +330,7 @@
     "nvidia"
   ];
   hardware.nvidia = {
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
     modesetting.enable = true;
     open = true;
     nvidiaSettings = true;
