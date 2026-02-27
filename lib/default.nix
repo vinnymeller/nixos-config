@@ -67,7 +67,6 @@
 
   sharedDeps = pkgs: {
     lsps = with pkgs; [
-      basedpyright
       ccls
       dockerfile-language-server
       gopls
@@ -75,6 +74,7 @@
       lua-language-server
       nixd
       nodePackages_latest.typescript-language-server
+      pyrefly
       tailwindcss-language-server
       taplo
       terraform-ls

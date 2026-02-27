@@ -156,25 +156,26 @@ local basic_servers = {
     "taplo",
     "terraformls",
     "tinymist",
+    "pyrefly",
 }
 
 -- TODO: check upstream for when they fix the annoying issue with nvim 0.11
 -- require("tailwind-tools").setup({})
 
 -- try ty for a bit
-vim.lsp.config("basedpyright", {
-    settings = {
-        basedpyright = {
-            analysis = {
-                autoImportCompletions = true,
-                autoSearchPaths = true,
-                diagnosticMode = "openFilesOnly",
-                useLibraryCodeForype = true,
-            },
-        },
-    },
-})
-vim.lsp.enable("basedpyright")
+-- vim.lsp.config("basedpyright", {
+--     settings = {
+--         basedpyright = {
+--             analysis = {
+--                 autoImportCompletions = true,
+--                 autoSearchPaths = true,
+--                 diagnosticMode = "openFilesOnly",
+--                 useLibraryCodeForype = true,
+--             },
+--         },
+--     },
+-- })
+-- vim.lsp.enable("basedpyright")
 
 -- vim.lsp.config("ty", {
 --     settings = {

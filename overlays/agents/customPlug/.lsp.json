@@ -1,7 +1,7 @@
 {
-  "basedpyright": {
-    "command": "basedpyright-langserver",
-    "args": ["--stdio"],
+  "pyrefly": {
+    "command": "pyrefly",
+    "args": ["lsp"],
     "extensionToLanguage": {
       ".py": "python",
       ".pyi": "python"
