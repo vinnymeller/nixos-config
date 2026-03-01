@@ -37,7 +37,6 @@ in
       discord-canary
       gocryptfs
       htop
-      libreoffice
       libvirt
       lxsession
       man-pages # linux man pages, goes with tlpi
