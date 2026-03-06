@@ -40,7 +40,7 @@ in
       libvirt
       lxsession
       man-pages # linux man pages, goes with tlpi
-      neofetch
+      fastfetch
       nerd-fonts._0xproto
       nix-init
       obs-studio
@@ -55,7 +55,6 @@ in
       yubioath-flutter
       yubikey-manager
       zsh-powerlevel10k
-      zed-editor
     ]
     ++ builtins.attrValues cust_pkgs;
 

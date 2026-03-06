@@ -282,7 +282,7 @@
     nvtopPackages.full
   ];
 
-  virtualisation.libvirtd.enable = true;
+  # virtualisation.libvirtd.enable = true;
 
   # this replaces virtualisation.podman.enableNvidia
   # this replaces  virtualisation.containers.cdi.dynamic.nvidia.enable lol
