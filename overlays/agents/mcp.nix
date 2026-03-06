@@ -13,14 +13,6 @@ in
     ];
     env = { };
   };
-  github = {
-    type = "stdio";
-    command = "${pkgs.github-mcp-server}/bin/github-mcp-server";
-    args = [
-      "stdio"
-    ];
-    env = { };
-  };
 }
 // lib.optionalAttrs (pkgs.stdenv.hostPlatform.system != "aarch64-linux") {
   chrome-devtools = {
