@@ -31,7 +31,7 @@ Codex is invoked via `codex exec` in Bash.
 
 Build the command from these flags:
 
-- **`-m <model>`**: Default `gpt-5.3-codex`.
+- **`-m <model>`**: Default `gpt-5.4`.
 - **`-s <sandbox>`**: Default `read-only`. Use `workspace-write` when Codex should attempt fixes. `danger-full-access` only if explicitly requested by the user.
 - **`--full-auto`**: Sets `workspace-write` with relaxed approval. Do not combine with `-s`.
 - **`-c model_reasoning_effort=<level>`**: Default `high`. Rarely use `low`/`medium`. Use `xhigh` only for the most complex tasks (e.g., stuck on a bug after previous `high`-effort attempts failed).
@@ -45,15 +45,15 @@ Do **not** use `--json` — it floods stdout with noisy JSONL events.
 
 ```bash
 # Read-only question
-codex exec -m gpt-5.3-codex -s read-only -c model_reasoning_effort=high -c model_reasoning_summary=none "Explain how the auth module works"
+codex exec -m gpt-5.4 -s read-only -c model_reasoning_effort=high -c model_reasoning_summary=none "Explain how the auth module works"
 
 # Full-auto debugging
-codex exec -m gpt-5.3-codex --full-auto -c model_reasoning_effort=xhigh -c model_reasoning_summary=none "Fix the failing test in src/auth/login.test.ts"
+codex exec -m gpt-5.4 --full-auto -c model_reasoning_effort=xhigh -c model_reasoning_summary=none "Fix the failing test in src/auth/login.test.ts"
 ```
 
 ### Continuing a conversation
 
-**Always use the session ID** — never `--last`, since multiple Claude instances may be talking to Codex concurrently.
+**Always use the session ID** — never `--last`, since multiple Claude instances may be talking to Codex concurrently. You must also re-specify the same model and sandbox policy each time (unless you are purposely changing them).
 
 ```bash
 codex exec resume <SESSION_ID> "Follow-up question here"
