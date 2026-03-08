@@ -37,6 +37,7 @@ in
             notifyUser = "vinny";
           };
         };
+        booklore.enable = mkDefault cfg.selfhost;
         rsvpub.enable = mkDefault cfg.selfhost;
         vtt.enable = mkDefault true;
       };

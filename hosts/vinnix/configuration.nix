@@ -22,6 +22,11 @@
     };
   };
 
+  mine.services.booklore = {
+    enable = true;
+    secretFile = ../../secrets/vinnix/booklore.age;
+  };
+
   age.secrets.vinnix-wpa-initrd = {
     file = ../../secrets/vinnix/wpa_supplicant.conf.age;
     path = "/etc/secrets/initrd/wpa_supplicant.conf";

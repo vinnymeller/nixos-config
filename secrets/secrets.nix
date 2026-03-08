@@ -33,5 +33,6 @@ in
   "vinnix/tailscale-authkey.age".publicKeys = host-vinnix;
   "vinnix/immich.age".publicKeys = host-vinnix;
   "vinnix/rclone.conf.age".publicKeys = users ++ systems ++ work;
+  "vinnix/booklore.age".publicKeys = host-vinnix;
   "vtt/gemini.age".publicKeys = host-vinnix;
 }
