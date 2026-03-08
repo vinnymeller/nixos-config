@@ -39,7 +39,7 @@ in
     };
     timeZone = mkOption {
       type = types.str;
-      default = "America/New_York";
+      default = "America/Chicago";
     };
     uid = mkOption {
       type = types.int;
@@ -108,6 +108,11 @@ in
           };
         };
       };
+    };
+
+    mine.services.offsiteSync.jobs.booklore = {
+      source = cfg.dataDir;
+      afterUnits = [ "docker-compose-booklore.service" ];
     };
 
     systemd.tmpfiles.rules = [
