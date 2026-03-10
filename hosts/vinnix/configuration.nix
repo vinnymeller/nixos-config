@@ -349,6 +349,7 @@
       };
     };
   };
+  services.mullvad-vpn.enable = true;
 
   services.udev.extraRules = ''
     # 3090
