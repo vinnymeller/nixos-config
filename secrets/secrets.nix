@@ -25,14 +25,17 @@ let
     vinnix-vinny
   ];
 
+  default = users ++ systems ++ work;
+
 in
 {
-  "github-nix-ci/mxves.token.age".publicKeys = users ++ systems;
-  "shell/secrets.sh.age".publicKeys = users ++ systems ++ work;
-  "vinnix/wpa_supplicant.conf.age".publicKeys = host-vinnix;
-  "vinnix/tailscale-authkey.age".publicKeys = host-vinnix;
-  "vinnix/immich.age".publicKeys = host-vinnix;
-  "vinnix/rclone.conf.age".publicKeys = users ++ systems ++ work;
-  "vinnix/booklore.age".publicKeys = host-vinnix;
+  "github-nix-ci/mxves.token.age".publicKeys = default;
+  "shell/secrets.sh.age".publicKeys = default;
+  "vinnix/wpa_supplicant.conf.age".publicKeys = default;
+  "vinnix/tailscale-authkey.age".publicKeys = default;
+  "vinnix/immich.age".publicKeys = default;
+  "vinnix/rclone.conf.age".publicKeys = default;
+  "vinnix/booklore.age".publicKeys = default;
+  "vinnix/restic-password.age".publicKeys = default;
   "vtt/gemini.age".publicKeys = host-vinnix;
 }

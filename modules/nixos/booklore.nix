@@ -115,6 +115,11 @@ in
       afterUnits = [ "docker-compose-booklore.service" ];
     };
 
+    mine.services.restic.jobs.booklore = {
+      paths = [ cfg.dataDir ];
+      exclude = [ "${cfg.dataDir}/mariadb" ];
+    };
+
     systemd.tmpfiles.rules = [
       "d ${cfg.dataDir} 0755 ${toString cfg.uid} ${toString cfg.gid} -"
       "d ${cfg.dataDir}/data 0755 ${toString cfg.uid} ${toString cfg.gid} -"

@@ -51,6 +51,10 @@ in
       afterUnits = [ "immich-server.service" ];
     };
 
+    mine.services.restic.jobs.immich = {
+      paths = [ config.services.immich.mediaLocation ];
+    };
+
     users.users.${cfg.user}.extraGroups = [
       "video"
       "render"
