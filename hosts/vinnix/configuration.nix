@@ -27,9 +27,7 @@
     secretFile = ../../secrets/vinnix/booklore.age;
   };
   mine.services.immich.enable = true;
-  mine.services.offsiteSync.enable = true;
   mine.services.restic.enable = true;
-  mine.services.rsvpub.enable = true;
 
   age.secrets.vinnix-wpa-initrd = {
     file = ../../secrets/vinnix/wpa_supplicant.conf.age;

@@ -46,11 +46,6 @@ in
       host = "0.0.0.0";
     };
 
-    mine.services.offsiteSync.jobs.immich = {
-      source = config.services.immich.mediaLocation;
-      afterUnits = [ "immich-server.service" ];
-    };
-
     mine.services.restic.jobs.immich = {
       paths = [ config.services.immich.mediaLocation ];
     };

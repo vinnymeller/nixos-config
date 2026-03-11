@@ -110,11 +110,6 @@ in
       };
     };
 
-    mine.services.offsiteSync.jobs.booklore = {
-      source = cfg.dataDir;
-      afterUnits = [ "docker-compose-booklore.service" ];
-    };
-
     mine.services.restic.jobs.booklore = {
       paths = [ cfg.dataDir ];
       exclude = [ "${cfg.dataDir}/mariadb" ];

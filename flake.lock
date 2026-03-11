@@ -1043,33 +1043,9 @@
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-stable": "nixpkgs-stable",
         "ragenix": "ragenix",
-        "rsvpub": "rsvpub",
         "rust-overlay": "rust-overlay",
         "systems": "systems_3",
         "wrapper-modules": "wrapper-modules"
-      }
-    },
-    "rsvpub": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1768407932,
-        "narHash": "sha256-Z6HrKtMulLT3mYnpcs1eNJlQK0OLzq7WfMnIpIAVcec=",
-        "owner": "vinnymeller",
-        "repo": "rsvpub",
-        "rev": "d0f001b5e4bf21ffc9eb2eee145aca8531aae0be",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vinnymeller",
-        "repo": "rsvpub",
-        "type": "github"
       }
     },
     "rust-overlay": {

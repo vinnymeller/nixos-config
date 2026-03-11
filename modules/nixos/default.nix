@@ -25,18 +25,6 @@ in
       services = {
         github-runners.enable = mkDefault cfg.selfhost;
         immich.enable = mkDefault false;
-        offsiteSync = {
-          enable = mkDefault false;
-          rclone.secretFile = ../../secrets/vinnix/rclone.conf.age;
-          providers = {
-            backblaze.remote = "backblaze-crypt";
-            storj.remote = "storj-crypt";
-          };
-          onFailure = {
-            enable = true;
-            notifyUser = "vinny";
-          };
-        };
         restic = {
           enable = mkDefault false;
           rcloneConfAge = ../../secrets/vinnix/rclone.conf.age;
@@ -51,7 +39,6 @@ in
           };
         };
         booklore.enable = mkDefault false;
-        rsvpub.enable = mkDefault false;
         vtt.enable = mkDefault true;
       };
       networking.enable = mkDefault true;
