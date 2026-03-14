@@ -36,6 +36,7 @@ in
             extra_hosts = [ "host.docker.internal:host-gateway" ];
             deploy.resources.reservations.devices = [
               {
+                driver = "nvidia";
                 capabilities = [ "gpu" ];
               }
             ];
