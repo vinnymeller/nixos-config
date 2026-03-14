@@ -292,9 +292,6 @@
 
   # virtualisation.libvirtd.enable = true;
 
-  # this replaces virtualisation.podman.enableNvidia
-  # this replaces  virtualisation.containers.cdi.dynamic.nvidia.enable lol
-  #hardware.nvidia-container-toolkit.enable = true;
 
   system.stateVersion = "25.11"; # read documentation on configuration.nix before possibly changing this
 
