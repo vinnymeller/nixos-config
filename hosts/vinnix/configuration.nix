@@ -27,6 +27,7 @@
     secretFile = ../../secrets/vinnix/booklore.age;
   };
   mine.services.immich.enable = true;
+  mine.services.jellyfin.enable = true;
   mine.services.restic.enable = true;
 
   age.secrets.vinnix-wpa-initrd = {

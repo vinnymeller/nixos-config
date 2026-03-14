@@ -25,6 +25,7 @@ in
       services = {
         github-runners.enable = mkDefault cfg.selfhost;
         immich.enable = mkDefault false;
+        jellyfin.enable = mkDefault false;
         restic = {
           enable = mkDefault false;
           rcloneConfAge = ../../secrets/vinnix/rclone.conf.age;

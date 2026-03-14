@@ -23,7 +23,7 @@
     ijq
     jq
     sqlfluff
-    nodejs_22
+    nodejs
     (pre-commit.override { dotnet-sdk = pkgs.stable-pkgs.dotnet-sdk; })
     uv
     (dbt.withAdapters (a: [ a.dbt-snowflake ]))

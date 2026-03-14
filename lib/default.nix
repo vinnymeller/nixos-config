@@ -73,7 +73,7 @@
       ltex-ls-plus
       lua-language-server
       nixd
-      nodePackages_latest.typescript-language-server
+      nodePackages.typescript-language-server
       pyrefly
       tailwindcss-language-server
       taplo

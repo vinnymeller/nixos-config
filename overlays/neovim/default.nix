@@ -37,7 +37,7 @@
 
       # nodePackages.eslint
       nodePackages.sql-formatter
-      nodePackages_latest.nodejs
+      nodePackages.nodejs
       postgresql
       prettierd
       # ty
