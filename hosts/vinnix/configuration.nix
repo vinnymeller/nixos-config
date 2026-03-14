@@ -129,6 +129,7 @@
     ];
     extraModprobeConfig = ''
       options btusb enable_autosuspend=n
+      options rtw89_pci disable_clkreq=y disable_aspm_l1=y disable_aspm_l1ss=y
     '';
     loader = {
       systemd-boot = {
@@ -354,6 +355,8 @@
   services.udev.extraRules = ''
     # 3090
     KERNEL=="card*", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", KERNELS=="0000:01:00.0", SYMLINK+="dri/nvidia"
+    # Disable WiFi power save for rtw89
+    ACTION=="add", SUBSYSTEM=="net", KERNEL=="wl*", RUN+="${pkgs.iw}/bin/iw dev $name set power_save off"
   '';
 
   security.pam.services = {
