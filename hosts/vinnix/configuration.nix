@@ -118,6 +118,7 @@
       "rtw89_pci.disable_clkreq=Y"
       "rtw89_pci.disable_aspm_l1=Y"
       "rtw89_pci.disable_aspm_l1ss=Y"
+      "rtw89_core.disable_ps_mode=Y"
     ];
     blacklistedKernelModules = [
       #"nvidia"
@@ -384,6 +385,7 @@
     KERNEL=="card*", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", KERNELS=="0000:01:00.0", SYMLINK+="dri/nvidia"
     # Disable WiFi power save for rtw89
     ACTION=="add", SUBSYSTEM=="net", KERNEL=="wl*", RUN+="${pkgs.iw}/bin/iw dev $name set power_save off"
+    ACTION=="add", SUBSYSTEM=="net", KERNEL=="wl*", RUN+="${pkgs.iw}/bin/iw dev $name set bitrates he-mcs-5 2:4-11"
   '';
 
   security.pam.services = {

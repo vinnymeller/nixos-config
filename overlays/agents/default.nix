@@ -59,7 +59,7 @@ in
         ## Extra Guidelines
         - ALWAYS make aggressive use of subagents where it makes sense.
         - NEVER try running git commands that modify state (e.g. commit, push, rebase, reset). I will handle all git operations myself.
-        - ALWAYS make sure to check which skills or agents might match the user's request before getting started.
+        - When in plan mode or otherwise creating a plan file, ALWAYS be very detailed. Before starting work, we will most likely clear all prior context, and may send the plan to another agent for review. Thus, the plan should be as detailed as needed to be completely clear, self-documenting, and actionable on its own. You should include things like line numbers, decision rationale, tradeoffs already considered, etc, to ensure the agents who review or execute the plan don't need to do extensive research upon reading the plan.
       '';
     };
     pluginDirs = (map pluginPath officialPluginNames) ++ [
