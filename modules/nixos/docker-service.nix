@@ -91,10 +91,19 @@ let
 
       secretsOverrideFile = jsonFormat.generate "dc-${name}-secrets-override.json" secretsOverride;
 
+      # ── GPU Override ──
+      gpuOverride = {
+        services = lib.genAttrs (builtins.attrNames (stackCfg.compose.services or { })) (_: {
+          devices = [ "nvidia.com/gpu=all" ];
+        });
+      };
+      gpuOverrideFile = jsonFormat.generate "dc-${name}-gpu-override.json" gpuOverride;
+
       # ── Compose Command ──
       composeFiles =
         [ composeFile ]
         ++ lib.optional hasSecretsOverride secretsOverrideFile
+        ++ lib.optional stackCfg.gpu.enable gpuOverrideFile
         ++ stackCfg.composeOverrides;
 
       composeFFlags = lib.concatMapStringsSep " " (f: "-f ${f}") composeFiles;
@@ -382,6 +391,9 @@ in
                 default = "120s";
               };
 
+              # ── GPU Passthrough ──
+              gpu.enable = mkEnableOption "NVIDIA GPU passthrough via CDI";
+
               # ── Auto Update ──
               autoUpdate = {
                 enable = mkEnableOption "automatic image updates";
@@ -408,7 +420,11 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkMerge [
+    {
+      mine.services.dockerCompose.enable = lib.mkDefault (enabledStacks != { });
+    }
+    (mkIf cfg.enable {
     assertions =
       let
         perStackAssertions = concatLists (
@@ -489,5 +505,10 @@ in
     systemd.timers = lib.foldl' (
       acc: sc: acc // sc.updateTimer
     ) { } (builtins.attrValues stackConfigs);
-  };
+    })
+    (mkIf (lib.any (s: s.gpu.enable) (builtins.attrValues enabledStacks)) {
+      hardware.nvidia-container-toolkit.enable = true;
+      virtualisation.docker.daemon.settings.features.cdi = true;
+    })
+  ];
 }

@@ -52,7 +52,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    mine.services.dockerCompose.enable = true;
     mine.services.dockerCompose.stacks.booklore = {
       agenix.envFile.file = cfg.secretFile;
 

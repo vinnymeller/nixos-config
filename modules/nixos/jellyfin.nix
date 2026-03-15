@@ -13,11 +13,9 @@ in
   options.mine.services.jellyfin.enable = mkEnableOption "Jellyfin media server";
 
   config = mkIf cfg.enable {
-    hardware.nvidia-container-toolkit.enable = true;
-    virtualisation.docker.daemon.settings.features.cdi = true;
-    mine.services.dockerCompose.enable = true;
     mine.services.dockerCompose.stacks.jellyfin = {
       autoUpdate.enable = true;
+      gpu.enable = true;
       compose = {
         services = {
           jellyfin = {
@@ -34,14 +32,12 @@ in
               "${dataDir}/cache:/cache"
               "${dataDir}/media:/media:ro"
             ];
-            extra_hosts = [ "host.docker.internal:host-gateway" ];
-            devices = [ "nvidia.com/gpu=all" ];
           };
         };
       };
     };
 
-systemd.tmpfiles.rules = [
+    systemd.tmpfiles.rules = [
       "d ${dataDir} 0755 1000 1000 -"
       "d ${dataDir}/config 0755 1000 1000 -"
       "d ${dataDir}/cache 0755 1000 1000 -"
