@@ -40,6 +40,7 @@ in
   claude-code = inputs.wrapper-modules.wrappers.claude-code.wrap {
     pkgs = final;
     package = final.llm-agents.claude-code;
+    envDefault.DISABLE_TELEMETRY = null;
     extraPackages =
       with final;
       [

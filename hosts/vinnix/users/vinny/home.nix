@@ -48,6 +48,7 @@ in
       pavucontrol
       pkg-config
       protonup-qt
+      qbittorrent-enhanced
       qemu
       sbctl
       screenkey

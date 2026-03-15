@@ -14,6 +14,7 @@ in
 
   config = mkIf cfg.enable {
     hardware.nvidia-container-toolkit.enable = true;
+    virtualisation.docker.daemon.settings.features.cdi = true;
     mine.services.dockerCompose.enable = true;
     mine.services.dockerCompose.stacks.jellyfin = {
       autoUpdate.enable = true;
@@ -34,12 +35,7 @@ in
               "${dataDir}/media:/media:ro"
             ];
             extra_hosts = [ "host.docker.internal:host-gateway" ];
-            deploy.resources.reservations.devices = [
-              {
-                driver = "nvidia";
-                capabilities = [ "gpu" ];
-              }
-            ];
+            devices = [ "nvidia.com/gpu=all" ];
           };
         };
       };

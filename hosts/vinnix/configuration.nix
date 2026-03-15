@@ -352,6 +352,31 @@
   };
   services.mullvad-vpn.enable = true;
 
+  age.secrets.mullvad-wg-key = {
+    file = ../../secrets/vinnix/mullvad-wg-key.age;
+    mode = "0400";
+  };
+
+  networking.wg-quick.interfaces.wg-mv = {
+    address = [ "10.69.64.78/32" "fc00:bbbb:bbbb:bb01::6:404d/128" ];
+    privateKeyFile = config.age.secrets.mullvad-wg-key.path;
+    table = "off";
+    postUp = ''
+      ip route add default dev wg-mv table 51820
+      ip rule add from 10.69.64.78/32 table 51820
+    '';
+    postDown = ''
+      ip rule del from 10.69.64.78/32 table 51820
+    '';
+    peers = [
+      {
+        publicKey = "nvyBkaEXHwyPBAm8spGB0TFzf2W5wPAl8EEuJ0t+bzs=";
+        endpoint = "45.134.140.130:51820";
+        allowedIPs = [ "0.0.0.0/0" "::0/0" ];
+      }
+    ];
+  };
+
   services.udev.extraRules = ''
     # 3090
     KERNEL=="card*", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", KERNELS=="0000:01:00.0", SYMLINK+="dri/nvidia"

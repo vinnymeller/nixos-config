@@ -37,5 +37,6 @@ in
   "vinnix/rclone.conf.age".publicKeys = default;
   "vinnix/booklore.age".publicKeys = default;
   "vinnix/restic-password.age".publicKeys = default;
+  "vinnix/mullvad-wg-key.age".publicKeys = default;
   "vtt/gemini.age".publicKeys = host-vinnix;
 }
