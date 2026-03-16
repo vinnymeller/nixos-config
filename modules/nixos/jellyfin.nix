@@ -7,7 +7,7 @@
 let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.mine.services.jellyfin;
-  dataDir = "/var/lib/jellyfin";
+  dataDir = "/data/jellyfin";
 in
 {
   options.mine.services.jellyfin.enable = mkEnableOption "Jellyfin media server";
