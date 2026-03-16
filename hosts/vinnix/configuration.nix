@@ -13,6 +13,16 @@
 
   profile.selfhost = true;
 
+  environment.etc.crypttab.text = ''
+    data UUID=a84a3eeb-8805-4299-9467-a8cd4912a059 /etc/luks-keys/data.key luks
+  '';
+
+  fileSystems."/data" = {
+    device = "/dev/mapper/data";
+    fsType = "btrfs";
+    options = [ "defaults" "noatime" ];
+  };
+
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
     config = {
