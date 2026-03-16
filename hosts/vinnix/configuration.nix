@@ -300,7 +300,8 @@
     python3
     nodejs
     unzip
-
+    smartmontools
+    iw
     nvtopPackages.full
   ];
 
