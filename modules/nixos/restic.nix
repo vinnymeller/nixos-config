@@ -238,6 +238,10 @@ in
           assertion = lib.length allRepos == lib.length (lib.unique allRepos);
           message = "restic: duplicate repository paths detected across job/provider pairs.";
         }
+        {
+          assertion = enabledJobs == { } || filterAttrs (_: p: p.enable) cfg.providers != { };
+          message = "restic: jobs are defined but no providers are enabled. Add at least one provider.";
+        }
       ];
 
       age.secrets.restic-rclone = {

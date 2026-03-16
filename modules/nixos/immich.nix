@@ -15,7 +15,7 @@ in
 
   config = mkIf cfg.enable {
     mine.services.dockerCompose.stacks.immich = {
-      gpu.enable = true;
+      gpu.services = [ "immich-machine-learning" ];
       autoUpdate.enable = false;
       agenix.envFile = {
         file = ../../secrets/vinnix/immich.age;
@@ -23,6 +23,20 @@ in
           "immich-server"
           "database"
         ];
+      };
+
+      backup = {
+        enable = true;
+        paths = [ mediaDir ];
+        exclude = [
+          "${mediaDir}/thumbs"
+          "${mediaDir}/encoded-video"
+        ];
+        extraBackupArgs = [ "--verbose" ];
+      };
+
+      storage.directories = {
+        "${dbDir}" = {};
       };
 
       compose = {
@@ -87,18 +101,5 @@ in
         volumes.model-cache = { };
       };
     };
-
-    mine.services.restic.jobs.immich = {
-      paths = [ mediaDir ];
-      exclude = [
-        "${mediaDir}/thumbs"
-        "${mediaDir}/encoded-video"
-      ];
-      extraBackupArgs = [ "--verbose" ];
-    };
-
-    systemd.tmpfiles.rules = [
-      "d ${dbDir} 0755 root root -"
-    ];
   };
 }

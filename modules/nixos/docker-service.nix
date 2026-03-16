@@ -92,18 +92,40 @@ let
       secretsOverrideFile = jsonFormat.generate "dc-${name}-secrets-override.json" secretsOverride;
 
       # ── GPU Override ──
+      hasGpu = stackCfg.gpu.services != [ ];
+
       gpuOverride = {
-        services = lib.genAttrs (builtins.attrNames (stackCfg.compose.services or { })) (_: {
+        services = lib.genAttrs stackCfg.gpu.services (_: {
           devices = [ "nvidia.com/gpu=all" ];
         });
       };
       gpuOverrideFile = jsonFormat.generate "dc-${name}-gpu-override.json" gpuOverride;
 
+      # ── Logging Override ──
+      loggingOptions =
+        if stackCfg.logging.options != { } then
+          stackCfg.logging.options
+        else if stackCfg.logging.driver == "journald" then
+          { tag = name; }
+        else
+          { };
+
+      loggingOverride = {
+        services = lib.genAttrs (builtins.attrNames (stackCfg.compose.services or { })) (_: {
+          logging = {
+            driver = stackCfg.logging.driver;
+            options = loggingOptions;
+          };
+        });
+      };
+      loggingOverrideFile = jsonFormat.generate "dc-${name}-logging-override.json" loggingOverride;
+
       # ── Compose Command ──
       composeFiles =
         [ composeFile ]
         ++ lib.optional hasSecretsOverride secretsOverrideFile
-        ++ lib.optional stackCfg.gpu.enable gpuOverrideFile
+        ++ lib.optional hasGpu gpuOverrideFile
+        ++ lib.optional stackCfg.logging.enable loggingOverrideFile
         ++ stackCfg.composeOverrides;
 
       composeFFlags = lib.concatMapStringsSep " " (f: "-f ${f}") composeFiles;
@@ -151,6 +173,7 @@ let
       reloadTriggers =
         [ composeFile ]
         ++ lib.optional hasSecretsOverride secretsOverrideFile
+        ++ lib.optional stackCfg.logging.enable loggingOverrideFile
         ++ stackCfg.composeOverrides
         ++ lib.optional hasEnvFile stackCfg.agenix.envFile.file
         ++ mapAttrsToList (_: s: s.file) stackCfg.agenix.secrets
@@ -169,6 +192,37 @@ let
         # Reload OUTSIDE lock — ExecReload acquires its own flock
         systemctl reload docker-compose-${name}.service
       '';
+
+      # ── tmpfiles Rules ──
+      tmpfilesRules = mapAttrsToList (
+        path: dirCfg: "d ${path} ${dirCfg.mode} ${dirCfg.owner} ${dirCfg.group} -"
+      ) stackCfg.storage.directories;
+
+      # ── Restic Backup Job ──
+      resticJob = lib.optionalAttrs stackCfg.backup.enable {
+        ${name} = {
+          inherit (stackCfg.backup) paths exclude extraBackupArgs;
+        }
+        // lib.optionalAttrs (stackCfg.backup.backupPrepareCommand != null) {
+          inherit (stackCfg.backup) backupPrepareCommand;
+        }
+        // lib.optionalAttrs (stackCfg.backup.backupCleanupCommand != null) {
+          inherit (stackCfg.backup) backupCleanupCommand;
+        }
+        // lib.optionalAttrs (stackCfg.backup.timerConfig != null) {
+          inherit (stackCfg.backup) timerConfig;
+        }
+        // lib.optionalAttrs (stackCfg.backup.pruneOpts != null) {
+          inherit (stackCfg.backup) pruneOpts;
+        };
+      };
+
+      # ── Wrapper Script ──
+      wrapperScript = lib.optional stackCfg.createWrapper (
+        pkgs.writeShellScriptBin "dc-${name}" ''
+          exec ${composeCmd} "$@"
+        ''
+      );
 
     in
     {
@@ -245,6 +299,8 @@ let
           };
         };
       };
+
+      inherit tmpfilesRules resticJob wrapperScript;
     };
 
   stackConfigs = mapAttrs mkStackConfig enabledStacks;
@@ -392,7 +448,11 @@ in
               };
 
               # ── GPU Passthrough ──
-              gpu.enable = mkEnableOption "NVIDIA GPU passthrough via CDI";
+              gpu.services = mkOption {
+                type = types.listOf types.str;
+                default = [ ];
+                description = "Compose services that receive GPU devices. Empty list = no GPU.";
+              };
 
               # ── Auto Update ──
               autoUpdate = {
@@ -412,6 +472,101 @@ in
                   default = true;
                   description = "Whether missed runs are triggered on next boot.";
                 };
+              };
+
+              # ── Storage / tmpfiles ──
+              storage.directories = mkOption {
+                default = { };
+                description = "Host directories to create via systemd-tmpfiles before the stack starts.";
+                type = types.attrsOf (
+                  types.submodule {
+                    options = {
+                      mode = mkOption {
+                        type = types.str;
+                        default = "0755";
+                      };
+                      owner = mkOption {
+                        type = types.str;
+                        default = "root";
+                      };
+                      group = mkOption {
+                        type = types.str;
+                        default = "root";
+                      };
+                    };
+                  }
+                );
+              };
+
+              # ── Backup (restic) ──
+              backup = {
+                enable = mkEnableOption "restic backup for this stack";
+
+                paths = mkOption {
+                  type = types.listOf types.str;
+                  default = [ ];
+                  description = "Paths to back up.";
+                };
+
+                exclude = mkOption {
+                  type = types.listOf types.str;
+                  default = [ ];
+                  description = "Paths/patterns to exclude from backup.";
+                };
+
+                extraBackupArgs = mkOption {
+                  type = types.listOf types.str;
+                  default = [ ];
+                  description = "Extra arguments passed to restic backup.";
+                };
+
+                backupPrepareCommand = mkOption {
+                  type = types.nullOr types.str;
+                  default = null;
+                  description = "Command to run before backup (e.g., database dump).";
+                };
+
+                backupCleanupCommand = mkOption {
+                  type = types.nullOr types.str;
+                  default = null;
+                  description = "Command to run after backup completes.";
+                };
+
+                timerConfig = mkOption {
+                  type = types.nullOr (types.attrsOf (types.oneOf [ types.bool types.str types.int ]));
+                  default = null;
+                  description = "Override timer config. null uses restic module defaults.";
+                };
+
+                pruneOpts = mkOption {
+                  type = types.nullOr (types.listOf types.str);
+                  default = null;
+                  description = "Override prune options. null uses restic module defaults.";
+                };
+              };
+
+              # ── Logging ──
+              logging = {
+                enable = mkEnableOption "compose logging override";
+
+                driver = mkOption {
+                  type = types.str;
+                  default = "journald";
+                  description = "Docker logging driver.";
+                };
+
+                options = mkOption {
+                  type = types.attrsOf types.str;
+                  default = { };
+                  description = "Logging driver options. Defaults to { tag = stackName; } for journald.";
+                };
+              };
+
+              # ── Wrapper Script ──
+              createWrapper = mkOption {
+                type = types.bool;
+                default = true;
+                description = "Create a dc-<name> wrapper script in the system PATH.";
               };
             };
           }
@@ -457,6 +612,29 @@ in
                     s: builtins.hasAttr s (stackCfg.compose.services or { })
                   ) stackCfg.agenix.envFile.services;
                 message = "docker-compose stack '${name}': envFile.services references unknown service(s).";
+              }
+              {
+                assertion = !stackCfg.backup.enable || config.mine.services.restic.enable;
+                message = "docker-compose stack '${name}': backup.enable requires mine.services.restic.enable.";
+              }
+              {
+                assertion = !stackCfg.backup.enable || stackCfg.backup.paths != [ ];
+                message = "docker-compose stack '${name}': backup.enable is true but no paths specified.";
+              }
+              {
+                assertion =
+                  stackCfg.gpu.services == [ ]
+                  || stackCfg.compose == null
+                  || lib.all (
+                    s: builtins.hasAttr s (stackCfg.compose.services or { })
+                  ) stackCfg.gpu.services;
+                message = "docker-compose stack '${name}': gpu.services references unknown service(s).";
+              }
+              {
+                assertion =
+                  !stackCfg.logging.enable
+                  || stackCfg.compose != null;
+                message = "docker-compose stack '${name}': logging.enable with composeFile is not supported (services can't be auto-discovered). Set logging directly in your compose file.";
               }
             ]
             ++ concatLists (
@@ -505,8 +683,22 @@ in
     systemd.timers = lib.foldl' (
       acc: sc: acc // sc.updateTimer
     ) { } (builtins.attrValues stackConfigs);
+
+    systemd.tmpfiles.rules = concatLists (
+      map (sc: sc.tmpfilesRules) (builtins.attrValues stackConfigs)
+    );
+
+    environment.systemPackages = concatLists (
+      map (sc: sc.wrapperScript) (builtins.attrValues stackConfigs)
+    );
+
+    mine.services.restic.jobs = lib.mkIf
+      (lib.any (sc: sc.backup.enable) (builtins.attrValues enabledStacks))
+      (lib.foldl' (
+        acc: sc: acc // sc.resticJob
+      ) { } (builtins.attrValues stackConfigs));
     })
-    (mkIf (lib.any (s: s.gpu.enable) (builtins.attrValues enabledStacks)) {
+    (mkIf (lib.any (s: s.gpu.services != [ ]) (builtins.attrValues enabledStacks)) {
       hardware.nvidia-container-toolkit.enable = true;
       virtualisation.docker.daemon.settings.features.cdi = true;
     })

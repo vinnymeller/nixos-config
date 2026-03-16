@@ -55,6 +55,22 @@ in
     mine.services.dockerCompose.stacks.booklore = {
       agenix.envFile.file = cfg.secretFile;
 
+      backup = {
+        enable = true;
+        paths = [ cfg.dataDir ];
+        exclude = [ "${cfg.dataDir}/mariadb" ];
+      };
+
+      storage.directories = let
+        ug = { owner = toString cfg.uid; group = toString cfg.gid; };
+      in {
+        "${cfg.dataDir}" = ug;
+        "${cfg.dataDir}/data" = ug;
+        "${cfg.dataDir}/mariadb" = ug;
+        "${cfg.booksDir}" = ug;
+        "${cfg.bookdropDir}" = ug;
+      };
+
       compose = {
         services = {
           booklore = {
@@ -108,18 +124,5 @@ in
         };
       };
     };
-
-    mine.services.restic.jobs.booklore = {
-      paths = [ cfg.dataDir ];
-      exclude = [ "${cfg.dataDir}/mariadb" ];
-    };
-
-    systemd.tmpfiles.rules = [
-      "d ${cfg.dataDir} 0755 ${toString cfg.uid} ${toString cfg.gid} -"
-      "d ${cfg.dataDir}/data 0755 ${toString cfg.uid} ${toString cfg.gid} -"
-      "d ${cfg.dataDir}/mariadb 0755 ${toString cfg.uid} ${toString cfg.gid} -"
-      "d ${cfg.booksDir} 0755 ${toString cfg.uid} ${toString cfg.gid} -"
-      "d ${cfg.bookdropDir} 0755 ${toString cfg.uid} ${toString cfg.gid} -"
-    ];
   };
 }

@@ -15,7 +15,15 @@ in
   config = mkIf cfg.enable {
     mine.services.dockerCompose.stacks.jellyfin = {
       autoUpdate.enable = true;
-      gpu.enable = true;
+      gpu.services = [ "jellyfin" ];
+
+      storage.directories = {
+        "${dataDir}" = { owner = "1000"; group = "1000"; };
+        "${dataDir}/config" = { owner = "1000"; group = "1000"; };
+        "${dataDir}/cache" = { owner = "1000"; group = "1000"; };
+        "${dataDir}/media" = { owner = "1000"; group = "1000"; };
+      };
+
       compose = {
         services = {
           jellyfin = {
@@ -36,12 +44,5 @@ in
         };
       };
     };
-
-    systemd.tmpfiles.rules = [
-      "d ${dataDir} 0755 1000 1000 -"
-      "d ${dataDir}/config 0755 1000 1000 -"
-      "d ${dataDir}/cache 0755 1000 1000 -"
-      "d ${dataDir}/media 0755 1000 1000 -"
-    ];
   };
 }
