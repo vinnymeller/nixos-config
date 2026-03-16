@@ -184,11 +184,20 @@ let
       flock = "${pkgs.util-linux}/bin/flock ${lockFile}";
 
       # ── Update Service & Timer ──
+      pullTargets =
+        let
+          allServices = builtins.attrNames (stackCfg.compose.services or { });
+          excluded = stackCfg.autoUpdate.exclude;
+        in
+        lib.filter (s: !lib.elem s excluded) allServices;
+
+      pullTargetsStr = lib.concatStringsSep " " pullTargets;
+
       updateScript = pkgs.writeShellScript "docker-compose-${name}-update" ''
         # Skip if stack not running
         systemctl is-active --quiet docker-compose-${name}.service || exit 0
         # Pull under lock (serialized with main service operations)
-        flock ${lockFile} ${composeCmd} pull -q --ignore-buildable
+        flock ${lockFile} ${composeCmd} pull -q --ignore-buildable ${pullTargetsStr}
         # Reload OUTSIDE lock — ExecReload acquires its own flock
         systemctl reload docker-compose-${name}.service
       '';
@@ -472,6 +481,11 @@ in
                   default = true;
                   description = "Whether missed runs are triggered on next boot.";
                 };
+                exclude = mkOption {
+                  type = types.listOf types.str;
+                  default = [ ];
+                  description = "Compose services to skip when pulling updates.";
+                };
               };
 
               # ── Storage / tmpfiles ──
@@ -629,6 +643,15 @@ in
                     s: builtins.hasAttr s (stackCfg.compose.services or { })
                   ) stackCfg.gpu.services;
                 message = "docker-compose stack '${name}': gpu.services references unknown service(s).";
+              }
+              {
+                assertion =
+                  stackCfg.autoUpdate.exclude == [ ]
+                  || stackCfg.compose == null
+                  || lib.all (
+                    s: builtins.hasAttr s (stackCfg.compose.services or { })
+                  ) stackCfg.autoUpdate.exclude;
+                message = "docker-compose stack '${name}': autoUpdate.exclude references unknown service(s).";
               }
               {
                 assertion =

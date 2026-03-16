@@ -53,6 +53,7 @@ in
 
   config = mkIf cfg.enable {
     mine.services.dockerCompose.stacks.booklore = {
+      autoUpdate.enable = true;
       agenix.envFile.file = cfg.secretFile;
 
       backup = {
