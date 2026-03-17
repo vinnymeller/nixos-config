@@ -18,10 +18,22 @@ in
       gpu.services = [ "jellyfin" ];
 
       storage.directories = {
-        "${dataDir}" = { owner = "1000"; group = "1000"; };
-        "${dataDir}/config" = { owner = "1000"; group = "1000"; };
-        "${dataDir}/cache" = { owner = "1000"; group = "1000"; };
-        "${dataDir}/media" = { owner = "1000"; group = "1000"; };
+        "${dataDir}" = {
+          owner = "1000";
+          group = "1000";
+        };
+        "${dataDir}/config" = {
+          owner = "1000";
+          group = "1000";
+        };
+        "${dataDir}/cache" = {
+          owner = "1000";
+          group = "1000";
+        };
+        "${dataDir}/media" = {
+          owner = "1000";
+          group = "1000";
+        };
       };
 
       compose = {

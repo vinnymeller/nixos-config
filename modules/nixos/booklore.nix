@@ -62,15 +62,20 @@ in
         exclude = [ "${cfg.dataDir}/mariadb" ];
       };
 
-      storage.directories = let
-        ug = { owner = toString cfg.uid; group = toString cfg.gid; };
-      in {
-        "${cfg.dataDir}" = ug;
-        "${cfg.dataDir}/data" = ug;
-        "${cfg.dataDir}/mariadb" = ug;
-        "${cfg.booksDir}" = ug;
-        "${cfg.bookdropDir}" = ug;
-      };
+      storage.directories =
+        let
+          ug = {
+            owner = toString cfg.uid;
+            group = toString cfg.gid;
+          };
+        in
+        {
+          "${cfg.dataDir}" = ug;
+          "${cfg.dataDir}/data" = ug;
+          "${cfg.dataDir}/mariadb" = ug;
+          "${cfg.booksDir}" = ug;
+          "${cfg.bookdropDir}" = ug;
+        };
 
       compose = {
         services = {

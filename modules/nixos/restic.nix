@@ -35,10 +35,9 @@ let
     "runCheck"
   ];
 
-  upstreamResticOptions =
-    removeAttrs
-      (options.services.restic.backups.type.getSubOptions [])
-      forcedKeys;
+  upstreamResticOptions = removeAttrs (options.services.restic.backups.type.getSubOptions
+    [ ]
+  ) forcedKeys;
 
   notifyScript = pkgs.writeShellScript "restic-backup-notify-failure.sh" ''
     set -euo pipefail
@@ -76,7 +75,13 @@ let
         ) cfg.providers;
       in
       mapAttrsToList (provName: provCfg: {
-        inherit jobName jobCfg provName provCfg folder;
+        inherit
+          jobName
+          jobCfg
+          provName
+          provCfg
+          folder
+          ;
       }) enabledProviders
     ) enabledJobs
   );
@@ -166,11 +171,13 @@ in
       };
 
       timerConfig = mkOption {
-        type = types.attrsOf (types.oneOf [
-          types.bool
-          types.str
-          types.int
-        ]);
+        type = types.attrsOf (
+          types.oneOf [
+            types.bool
+            types.str
+            types.int
+          ]
+        );
         default = {
           OnCalendar = "daily";
           Persistent = true;
@@ -215,7 +222,8 @@ in
                 default = true;
                 description = "Whether to run restic check after backup.";
               };
-            } // upstreamResticOptions;
+            }
+            // upstreamResticOptions;
 
             config = {
               pruneOpts = mkDefault cfg.defaults.pruneOpts;

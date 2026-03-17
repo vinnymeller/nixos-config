@@ -40,7 +40,7 @@ in
       export GPG_TTY=$(tty)
     '';
 
-    systemd.user.timers."restart-gpg-agent" = mkIf cfg.autoRestartAgent{
+    systemd.user.timers."restart-gpg-agent" = mkIf cfg.autoRestartAgent {
       enable = true;
       wantedBy = [ "timers.target" ];
       timerConfig = {

@@ -20,7 +20,10 @@
   fileSystems."/data" = {
     device = "/dev/mapper/data";
     fsType = "btrfs";
-    options = [ "defaults" "noatime" ];
+    options = [
+      "defaults"
+      "noatime"
+    ];
   };
 
   nixpkgs = {
@@ -307,7 +310,6 @@
 
   # virtualisation.libvirtd.enable = true;
 
-
   system.stateVersion = "25.11"; # read documentation on configuration.nix before possibly changing this
 
   programs.steam.enable = true;
@@ -372,7 +374,10 @@
   };
 
   networking.wg-quick.interfaces.wg-mv = {
-    address = [ "10.69.64.78/32" "fc00:bbbb:bbbb:bb01::6:404d/128" ];
+    address = [
+      "10.69.64.78/32"
+      "fc00:bbbb:bbbb:bb01::6:404d/128"
+    ];
     privateKeyFile = config.age.secrets.mullvad-wg-key.path;
     table = "off";
     postUp = ''
@@ -386,7 +391,10 @@
       {
         publicKey = "nvyBkaEXHwyPBAm8spGB0TFzf2W5wPAl8EEuJ0t+bzs=";
         endpoint = "45.134.140.130:51820";
-        allowedIPs = [ "0.0.0.0/0" "::0/0" ];
+        allowedIPs = [
+          "0.0.0.0/0"
+          "::0/0"
+        ];
       }
     ];
   };

@@ -173,7 +173,7 @@
 
       lib.vlib = vlib;
 
-      formatter = eachSystem (system: pkgsFor.${system}.nixfmt);
+      formatter = eachSystem (system: pkgsFor.${system}.nixfmt-tree);
 
       packages = eachSystem (
         system:

@@ -36,7 +36,7 @@ in
       };
 
       storage.directories = {
-        "${dbDir}" = {};
+        "${dbDir}" = { };
       };
 
       compose = {

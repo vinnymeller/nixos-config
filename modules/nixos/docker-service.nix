@@ -25,7 +25,8 @@ let
 
   enabledStacks = filterAttrs (_: s: s.enable) cfg.stacks;
 
-  mkStackConfig = name: stackCfg:
+  mkStackConfig =
+    name: stackCfg:
     let
       hasEnvFile = stackCfg.agenix.envFile.file != null;
       hasSecrets = stackCfg.agenix.secrets != { };
@@ -121,12 +122,13 @@ let
       loggingOverrideFile = jsonFormat.generate "dc-${name}-logging-override.json" loggingOverride;
 
       # ── Compose Command ──
-      composeFiles =
-        [ composeFile ]
-        ++ lib.optional hasSecretsOverride secretsOverrideFile
-        ++ lib.optional hasGpu gpuOverrideFile
-        ++ lib.optional stackCfg.logging.enable loggingOverrideFile
-        ++ stackCfg.composeOverrides;
+      composeFiles = [
+        composeFile
+      ]
+      ++ lib.optional hasSecretsOverride secretsOverrideFile
+      ++ lib.optional hasGpu gpuOverrideFile
+      ++ lib.optional stackCfg.logging.enable loggingOverrideFile
+      ++ stackCfg.composeOverrides;
 
       composeFFlags = lib.concatMapStringsSep " " (f: "-f ${f}") composeFiles;
 
@@ -137,10 +139,7 @@ let
           "";
 
       envFileFlag =
-        if stackCfg.composeEnvFile != null then
-          "--env-file ${stackCfg.composeEnvFile}"
-        else
-          "";
+        if stackCfg.composeEnvFile != null then "--env-file ${stackCfg.composeEnvFile}" else "";
 
       composeCmd = lib.concatStringsSep " " (
         lib.filter (s: s != "") [
@@ -160,24 +159,26 @@ let
         };
       };
 
-      fileSecrets = mapAttrs (
-        sName: sCfg: {
-          file = sCfg.file;
-          mode = sCfg.mode;
-          owner = sCfg.owner;
-          group = sCfg.group;
-        }
-      ) (lib.mapAttrs' (sName: sCfg: lib.nameValuePair "dc-${name}-${sName}" sCfg) stackCfg.agenix.secrets);
+      fileSecrets =
+        mapAttrs
+          (sName: sCfg: {
+            file = sCfg.file;
+            mode = sCfg.mode;
+            owner = sCfg.owner;
+            group = sCfg.group;
+          })
+          (lib.mapAttrs' (sName: sCfg: lib.nameValuePair "dc-${name}-${sName}" sCfg) stackCfg.agenix.secrets);
 
       # ── Reload Triggers ──
-      reloadTriggers =
-        [ composeFile ]
-        ++ lib.optional hasSecretsOverride secretsOverrideFile
-        ++ lib.optional stackCfg.logging.enable loggingOverrideFile
-        ++ stackCfg.composeOverrides
-        ++ lib.optional hasEnvFile stackCfg.agenix.envFile.file
-        ++ mapAttrsToList (_: s: s.file) stackCfg.agenix.secrets
-        ++ lib.optional (stackCfg.composeEnvFile != null) stackCfg.composeEnvFile;
+      reloadTriggers = [
+        composeFile
+      ]
+      ++ lib.optional hasSecretsOverride secretsOverrideFile
+      ++ lib.optional stackCfg.logging.enable loggingOverrideFile
+      ++ stackCfg.composeOverrides
+      ++ lib.optional hasEnvFile stackCfg.agenix.envFile.file
+      ++ mapAttrsToList (_: s: s.file) stackCfg.agenix.secrets
+      ++ lib.optional (stackCfg.composeEnvFile != null) stackCfg.composeEnvFile;
 
       # ── Flock ──
       lockFile = "/run/docker-compose-${name}.lock";
@@ -243,7 +244,8 @@ let
           after = [
             "network-online.target"
             "docker.service"
-          ] ++ stackCfg.afterUnits;
+          ]
+          ++ stackCfg.afterUnits;
           requires = [ "docker.service" ] ++ stackCfg.requiresUnits;
           wants = [ "network-online.target" ];
           partOf = [ "docker.service" ];
@@ -547,7 +549,15 @@ in
                 };
 
                 timerConfig = mkOption {
-                  type = types.nullOr (types.attrsOf (types.oneOf [ types.bool types.str types.int ]));
+                  type = types.nullOr (
+                    types.attrsOf (
+                      types.oneOf [
+                        types.bool
+                        types.str
+                        types.int
+                      ]
+                    )
+                  );
                   default = null;
                   description = "Override timer config. null uses restic module defaults.";
                 };
@@ -594,132 +604,117 @@ in
       mine.services.dockerCompose.enable = lib.mkDefault (enabledStacks != { });
     }
     (mkIf cfg.enable {
-    assertions =
-      let
-        perStackAssertions = concatLists (
-          mapAttrsToList (
-            name: stackCfg:
-            [
-              {
-                assertion = (stackCfg.compose != null) != (stackCfg.composeFile != null);
-                message = "docker-compose stack '${name}': exactly one of compose or composeFile must be set.";
-              }
-              {
-                assertion =
-                  stackCfg.agenix.envFile.file == null
-                  || stackCfg.compose != null
-                  || stackCfg.agenix.envFile.services != null;
-                message = "docker-compose stack '${name}': envFile.services must be set explicitly when using composeFile.";
-              }
-              {
-                assertion =
-                  stackCfg.agenix.envFile.file == null
-                  || stackCfg.agenix.envFile.services == null
-                  || stackCfg.agenix.envFile.services != [ ];
-                message = "docker-compose stack '${name}': envFile.services is empty.";
-              }
-              {
-                assertion =
-                  stackCfg.agenix.envFile.services == null
-                  || stackCfg.compose == null
-                  || lib.all (
-                    s: builtins.hasAttr s (stackCfg.compose.services or { })
-                  ) stackCfg.agenix.envFile.services;
-                message = "docker-compose stack '${name}': envFile.services references unknown service(s).";
-              }
-              {
-                assertion = !stackCfg.backup.enable || config.mine.services.restic.enable;
-                message = "docker-compose stack '${name}': backup.enable requires mine.services.restic.enable.";
-              }
-              {
-                assertion = !stackCfg.backup.enable || stackCfg.backup.paths != [ ];
-                message = "docker-compose stack '${name}': backup.enable is true but no paths specified.";
-              }
-              {
-                assertion =
-                  stackCfg.gpu.services == [ ]
-                  || stackCfg.compose == null
-                  || lib.all (
-                    s: builtins.hasAttr s (stackCfg.compose.services or { })
-                  ) stackCfg.gpu.services;
-                message = "docker-compose stack '${name}': gpu.services references unknown service(s).";
-              }
-              {
-                assertion =
-                  stackCfg.autoUpdate.exclude == [ ]
-                  || stackCfg.compose == null
-                  || lib.all (
-                    s: builtins.hasAttr s (stackCfg.compose.services or { })
-                  ) stackCfg.autoUpdate.exclude;
-                message = "docker-compose stack '${name}': autoUpdate.exclude references unknown service(s).";
-              }
-              {
-                assertion =
-                  !stackCfg.logging.enable
-                  || stackCfg.compose != null;
-                message = "docker-compose stack '${name}': logging.enable with composeFile is not supported (services can't be auto-discovered). Set logging directly in your compose file.";
-              }
-            ]
-            ++ concatLists (
-              mapAttrsToList (
-                sName: sCfg:
-                [
+      assertions =
+        let
+          perStackAssertions = concatLists (
+            mapAttrsToList (
+              name: stackCfg:
+              [
+                {
+                  assertion = (stackCfg.compose != null) != (stackCfg.composeFile != null);
+                  message = "docker-compose stack '${name}': exactly one of compose or composeFile must be set.";
+                }
+                {
+                  assertion =
+                    stackCfg.agenix.envFile.file == null
+                    || stackCfg.compose != null
+                    || stackCfg.agenix.envFile.services != null;
+                  message = "docker-compose stack '${name}': envFile.services must be set explicitly when using composeFile.";
+                }
+                {
+                  assertion =
+                    stackCfg.agenix.envFile.file == null
+                    || stackCfg.agenix.envFile.services == null
+                    || stackCfg.agenix.envFile.services != [ ];
+                  message = "docker-compose stack '${name}': envFile.services is empty.";
+                }
+                {
+                  assertion =
+                    stackCfg.agenix.envFile.services == null
+                    || stackCfg.compose == null
+                    || lib.all (
+                      s: builtins.hasAttr s (stackCfg.compose.services or { })
+                    ) stackCfg.agenix.envFile.services;
+                  message = "docker-compose stack '${name}': envFile.services references unknown service(s).";
+                }
+                {
+                  assertion = !stackCfg.backup.enable || config.mine.services.restic.enable;
+                  message = "docker-compose stack '${name}': backup.enable requires mine.services.restic.enable.";
+                }
+                {
+                  assertion = !stackCfg.backup.enable || stackCfg.backup.paths != [ ];
+                  message = "docker-compose stack '${name}': backup.enable is true but no paths specified.";
+                }
+                {
+                  assertion =
+                    stackCfg.gpu.services == [ ]
+                    || stackCfg.compose == null
+                    || lib.all (s: builtins.hasAttr s (stackCfg.compose.services or { })) stackCfg.gpu.services;
+                  message = "docker-compose stack '${name}': gpu.services references unknown service(s).";
+                }
+                {
+                  assertion =
+                    stackCfg.autoUpdate.exclude == [ ]
+                    || stackCfg.compose == null
+                    || lib.all (s: builtins.hasAttr s (stackCfg.compose.services or { })) stackCfg.autoUpdate.exclude;
+                  message = "docker-compose stack '${name}': autoUpdate.exclude references unknown service(s).";
+                }
+                {
+                  assertion = !stackCfg.logging.enable || stackCfg.compose != null;
+                  message = "docker-compose stack '${name}': logging.enable with composeFile is not supported (services can't be auto-discovered). Set logging directly in your compose file.";
+                }
+              ]
+              ++ concatLists (
+                mapAttrsToList (sName: sCfg: [
                   {
                     assertion =
                       stackCfg.compose == null
-                      || lib.all (
-                        s: builtins.hasAttr s (stackCfg.compose.services or { })
-                      ) sCfg.services;
+                      || lib.all (s: builtins.hasAttr s (stackCfg.compose.services or { })) sCfg.services;
                     message = "docker-compose stack '${name}': secret '${sName}' references unknown service(s).";
                   }
                   {
                     assertion = sCfg.services != [ ];
                     message = "docker-compose stack '${name}': secret '${sName}' has empty services list.";
                   }
-                ]
-              ) stackCfg.agenix.secrets
-            )
-          ) enabledStacks
-        );
+                ]) stackCfg.agenix.secrets
+              )
+            ) enabledStacks
+          );
 
-        uniqueProjectNames =
-          let
-            allNames = mapAttrsToList (_: s: s.projectName) enabledStacks;
-          in
-          [
-            {
-              assertion = lib.length allNames == lib.length (lib.unique allNames);
-              message = "docker-compose: duplicate projectName detected across enabled stacks.";
-            }
-          ];
-      in
-      perStackAssertions ++ uniqueProjectNames;
+          uniqueProjectNames =
+            let
+              allNames = mapAttrsToList (_: s: s.projectName) enabledStacks;
+            in
+            [
+              {
+                assertion = lib.length allNames == lib.length (lib.unique allNames);
+                message = "docker-compose: duplicate projectName detected across enabled stacks.";
+              }
+            ];
+        in
+        perStackAssertions ++ uniqueProjectNames;
 
-    virtualisation.docker.enable = true;
+      virtualisation.docker.enable = true;
 
-    age.secrets = lib.foldl' (acc: sc: acc // sc.ageSecrets) { } (builtins.attrValues stackConfigs);
+      age.secrets = lib.foldl' (acc: sc: acc // sc.ageSecrets) { } (builtins.attrValues stackConfigs);
 
-    systemd.services = lib.foldl' (
-      acc: sc: acc // sc.systemdService // sc.updateService
-    ) { } (builtins.attrValues stackConfigs);
+      systemd.services = lib.foldl' (acc: sc: acc // sc.systemdService // sc.updateService) { } (
+        builtins.attrValues stackConfigs
+      );
 
-    systemd.timers = lib.foldl' (
-      acc: sc: acc // sc.updateTimer
-    ) { } (builtins.attrValues stackConfigs);
+      systemd.timers = lib.foldl' (acc: sc: acc // sc.updateTimer) { } (builtins.attrValues stackConfigs);
 
-    systemd.tmpfiles.rules = concatLists (
-      map (sc: sc.tmpfilesRules) (builtins.attrValues stackConfigs)
-    );
+      systemd.tmpfiles.rules = concatLists (
+        map (sc: sc.tmpfilesRules) (builtins.attrValues stackConfigs)
+      );
 
-    environment.systemPackages = concatLists (
-      map (sc: sc.wrapperScript) (builtins.attrValues stackConfigs)
-    );
+      environment.systemPackages = concatLists (
+        map (sc: sc.wrapperScript) (builtins.attrValues stackConfigs)
+      );
 
-    mine.services.restic.jobs = lib.mkIf
-      (lib.any (sc: sc.backup.enable) (builtins.attrValues enabledStacks))
-      (lib.foldl' (
-        acc: sc: acc // sc.resticJob
-      ) { } (builtins.attrValues stackConfigs));
+      mine.services.restic.jobs = lib.mkIf (lib.any (sc: sc.backup.enable) (
+        builtins.attrValues enabledStacks
+      )) (lib.foldl' (acc: sc: acc // sc.resticJob) { } (builtins.attrValues stackConfigs));
     })
     (mkIf (lib.any (s: s.gpu.services != [ ]) (builtins.attrValues enabledStacks)) {
       hardware.nvidia-container-toolkit.enable = true;
