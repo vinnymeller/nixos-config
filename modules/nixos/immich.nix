@@ -17,6 +17,10 @@ in
     mine.services.dockerCompose.stacks.immich = {
       gpu.services = [ "immich-machine-learning" ];
       autoUpdate.enable = false;
+      tailscale = {
+        serviceName = "immich";
+        port = 2283;
+      };
       agenix.envFile = {
         file = ../../secrets/vinnix/immich.age;
         services = [

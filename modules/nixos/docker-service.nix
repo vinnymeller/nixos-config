@@ -321,6 +321,22 @@ in
   options.mine.services.dockerCompose = {
     enable = mkEnableOption "declarative Docker Compose stack management";
 
+    tailscale = {
+      tailnet = mkOption {
+        type = types.str;
+        default = "";
+        description = "Tailscale tailnet name (e.g., 'coyote-fir'). Required when any stack uses tailscale.";
+      };
+      authKeyFile = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = ''
+          Path to a file containing the raw Tailscale auth key (tskey-auth-...).
+          Defaults to services.tailscale.authKeyFile if set. Must be a reusable key.
+        '';
+      };
+    };
+
     stacks = mkOption {
       default = { };
       description = "Docker Compose stacks to manage.";
@@ -586,6 +602,24 @@ in
                 };
               };
 
+              # ── Tailscale Proxy ──
+              tailscale = {
+                serviceName = mkOption {
+                  type = types.nullOr types.str;
+                  default = null;
+                  description = ''
+                    Tailscale service name. When set, Caddy creates a tailnet node
+                    named <serviceName> and reverse-proxies to the specified port.
+                    Accessible at https://<serviceName>.<tailnet>.ts.net
+                  '';
+                };
+                port = mkOption {
+                  type = types.port;
+                  default = 0;
+                  description = "Local port to reverse-proxy to.";
+                };
+              };
+
               # ── Wrapper Script ──
               createWrapper = mkOption {
                 type = types.bool;
@@ -720,5 +754,67 @@ in
       hardware.nvidia-container-toolkit.enable = true;
       virtualisation.docker.daemon.settings.features.cdi = true;
     })
+    (
+      let
+        tailscaleStacks = filterAttrs (_: s: s.tailscale.serviceName != null) enabledStacks;
+        hasTailscale = tailscaleStacks != { };
+        tailnet = cfg.tailscale.tailnet;
+      in
+      mkIf hasTailscale (
+        let
+          tsAuthKeyFile =
+            if cfg.tailscale.authKeyFile != null then
+              cfg.tailscale.authKeyFile
+            else
+              config.services.tailscale.authKeyFile;
+        in
+        {
+          assertions = [
+            {
+              assertion = cfg.tailscale.tailnet != "";
+              message = "docker-compose: tailscale.tailnet must be set when any stack uses tailscale.";
+            }
+            {
+              assertion = config.services.tailscale.enable;
+              message = "docker-compose: tailscale must be enabled (services.tailscale.enable) when any stack uses tailscale.";
+            }
+            {
+              assertion = tsAuthKeyFile != null;
+              message = "docker-compose: either tailscale.authKeyFile or services.tailscale.authKeyFile must be set when any stack uses tailscale.";
+            }
+          ];
+
+          services.caddy = {
+            enable = true;
+            package = pkgs.caddy.withPlugins {
+              plugins = [ "github.com/tailscale/caddy-tailscale@v0.0.0-20260106222316-bb080c4414ac" ];
+              hash = "sha256-9CYQSdGAQwd1cmFuKT2RNzeiJ4DZoyrxvsLS4JDCFCY=";
+            };
+            globalConfig = ''
+              tailscale {
+                auth_key {env.TS_AUTHKEY}
+              }
+            '';
+            virtualHosts = lib.mapAttrs' (
+              _: stackCfg:
+              lib.nameValuePair "${stackCfg.tailscale.serviceName}.${tailnet}.ts.net" {
+                extraConfig = ''
+                  bind tailscale/${stackCfg.tailscale.serviceName}
+                  reverse_proxy localhost:${toString stackCfg.tailscale.port}
+                '';
+              }
+            ) tailscaleStacks;
+          };
+
+          systemd.services.caddy.serviceConfig.ExecStartPre = [
+            "+${pkgs.writeShellScript "caddy-ts-env" ''
+              echo "TS_AUTHKEY=$(cat ${tsAuthKeyFile})" > /run/caddy-ts-env
+              chmod 400 /run/caddy-ts-env
+            ''}"
+          ];
+          systemd.services.caddy.serviceConfig.EnvironmentFile = [ "-/run/caddy-ts-env" ];
+        }
+      )
+    )
   ];
 }

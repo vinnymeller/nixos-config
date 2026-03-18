@@ -41,6 +41,7 @@ in
         };
         booklore.enable = mkDefault false;
         vtt.enable = mkDefault true;
+        dockerCompose.tailscale.tailnet = "coyote-fir";
       };
       networking.enable = mkDefault true;
       nix.enable = mkDefault true;

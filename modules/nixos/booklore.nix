@@ -55,6 +55,10 @@ in
     mine.services.dockerCompose.stacks.booklore = {
       autoUpdate.enable = true;
       agenix.envFile.file = cfg.secretFile;
+      tailscale = {
+        serviceName = "booklore";
+        port = cfg.port;
+      };
 
       backup = {
         enable = true;
