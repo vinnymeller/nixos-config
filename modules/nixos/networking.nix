@@ -30,12 +30,12 @@ in
       after = [ "NetworkManager.service" ];
       wants = [ "NetworkManager.service" ];
       wantedBy = [ "multi-user.target" ];
+      startLimitBurst = 5;
+      startLimitIntervalSec = 300;
       serviceConfig = {
         Type = "simple";
         Restart = "always";
         RestartSec = 10;
-        StartLimitBurst = 5;
-        StartLimitIntervalSec = 300;
         ExecStart = pkgs.writeShellScript "network-watchdog" ''
           set +e
           ping=${pkgs.iputils}/bin/ping
