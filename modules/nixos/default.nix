@@ -41,7 +41,11 @@ in
         };
         booklore.enable = mkDefault false;
         vtt.enable = mkDefault true;
-        dockerCompose.tailscale.tailnet = "coyote-fir";
+        dockerCompose.tailscale = {
+          tailnet = "coyote-fir";
+          customDomain = "vinnix.net";
+          cloudflareTokenFile = ../../secrets/vinnix/cloudflare-dns-token.age;
+        };
       };
       networking.enable = mkDefault true;
       nix.enable = mkDefault true;

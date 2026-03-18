@@ -335,6 +335,16 @@ in
           Defaults to services.tailscale.authKeyFile if set. Must be a reusable key.
         '';
       };
+      customDomain = mkOption {
+        type = types.str;
+        default = "";
+        description = "Custom domain for services (e.g., 'vinnix.net'). When set, services are also accessible at <serviceName>.<customDomain>.";
+      };
+      cloudflareTokenFile = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = "Path to agenix-encrypted Cloudflare API token for DNS-01 ACME challenge.";
+      };
     };
 
     stacks = mkOption {
@@ -767,6 +777,12 @@ in
               cfg.tailscale.authKeyFile
             else
               config.services.tailscale.authKeyFile;
+          hasCustomDomain = cfg.tailscale.customDomain != "";
+          customDomain = cfg.tailscale.customDomain;
+          plugins = [
+            "github.com/tailscale/caddy-tailscale@v0.0.0-20260106222316-bb080c4414ac"
+          ]
+          ++ lib.optional hasCustomDomain "github.com/caddy-dns/cloudflare@v0.2.3";
         in
         {
           assertions = [
@@ -782,33 +798,65 @@ in
               assertion = tsAuthKeyFile != null;
               message = "docker-compose: either tailscale.authKeyFile or services.tailscale.authKeyFile must be set when any stack uses tailscale.";
             }
+            {
+              assertion = !hasCustomDomain || cfg.tailscale.cloudflareTokenFile != null;
+              message = "docker-compose: tailscale.cloudflareTokenFile must be set when customDomain is used.";
+            }
           ];
+
+          age.secrets = lib.optionalAttrs hasCustomDomain {
+            caddy-cloudflare-token = {
+              file = cfg.tailscale.cloudflareTokenFile;
+              mode = "0400";
+            };
+          };
 
           services.caddy = {
             enable = true;
             package = pkgs.caddy.withPlugins {
-              plugins = [ "github.com/tailscale/caddy-tailscale@v0.0.0-20260106222316-bb080c4414ac" ];
-              hash = "sha256-9CYQSdGAQwd1cmFuKT2RNzeiJ4DZoyrxvsLS4JDCFCY=";
+              inherit plugins;
+              hash = "sha256-B0bCH3TNQYCVznwTQobCiP1Rqy9gZPP/3d9vuTE8+9U=";
             };
             globalConfig = ''
               tailscale {
                 auth_key {env.TS_AUTHKEY}
               }
             '';
-            virtualHosts = lib.mapAttrs' (
-              _: stackCfg:
-              lib.nameValuePair "${stackCfg.tailscale.serviceName}.${tailnet}.ts.net" {
-                extraConfig = ''
-                  bind tailscale/${stackCfg.tailscale.serviceName}
-                  reverse_proxy localhost:${toString stackCfg.tailscale.port}
-                '';
-              }
-            ) tailscaleStacks;
+            virtualHosts =
+              # Tailscale virtual hosts
+              lib.mapAttrs' (
+                _: stackCfg:
+                lib.nameValuePair "${stackCfg.tailscale.serviceName}.${tailnet}.ts.net" {
+                  extraConfig = ''
+                    bind tailscale/${stackCfg.tailscale.serviceName}
+                    reverse_proxy localhost:${toString stackCfg.tailscale.port}
+                  '';
+                }
+              ) tailscaleStacks
+              # Custom domain virtual hosts
+              // lib.optionalAttrs hasCustomDomain (
+                lib.mapAttrs' (
+                  _: stackCfg:
+                  lib.nameValuePair "${stackCfg.tailscale.serviceName}.${customDomain}" {
+                    extraConfig = ''
+                      tls {
+                        dns cloudflare {env.CF_API_TOKEN}
+                      }
+                      reverse_proxy localhost:${toString stackCfg.tailscale.port}
+                    '';
+                  }
+                ) tailscaleStacks
+              );
           };
 
           systemd.services.caddy.serviceConfig.ExecStartPre = [
             "+${pkgs.writeShellScript "caddy-ts-env" ''
-              echo "TS_AUTHKEY=$(cat ${tsAuthKeyFile})" > /run/caddy-ts-env
+              TS_KEY=$(cat ${tsAuthKeyFile})
+              echo "TS_AUTHKEY=$TS_KEY" > /run/caddy-ts-env
+              ${lib.optionalString hasCustomDomain ''
+                CF_TOKEN=$(cat ${config.age.secrets.caddy-cloudflare-token.path})
+                echo "CF_API_TOKEN=$CF_TOKEN" >> /run/caddy-ts-env
+              ''}
               chmod 400 /run/caddy-ts-env
             ''}"
           ];
