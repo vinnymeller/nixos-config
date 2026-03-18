@@ -36,6 +36,7 @@ in
   "vinnix/immich.age".publicKeys = default;
   "vinnix/rclone.conf.age".publicKeys = default;
   "vinnix/booklore.age".publicKeys = default;
+  "vinnix/cloudflare-dns-token.age".publicKeys = default;
   "vinnix/restic-password.age".publicKeys = default;
   "vinnix/mullvad-wg-key.age".publicKeys = default;
   "vtt/gemini.age".publicKeys = host-vinnix;
