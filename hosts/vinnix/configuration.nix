@@ -226,9 +226,21 @@
     };
     tailscale = {
       enable = true;
+      useRoutingFeatures = "both";
+      extraUpFlags = [ "--advertise-exit-node" ];
       authKeyFile = config.age.secrets.vinnix-tailscale-authkey.path;
     };
   };
+
+  networking.firewall = {
+    checkReversePath = "loose";
+    trustedInterfaces = [ "tailscale0" ];
+    allowedUDPPorts = [ config.services.tailscale.port ];
+  };
+
+  systemd.services.tailscaled.serviceConfig.Environment = [
+    "TS_DEBUG_FIREWALL_MODE=nftables"
+  ];
 
   fonts = {
     fontconfig = {
@@ -305,6 +317,8 @@
     unzip
     smartmontools
     iw
+    nftables
+    tcpdump
     nvtopPackages.full
   ];
 
@@ -383,9 +397,11 @@
     postUp = ''
       ip route add default dev wg-mv table 51820
       ip rule add from 10.69.64.78/32 table 51820
+      ip rule add iif tailscale0 lookup 51820 priority 5265
     '';
     postDown = ''
       ip rule del from 10.69.64.78/32 table 51820
+      ip rule del iif tailscale0 lookup 51820 priority 5265
     '';
     peers = [
       {
@@ -397,6 +413,23 @@
         ];
       }
     ];
+  };
+
+  networking.nftables.enable = true;
+  networking.nftables.tables.tailscale-exit = {
+    family = "inet";
+    content = ''
+      chain forward {
+        type filter hook forward priority filter + 1; policy accept;
+        iifname "tailscale0" oifname "wg-mv" counter accept
+        iifname "tailscale0" oifname "tailscale0" counter accept
+        iifname "tailscale0" counter drop
+      }
+      chain nat {
+        type nat hook postrouting priority srcnat; policy accept;
+        oifname "wg-mv" masquerade
+      }
+    '';
   };
 
   services.udev.extraRules = ''
