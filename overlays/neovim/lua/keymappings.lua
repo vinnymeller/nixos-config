@@ -22,6 +22,19 @@ end, { desc = "Jump to the previous diagnostic in the current buffer" })
 -- helpful visual mode mappings
 map("v", ">", ">gv", { noremap = true })
 map("v", "<", "<gv", { noremap = true })
+map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+
+-- paste over selection without clobbering register (default behavior)
+-- use <leader>p to paste and *replace* the register with what was selected
+map("x", "p", '"_dP', { desc = "Paste without clobbering register" })
+map("x", "<leader>p", "p", { desc = "Paste (clobber register with selection)" })
+
+-- keep cursor centered when jumping
+map("n", "<C-d>", "<C-d>zz")
+map("n", "<C-u>", "<C-u>zz")
+map("n", "n", "nzzzv")
+map("n", "N", "Nzzzv")
 
 -- backspace in normal mode to replace current word. can i upgrade this ? think about it
 map("n", "<bs>", "ciw", { desc = "Change current word" })
@@ -29,9 +42,20 @@ map("n", "<bs>", "ciw", { desc = "Change current word" })
 -- open dadbod ui
 map("n", "<leader>db", "<cmd>DBUIToggle<CR>", { desc = "[D]ad[B]od Toggle" })
 
+map("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "[B]uffer [D]elete" })
+
 -- <leader>fm is now handled by conform.lua
 map("n", "<leader>;", ":<C-f>k", { desc = "Open command window" })
 map("n", "<leader>.", "@:", { desc = "Repeat last command" })
+
+-- tabs
+map("n", "<leader>tn", "<cmd>tabnew<CR>", { desc = "[T]ab [N]ew" })
+map("n", "<leader>tc", "<cmd>tabclose<CR>", { desc = "[T]ab [C]lose" })
+map("n", "<leader>tl", "<cmd>tabnext<CR>", { desc = "[T]ab next (right)" })
+map("n", "<leader>th", "<cmd>tabprevious<CR>", { desc = "[T]ab previous (left)" })
+map("n", "<leader>to", "<cmd>tabonly<CR>", { desc = "[T]ab [O]nly (close all others)" })
+map("n", "<leader>tmr", "<cmd>+tabmove<CR>", { desc = "[T]ab [M]ove [R]ight" })
+map("n", "<leader>tml", "<cmd>-tabmove<CR>", { desc = "[T]ab [M]ove [L]eft" })
 
 -----------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------
@@ -120,11 +144,6 @@ map("n", "<leader>dst", function()
 		enabled = not require("ibl.config").get_config(0).enabled,
 	})
 end, { desc = "Toggle decorative stuff for copy/pasting" })
-
-map("n", "<leader>lt", "<cmd>Leet test<CR>", { desc = "[L]eetcode [T]est" })
-map("n", "<leader>ls", "<cmd>Leet submit<CR>", { desc = "[L]eetcode [S]ubmit" })
-map("n", "<leader>lo", "<cmd>Leet open<CR>", { desc = "[L]eetcode [O]pen" })
-map("n", "<leader>ll", "<cmd>Leet list<CR>", { desc = "[L]eetcode [L]ist" })
 
 map("n", "<leader>df", "<cmd>DiffviewOpen<CR>", { desc = "[D]iffview current [File]" })
 map("n", "<leader>dF", "<cmd>DiffviewFileHistory %<CR>", { desc = "[D]iffview current [File]" })
