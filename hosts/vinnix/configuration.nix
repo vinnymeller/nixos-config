@@ -30,6 +30,10 @@
     secretFile = ../../secrets/vinnix/grimmory.age;
   };
   mine.services.immich.enable = true;
+  mine.services.paperless = {
+    enable = true;
+    secretFile = ../../secrets/vinnix/paperless.age;
+  };
   mine.services.jellyfin.enable = true;
   mine.services.restic = {
     enable = true;

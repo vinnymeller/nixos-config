@@ -41,5 +41,6 @@ in
   "vinnix/mullvad-wg-key.age".publicKeys = host-vinnix;
   "vinnix/airvpn-wg-key.age".publicKeys = host-vinnix;
   "vinnix/airvpn-wg-psk.age".publicKeys = host-vinnix;
+  "vinnix/paperless.age".publicKeys = host-vinnix;
   "vtt/gemini.age".publicKeys = host-vinnix;
 }
