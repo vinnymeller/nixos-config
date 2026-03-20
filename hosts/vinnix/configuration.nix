@@ -441,6 +441,7 @@
       "fd7d:76ee:e68f:a993:a299:3b9a:79af:f098/128"
     ];
     privateKeyFile = config.age.secrets.airvpn-wg-key.path;
+    table = "off";
     mtu = 1320;
     dns = [
       "10.128.0.1"
