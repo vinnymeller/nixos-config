@@ -168,39 +168,22 @@
         lib = nixpkgs.lib;
         hmLib = home-manager.lib;
       };
+
+      perSystem =
+        f:
+        let
+          _results = lib.genAttrs (import systems) f;
+          _outputs = builtins.attrNames (builtins.head (builtins.attrValues _results));
+        in
+        lib.genAttrs _outputs (name: lib.mapAttrs (_: systemResults: systemResults.${name}) _results);
     in
     {
 
       lib.vlib = vlib;
 
-      formatter = eachSystem (system: pkgsFor.${system}.nixfmt-tree);
-
-      packages = eachSystem (
-        system:
-        let
-          pkgs = pkgsFor.${system};
-        in
-        {
-          neovim = pkgs.neovim;
-          claude-code = pkgs.claude-code;
-        }
-      );
-
-      devShells = eachSystem (system: import ./shell.nix { pkgs = pkgsFor.${system}; });
-
       overlays = import ./overlays { inherit inputs vlib; };
 
       overlayList = builtins.attrValues self.overlays;
-
-      checks = eachSystem (
-        system:
-        lib.mapAttrs' (
-          name: nixos:
-          lib.nameValuePair "eval-${name}" nixos.config.system.build.toplevel
-        ) (
-          lib.filterAttrs (_: nixos: nixos.pkgs.system == system) self.nixosConfigurations
-        )
-      );
 
       nixosConfigurations = {
         vinnix = import ./hosts/vinnix {
@@ -212,6 +195,7 @@
           inherit (self.lib) vlib;
         };
       };
+
       homeConfigurations = {
         vinny = import ./hosts/camovinny {
           inherit inputs outputs;
@@ -219,5 +203,19 @@
           pkgs = pkgsFor."aarch64-darwin";
         };
       };
-    };
+    }
+    // perSystem (
+      system:
+      let
+        pkgs = pkgsFor.${system};
+      in
+      {
+        formatter = pkgs.nixfmt-tree;
+        packages = { inherit (pkgs) neovim claude-code; };
+        devShells = import ./shell.nix { inherit pkgs; };
+        checks = lib.mapAttrs' (
+          name: nixos: lib.nameValuePair "eval-${name}" nixos.config.system.build.toplevel
+        ) (lib.filterAttrs (_: nixos: nixos.pkgs.stdenv.hostPlatform.system == system) self.nixosConfigurations);
+      }
+    );
 }
