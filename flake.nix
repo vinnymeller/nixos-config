@@ -155,17 +155,13 @@
 
       eachSystem = lib.genAttrs (import systems);
 
-      pkgsFor = eachSystem (
-        system:
+      mkPkgs =
+        system: extraConfig:
         import nixpkgs {
           localSystem = system;
           overlays = builtins.attrValues self.overlays;
-          config = {
-            allowUnfree = true;
-            cudaSupport = system == "x86_64-linux";
-          };
-        }
-      );
+          config = { allowUnfree = true; } // extraConfig;
+        };
 
       vlib = import ./lib {
         lib = nixpkgs.lib;
@@ -190,12 +186,12 @@
         vinnix = import ./hosts/vinnix {
           inherit inputs outputs;
           inherit (self.lib) vlib;
-          pkgs = pkgsFor."x86_64-linux";
+          pkgs = mkPkgs "x86_64-linux" { cudaSupport = true; };
         };
         vindows = import ./hosts/home-wsl {
           inherit inputs outputs;
           inherit (self.lib) vlib;
-          pkgs = pkgsFor."x86_64-linux";
+          pkgs = mkPkgs "x86_64-linux" {};
         };
       };
 
@@ -203,14 +199,14 @@
         vinny = import ./hosts/camovinny {
           inherit inputs outputs;
           inherit (self.lib) vlib;
-          pkgs = pkgsFor."aarch64-darwin";
+          pkgs = mkPkgs "aarch64-darwin" {};
         };
       };
     }
     // perSystem (
       system:
       let
-        pkgs = pkgsFor.${system};
+        pkgs = mkPkgs system {};
       in
       {
         formatter = pkgs.nixfmt-tree;
