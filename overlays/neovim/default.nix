@@ -19,29 +19,22 @@
     with pkgs;
     [
       ast-grep
-      # black
       cargo
-      cargo-nextest
       chafa
-      efm-langserver
       fzf
       gcc
       git
       imagemagick
-      # isort
       lazygit
       luajitPackages.jsregexp
 
       # nixd uses nixpkgs-fmt
       nixfmt
 
-      # nodePackages.eslint
       nodePackages.sql-formatter
       nodePackages.nodejs
       postgresql
-      prettierd
       # ty
-      ruff
       ripgrep
       delta
       bat
@@ -56,8 +49,6 @@
       xdg-utils
       zk
       alejandra
-
-      llm-agents.claude-code-acp
     ]
     ++ (vlib.sharedDeps pkgs).lsps;
   # your config/plugin specifications
@@ -65,33 +56,28 @@
   config.specs.general = with pkgs.vimPlugins; [
     SchemaStore-nvim
     autosave-nvim
+    conform-nvim
     copilot-lua
     blink-copilot
     diffview-nvim
-    efmls-configs-nvim
     fidget-nvim
     friendly-snippets
     fzf-lua
     gitsigns-nvim
     gruvbox-nvim
     harpoon2
-    image-nvim
     indent-blankline-nvim
-    leetcode-nvim
     lspkind-nvim
     ltex_extra-nvim # goes with ltex-ls providing code action functionality for nvim (e.g. add to dict, ignore rule, etc)
     pkgs.master-pkgs.vimPlugins.lualine-nvim
     luasnip
     markdown-preview-nvim
-    neotest
-    nui-nvim
     nvim-autopairs
     nvim-dap
     nvim-dap-lldb
     nvim-dap-python
     nvim-dap-ui
     nvim-lspconfig
-    nvim-luapad
     nvim-treesitter-context
     nvim-treesitter-textobjects
     nvim-treesitter.withAllGrammars
@@ -104,11 +90,8 @@
     grug-far-nvim
     vim-dadbod-completion
     plenary-nvim
-    precognition-nvim
     rainbow_csv
     rustaceanvim
-    snacks-nvim
-    sniprun
     tailwind-tools-nvim
     tint-nvim
     tmux-nvim
@@ -117,8 +100,6 @@
     vim-dadbod
     vim-dadbod-ui
     vim-fugitive
-    neogit
-    vim-indent-object
     vim-matchup
     vim-repeat
     vim-rhubarb

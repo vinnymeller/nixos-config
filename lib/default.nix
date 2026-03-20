@@ -74,11 +74,11 @@
       lua-language-server
       nixd
       nodePackages.typescript-language-server
-      pyrefly
       tailwindcss-language-server
       taplo
       terraform-ls
       tinymist
+      ty
       vscode-langservers-extracted
       yaml-language-server
     ];

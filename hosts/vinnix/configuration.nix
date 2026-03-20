@@ -438,7 +438,10 @@
     ];
     privateKeyFile = config.age.secrets.airvpn-wg-key.path;
     mtu = 1320;
-    dns = [ "10.128.0.1" "fd7d:76ee:e68f:a993::1" ];
+    dns = [
+      "10.128.0.1"
+      "fd7d:76ee:e68f:a993::1"
+    ];
     peers = [
       {
         publicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";

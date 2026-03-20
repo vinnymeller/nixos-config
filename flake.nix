@@ -160,7 +160,10 @@
         import nixpkgs {
           localSystem = system;
           overlays = builtins.attrValues self.overlays;
-          config = { allowUnfree = true; } // extraConfig;
+          config = {
+            allowUnfree = true;
+          }
+          // extraConfig;
         };
 
       vlib = import ./lib {
@@ -191,7 +194,7 @@
         vindows = import ./hosts/home-wsl {
           inherit inputs outputs;
           inherit (self.lib) vlib;
-          pkgs = mkPkgs "x86_64-linux" {};
+          pkgs = mkPkgs "x86_64-linux" { };
         };
       };
 
@@ -199,22 +202,24 @@
         vinny = import ./hosts/camovinny {
           inherit inputs outputs;
           inherit (self.lib) vlib;
-          pkgs = mkPkgs "aarch64-darwin" {};
+          pkgs = mkPkgs "aarch64-darwin" { };
         };
       };
     }
     // perSystem (
       system:
       let
-        pkgs = mkPkgs system {};
+        pkgs = mkPkgs system { };
       in
       {
         formatter = pkgs.nixfmt-tree;
         packages = { inherit (pkgs) neovim claude-code; };
         devShells = import ./shell.nix { inherit pkgs; };
-        checks = lib.mapAttrs' (
-          name: nixos: lib.nameValuePair "eval-${name}" nixos.config.system.build.toplevel
-        ) (lib.filterAttrs (_: nixos: nixos.pkgs.stdenv.hostPlatform.system == system) self.nixosConfigurations);
+        checks =
+          lib.mapAttrs' (name: nixos: lib.nameValuePair "eval-${name}" nixos.config.system.build.toplevel)
+            (
+              lib.filterAttrs (_: nixos: nixos.pkgs.stdenv.hostPlatform.system == system) self.nixosConfigurations
+            );
       }
     );
 }
