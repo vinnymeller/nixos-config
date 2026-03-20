@@ -12,8 +12,6 @@
     "swap-audio-output"
     "vtt"
   ];
-  hmStandalone = true;
-
   home.username = "vinny";
   home.homeDirectory = "/Users/vinny";
   home.stateVersion = "25.11";

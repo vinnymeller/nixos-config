@@ -159,8 +159,11 @@
         system:
         import nixpkgs {
           localSystem = system;
-          overlays = self.overlayList;
-          config.allowUnfree = true;
+          overlays = builtins.attrValues self.overlays;
+          config = {
+            allowUnfree = true;
+            cudaSupport = system == "x86_64-linux";
+          };
         }
       );
 
@@ -183,16 +186,16 @@
 
       overlays = import ./overlays { inherit inputs vlib; };
 
-      overlayList = builtins.attrValues self.overlays;
-
       nixosConfigurations = {
         vinnix = import ./hosts/vinnix {
           inherit inputs outputs;
           inherit (self.lib) vlib;
+          pkgs = pkgsFor."x86_64-linux";
         };
         vindows = import ./hosts/home-wsl {
           inherit inputs outputs;
           inherit (self.lib) vlib;
+          pkgs = pkgsFor."x86_64-linux";
         };
       };
 

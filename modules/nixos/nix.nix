@@ -3,7 +3,6 @@
   lib,
   pkgs,
   inputs,
-  outputs,
   ...
 }:
 let
@@ -52,13 +51,5 @@ in
         (inputs.nixpkgs.lib.filterAttrs (_: inputs.nixpkgs.lib.isType "flake")) inputs
       );
     };
-    nixpkgs = {
-      overlays = builtins.attrValues outputs.overlays;
-      config = {
-        allowUnfree = true;
-        cudaSupport = true;
-      };
-    };
-
   };
 }

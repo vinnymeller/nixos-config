@@ -6,7 +6,7 @@
 }:
 let
   modules = vlib.readModuleFiles ./.;
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption;
   cfg = config.profile;
 in
 {
@@ -20,7 +20,6 @@ in
         hyprland = mkEnableOption "Enable Hyprland config.";
       };
     };
-    hmStandalone = mkEnableOption "Enable standalone home-manager configuration.";
   };
 
   config = {
@@ -30,7 +29,6 @@ in
       hyprland.enable = cfg.vinny.hyprland;
       kitty.enable = cfg.vinny.enable;
       nix.enable = cfg.vinny.enable;
-      nixpkgs.enable = mkIf config.hmStandalone true;
       pkgs.enable = cfg.vinny.enable;
       secrets.enable = cfg.vinny.enable;
       ssh.enable = cfg.vinny.enable;

@@ -1,7 +1,6 @@
 {
   inputs,
   lib,
-  outputs,
   config,
   pkgs,
   ...
@@ -24,14 +23,6 @@
       "defaults"
       "noatime"
     ];
-  };
-
-  nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
-    config = {
-      permittedInsecurePackages = [ "electron-25.9.0" ];
-      allowUnfree = true;
-    };
   };
 
   mine.services.booklore = {

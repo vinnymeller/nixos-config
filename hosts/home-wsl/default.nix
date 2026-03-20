@@ -2,10 +2,12 @@
   inputs,
   outputs,
   vlib,
+  pkgs,
   ...
 }:
 
 inputs.nixpkgs.lib.nixosSystem {
+  inherit pkgs;
   specialArgs = {
     inherit inputs outputs vlib;
   };

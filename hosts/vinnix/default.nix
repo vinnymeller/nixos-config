@@ -2,9 +2,11 @@
   inputs,
   outputs,
   vlib,
+  pkgs,
   ...
 }:
 inputs.nixpkgs.lib.nixosSystem {
+  inherit pkgs;
   specialArgs = {
     inherit inputs outputs vlib;
   };
@@ -30,7 +32,6 @@ inputs.nixpkgs.lib.nixosSystem {
       }
     )
 
-    # { nixpkgs.overlays = outputs.overlays; }
     ./configuration.nix
     ./hardware.nix
     inputs.home-manager.nixosModules.home-manager
