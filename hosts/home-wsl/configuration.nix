@@ -44,7 +44,7 @@
 
   users.users.vinny = {
     isNormalUser = true;
-    initialPassword = "passwordington";
+    initialHashedPassword = "$6$GUm.78.XWDWW/7CE$TVA9j1bmmKEMiQ2289etaddvpaYpVUUWagW7A.TM6K13RThGq.E3f7MgPh.bBurysjJDDkceZDz7.CEhXUsY6.";
     extraGroups = [
       "wheel"
       "docker"

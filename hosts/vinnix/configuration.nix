@@ -30,7 +30,6 @@
     overlays = builtins.attrValues outputs.overlays;
     config = {
       permittedInsecurePackages = [ "electron-25.9.0" ];
-      allowBroken = true; # should probably set to false every once in a while to see if broken packages are fixed
       allowUnfree = true;
     };
   };
@@ -42,6 +41,7 @@
   mine.services.immich.enable = true;
   mine.services.jellyfin.enable = true;
   mine.services.restic.enable = true;
+  mine.services.vtt.enable = true;
 
   age.secrets.vinnix-wpa-initrd = {
     file = ../../secrets/vinnix/wpa_supplicant.conf.age;
@@ -276,7 +276,7 @@
   users.users = {
     vinny = {
       isNormalUser = true;
-      initialPassword = "passwordington";
+      initialHashedPassword = "$6$GUm.78.XWDWW/7CE$TVA9j1bmmKEMiQ2289etaddvpaYpVUUWagW7A.TM6K13RThGq.E3f7MgPh.bBurysjJDDkceZDz7.CEhXUsY6.";
       extraGroups = [
         "wheel"
         "libvirtd"

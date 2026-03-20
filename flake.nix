@@ -192,6 +192,16 @@
 
       overlayList = builtins.attrValues self.overlays;
 
+      checks = eachSystem (
+        system:
+        lib.mapAttrs' (
+          name: nixos:
+          lib.nameValuePair "eval-${name}" nixos.config.system.build.toplevel
+        ) (
+          lib.filterAttrs (_: nixos: nixos.pkgs.system == system) self.nixosConfigurations
+        )
+      );
+
       nixosConfigurations = {
         vinnix = import ./hosts/vinnix {
           inherit inputs outputs;

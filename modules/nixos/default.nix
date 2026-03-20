@@ -40,7 +40,7 @@ in
           };
         };
         booklore.enable = mkDefault false;
-        vtt.enable = mkDefault true;
+        vtt.enable = mkDefault false;
         dockerCompose.tailscale = {
           tailnet = "coyote-fir";
           customDomain = "vinnix.net";
