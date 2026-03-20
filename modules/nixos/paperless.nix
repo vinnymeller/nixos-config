@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 
@@ -53,7 +54,7 @@ in
         enable = true;
         paths = [ "${dataDir}/export" ];
         backupPrepareCommand = ''
-          docker exec paperless-webserver document_exporter ../export --compare-checksums --use-folder-prefix --split-manifest
+          ${pkgs.docker}/bin/docker exec paperless-webserver document_exporter ../export --compare-checksums --use-folder-prefix --split-manifest
         '';
       };
 
