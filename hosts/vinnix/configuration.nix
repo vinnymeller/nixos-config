@@ -25,9 +25,9 @@
     ];
   };
 
-  mine.services.booklore = {
+  mine.services.grimmory = {
     enable = true;
-    secretFile = ../../secrets/vinnix/booklore.age;
+    secretFile = ../../secrets/vinnix/grimmory.age;
   };
   mine.services.immich.enable = true;
   mine.services.jellyfin.enable = true;

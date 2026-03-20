@@ -27,7 +27,7 @@ in
         immich.enable = mkDefault false;
         jellyfin.enable = mkDefault false;
         restic.enable = mkDefault false;
-        booklore.enable = mkDefault false;
+        grimmory.enable = mkDefault false;
         vtt.enable = mkDefault false;
       };
       networking.enable = mkDefault true;

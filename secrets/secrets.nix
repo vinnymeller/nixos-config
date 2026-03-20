@@ -35,7 +35,7 @@ in
   "vinnix/tailscale-authkey.age".publicKeys = host-vinnix;
   "vinnix/immich.age".publicKeys = host-vinnix;
   "vinnix/rclone.conf.age".publicKeys = host-vinnix;
-  "vinnix/booklore.age".publicKeys = host-vinnix;
+  "vinnix/grimmory.age".publicKeys = host-vinnix;
   "vinnix/cloudflare-dns-token.age".publicKeys = host-vinnix;
   "vinnix/restic-password.age".publicKeys = host-vinnix;
   "vinnix/mullvad-wg-key.age".publicKeys = host-vinnix;

@@ -12,22 +12,22 @@ let
     types
     ;
 
-  cfg = config.mine.services.booklore;
+  cfg = config.mine.services.grimmory;
 in
 {
-  options.mine.services.booklore = {
-    enable = mkEnableOption "Booklore digital library";
+  options.mine.services.grimmory = {
+    enable = mkEnableOption "Grimmory digital library";
     dataDir = mkOption {
       type = types.str;
-      default = "/var/lib/booklore";
+      default = "/var/lib/grimmory";
     };
     booksDir = mkOption {
       type = types.str;
-      default = "/var/lib/booklore/books";
+      default = "/var/lib/grimmory/books";
     };
     bookdropDir = mkOption {
       type = types.str;
-      default = "/var/lib/booklore/bookdrop";
+      default = "/var/lib/grimmory/bookdrop";
     };
     port = mkOption {
       type = types.port;
@@ -52,11 +52,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    mine.services.dockerCompose.stacks.booklore = {
-      autoUpdate.enable = true;
+    mine.services.dockerCompose.stacks.grimmory = {
+      autoUpdate.enable = false; # using locally-built image until grimmory publishes to a registry
       agenix.envFile.file = cfg.secretFile;
       tailscale = {
-        serviceName = "booklore";
+        serviceName = "grimmory";
         port = cfg.port;
       };
 
@@ -83,7 +83,7 @@ in
 
       compose = {
         services = {
-          booklore = {
+          grimmory = {
             image = "ghcr.io/booklore-app/booklore:latest";
             container_name = "booklore";
             restart = "unless-stopped";
