@@ -394,6 +394,14 @@
     file = ../../secrets/vinnix/mullvad-wg-key.age;
     mode = "0400";
   };
+  age.secrets.airvpn-wg-key = {
+    file = ../../secrets/vinnix/airvpn-wg-key.age;
+    mode = "0400";
+  };
+  age.secrets.airvpn-wg-psk = {
+    file = ../../secrets/vinnix/airvpn-wg-psk.age;
+    mode = "0400";
+  };
 
   networking.wg-quick.interfaces.wg-mv = {
     address = [
@@ -419,6 +427,28 @@
           "0.0.0.0/0"
           "::0/0"
         ];
+      }
+    ];
+  };
+
+  networking.wg-quick.interfaces.wg-air = {
+    address = [
+      "10.164.118.136/32"
+      "fd7d:76ee:e68f:a993:a299:3b9a:79af:f098/128"
+    ];
+    privateKeyFile = config.age.secrets.airvpn-wg-key.path;
+    mtu = 1320;
+    dns = [ "10.128.0.1" "fd7d:76ee:e68f:a993::1" ];
+    peers = [
+      {
+        publicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
+        presharedKeyFile = config.age.secrets.airvpn-wg-psk.path;
+        endpoint = "68.235.35.253:1637";
+        allowedIPs = [
+          "0.0.0.0/0"
+          "::/0"
+        ];
+        persistentKeepalive = 15;
       }
     ];
   };

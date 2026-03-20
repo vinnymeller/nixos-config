@@ -39,5 +39,7 @@ in
   "vinnix/cloudflare-dns-token.age".publicKeys = host-vinnix;
   "vinnix/restic-password.age".publicKeys = host-vinnix;
   "vinnix/mullvad-wg-key.age".publicKeys = host-vinnix;
+  "vinnix/airvpn-wg-key.age".publicKeys = host-vinnix;
+  "vinnix/airvpn-wg-psk.age".publicKeys = host-vinnix;
   "vtt/gemini.age".publicKeys = host-vinnix;
 }
