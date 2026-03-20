@@ -1,13 +1,4 @@
-{
-  config,
-  pkgs,
-  inputs,
-  outputs,
-  ...
-}:
-let
-  cust_pkgs = import ../../../../pkgs { inherit pkgs; };
-in
+{ pkgs, ... }:
 {
   imports = [
     ../../../../modules/home-manager
@@ -56,8 +47,7 @@ in
       yubioath-flutter
       yubikey-manager
       zsh-powerlevel10k
-    ]
-    ++ builtins.attrValues cust_pkgs;
+    ];
 
   programs.vesktop = {
     enable = true;
