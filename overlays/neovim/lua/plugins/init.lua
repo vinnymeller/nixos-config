@@ -6,7 +6,6 @@ require("plugins.lualine")
 -- everything else
 require("plugins.autopairs")
 require("plugins.autosave")
-require("plugins.avante")
 require("plugins.blink")
 require("plugins.copilot")
 require("plugins.dap")

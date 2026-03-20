@@ -66,7 +66,6 @@
     SchemaStore-nvim
     autosave-nvim
     copilot-lua
-    blink-cmp-avante
     blink-copilot
     diffview-nvim
     efmls-configs-nvim
@@ -78,7 +77,6 @@
     harpoon2
     image-nvim
     indent-blankline-nvim
-    avante-nvim
     leetcode-nvim
     lspkind-nvim
     ltex_extra-nvim # goes with ltex-ls providing code action functionality for nvim (e.g. add to dict, ignore rule, etc)

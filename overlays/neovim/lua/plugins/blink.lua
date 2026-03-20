@@ -134,12 +134,10 @@ require("blink.cmp").setup({
     },
     sources = {
         default = {
-            "avante",
             "lsp",
             "path",
             "snippets",
             "buffer",
-            -- "copilot",
             "dadbod",
         },
         providers = {
@@ -147,16 +145,6 @@ require("blink.cmp").setup({
                 name = "Dadbod",
                 module = "vim_dadbod_completion.blink",
             },
-            avante = {
-                module = "blink-cmp-avante",
-                name = "Avante",
-            },
-            -- copilot = {
-            --     name = "copilot",
-            --     module = "blink-copilot",
-            --     score_offset = 100,
-            --     async = true,
-            -- },
             cmdline = {
                 enabled = true,
             },
