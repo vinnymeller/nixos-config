@@ -92,7 +92,6 @@
     plenary-nvim
     rainbow_csv
     rustaceanvim
-    tailwind-tools-nvim
     tint-nvim
     tmux-nvim
     typescript-tools-nvim
