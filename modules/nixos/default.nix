@@ -26,26 +26,9 @@ in
         github-runners.enable = mkDefault cfg.selfhost;
         immich.enable = mkDefault false;
         jellyfin.enable = mkDefault false;
-        restic = {
-          enable = mkDefault false;
-          rcloneConfAge = ../../secrets/vinnix/rclone.conf.age;
-          passwordFileAge = ../../secrets/vinnix/restic-password.age;
-          providers = {
-            backblaze.target = "backblaze:vinnix-restic";
-            storj.target = "storj:restic";
-          };
-          onFailure = {
-            enable = true;
-            notifyUser = "vinny";
-          };
-        };
+        restic.enable = mkDefault false;
         booklore.enable = mkDefault false;
         vtt.enable = mkDefault false;
-        dockerCompose.tailscale = {
-          tailnet = "coyote-fir";
-          customDomain = "vinnix.net";
-          cloudflareTokenFile = ../../secrets/vinnix/cloudflare-dns-token.age;
-        };
       };
       networking.enable = mkDefault true;
       nix.enable = mkDefault true;

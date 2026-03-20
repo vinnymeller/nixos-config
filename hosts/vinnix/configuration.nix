@@ -40,8 +40,25 @@
   };
   mine.services.immich.enable = true;
   mine.services.jellyfin.enable = true;
-  mine.services.restic.enable = true;
+  mine.services.restic = {
+    enable = true;
+    rcloneConfAge = ../../secrets/vinnix/rclone.conf.age;
+    passwordFileAge = ../../secrets/vinnix/restic-password.age;
+    providers = {
+      backblaze.target = "backblaze:vinnix-restic";
+      storj.target = "storj:restic";
+    };
+    onFailure = {
+      enable = true;
+      notifyUser = "vinny";
+    };
+  };
   mine.services.vtt.enable = true;
+  mine.services.dockerCompose.tailscale = {
+    tailnet = "coyote-fir";
+    customDomain = "vinnix.net";
+    cloudflareTokenFile = ../../secrets/vinnix/cloudflare-dns-token.age;
+  };
 
   age.secrets.vinnix-wpa-initrd = {
     file = ../../secrets/vinnix/wpa_supplicant.conf.age;
