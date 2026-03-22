@@ -27,26 +27,11 @@
 
     nix-std.url = "github:chessai/nix-std";
 
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
-      inputs = {
-        # nixpkgs.follows = "nixpkgs";
-        blueprint.follows = "blueprint";
-      };
-    };
-
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-compat.follows = "flake-compat";
-      };
-    };
-
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      inputs = {
-        pre-commit-hooks.follows = "git-hooks";
       };
     };
 
@@ -139,6 +124,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # use their nixpkgs to pull from cache
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs = {
+        blueprint.follows = "blueprint";
+      };
+    };
+
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs = {
+        pre-commit-hooks.follows = "git-hooks";
+      };
+    };
+
   };
 
   outputs =
@@ -152,8 +152,6 @@
     let
       inherit (self) outputs;
       inherit (nixpkgs) lib;
-
-      eachSystem = lib.genAttrs (import systems);
 
       mkPkgs =
         system: extraConfig:
