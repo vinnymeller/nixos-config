@@ -25,8 +25,6 @@
 
     systems.url = "github:nix-systems/default";
 
-    nix-std.url = "github:chessai/nix-std";
-
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
       inputs = {
@@ -45,13 +43,6 @@
     };
 
     flake-parts.url = "github:hercules-ci/flake-parts";
-    hercules-ci-effects = {
-      url = "github:hercules-ci/hercules-ci-effects";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-      };
-    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -129,6 +120,8 @@
       url = "github:numtide/llm-agents.nix";
       inputs = {
         blueprint.follows = "blueprint";
+        flake-parts.follows = "flake-parts";
+        systems.follows = "systems";
       };
     };
 
