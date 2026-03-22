@@ -90,6 +90,8 @@ let
     "enable"
     "folder"
     "excludeProviders"
+    "backupPrepareCommand"
+    "backupCleanupCommand"
   ];
 
   resticBackups = builtins.listToAttrs (
@@ -107,6 +109,7 @@ let
           initialize = true;
           createWrapper = true;
           runCheck = pair.jobCfg.runCheck;
+          timerConfig = null;
         };
       }
     ) jobProviderPairs
@@ -239,6 +242,68 @@ in
   config = mkIf cfg.enable (
     let
       allRepos = map (p: "rclone:${p.provCfg.target}/${p.folder}") jobProviderPairs;
+
+      pairsByJob = lib.groupBy (p: p.jobName) jobProviderPairs;
+
+      jobUnits =
+        let
+          perJob = lib.mapAttrsToList (
+            jobName: pairs:
+            let
+              jobCfg = (builtins.head pairs).jobCfg;
+              provBackupServices = map (p: "restic-backups-${p.jobName}-${p.provName}.service") pairs;
+              hasPrepare = jobCfg.backupPrepareCommand != null;
+              hasCleanup = jobCfg.backupCleanupCommand != null;
+            in
+            {
+              services =
+                (lib.optionalAttrs hasPrepare {
+                  "restic-prepare-${jobName}" = {
+                    description = "Restic backup preparation for ${jobName}";
+                    before = provBackupServices;
+                    serviceConfig.Type = "oneshot";
+                    script = jobCfg.backupPrepareCommand;
+                  };
+                })
+                // (lib.optionalAttrs hasCleanup {
+                  "restic-cleanup-${jobName}" = {
+                    description = "Restic backup cleanup for ${jobName}";
+                    after = provBackupServices;
+                    serviceConfig.Type = "oneshot";
+                    script = jobCfg.backupCleanupCommand;
+                  };
+                })
+                // builtins.listToAttrs (
+                  map (p: {
+                    name = "restic-backups-${p.jobName}-${p.provName}";
+                    value = {
+                      requires = lib.optional hasPrepare "restic-prepare-${jobName}.service";
+                      after = lib.optional hasPrepare "restic-prepare-${jobName}.service";
+                      before = lib.optional hasCleanup "restic-cleanup-${jobName}.service";
+                    };
+                  }) pairs
+                );
+
+              targets."restic-backups-${jobName}" = {
+                description = "Restic backup target for ${jobName}";
+                wants =
+                  (lib.optional hasPrepare "restic-prepare-${jobName}.service")
+                  ++ provBackupServices
+                  ++ (lib.optional hasCleanup "restic-cleanup-${jobName}.service");
+              };
+
+              timers."restic-backups-${jobName}" = {
+                wantedBy = [ "timers.target" ];
+                timerConfig = jobCfg.timerConfig;
+              };
+            }
+          ) pairsByJob;
+        in
+        {
+          services = lib.foldl' (acc: x: acc // x.services) { } perJob;
+          targets = lib.foldl' (acc: x: acc // x.targets) { } perJob;
+          timers = lib.foldl' (acc: x: acc // x.timers) { } perJob;
+        };
     in
     {
       assertions = [
@@ -264,9 +329,12 @@ in
 
       services.restic.backups = resticBackups;
 
-      systemd.services =
+      systemd.services = lib.mkMerge [
         failureNotifyService
-        // (lib.optionalAttrs cfg.onFailure.enable (
+
+        jobUnits.services
+
+        (lib.optionalAttrs cfg.onFailure.enable (
           builtins.listToAttrs (
             map (pair: {
               name = "restic-backups-${pair.jobName}-${pair.provName}";
@@ -275,7 +343,30 @@ in
               };
             }) jobProviderPairs
           )
-        ));
+        ))
+
+        (lib.optionalAttrs cfg.onFailure.enable (
+          builtins.listToAttrs (
+            lib.concatMap (
+              jobName:
+              let
+                jobCfg = (builtins.head pairsByJob.${jobName}).jobCfg;
+              in
+              (lib.optional (jobCfg.backupPrepareCommand != null) {
+                name = "restic-prepare-${jobName}";
+                value.unitConfig.OnFailure = [ "restic-backup-notify-failure@%n.service" ];
+              })
+              ++ (lib.optional (jobCfg.backupCleanupCommand != null) {
+                name = "restic-cleanup-${jobName}";
+                value.unitConfig.OnFailure = [ "restic-backup-notify-failure@%n.service" ];
+              })
+            ) (builtins.attrNames pairsByJob)
+          )
+        ))
+      ];
+
+      systemd.targets = jobUnits.targets;
+      systemd.timers = jobUnits.timers;
     }
   );
 }
