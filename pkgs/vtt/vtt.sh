@@ -5,7 +5,7 @@ GEMINI_KEY_FILE="@GEMINI_KEY_FILE@"
 PIDFILE="/tmp/vtt.pid"
 AUDIOFILE="/tmp/vtt.wav"
 LOGFILE="/tmp/vtt.log"
-SCREENSHOTFILE="/tmp/vtt-screenshot.jpg"
+SCREENSHOTFILE="/tmp/vtt-screenshot.png"
 CORRECT=false
 CONTEXT=false
 
@@ -59,10 +59,13 @@ get_context() {
 	# For non-tmux apps, take a screenshot of the active window
 	if [ "$got_tmux" = false ]; then
 		rm -f "$SCREENSHOTFILE"
-		if hyprshot -m window -m active --raw --silent >"$SCREENSHOTFILE" 2>/dev/null && [ -s "$SCREENSHOTFILE" ]; then
+		local screenshot_err
+		screenshot_err=$(hyprshot -m window -m active --raw --silent 2>&1 >"$SCREENSHOTFILE") || true
+		if [ -s "$SCREENSHOTFILE" ]; then
 			log "get_context: captured screenshot ($(wc -c <"$SCREENSHOTFILE") bytes)"
 		else
-			log "get_context: screenshot failed"
+			log "get_context: screenshot failed: ${screenshot_err}"
+			notify-send "VTT" "Failed to capture screenshot for context" --icon=dialog-warning --urgency=low --expire-time=3000
 			rm -f "$SCREENSHOTFILE"
 		fi
 	fi
@@ -130,26 +133,27 @@ ${context}
 Use this context to better understand domain-specific terms and what the user likely meant."
 	fi
 
-	# Build content parts: text + optional screenshot
-	local parts_json
-	parts_json=$(jq -n --arg text "$raw_text" '[{ text: $text }]')
+	# Build content parts: text + optional screenshot (use temp files to avoid shell arg limits)
+	local parts_file="/tmp/vtt-parts.json"
+	jq -n --arg text "$raw_text" '[{ text: $text }]' >"$parts_file"
 
 	if [ -s "$SCREENSHOTFILE" ]; then
-		local img_b64
-		img_b64=$(base64 -w 0 "$SCREENSHOTFILE")
-		parts_json=$(echo "$parts_json" | jq --arg img "$img_b64" \
-			'. + [{ inlineData: { mimeType: "image/jpeg", data: $img } }]')
+		local img_b64_file="/tmp/vtt-img-b64.txt"
+		base64 -w 0 "$SCREENSHOTFILE" >"$img_b64_file"
+		jq --rawfile img "$img_b64_file" \
+			'. + [{ inlineData: { mimeType: "image/png", data: $img } }]' \
+			"$parts_file" >"${parts_file}.tmp" && mv "${parts_file}.tmp" "$parts_file"
 		log "gemini_correct: including screenshot in request"
-		rm -f "$SCREENSHOTFILE"
+		rm -f "$img_b64_file" "$SCREENSHOTFILE"
 	fi
 
-	local payload
-	payload=$(jq -n \
+	local payload_file="/tmp/vtt-payload.json"
+	jq -n \
 		--arg system "$system_instruction" \
-		--argjson parts "$parts_json" \
+		--slurpfile parts "$parts_file" \
 		'{
 			system_instruction: { parts: [{ text: $system }] },
-			contents: [{ parts: $parts }],
+			contents: [{ parts: $parts[0] }],
 			generationConfig: {
 				thinkingConfig: {
 					thinkingLevel: "LOW"
@@ -157,7 +161,8 @@ Use this context to better understand domain-specific terms and what the user li
 				temperature: 0.6,
 				maxOutputTokens: 4096
 			}
-		}')
+		}' >"$payload_file"
+	rm -f "$parts_file"
 
 	log "gemini_correct: system_instruction='${system_instruction}'"
 	log "gemini_correct: text='${raw_text}'"
@@ -165,7 +170,8 @@ Use this context to better understand domain-specific terms and what the user li
 	response=$(curl -s -w '\n%{http_code}' --max-time 30 \
 		"https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${gemini_key}" \
 		-H 'Content-Type: application/json' \
-		-d "$payload" 2>&1)
+		-d "@$payload_file" 2>&1)
+	rm -f "$payload_file"
 
 	http_code=$(echo "$response" | tail -1)
 	response=$(echo "$response" | sed '$d')
@@ -210,7 +216,17 @@ transcribe() {
 			text=$(gemini_correct "$text" "$context")
 		fi
 
-		ydotool type -d 1 -H 1 -- "$text"
+		# Type text line-by-line, using Shift+Enter for newlines
+		# (works as newline in chat apps without triggering send)
+		local first=true
+		while IFS= read -r line; do
+			if [ "$first" = true ]; then
+				first=false
+			else
+				ydotool key 42:1 28:1 28:0 42:0
+			fi
+			[ -n "$line" ] && ydotool type -d 1 -H 1 -- "$line"
+		done <<<"$text"
 		ydotool key 28:1 28:0
 		notify-send "VTT" "Typed: ${text:0:50}..." --icon=dialog-information --urgency=low --expire-time=2000
 	else
