@@ -54,7 +54,7 @@ in
         enable = true;
         paths = [ "${dataDir}/export" ];
         backupPrepareCommand = ''
-          ${pkgs.docker}/bin/docker exec paperless-webserver document_exporter ../export --compare-checksums --use-folder-prefix --split-manifest
+          ${pkgs.docker}/bin/docker exec paperless-webserver python3 manage.py document_exporter ../export --compare-checksums --use-folder-prefix --split-manifest
         '';
       };
 
