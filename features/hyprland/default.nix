@@ -1,4 +1,13 @@
 {
+  assertions =
+    { features, ... }:
+    [
+      {
+        assertion = features.kitty.enable;
+        message = "features.hyprland requires features.kitty to be enabled (used as default terminal).";
+      }
+    ];
+
   nixos =
     {
       cfg,

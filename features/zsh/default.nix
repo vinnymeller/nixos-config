@@ -9,6 +9,15 @@
       };
     };
 
+  assertions =
+    { features, ... }:
+    [
+      {
+        assertion = features.zsh.autoStartTmux -> features.tmux.enable;
+        message = "features.zsh.autoStartTmux requires features.tmux to be enabled.";
+      }
+    ];
+
   nixos =
     {
       cfg,

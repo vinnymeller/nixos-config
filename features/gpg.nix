@@ -1,4 +1,13 @@
 {
+  assertions =
+    { features, ... }:
+    [
+      {
+        assertion = features.gpg.enableSSHSupport -> features.ssh.enable;
+        message = "features.gpg.enableSSHSupport requires features.ssh to be enabled.";
+      }
+    ];
+
   options =
     { lib, ... }:
     {
