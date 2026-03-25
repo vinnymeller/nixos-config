@@ -201,7 +201,8 @@ let
       };
 
       config = lib.mkMerge [
-        (lib.optionalAttrs (feature ? home) (
+        # On standalone HM, apply home config. On NixOS, mkNixosFeature handles this.
+        (lib.optionalAttrs (feature ? home && osConfig == null) (
           lib.mkIf featureCfg.enable (
             callFeatureHome { inherit feature featureCfg; } { inherit config lib pkgs; }
           )
@@ -216,13 +217,8 @@ let
         })
         {
           assertions =
-            # Warn if NixOS-only feature enabled in HM on a NixOS system
-            lib.optional (osConfig != null && featureCfg.enable) {
-              assertion = false;
-              message = "features.${name} is enabled in a home-manager configuration, but this is a NixOS system. Enable features in the NixOS configuration instead.";
-            }
             # Warn if feature without home key enabled on standalone HM
-            ++ lib.optional (osConfig == null && featureCfg.enable && !(feature ? home)) {
+            lib.optional (osConfig == null && featureCfg.enable && !(feature ? home)) {
               assertion = false;
               message = "features.${name} has no home-manager configuration and does nothing on a standalone home-manager system.";
             };
@@ -317,6 +313,9 @@ in
 
   mkFeatures =
     dir:
+    let
+      features = discoverFeatures dir;
+    in
     [
       (mkDefaultsModule {
         extraAssertions =
@@ -326,8 +325,31 @@ in
             message = "features.defaults.users contains '${user}' but users.users.${user} is not defined.";
           }) config.features.defaults.users;
       })
+      # Propagate all feature enable states + defaults from NixOS into HM
+      (
+        { config, ... }:
+        let
+          allFeatureNames = map (f: f.name) features;
+        in
+        {
+          home-manager.sharedModules = [
+            {
+              features =
+                lib.genAttrs allFeatureNames (name: {
+                  enable = lib.mkDefault config.features.${name}.enable;
+                })
+                // {
+                  defaults = {
+                    users = lib.mkDefault config.features.defaults.users;
+                    colors = lib.mkDefault config.features.defaults.colors;
+                  };
+                };
+            }
+          ];
+        }
+      )
     ]
-    ++ map mkNixosFeature (discoverFeatures dir);
+    ++ map mkNixosFeature features;
 
   mkHmFeatures =
     dir:
