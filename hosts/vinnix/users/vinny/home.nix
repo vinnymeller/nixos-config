@@ -5,20 +5,10 @@
   ];
   # Let home-manager manage itself
   profile.vinny.enable = true;
-  profile.vinny.hyprland = true;
 
   home.username = "vinny";
   home.homeDirectory = "/home/vinny";
   home.stateVersion = "25.11";
-
-  services.gpg-agent = {
-    enable = true;
-    enableSshSupport = true;
-    maxCacheTtl = 10;
-    maxCacheTtlSsh = 10;
-    defaultCacheTtl = 10;
-    defaultCacheTtlSsh = 10;
-  };
 
   home.packages = with pkgs; [
     feh

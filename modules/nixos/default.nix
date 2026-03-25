@@ -10,7 +10,7 @@ let
   cfg = config.profile;
 in
 {
-  imports = modules;
+  imports = modules ++ vlib.mkFeatures ../../features;
 
   options = {
     profile = {
@@ -20,8 +20,6 @@ in
 
   config = {
     mine = {
-      gpg.enable = mkDefault true;
-      ssh.enable = mkDefault true;
       services = {
         github-runners.enable = mkDefault cfg.selfhost;
         immich.enable = mkDefault false;
@@ -31,7 +29,6 @@ in
         vtt.enable = mkDefault false;
       };
       networking.enable = mkDefault true;
-      nix.enable = mkDefault true;
     };
   };
 }

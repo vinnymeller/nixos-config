@@ -12,8 +12,15 @@
     ../../modules/nixos
   ];
 
+  features.defaults.users = [ "vinny" ];
+  features.git.enable = true;
+  features.nix.enable = true;
+  features.ssh.enable = true;
+  features.tmux.enable = true;
+  features.wsl.enable = true;
+  features.zsh.enable = true;
+
   mine.networking.enable = false;
-  mine.gpg.enable = false;
 
   wsl = {
     enable = true;
@@ -49,11 +56,6 @@
       "wheel"
       "docker"
     ];
-    shell = pkgs.zsh;
-  };
-  programs.zsh = {
-    enable = true;
-    enableCompletion = false;
   };
   networking.hostName = "vindows"; # Define your hostname.
 

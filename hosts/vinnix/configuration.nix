@@ -12,6 +12,31 @@
 
   profile.selfhost = true;
 
+  features.defaults.users = [ "vinny" ];
+  features.git.enable = true;
+  features.gpg = {
+    enable = true;
+    smartcards = true;
+    pinentryPackage = pkgs.pinentry-gnome3;
+  };
+  features.hyprland.enable = true;
+  features.kitty.enable = true;
+  features.nix.enable = true;
+  features.ssh.enable = true;
+  features.tailscale = {
+    enable = true;
+    authKeyFile = ../../secrets/vinnix/tailscale-authkey.age;
+  };
+  features.tmux.enable = true;
+  features.vpn = {
+    enable = true;
+    mullvad.secretFile = ../../secrets/vinnix/mullvad-wg-key.age;
+    airvpn.secretFile = ../../secrets/vinnix/airvpn-wg-key.age;
+    airvpn.pskFile = ../../secrets/vinnix/airvpn-wg-psk.age;
+  };
+  features.zk.enable = true;
+  features.zsh.enable = true;
+
   environment.etc.crypttab.text = ''
     data UUID=a84a3eeb-8805-4299-9467-a8cd4912a059 /etc/luks-keys/data.key luks
   '';
@@ -59,10 +84,6 @@
     file = ../../secrets/vinnix/wpa_supplicant.conf.age;
     path = "/etc/secrets/initrd/wpa_supplicant.conf";
     symlink = false;
-  };
-  age.secrets.vinnix-tailscale-authkey = {
-    file = ../../secrets/vinnix/tailscale-authkey.age;
-    mode = "0400";
   };
 
   boot.initrd =
@@ -236,23 +257,7 @@
         Resolve = { };
       };
     };
-    tailscale = {
-      enable = true;
-      useRoutingFeatures = "both";
-      extraUpFlags = [ "--advertise-exit-node" ];
-      authKeyFile = config.age.secrets.vinnix-tailscale-authkey.path;
-    };
   };
-
-  networking.firewall = {
-    checkReversePath = "loose";
-    trustedInterfaces = [ "tailscale0" ];
-    allowedUDPPorts = [ config.services.tailscale.port ];
-  };
-
-  systemd.services.tailscaled.serviceConfig.Environment = [
-    "TS_DEBUG_FIREWALL_MODE=nftables"
-  ];
 
   fonts = {
     fontconfig = {
@@ -296,7 +301,6 @@
         "qemu-libvirtd"
         "docker"
       ];
-      shell = pkgs.zsh;
       openssh = {
         authorizedKeys = {
           keys = [
@@ -308,7 +312,6 @@
     };
   };
 
-  environment.pathsToLink = [ "/share/zsh" ];
   environment.systemPackages = with pkgs; [
     # linuxPackages_latest.perf  # TODO: readd this when its working
     # openvpn
@@ -339,17 +342,6 @@
   system.stateVersion = "25.11"; # read documentation on configuration.nix before possibly changing this
 
   programs.steam.enable = true;
-  programs.zsh = {
-    enable = true;
-    enableCompletion = false;
-  };
-
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-    pinentryPackage = pkgs.pinentry-gnome3;
-  };
-  hardware.gpgSmartcards.enable = true; # for yubikey
 
   # Tag each generation with Git hash
   # system.configurationRevision =
@@ -365,15 +357,6 @@
 
   programs.nix-ld.enable = true;
 
-  programs.hyprland = {
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage =
-      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-
-    enable = true;
-    withUWSM = true;
-  };
-  security.pam.services.hyprlock = { };
   services.xserver.videoDrivers = [
     "nvidia"
   ];
@@ -382,100 +365,6 @@
     modesetting.enable = true;
     open = true;
     nvidiaSettings = true;
-  };
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd hyprland";
-        user = "vinny";
-      };
-    };
-  };
-  services.mullvad-vpn.enable = true;
-
-  age.secrets.mullvad-wg-key = {
-    file = ../../secrets/vinnix/mullvad-wg-key.age;
-    mode = "0400";
-  };
-  age.secrets.airvpn-wg-key = {
-    file = ../../secrets/vinnix/airvpn-wg-key.age;
-    mode = "0400";
-  };
-  age.secrets.airvpn-wg-psk = {
-    file = ../../secrets/vinnix/airvpn-wg-psk.age;
-    mode = "0400";
-  };
-
-  networking.wg-quick.interfaces.wg-mv = {
-    address = [
-      "10.69.64.78/32"
-      "fc00:bbbb:bbbb:bb01::6:404d/128"
-    ];
-    privateKeyFile = config.age.secrets.mullvad-wg-key.path;
-    table = "off";
-    postUp = ''
-      ip route add default dev wg-mv table 51820
-      ip rule add from 10.69.64.78/32 table 51820
-      ip rule add iif tailscale0 lookup 51820 priority 5265
-    '';
-    postDown = ''
-      ip rule del from 10.69.64.78/32 table 51820
-      ip rule del iif tailscale0 lookup 51820 priority 5265
-    '';
-    peers = [
-      {
-        publicKey = "nvyBkaEXHwyPBAm8spGB0TFzf2W5wPAl8EEuJ0t+bzs=";
-        endpoint = "45.134.140.130:51820";
-        allowedIPs = [
-          "0.0.0.0/0"
-          "::0/0"
-        ];
-      }
-    ];
-  };
-
-  networking.wg-quick.interfaces.wg-air = {
-    address = [
-      "10.164.118.136/32"
-      "fd7d:76ee:e68f:a993:a299:3b9a:79af:f098/128"
-    ];
-    privateKeyFile = config.age.secrets.airvpn-wg-key.path;
-    table = "off";
-    mtu = 1320;
-    dns = [
-      "10.128.0.1"
-      "fd7d:76ee:e68f:a993::1"
-    ];
-    peers = [
-      {
-        publicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
-        presharedKeyFile = config.age.secrets.airvpn-wg-psk.path;
-        endpoint = "68.235.35.253:1637";
-        allowedIPs = [
-          "0.0.0.0/0"
-          "::/0"
-        ];
-        persistentKeepalive = 15;
-      }
-    ];
-  };
-
-  networking.nftables.enable = true;
-  networking.nftables.tables.tailscale-exit = {
-    family = "inet";
-    content = ''
-      chain forward {
-        type filter hook forward priority filter + 1; policy accept;
-        iifname "tailscale0" oifname "wg-mv" counter accept
-        iifname "tailscale0" oifname "tailscale0" counter accept
-        iifname "tailscale0" counter drop
-      }
-      chain nat {
-        type nat hook postrouting priority srcnat; policy accept;
-        oifname "wg-mv" masquerade
-      }
-    '';
   };
 
   services.udev.extraRules = ''

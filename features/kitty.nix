@@ -1,37 +1,25 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.mine.kitty;
-in
-{
-  options.mine.kitty = {
-    enable = mkEnableOption "Enable kitty terminal.";
-  };
+  home =
+    {
+      cfg,
+      lib,
+      pkgs,
+      hmConfig,
+      ...
+    }:
+    let
+      c = hmConfig.mine.colors;
+    in
+    {
+      programs.kitty = {
+        enable = lib.mkDefault true;
+        font = {
+          name = lib.mkDefault "0xProto Nerd Font";
+          package = pkgs.nerd-fonts._0xproto;
+        };
 
-  config = mkIf cfg.enable {
-
-    programs.kitty = {
-      enable = true;
-      font = {
-        # name = "Jetbrains Mono";
-        # package = pkgs.jetbrains-mono;
-        name = "0xProto Nerd Font"; # test out 0xProto. I love JBM, but this looked neat
-        package = pkgs.nerd-fonts._0xproto;
-        # name = "JetBrainsMono Nerd Font";
-        # package = pkgs.nerd-fonts.jetbrains-mono;
-      };
-
-      shellIntegration.enableZshIntegration = true;
-      extraConfig =
-        let
-          c = config.mine.colors;
-        in
-        ''
+        shellIntegration.enableZshIntegration = lib.mkDefault true;
+        extraConfig = ''
           term xterm-kitty
           background_opacity   0.85
           confirm_os_window_close 0
@@ -90,6 +78,6 @@ in
           color7                  ${c.white}
           color15                 ${c.white-bright}
         '';
+      };
     };
-  };
 }
