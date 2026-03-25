@@ -53,7 +53,7 @@ in
 
   config = mkIf cfg.enable {
     mine.services.dockerCompose.stacks.grimmory = {
-      autoUpdate.enable = false; # using locally-built image until grimmory publishes to a registry
+      autoUpdate.enable = true;
       agenix.envFile.file = cfg.secretFile;
       tailscale = {
         serviceName = "grimmory";
@@ -84,16 +84,16 @@ in
       compose = {
         services = {
           grimmory = {
-            image = "ghcr.io/booklore-app/booklore:latest";
+            image = "ghcr.io/grimmory-tools/grimmory:latest";
             container_name = "booklore";
             restart = "unless-stopped";
             ports = [ "${toString cfg.port}:6060" ];
             environment = {
-              APP_USER_ID = toString cfg.uid;
-              APP_GROUP_ID = toString cfg.gid;
+              USER_ID = toString cfg.uid;
+              GROUP_ID = toString cfg.gid;
               TZ = cfg.timeZone;
               DATABASE_URL = "jdbc:mariadb://booklore-mariadb:3306/booklore";
-              DB_USER = "booklore";
+              DATABASE_USERNAME = "booklore";
               DISK_TYPE = "LOCAL";
             };
             volumes = [
@@ -105,7 +105,7 @@ in
           };
 
           mariadb = {
-            image = "lscr.io/linuxserver/mariadb:11.4.5";
+            image = "lscr.io/linuxserver/mariadb:11.4.8";
             container_name = "booklore-mariadb";
             restart = "unless-stopped";
             environment = {
