@@ -26,7 +26,6 @@ in
         jellyfin.enable = mkDefault false;
         restic.enable = mkDefault false;
         grimmory.enable = mkDefault false;
-        vtt.enable = mkDefault false;
       };
       networking.enable = mkDefault true;
     };

@@ -73,7 +73,10 @@
       notifyUser = "vinny";
     };
   };
-  mine.services.vtt.enable = true;
+  features.vtt = {
+    enable = true;
+    geminiKeyFile = ../../secrets/vtt/gemini.age;
+  };
   mine.services.dockerCompose.tailscale = {
     tailnet = "coyote-fir";
     customDomain = "vinnix.net";

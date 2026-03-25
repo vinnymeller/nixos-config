@@ -102,9 +102,6 @@
             "$mod, V, exec, $terminal --class clipse -e clipse"
             "$mod CTRL, S, exec, hyprshot -m region output --clipboard-only"
             "$mod SHIFT ALT, L, exec, hyprlock"
-            ", mouse:274, exec, vtt"
-            "SHIFT, mouse:274, exec, vtt --correct"
-            "ALT, R, exec, vtt --correct --context"
             "$mod, W, killactive"
             "$mod, R, togglefloating"
             "$mod, U, focusurgentorlast"
@@ -142,6 +139,11 @@
             "$god, R, exec, hyprctl hyprsunset temperature -500"
             "$god, D, exec, hyprctl hyprsunset temperature 6500"
             "$god, B, exec, hyprctl hyprsunset temperature +500"
+          ]
+          ++ lib.optionals hmConfig.features.vtt.enable [
+            ", mouse:274, exec, vtt"
+            "SHIFT, mouse:274, exec, vtt --correct"
+            "ALT, R, exec, vtt --correct --context"
           ]
           ++ (builtins.concatLists (
             builtins.genList (
