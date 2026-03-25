@@ -11,7 +11,6 @@
     discord-canary
     gocryptfs
     htop
-    jellyfin-desktop
     libvirt
     lxsession
     man-pages # linux man pages, goes with tlpi
@@ -39,12 +38,6 @@
   };
 
   xdg.desktopEntries = {
-    grimmory = {
-      name = "Grimmory";
-      exec = "${pkgs.google-chrome}/bin/google-chrome-stable --app=https://grimmory.vinnix.net";
-      icon = "booklore";
-      type = "Application";
-    };
     paperless = {
       name = "Paperless-ngx";
       exec = "${pkgs.google-chrome}/bin/google-chrome-stable --app=https://paperless.vinnix.net";

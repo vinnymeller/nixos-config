@@ -30,7 +30,15 @@ let
         description = "Users for this feature. Defaults to features.defaults.users.";
       };
     }
-    // (if feature ? options then (feature.options { inherit lib config; }) else { });
+    // (
+      if feature ? options then
+        (feature.options {
+          inherit lib config name;
+          cfg = config.features.${name};
+        })
+      else
+        { }
+    );
 
   callFeatureHome =
     { feature, featureCfg }:
@@ -152,6 +160,29 @@ let
                 cfg = featureCfg;
                 eachUser =
                   arg: lib.genAttrs featureCfg.users (user: if builtins.isFunction arg then arg user else arg);
+                resolveUser =
+                  username:
+                  let
+                    user =
+                      config.users.users.${username}
+                        or (throw "resolveUser: user '${username}' does not exist in users.users");
+                    group =
+                      config.users.groups.${user.group}
+                        or (throw "resolveUser: group '${user.group}' for user '${username}' does not exist in users.groups");
+                  in
+                  {
+                    uid =
+                      if user.uid != null then
+                        toString user.uid
+                      else
+                        throw "resolveUser: user '${username}' must have an explicit uid set";
+                    gid =
+                      if group.gid != null then
+                        toString group.gid
+                      else
+                        throw "resolveUser: group '${user.group}' for user '${username}' must have an explicit gid set";
+                    inherit user group;
+                  };
                 inherit
                   config
                   lib

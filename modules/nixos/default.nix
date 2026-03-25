@@ -22,10 +22,7 @@ in
     mine = {
       services = {
         github-runners.enable = mkDefault cfg.selfhost;
-        immich.enable = mkDefault false;
-        jellyfin.enable = mkDefault false;
         restic.enable = mkDefault false;
-        grimmory.enable = mkDefault false;
       };
       networking.enable = mkDefault true;
     };

@@ -19,6 +19,7 @@
     smartcards = true;
     pinentryPackage = pkgs.pinentry-gnome3;
   };
+  features.jellyfin.enable = true;
   features.hyprland.enable = true;
   features.kitty.enable = true;
   features.nix.enable = true;
@@ -50,16 +51,16 @@
     ];
   };
 
-  mine.services.grimmory = {
+  features.grimmory = {
     enable = true;
     secretFile = ../../secrets/vinnix/grimmory.age;
   };
-  mine.services.immich.enable = true;
-  mine.services.paperless = {
+  features.immich.enable = true;
+  features.immich.secretFile = ../../secrets/vinnix/immich.age;
+  features.paperless = {
     enable = true;
     secretFile = ../../secrets/vinnix/paperless.age;
   };
-  mine.services.jellyfin.enable = true;
   mine.services.restic = {
     enable = true;
     rcloneConfAge = ../../secrets/vinnix/rclone.conf.age;
@@ -297,6 +298,7 @@
     vinny = {
       isNormalUser = true;
       initialHashedPassword = "$6$GUm.78.XWDWW/7CE$TVA9j1bmmKEMiQ2289etaddvpaYpVUUWagW7A.TM6K13RThGq.E3f7MgPh.bBurysjJDDkceZDz7.CEhXUsY6.";
+      uid = 1000;
       extraGroups = [
         "wheel"
         "libvirtd"
@@ -314,6 +316,7 @@
       };
     };
   };
+  users.groups.users.gid = 100;
 
   environment.systemPackages = with pkgs; [
     # linuxPackages_latest.perf  # TODO: readd this when its working

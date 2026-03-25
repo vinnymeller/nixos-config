@@ -33,9 +33,28 @@ let
       hasSecretsOverride = hasEnvFile || hasSecrets;
 
       # ── Compose File ──
-      composeFile =
+      # Inject TZ into all services that don't explicitly set it
+      composeFinal =
         if stackCfg.compose != null then
-          jsonFormat.generate "dc-${name}-docker-compose.json" stackCfg.compose
+          stackCfg.compose
+          // {
+            services = mapAttrs (
+              _: svc:
+              svc
+              // {
+                environment = {
+                  TZ = config.time.timeZone;
+                }
+                // (svc.environment or { });
+              }
+            ) (stackCfg.compose.services or { });
+          }
+        else
+          null;
+
+      composeFile =
+        if composeFinal != null then
+          jsonFormat.generate "dc-${name}-docker-compose.json" composeFinal
         else
           stackCfg.composeFile;
 
