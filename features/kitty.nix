@@ -8,7 +8,7 @@
       ...
     }:
     let
-      c = hmConfig.mine.colors;
+      c = hmConfig.features.defaults.colors;
     in
     {
       programs.kitty = {

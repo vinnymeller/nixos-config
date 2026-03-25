@@ -1,6 +1,11 @@
 {
   home =
-    { cfg, lib, ... }:
+    {
+      cfg,
+      lib,
+      pkgs,
+      ...
+    }:
     {
       programs.tmux = {
         enable = lib.mkDefault true;
@@ -9,5 +14,6 @@
       home.sessionVariables = {
         TMUX_TMPDIR = lib.mkForce "/tmp";
       };
+      home.packages = [ pkgs.tmux-kill-and-attach ];
     };
 }

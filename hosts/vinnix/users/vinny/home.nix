@@ -3,11 +3,6 @@
   imports = [
     ../../../../modules/home-manager
   ];
-  # Let home-manager manage itself
-  profile.vinny.enable = true;
-
-  home.username = "vinny";
-  home.homeDirectory = "/home/vinny";
   home.stateVersion = "25.11";
 
   home.packages = with pkgs; [

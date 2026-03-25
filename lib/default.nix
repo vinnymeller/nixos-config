@@ -46,23 +46,80 @@ let
       inherit lib pkgs;
     };
 
-  defaultsModule =
+  defaultsOptions =
+    { lib, ... }:
+    {
+      options.features.defaults = {
+        users = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = "Default list of users for all features.";
+        };
+        colors = lib.mkOption {
+          type = lib.types.attrsOf lib.types.str;
+          default = {
+            # Backgrounds (dark to light)
+            bg = "#282828";
+            bg-dark = "#000000";
+            bg1 = "#3c3836";
+            bg2 = "#504945";
+
+            # Foregrounds (light to dark)
+            fg = "#ebdbb2";
+            fg0 = "#fbf1c7";
+            fg2 = "#d5c4a1";
+
+            # Neutral gray
+            gray = "#928374";
+
+            # ANSI colors (normal)
+            black = "#665c54";
+            red = "#cc241d";
+            green = "#98971a";
+            yellow = "#d79921";
+            blue = "#458588";
+            magenta = "#b16286";
+            cyan = "#689d6a";
+            white = "#a89984";
+
+            # ANSI colors (bright)
+            black-bright = "#7c6f64";
+            red-bright = "#fb4934";
+            green-bright = "#b8bb26";
+            yellow-bright = "#fabd2f";
+            blue-bright = "#83a598";
+            magenta-bright = "#d3869b";
+            cyan-bright = "#8ec07c";
+            white-bright = "#bdae93";
+          };
+          description = "Color palette used by features (kitty, hyprland, etc).";
+        };
+      };
+    };
+
+  defaultsAssertions =
+    { config, featureNames }:
+    let
+      anyFeatureEnabled = lib.any (name: config.features.${name}.enable or false) featureNames;
+    in
+    lib.optionals anyFeatureEnabled [
+      {
+        assertion = config.features.defaults.users != [ ];
+        message = "features.defaults.users must be set when any feature is enabled.";
+      }
+    ];
+
+  mkDefaultsModule =
+    { extraAssertions }:
     { lib, config, ... }:
     let
       featureNames = lib.attrNames (lib.filterAttrs (n: _: n != "defaults") (config.features or { }));
-      anyFeatureEnabled = lib.any (name: config.features.${name}.enable or false) featureNames;
     in
     {
-      options.features.defaults.users = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        default = [ ];
-        description = "Default list of users for all features.";
-      };
+      imports = [ defaultsOptions ];
 
-      config.assertions = lib.optional anyFeatureEnabled {
-        assertion = config.features.defaults.users != [ ];
-        message = "features.defaults.users must be set when any feature is enabled.";
-      };
+      config.assertions =
+        defaultsAssertions { inherit config featureNames; } ++ extraAssertions { inherit config lib; };
     };
 
   mkNixosFeature =
@@ -258,7 +315,51 @@ in
     ];
   };
 
-  mkFeatures = dir: [ defaultsModule ] ++ map mkNixosFeature (discoverFeatures dir);
+  mkFeatures =
+    dir:
+    [
+      (mkDefaultsModule {
+        extraAssertions =
+          { config, ... }:
+          map (user: {
+            assertion = config.users.users ? ${user};
+            message = "features.defaults.users contains '${user}' but users.users.${user} is not defined.";
+          }) config.features.defaults.users;
+      })
+    ]
+    ++ map mkNixosFeature (discoverFeatures dir);
 
-  mkHmFeatures = dir: [ defaultsModule ] ++ map mkHmFeature (discoverFeatures dir);
+  mkHmFeatures =
+    dir:
+    [
+      (mkDefaultsModule {
+        extraAssertions =
+          { config, lib, ... }:
+          lib.optional (config.features.defaults.users != [ ]) {
+            assertion = lib.length config.features.defaults.users == 1;
+            message = "features.defaults.users must have exactly one user on standalone home-manager systems.";
+          };
+      })
+      (
+        {
+          config,
+          lib,
+          pkgs,
+          osConfig ? null,
+          ...
+        }:
+        lib.mkIf (osConfig == null && config.features.defaults.users != [ ]) (
+          let
+            user = builtins.head config.features.defaults.users;
+          in
+          {
+            home.username = lib.mkDefault user;
+            home.homeDirectory = lib.mkDefault (
+              if pkgs.stdenv.isDarwin then "/Users/${user}" else "/home/${user}"
+            );
+          }
+        )
+      )
+    ]
+    ++ map mkHmFeature (discoverFeatures dir);
 }

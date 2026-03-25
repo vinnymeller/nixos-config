@@ -39,7 +39,7 @@
       ...
     }:
     let
-      c = hmConfig.mine.colors;
+      c = hmConfig.features.defaults.colors;
       toRgb = color: "rgb(${builtins.substring 1 6 color})";
     in
     {
@@ -491,6 +491,7 @@
           feh
           vlc
           rofi-chrome-profile-launcher
+          swap-audio-output
 
           # thumbnailers
           libheif

@@ -41,6 +41,10 @@
 
       home.packages = with pkgs; [
         devenv
+        find-file-up-tree
+        gh-clone-all
+        worktree-helper
+        build-nix-pkg-update
         twm
         jq
         ijq
