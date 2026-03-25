@@ -9,6 +9,7 @@
 
   features.defaults.users = [ "vinny" ];
   features.git.enable = true;
+  features.gpg.enable = true;
   features.nix.enable = true;
   features.ssh.enable = true;
   features.tmux.enable = true;
