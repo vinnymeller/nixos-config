@@ -26,7 +26,11 @@
         withUWSM = lib.mkDefault true;
       };
 
-      security.pam.services.hyprlock = { };
+      security.pam.services = {
+        hyprlock = { };
+        greetd.enableGnomeKeyring = lib.mkDefault true;
+        login.enableGnomeKeyring = lib.mkDefault true;
+      };
 
       services.greetd = {
         enable = lib.mkDefault true;
@@ -37,6 +41,22 @@
           };
         };
       };
+
+      services.blueman.enable = lib.mkDefault true;
+
+      services.pipewire = {
+        enable = lib.mkDefault true;
+        pulse.enable = lib.mkDefault true;
+        alsa.enable = lib.mkDefault true;
+        jack.enable = lib.mkDefault true;
+      };
+
+      services.gnome.gnome-keyring.enable = lib.mkDefault true;
+      services.gvfs.enable = lib.mkDefault true;
+      services.udisks2.enable = lib.mkDefault true;
+      services.devmon.enable = lib.mkDefault true;
+
+      programs.nm-applet.enable = true;
     };
 
   home =
@@ -503,6 +523,7 @@
           vlc
           rofi-chrome-profile-launcher
           swap-audio-output
+          pavucontrol
 
           # thumbnailers
           libheif

@@ -13,28 +13,31 @@
   profile.selfhost = true;
 
   features.defaults.users = [ "vinny" ];
+
   features.git.enable = true;
-  features.gpg = {
-    enable = true;
-    smartcards = true;
-    pinentryPackage = pkgs.pinentry-gnome3;
-  };
-  features.jellyfin.enable = true;
+  features.gpg.enable = true;
+  features.gpg.pinentryPackage = pkgs.pinentry-gnome3;
+  features.gpg.smartcards = true;
+  features.grimmory.enable = true;
+  features.grimmory.secretFile = ../../secrets/vinnix/grimmory.age;
   features.hyprland.enable = true;
+  features.immich.enable = true;
+  features.immich.secretFile = ../../secrets/vinnix/immich.age;
+  features.jellyfin.enable = true;
   features.kitty.enable = true;
   features.nix.enable = true;
+  features.paperless.enable = true;
+  features.paperless.secretFile = ../../secrets/vinnix/paperless.age;
   features.ssh.enable = true;
-  features.tailscale = {
-    enable = true;
-    authKeyFile = ../../secrets/vinnix/tailscale-authkey.age;
-  };
+  features.tailscale.authKeyFile = ../../secrets/vinnix/tailscale-authkey.age;
+  features.tailscale.enable = true;
   features.tmux.enable = true;
-  features.vpn = {
-    enable = true;
-    mullvad.secretFile = ../../secrets/vinnix/mullvad-wg-key.age;
-    airvpn.secretFile = ../../secrets/vinnix/airvpn-wg-key.age;
-    airvpn.pskFile = ../../secrets/vinnix/airvpn-wg-psk.age;
-  };
+  features.vpn.airvpn.pskFile = ../../secrets/vinnix/airvpn-wg-psk.age;
+  features.vpn.airvpn.secretFile = ../../secrets/vinnix/airvpn-wg-key.age;
+  features.vpn.enable = true;
+  features.vpn.mullvad.secretFile = ../../secrets/vinnix/mullvad-wg-key.age;
+  features.vtt.enable = true;
+  features.vtt.geminiKeyFile = ../../secrets/vtt/gemini.age;
   features.zk.enable = true;
   features.zsh.enable = true;
 
@@ -51,16 +54,6 @@
     ];
   };
 
-  features.grimmory = {
-    enable = true;
-    secretFile = ../../secrets/vinnix/grimmory.age;
-  };
-  features.immich.enable = true;
-  features.immich.secretFile = ../../secrets/vinnix/immich.age;
-  features.paperless = {
-    enable = true;
-    secretFile = ../../secrets/vinnix/paperless.age;
-  };
   mine.services.restic = {
     enable = true;
     rcloneConfAge = ../../secrets/vinnix/rclone.conf.age;
@@ -73,10 +66,6 @@
       enable = true;
       notifyUser = "vinny";
     };
-  };
-  features.vtt = {
-    enable = true;
-    geminiKeyFile = ../../secrets/vtt/gemini.age;
   };
   mine.services.dockerCompose.tailscale = {
     tailnet = "coyote-fir";
@@ -241,20 +230,6 @@
   };
 
   services = {
-    blueman.enable = true;
-    pcscd.enable = true;
-    # spotifyd.enable = true;
-    pipewire = {
-      enable = true;
-      pulse.enable = true;
-      alsa.enable = true;
-      jack.enable = true;
-    };
-    yubikey-agent.enable = true;
-    devmon.enable = true;
-    gnome.gnome-keyring.enable = true;
-    gvfs.enable = true;
-    udisks2.enable = true;
     resolved = {
       enable = true;
       settings = {
@@ -359,8 +334,6 @@
 
   programs.command-not-found.enable = false;
 
-  programs.nm-applet.enable = true;
-
   programs.nix-ld.enable = true;
 
   services.xserver.videoDrivers = [
@@ -380,10 +353,5 @@
     ACTION=="add", SUBSYSTEM=="net", KERNEL=="wl*", RUN+="${pkgs.iw}/bin/iw dev $name set power_save off"
     ACTION=="add", SUBSYSTEM=="net", KERNEL=="wl*", RUN+="${pkgs.iw}/bin/iw dev $name set bitrates he-mcs-5 2:4-11"
   '';
-
-  security.pam.services = {
-    greetd.enableGnomeKeyring = true;
-    login.enableGnomeKeyring = true;
-  };
 
 }

@@ -6,7 +6,6 @@
   home.stateVersion = "25.11";
 
   home.packages = with pkgs; [
-    feh
     gcc
     discord-canary
     gocryptfs
@@ -19,7 +18,6 @@
     nix-init
     obs-studio
     (master-pkgs.osu-lazer.override { nativeWayland = true; })
-    pavucontrol
     pkg-config
     protonup-qt
     qbittorrent-enhanced
@@ -27,23 +25,12 @@
     sbctl
     screenkey
     virt-manager
-    yubioath-flutter
-    yubikey-manager
     zsh-powerlevel10k
   ];
 
   programs.vesktop = {
     enable = true;
     vencord.useSystem = true;
-  };
-
-  xdg.desktopEntries = {
-    paperless = {
-      name = "Paperless-ngx";
-      exec = "${pkgs.google-chrome}/bin/google-chrome-stable --app=https://paperless.vinnix.net";
-      icon = "paperless-ngx";
-      type = "Application";
-    };
   };
 
   programs.spotify-player.enable = true;

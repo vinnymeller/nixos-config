@@ -43,6 +43,7 @@
       environment.systemPackages = [ pkgs.gnupg ];
 
       services.udev.packages = lib.mkIf cfg.smartcards [ pkgs.yubikey-personalization ];
+      services.yubikey-agent.enable = lib.mkDefault cfg.smartcards;
       hardware.gpgSmartcards.enable = lib.mkDefault cfg.smartcards;
 
       programs.gnupg.agent = {
@@ -67,9 +68,16 @@
       ...
     }:
     {
+
+      home.packages = with pkgs; [
+        yubioath-flutter
+        yubikey-manager
+      ];
+
       services.gpg-agent = {
         enable = lib.mkDefault true;
         enableSshSupport = lib.mkDefault cfg.enableSSHSupport;
       };
+
     };
 }
