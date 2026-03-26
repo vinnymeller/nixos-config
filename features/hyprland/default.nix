@@ -34,6 +34,7 @@
 
       services.greetd = {
         enable = lib.mkDefault true;
+        useTextGreeter = lib.mkDefault true;
         settings = {
           default_session = {
             command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd hyprland";
