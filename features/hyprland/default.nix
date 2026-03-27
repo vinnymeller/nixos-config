@@ -435,6 +435,9 @@
           package = pkgs.gruvbox-gtk-theme;
           name = "Gruvbox-Dark";
         };
+        gtk2.theme = hmConfig.gtk.theme;
+        gtk3.theme = hmConfig.gtk.theme;
+        gtk4.theme = hmConfig.gtk.theme;
         iconTheme = {
           package = pkgs.papirus-icon-theme;
           name = "Papirus-Dark";
