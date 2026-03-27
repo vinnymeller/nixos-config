@@ -69,10 +69,14 @@
     }:
     {
 
-      home.packages = with pkgs; [
-        yubioath-flutter
-        yubikey-manager
-      ];
+      home.packages =
+        with pkgs;
+        [
+          yubikey-manager
+        ]
+        ++ lib.optionals stdenv.hostPlatform.isLinux [
+          yubioath-flutter
+        ];
 
       services.gpg-agent = {
         enable = lib.mkDefault true;

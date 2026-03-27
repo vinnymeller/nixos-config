@@ -233,8 +233,8 @@ let
 
       config = lib.mkMerge [
         # On standalone HM, apply home config. On NixOS, mkNixosFeature handles this.
-        (lib.optionalAttrs (feature ? home && osConfig == null) (
-          lib.mkIf featureCfg.enable (
+        (lib.optionalAttrs (feature ? home) (
+          lib.mkIf (featureCfg.enable && osConfig == null) (
             callFeatureHome { inherit feature featureCfg; } { inherit config lib pkgs; }
           )
         ))
