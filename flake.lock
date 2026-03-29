@@ -117,6 +117,52 @@
         "type": "github"
       }
     },
+    "claude-cowork-service": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774739874,
+        "narHash": "sha256-k8l5svbKDZuN8fY/GsEzc4fQIri7fPAIMZ/b/ILBSyk=",
+        "owner": "patrickjaja",
+        "repo": "claude-cowork-service",
+        "rev": "1791aa8851065925245d004df50fea3a686c4ad5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "patrickjaja",
+        "repo": "claude-cowork-service",
+        "type": "github"
+      }
+    },
+    "claude-desktop": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774739284,
+        "narHash": "sha256-MIBX1x563WL/eTj87OtuF+Co5OJ92Rpnn+BdX2wFQfQ=",
+        "owner": "patrickjaja",
+        "repo": "claude-desktop-bin",
+        "rev": "2dc58b818e19817bc0de731eda632dd8cf8e85aa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "patrickjaja",
+        "repo": "claude-desktop-bin",
+        "type": "github"
+      }
+    },
     "claude-plugins-official": {
       "flake": false,
       "locked": {
@@ -968,6 +1014,8 @@
       "inputs": {
         "agenix": "agenix",
         "blueprint": "blueprint",
+        "claude-cowork-service": "claude-cowork-service",
+        "claude-desktop": "claude-desktop",
         "claude-plugins-official": "claude-plugins-official",
         "claude-plugins-superpowers": "claude-plugins-superpowers",
         "crane": "crane",
