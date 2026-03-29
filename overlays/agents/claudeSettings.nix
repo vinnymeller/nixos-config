@@ -7,6 +7,7 @@
     pr = "";
   };
   alwaysThinkingEnabled = true;
+  autoMemoryEnabled = false;
   # undocumented setting state that most likely controls when ill be shown another feedback survey
   # this timestsamp is in 2057
   feedbackSurveyState = {
@@ -31,10 +32,10 @@
       "${statusline}/bin/claude-status-line";
   };
   env = {
-    CLAUDE_CODE_DISABLE_AUTO_MEMORY = "0";
     CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
     ENABLE_EXPERIMENTAL_MCP_CLI = "1";
     ENABLE_LSP_TOOL = "1";
+    CLAUDE_AUTOCOMPACT_PCT_OVERRIDE = "40"; # using 1m model, compact at 40% to limit to 400k instead of 1m
   };
   plansDirectory = "./plans";
   permissions = {

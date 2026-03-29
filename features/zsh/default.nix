@@ -78,6 +78,7 @@
         zsh-autocomplete
         zsh-completions
         claude-code
+        llm-agents.codex
         neovim
       ];
 
