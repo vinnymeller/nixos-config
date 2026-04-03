@@ -64,7 +64,6 @@ in
       '';
     };
     pluginDirs = (map pluginPath officialPluginNames) ++ [
-      inputs.claude-plugins-superpowers
       ./customPlug
     ];
   };
