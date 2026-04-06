@@ -331,7 +331,7 @@ in
       ltex-ls-plus
       lua-language-server
       nixd
-      nodePackages.typescript-language-server
+      typescript-language-server
       tailwindcss-language-server
       taplo
       terraform-ls

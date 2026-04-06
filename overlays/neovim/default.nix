@@ -31,8 +31,8 @@
       # nixd uses nixpkgs-fmt
       nixfmt
 
-      nodePackages.sql-formatter
-      nodePackages.nodejs
+      sql-formatter
+      nodejs
       postgresql
       # ty
       ripgrep
