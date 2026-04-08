@@ -49,7 +49,7 @@
     }:
     {
       nix = {
-        package = lib.mkForce pkgs.nixVersions.latest;
+        package = lib.mkForce pkgs.lixPackageSets.latest.lix;
         settings = {
           experimental-features = cfg.experimentalFeatures;
           auto-optimise-store = lib.mkDefault cfg.autoOptimiseStore;
@@ -78,7 +78,7 @@
     }:
     {
       nix = {
-        package = lib.mkForce pkgs.nixVersions.latest;
+        package = lib.mkForce pkgs.lixPackageSets.latest.lix;
         settings = {
           experimental-features = cfg.experimentalFeatures;
           require-sigs = lib.mkDefault true;

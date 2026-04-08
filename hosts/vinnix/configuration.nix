@@ -37,7 +37,7 @@
   features.vpn.airvpn.secretFile = ../../secrets/vinnix/airvpn-wg-key.age;
   features.vpn.enable = true;
   features.vpn.mullvad.secretFile = ../../secrets/vinnix/mullvad-wg-key.age;
-  features.vtt.enable = true;
+  features.vtt.enable = false; # aint rebuilding that shit
   features.vtt.geminiKeyFile = ../../secrets/vtt/gemini.age;
   features.zk.enable = true;
   features.zsh.enable = true;
