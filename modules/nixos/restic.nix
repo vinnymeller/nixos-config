@@ -294,7 +294,9 @@ in
 
               timers."restic-backups-${jobName}" = {
                 wantedBy = [ "timers.target" ];
-                timerConfig = jobCfg.timerConfig;
+                timerConfig = jobCfg.timerConfig // {
+                  Unit = "restic-backups-${jobName}.target";
+                };
               };
             }
           ) pairsByJob;
