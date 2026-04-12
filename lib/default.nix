@@ -331,12 +331,13 @@ in
       ltex-ls-plus
       lua-language-server
       nixd
-      typescript-language-server
+      sourcekit-lsp
       tailwindcss-language-server
       taplo
       terraform-ls
       tinymist
       ty
+      typescript-language-server
       vscode-langservers-extracted
       yaml-language-server
     ];

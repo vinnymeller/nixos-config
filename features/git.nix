@@ -64,7 +64,7 @@
             s = lib.mkDefault "switch";
             r = lib.mkDefault "restore";
             b = lib.mkDefault "for-each-ref --sort=committerdate refs/heads/ --format='%(color:red)%(objectname:short)%(color:reset) %(color:green)%(committerdate:relative)%(color:reset)\t%(HEAD) %(color:yellow)%(refname:short)%(color:reset) %(contents:subject) - %(authorname)'";
-            logdr = lib.mkDefault "!f(){ git log --pretty=format:\"(%h) %ad - %an: %s\" --after=\"$\{1}\" --until=\"$\{2}\"; };f";
+            logdr = lib.mkDefault "!f(){ git log --pretty=format:\"(%h) %ad - %an: %s\" --after=\"\${1}\" --until=\"\${2}\"; };f";
             graph = lib.mkDefault "log --graph --all --format='%h %s%n        (%an, %ar)%d' --abbrev-commit";
             swap = lib.mkDefault "switch @{-1}";
             sw = lib.mkDefault "switch @{-1}";
