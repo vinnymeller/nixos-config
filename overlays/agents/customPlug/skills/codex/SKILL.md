@@ -31,7 +31,7 @@ Codex is invoked via `codex exec` in Bash.
 
 Build the command from these flags:
 
-- **`-m <model>`**: Default `gpt-5.4`.
+- **`-m <model>`**: Default `gpt-5.5`.
 - **`-s <sandbox>`**: Default `read-only`. Use `workspace-write` when Codex should attempt fixes. `danger-full-access` only if explicitly requested by the user.
 - **`--full-auto`**: Sets `workspace-write` with relaxed approval. Do not combine with `-s`.
 - **`-c model_reasoning_effort=<level>`**: Default `high`. Rarely use `low`/`medium`. Use `xhigh` only for the most complex tasks (e.g., stuck on a bug after previous `high`-effort attempts failed).
