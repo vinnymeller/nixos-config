@@ -60,21 +60,21 @@
 
       (lib.mkIf cfg.exitNode {
         networking.nftables.enable = lib.mkDefault true;
-        # networking.nftables.tables.tailscale-exit = {
-        #   family = "inet";
-        #   content = ''
-        #     chain forward {
-        #       type filter hook forward priority filter + 1; policy accept;
-        #       iifname "tailscale0" oifname "wg-mv" counter accept
-        #       iifname "tailscale0" oifname "tailscale0" counter accept
-        #       iifname "tailscale0" counter drop
-        #     }
-        #     chain nat {
-        #       type nat hook postrouting priority srcnat; policy accept;
-        #       oifname "wg-mv" masquerade
-        #     }
-        #   '';
-        # };
+        networking.nftables.tables.tailscale-exit = {
+          family = "inet";
+          content = ''
+            chain forward {
+              type filter hook forward priority filter + 1; policy accept;
+              iifname "tailscale0" oifname "wg-mv" counter accept
+              iifname "tailscale0" oifname "tailscale0" counter accept
+              iifname "tailscale0" counter drop
+            }
+            chain nat {
+              type nat hook postrouting priority srcnat; policy accept;
+              oifname "wg-mv" masquerade
+            }
+          '';
+        };
       })
     ];
 }
