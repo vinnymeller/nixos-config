@@ -67,77 +67,78 @@
       lib,
       ...
     }:
-    lib.mkMerge [
-      (lib.mkIf cfg.mullvad.enable {
-        services.mullvad-vpn.enable = lib.mkDefault true;
-
-        age.secrets.mullvad-wg-key = {
-          file = cfg.mullvad.secretFile;
-          mode = "0400";
-        };
-
-        networking.wg-quick.interfaces.wg-mv = {
-          address = cfg.mullvad.address;
-          privateKeyFile = config.age.secrets.mullvad-wg-key.path;
-          table = "off";
-          postUp = ''
-            ip route add default dev wg-mv table 51820
-            ip rule add from ${lib.head cfg.mullvad.address} table 51820
-          ''
-          + lib.optionalString config.services.tailscale.enable ''
-            ip rule add iif tailscale0 lookup 51820 priority 5265
-          '';
-          postDown = ''
-            ip rule del from ${lib.head cfg.mullvad.address} table 51820
-          ''
-          + lib.optionalString config.services.tailscale.enable ''
-            ip rule del iif tailscale0 lookup 51820 priority 5265
-          '';
-          peers = [
-            {
-              publicKey = cfg.mullvad.publicKey;
-              endpoint = cfg.mullvad.endpoint;
-              allowedIPs = [
-                "0.0.0.0/0"
-                "::0/0"
-              ];
-            }
-          ];
-        };
-      })
-
-      (lib.mkIf cfg.airvpn.enable {
-        age.secrets.airvpn-wg-key = {
-          file = cfg.airvpn.secretFile;
-          mode = "0400";
-        };
-        age.secrets.airvpn-wg-psk = {
-          file = cfg.airvpn.pskFile;
-          mode = "0400";
-        };
-
-        networking.wg-quick.interfaces.wg-air = {
-          address = cfg.airvpn.address;
-          privateKeyFile = config.age.secrets.airvpn-wg-key.path;
-          table = "off";
-          mtu = 1320;
-          dns = [
-            "10.128.0.1"
-            "fd7d:76ee:e68f:a993::1"
-          ];
-          peers = [
-            {
-              publicKey = cfg.airvpn.publicKey;
-              presharedKeyFile = config.age.secrets.airvpn-wg-psk.path;
-              endpoint = cfg.airvpn.endpoint;
-              allowedIPs = [
-                "0.0.0.0/0"
-                "::/0"
-              ];
-              persistentKeepalive = 15;
-            }
-          ];
-        };
-      })
-    ];
+    { };
+  # lib.mkMerge [
+  #   (lib.mkIf cfg.mullvad.enable {
+  #     services.mullvad-vpn.enable = lib.mkDefault true;
+  #
+  #     age.secrets.mullvad-wg-key = {
+  #       file = cfg.mullvad.secretFile;
+  #       mode = "0400";
+  #     };
+  #
+  #     networking.wg-quick.interfaces.wg-mv = {
+  #       address = cfg.mullvad.address;
+  #       privateKeyFile = config.age.secrets.mullvad-wg-key.path;
+  #       table = "off";
+  #       postUp = ''
+  #         ip route add default dev wg-mv table 51820
+  #         ip rule add from ${lib.head cfg.mullvad.address} table 51820
+  #       ''
+  #       + lib.optionalString config.services.tailscale.enable ''
+  #         ip rule add iif tailscale0 lookup 51820 priority 5265
+  #       '';
+  #       postDown = ''
+  #         ip rule del from ${lib.head cfg.mullvad.address} table 51820
+  #       ''
+  #       + lib.optionalString config.services.tailscale.enable ''
+  #         ip rule del iif tailscale0 lookup 51820 priority 5265
+  #       '';
+  #       peers = [
+  #         {
+  #           publicKey = cfg.mullvad.publicKey;
+  #           endpoint = cfg.mullvad.endpoint;
+  #           allowedIPs = [
+  #             "0.0.0.0/0"
+  #             "::0/0"
+  #           ];
+  #         }
+  #       ];
+  #     };
+  #   })
+  #
+  #   (lib.mkIf cfg.airvpn.enable {
+  #     age.secrets.airvpn-wg-key = {
+  #       file = cfg.airvpn.secretFile;
+  #       mode = "0400";
+  #     };
+  #     age.secrets.airvpn-wg-psk = {
+  #       file = cfg.airvpn.pskFile;
+  #       mode = "0400";
+  #     };
+  #
+  #     networking.wg-quick.interfaces.wg-air = {
+  #       address = cfg.airvpn.address;
+  #       privateKeyFile = config.age.secrets.airvpn-wg-key.path;
+  #       table = "off";
+  #       mtu = 1320;
+  #       dns = [
+  #         "10.128.0.1"
+  #         "fd7d:76ee:e68f:a993::1"
+  #       ];
+  #       peers = [
+  #         {
+  #           publicKey = cfg.airvpn.publicKey;
+  #           presharedKeyFile = config.age.secrets.airvpn-wg-psk.path;
+  #           endpoint = cfg.airvpn.endpoint;
+  #           allowedIPs = [
+  #             "0.0.0.0/0"
+  #             "::/0"
+  #           ];
+  #           persistentKeepalive = 15;
+  #         }
+  #       ];
+  #     };
+  #   })
+  # ];
 }
