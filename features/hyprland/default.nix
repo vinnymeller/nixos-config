@@ -461,7 +461,7 @@
         defaultApplications =
           let
             browser = "google-chrome.desktop";
-            discord = "discord-canary.desktop";
+            discord = "discord.desktop";
             imageViewer = "feh.desktop";
             videoPlayer = "vlc.desktop";
             editor = "nvim.desktop";

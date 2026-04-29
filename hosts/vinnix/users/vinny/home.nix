@@ -7,7 +7,7 @@
 
   home.packages = with pkgs; [
     gcc
-    discord-canary
+    discord
     gocryptfs
     htop
     libvirt
