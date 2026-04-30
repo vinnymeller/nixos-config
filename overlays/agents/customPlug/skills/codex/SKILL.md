@@ -37,7 +37,7 @@ Build the command from these flags:
 - **`-c model_reasoning_effort=<level>`**: Default `high`. Rarely use `low`/`medium`. Use `xhigh` only for the most complex tasks (e.g., stuck on a bug after previous `high`-effort attempts failed).
 - **`-c model_reasoning_summary=none`**: Always include to suppress noisy reasoning summaries. Pass `auto` instead only if seeing Codex's reasoning process would genuinely help (rare).
 - **`PROMPT`**: Even if a prompt is provided, enrich it with context from the current conversation — file references, code snippets, plan file paths, etc. Refer to files by path rather than copying content when possible.
-- **`-o <file>`** *(optional)*: Use `-o /tmp/codex-output.md` only if you expect a longer back-and-forth where a conversation log would be useful. Normally unnecessary — Bash captures stdout.
+- **`-o <file>`**: Use `-o /tmp/codex-output-<identifier>.md` every time you invoke codex. Do not do anything too fancy with pipes or redirection as it'll be likely to cause issues.
 
 Do **not** use `--json` — it floods stdout with noisy JSONL events.
 
