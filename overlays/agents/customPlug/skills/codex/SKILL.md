@@ -72,3 +72,41 @@ Continue with `resume` for extended discussions (architecture debates, multi-ste
 If you are a subagent, invoke Codex directly via Bash — do not spawn another subagent.
 
 For the main conversation agent, consider using a `general-purpose` subagent when the Codex conversation is self-contained, multi-turn, and a summary suffices. Instruct the subagent to return the session ID so the conversation can be resumed later via the subagent's `agentId`. Invoke Codex directly when the question is quick, conversation context matters, or the response will immediately inform your next action.
+
+### Always close stdin
+
+**Critical**: every `codex exec` invocation MUST have `</dev/null` redirecting stdin, even though the prompt is passed as a
+positional argument. If you don't, codex prints `Reading additional input from stdin...` and waits forever for EOF on the inherited
+shell stdin — the run hangs indefinitely with no progress and no output file.
+
+```bash
+# WRONG — hangs on stdin
+codex exec -m gpt-5.5 -s read-only -c model_reasoning_effort=high -c model_reasoning_summary=none -o /tmp/codex-output-X.md "$(cat
+/tmp/codex-prompt-X.md)"
+
+# CORRECT — stdin closed
+codex exec -m gpt-5.5 -s read-only -c model_reasoning_effort=high -c model_reasoning_summary=none -o /tmp/codex-output-X.md "$(cat
+/tmp/codex-prompt-X.md)" </dev/null
+```
+
+For background launches, the full pattern is:
+
+```bash
+codex exec ... -o /tmp/codex-output-X.md "$(cat /tmp/codex-prompt-X.md)" </dev/null > /tmp/codex-stdout-X.log 2>&1 &
+echo "spawned pid=$!"
+```
+
+`run_in_background: true` on the Bash tool does **not** close stdin on its own — the `</dev/null` redirect is required either way.
+The same applies to `codex exec resume <SESSION_ID> "..."`.
+
+### Prefer a prompt file over an inline heredoc
+
+For non-trivial prompts, write the prompt to `/tmp/codex-prompt-<identifier>.md` first via the Write tool, then pass it as `"$(cat
+/tmp/codex-prompt-<identifier>.md)"`. This keeps the `ps` output readable, sidesteps quoting/escaping bugs in long heredocs, and lets
+ you inspect the exact prompt that was sent.
+
+### Detecting a stdin hang
+
+If `/tmp/codex-output-<id>.md` doesn't exist after ~1 minute and the stdout log shows `Reading additional input from stdin...` as the
+ last line, codex is hung on stdin. Kill the codex process tree and relaunch with `</dev/null` appended. Don't wait it out — it will
+never recover.
