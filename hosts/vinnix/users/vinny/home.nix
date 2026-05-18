@@ -15,6 +15,7 @@
     man-pages # linux man pages, goes with tlpi
     fastfetch
     nerd-fonts._0xproto
+    remmina
     nix-init
     obs-studio
     (master-pkgs.osu-lazer.override { nativeWayland = true; })
