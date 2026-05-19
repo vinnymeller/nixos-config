@@ -192,6 +192,9 @@
       sysctl = {
         "net.ipv4.ip_forward" = 1;
         "vm.swappiness" = 10;
+        "net.ipv4.tcp_keepalive_time" = 60;
+        "net.ipv4.tcp_keepalive_intvl" = 10;
+        "net.ipv4.tcp_keepalive_probes" = 3;
       };
     };
   };
