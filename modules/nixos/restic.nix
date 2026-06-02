@@ -254,6 +254,10 @@ in
               provBackupServices = map (p: "restic-backups-${p.jobName}-${p.provName}.service") pairs;
               hasPrepare = jobCfg.backupPrepareCommand != null;
               hasCleanup = jobCfg.backupCleanupCommand != null;
+              jobConstituents =
+                (lib.optional hasPrepare "restic-prepare-${jobName}.service")
+                ++ provBackupServices
+                ++ (lib.optional hasCleanup "restic-cleanup-${jobName}.service");
             in
             {
               services =
@@ -282,20 +286,32 @@ in
                       before = lib.optional hasCleanup "restic-cleanup-${jobName}.service";
                     };
                   }) pairs
-                );
-
-              targets."restic-backups-${jobName}" = {
-                description = "Restic backup target for ${jobName}";
-                wants =
-                  (lib.optional hasPrepare "restic-prepare-${jobName}.service")
-                  ++ provBackupServices
-                  ++ (lib.optional hasCleanup "restic-cleanup-${jobName}.service");
-              };
+                )
+                // {
+                  # Orchestrator: the oneshot the timer triggers. It pulls in (Wants=)
+                  # and waits for (After=) prepare + all provider backups + cleanup,
+                  # then runs `true` and returns to inactive. A oneshot (unlike a
+                  # .target, which stays active forever once started) lets the timer
+                  # re-arm its next OnCalendar elapse: a .timer will not compute a new
+                  # trigger while its Unit= is still active. Named in the
+                  # `restic-backup-job-` namespace so it can never collide with the
+                  # stock `restic-backups-<job>-<provider>` services when a job name
+                  # itself contains a hyphen.
+                  "restic-backup-job-${jobName}" = {
+                    description = "Restic backup orchestrator for ${jobName}";
+                    wants = jobConstituents;
+                    after = jobConstituents;
+                    serviceConfig = {
+                      Type = "oneshot";
+                      ExecStart = "${pkgs.coreutils}/bin/true";
+                    };
+                  };
+                };
 
               timers."restic-backups-${jobName}" = {
                 wantedBy = [ "timers.target" ];
                 timerConfig = jobCfg.timerConfig // {
-                  Unit = "restic-backups-${jobName}.target";
+                  Unit = "restic-backup-job-${jobName}.service";
                 };
               };
             }
@@ -303,7 +319,6 @@ in
         in
         {
           services = lib.foldl' (acc: x: acc // x.services) { } perJob;
-          targets = lib.foldl' (acc: x: acc // x.targets) { } perJob;
           timers = lib.foldl' (acc: x: acc // x.timers) { } perJob;
         };
     in
@@ -316,6 +331,18 @@ in
         {
           assertion = enabledJobs == { } || filterAttrs (_: p: p.enable) cfg.providers != { };
           message = "restic: jobs are defined but no providers are enabled. Add at least one provider.";
+        }
+        {
+          # Each job/provider pair becomes a `restic-backups-<jobName>-<provName>`
+          # unit. A hyphenated name could make two distinct pairs collapse to the
+          # same unit name (e.g. job "a-b"+prov "c" vs job "a"+prov "b-c"), which
+          # would silently drop a backup. Catch it at eval time.
+          assertion =
+            let
+              names = map (p: "${p.jobName}-${p.provName}") jobProviderPairs;
+            in
+            lib.length names == lib.length (lib.unique names);
+          message = "restic: duplicate generated unit names from jobName-provName collision. Rename a job or provider so every job/provider pair is unique.";
         }
       ];
 
@@ -367,7 +394,6 @@ in
         ))
       ];
 
-      systemd.targets = jobUnits.targets;
       systemd.timers = jobUnits.timers;
     }
   );
