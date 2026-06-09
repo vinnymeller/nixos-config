@@ -26,10 +26,10 @@
   #   2. pamu2fcfg -o pam://vinnix.net -i pam://vinnix.net -n     # each extra key, append to same line
   #   3. paste line(s) into u2f.mappings, then set u2f.enable = true
   #   4. keep a root shell open (`sudo -i` elsewhere) during `nixos-rebuild switch`
-  # features.yubikey.u2f.enable = true;
-  # features.yubikey.u2f.mappings = ''
-  #   vinny:<cred-from-pamu2fcfg>
-  # '';
+  features.yubikey.u2f.enable = true;
+  features.yubikey.u2f.mappings = ''
+    vinny:4/4bGVvZX/YJBOgH4fhU4z/n+Ga3n0K3jbizroR9rFdaAoe6uYy0yn9m3dTYXxWax9v/ZAFeGAall3fN23CP2A==,IXVOlDfNW65hS9ny1QgODUAoooBuPco15t3zAFTv0+46YhpiIr9wDdcPat209aIeZPGearyLsv1PW9yXblmpNg==,es256,+presence:jbmxnsKC0uTlXaAoBlvtnSW59OFMQkQGQ3QEjYqVdwd8AiQN/vklk/hInoM8kVuQJQNvCG2UILeZyhjR1Y24Og==,1XHwwO1cccBJ9Bl15yT0aYCjEaJFwZVVLDfIwLhW8ZNahfVJ8aOl646VKbirrU4VFU7JGjJfHyUCwkiTRnwP3w==,es256,+presence:G9vgzuRQATBTcGUrab/4QvXYPloUJzRPpO+pdopFpRRKzHCxJZmBlrCsN3H28ap/EaG6DYQW+wVJloReirMjVw==,qjCGGjGhrQHRz2JtU0IWy/bKiG7geqEYimecwL1/Yk0tdm51mXVeMa5isCzOEvJIiX5jWnxa6I5Rqv5NiGcfnA==,es256,+presence
+  '';
   features.grimmory.enable = true;
   features.grimmory.secretFile = ../../secrets/vinnix/grimmory.age;
   features.hyprland.enable = true;
