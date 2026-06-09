@@ -18,7 +18,18 @@
   features.git.enable = true;
   features.gpg.enable = true;
   features.gpg.pinentryPackage = pkgs.pinentry-gnome3;
-  features.gpg.smartcards = true;
+  # YubiKey device plumbing (pcscd, udev, yubikey-agent, gpgSmartcards, ykman).
+  # Replaces the old `features.gpg.smartcards = true`.
+  features.yubikey.enable = true;
+  # YubiKey touch for sudo (pam_u2f). Enable AFTER enrolling keys:
+  #   1. pamu2fcfg -o pam://vinnix.net -i pam://vinnix.net        # first key
+  #   2. pamu2fcfg -o pam://vinnix.net -i pam://vinnix.net -n     # each extra key, append to same line
+  #   3. paste line(s) into u2f.mappings, then set u2f.enable = true
+  #   4. keep a root shell open (`sudo -i` elsewhere) during `nixos-rebuild switch`
+  # features.yubikey.u2f.enable = true;
+  # features.yubikey.u2f.mappings = ''
+  #   vinny:<cred-from-pamu2fcfg>
+  # '';
   features.grimmory.enable = true;
   features.grimmory.secretFile = ../../secrets/vinnix/grimmory.age;
   features.hyprland.enable = true;
@@ -238,7 +249,13 @@
     resolved = {
       enable = true;
       settings = {
-        Resolve = { };
+        Resolve = {
+          # LLMNR (UDP 5355) is a link-local name-resolution fallback and a
+          # classic LAN spoofing/poisoning vector (Responder, NTLM relay). Real
+          # DNS + Tailscale MagicDNS cover resolution, so it's pure unused
+          # attack surface. (Was services.resolved.llmnr — renamed upstream.)
+          LLMNR = "no";
+        };
       };
     };
   };

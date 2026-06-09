@@ -39,7 +39,7 @@ in
     pkgs = final;
     package = final.llm-agents.claude-code;
     envDefault.DISABLE_TELEMETRY = null;
-    extraPackages =
+    runtimePkgs =
       with final;
       [
         nodejs

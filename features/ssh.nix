@@ -62,11 +62,13 @@
       programs.ssh = {
         enable = lib.mkDefault true;
         enableDefaultConfig = lib.mkDefault false;
-        matchBlocks = lib.mkIf cfg.githubOverPort443 {
+        # `matchBlocks` was deprecated in favor of `settings`; per-host blocks
+        # now use capitalized ssh_config directive names (HostName/Port/User).
+        settings = lib.mkIf cfg.githubOverPort443 {
           "github.com" = {
-            hostname = "ssh.github.com";
-            port = 443;
-            user = "git";
+            HostName = "ssh.github.com";
+            Port = 443;
+            User = "git";
           };
         };
       };

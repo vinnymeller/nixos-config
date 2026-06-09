@@ -20,17 +20,13 @@
         default = null;
         description = "Pinentry package override. Defaults to pinentry-curses if unset.";
       };
-      smartcards = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "Enable GPG smartcard (YubiKey) support.";
-      };
+      # YubiKey smartcard plumbing lives in features/yubikey.nix now. For
+      # GPG-on-YubiKey, enable both features.gpg and features.yubikey.
     };
 
   nixos =
     {
       cfg,
-      config,
       lib,
       pkgs,
       ...
@@ -38,13 +34,7 @@
     {
       programs.ssh.startAgent = lib.mkDefault false;
 
-      services.pcscd.enable = lib.mkDefault true;
-
       environment.systemPackages = [ pkgs.gnupg ];
-
-      services.udev.packages = lib.mkIf cfg.smartcards [ pkgs.yubikey-personalization ];
-      services.yubikey-agent.enable = lib.mkDefault cfg.smartcards;
-      hardware.gpgSmartcards.enable = lib.mkDefault cfg.smartcards;
 
       programs.gnupg.agent = {
         enable = lib.mkDefault true;
@@ -64,24 +54,12 @@
     {
       cfg,
       lib,
-      pkgs,
       ...
     }:
     {
-
-      home.packages =
-        with pkgs;
-        [
-          yubikey-manager
-        ]
-        ++ lib.optionals stdenv.hostPlatform.isLinux [
-          yubioath-flutter
-        ];
-
       services.gpg-agent = {
         enable = lib.mkDefault true;
         enableSshSupport = lib.mkDefault cfg.enableSSHSupport;
       };
-
     };
 }

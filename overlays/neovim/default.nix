@@ -15,7 +15,7 @@
   config.package = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
 
   # The makeWrapper options are available
-  config.extraPackages =
+  config.runtimePkgs =
     with pkgs;
     [
       ast-grep

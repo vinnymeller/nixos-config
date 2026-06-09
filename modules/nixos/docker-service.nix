@@ -33,7 +33,26 @@ let
       hasSecretsOverride = hasEnvFile || hasSecrets;
 
       # ── Compose File ──
-      # Inject TZ into all services that don't explicitly set it
+      # Bind published host ports to loopback by default (see the
+      # `publishLoopbackOnly` option). Docker publishes ports via DNAT, which
+      # bypasses the NixOS firewall (trustedInterfaces / allowedTCPPorts apply
+      # to the INPUT chain, not to forwarded/DNAT'd packets), so a bare
+      # "8096:8096" silently exposes the service to the whole LAN. Caddy
+      # reverse-proxies to localhost, so loopback binding keeps tailnet access
+      # intact while closing the LAN path. Port entries that already specify a
+      # host IP are left untouched (write "0.0.0.0:7359:7359/udp" to keep one
+      # deliberately on the LAN).
+      loopbackPort =
+        p:
+        if builtins.isString p then
+          (if builtins.length (lib.splitString ":" p) == 2 then "127.0.0.1:${p}" else p)
+        else if builtins.isAttrs p && (p ? published) && !(p ? host_ip) then
+          p // { host_ip = "127.0.0.1"; }
+        else
+          p;
+
+      # Inject TZ into services that don't set it; loopback-bind published
+      # ports unless the stack opts out via publishLoopbackOnly = false.
       composeFinal =
         if stackCfg.compose != null then
           stackCfg.compose
@@ -46,6 +65,9 @@ let
                   TZ = config.time.timeZone;
                 }
                 // (svc.environment or { });
+              }
+              // optionalAttrs (stackCfg.publishLoopbackOnly && svc ? ports) {
+                ports = map loopbackPort svc.ports;
               }
             ) (stackCfg.compose.services or { });
           }
@@ -393,6 +415,26 @@ in
                 type = types.listOf types.path;
                 default = [ ];
                 description = "Additional compose files layered via -f flags.";
+              };
+
+              publishLoopbackOnly = mkOption {
+                type = types.bool;
+                default = true;
+                description = ''
+                  Prefix every published host port with 127.0.0.1 so services are
+                  reachable only from the host — and thus the tailnet, via the Caddy
+                  reverse proxy — never directly from the LAN.
+
+                  Docker publishes ports via DNAT, which bypasses the NixOS firewall
+                  (trustedInterfaces / allowedTCPPorts apply to the INPUT chain, not
+                  to forwarded/DNAT'd packets), so a bare "8096:8096" silently exposes
+                  the service to every device on the local network. Binding to loopback
+                  closes that path with no loss of tailnet access.
+
+                  Port entries that already specify a host IP are left untouched, so a
+                  single port can be opted back onto the LAN with an explicit
+                  "0.0.0.0:7359:7359/udp". Only applies to `compose` (attrset) stacks.
+                '';
               };
 
               # ── Project Settings ──
