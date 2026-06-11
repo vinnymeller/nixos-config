@@ -69,6 +69,13 @@ let
               // optionalAttrs (stackCfg.publishLoopbackOnly && svc ? ports) {
                 ports = map loopbackPort svc.ports;
               }
+              // optionalAttrs stackCfg.noNewPrivileges {
+                # Block setuid-based privilege escalation inside the container.
+                # Safe across these stacks: it forbids *gaining* privileges via
+                # setuid, but still allows entrypoints to *drop* root → app-user
+                # (gosu/su), which paperless/immich rely on.
+                security_opt = lib.unique ((svc.security_opt or [ ]) ++ [ "no-new-privileges:true" ]);
+              }
             ) (stackCfg.compose.services or { });
           }
         else
@@ -434,6 +441,22 @@ in
                   Port entries that already specify a host IP are left untouched, so a
                   single port can be opted back onto the LAN with an explicit
                   "0.0.0.0:7359:7359/udp". Only applies to `compose` (attrset) stacks.
+                '';
+              };
+
+              noNewPrivileges = mkOption {
+                type = types.bool;
+                default = true;
+                description = ''
+                  Add `no-new-privileges:true` to every service's `security_opt`,
+                  forbidding setuid-based privilege *escalation* inside the container.
+                  Cheap defense-in-depth that shrinks the container-escape surface.
+
+                  Safe across these stacks: it only blocks *gaining* privileges via
+                  setuid; entrypoints can still *drop* root → an app user (gosu/su),
+                  which paperless/immich do. Opt out per-stack only if a container
+                  legitimately needs to gain privileges at runtime (rare). Only
+                  applies to `compose` (attrset) stacks.
                 '';
               };
 
@@ -876,7 +899,7 @@ in
             enable = true;
             package = pkgs.caddy.withPlugins {
               inherit plugins;
-              hash = "sha256-Shvu90LjcTMgYs8ManOQZeGjm3Hp7efaKQZXqCUFKIg=";
+              hash = "sha256-E/2d+Hz9FeOr9uOY05dEL9rG0+OBcMxfWIDeRvHVM3E=";
             };
             globalConfig = ''
               tailscale {

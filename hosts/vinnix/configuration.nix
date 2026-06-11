@@ -79,6 +79,10 @@
       notifyUser = "vinny";
     };
   };
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
   mine.services.dockerCompose.tailscale = {
     tailnet = "coyote-fir";
     customDomain = "vinnix.net";
@@ -294,6 +298,7 @@
   users.users = {
     vinny = {
       isNormalUser = true;
+      autoSubUidGidRange = true; # subuid/subgid ranges rootless docker needs
       initialHashedPassword = "$6$GUm.78.XWDWW/7CE$TVA9j1bmmKEMiQ2289etaddvpaYpVUUWagW7A.TM6K13RThGq.E3f7MgPh.bBurysjJDDkceZDz7.CEhXUsY6.";
       uid = 1000;
       extraGroups = [
@@ -301,7 +306,6 @@
         "libvirtd"
         "kvm"
         "qemu-libvirtd"
-        "docker"
       ];
       openssh = {
         authorizedKeys = {
