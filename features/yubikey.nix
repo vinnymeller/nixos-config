@@ -111,6 +111,7 @@
     lib.mkMerge [
       # ── Device plumbing: smartcard / PIV / OTP ──
       {
+        programs.yubikey-touch-detector.enable = lib.mkDefault true;
         services.pcscd.enable = lib.mkDefault true;
         services.udev.packages = [ pkgs.yubikey-personalization ];
         hardware.gpgSmartcards.enable = lib.mkDefault true;
