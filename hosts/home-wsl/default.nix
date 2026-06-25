@@ -15,7 +15,7 @@ inputs.nixpkgs.lib.nixosSystem {
     ./configuration.nix
     inputs.nixos-wsl.nixosModules.default
     {
-      system.stateVersion = "25.11";
+      system.stateVersion = "26.11";
       wsl.enable = true;
       wsl.defaultUser = "vinny";
     }

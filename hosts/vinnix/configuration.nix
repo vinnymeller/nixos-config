@@ -357,7 +357,7 @@
 
   # virtualisation.libvirtd.enable = true;
 
-  system.stateVersion = "25.11"; # read documentation on configuration.nix before possibly changing this
+  system.stateVersion = "26.11"; # read documentation on configuration.nix before possibly changing this
 
   programs.steam.enable = true;
 

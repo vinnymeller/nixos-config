@@ -75,6 +75,10 @@
     {
       wayland.windowManager.hyprland = {
         enable = lib.mkDefault true;
+        # home.stateVersion >= "26.05" flips the HM default to "lua"; pin
+        # "hyprlang" so our hyprlang-style `settings` keep rendering to
+        # hyprland.conf instead of being emitted as (broken) Lua hl.* calls.
+        configType = "hyprlang";
         package = null;
         portalPackage = null;
         xwayland.enable = lib.mkDefault true;

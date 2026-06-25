@@ -3,7 +3,7 @@
   imports = [
     ../../../../modules/home-manager
   ];
-  home.stateVersion = "25.11";
+  home.stateVersion = "26.11";
 
   home.packages = with pkgs; [
     gcc

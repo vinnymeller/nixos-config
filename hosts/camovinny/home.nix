@@ -14,7 +14,7 @@
   features.ssh.enable = true;
   features.tmux.enable = true;
   features.zsh.enable = true;
-  home.stateVersion = "25.11";
+  home.stateVersion = "26.11";
 
   home.packages = with pkgs; [
     awscli2
