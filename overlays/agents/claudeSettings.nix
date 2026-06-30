@@ -113,15 +113,22 @@
           command -v cargo >/dev/null 2>&1 || exit 0
           ROOT_MANIFEST=$(cargo locate-project --workspace --message-format plain 2>/dev/null || true)
           [ -n "$ROOT_MANIFEST" ] || exit 0
+          ROOT_DIR=$(dirname "$ROOT_MANIFEST")
           # Nothing to reclaim if there's no target dir yet.
           # (Caveat: ignores a relocated CARGO_TARGET_DIR.)
-          [ -d "$(dirname "$ROOT_MANIFEST")/target" ] || exit 0
+          [ -d "$ROOT_DIR/target" ] || exit 0
 
+          AVAIL_GIB=$((AVAIL_KB / 1024 / 1024))
           cargo clean --manifest-path "$ROOT_MANIFEST" >/dev/null 2>&1 || true
-          # Tell the agent why target/ vanished, so a sudden full rebuild
-          # doesn't look like a mystery.
-          printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"Workspace disk volume dropped below 10GiB free; ran `cargo clean` to reclaim space. The next build will recompile from scratch."}}'
-          exit 0
+          AFTER_KB=$(df -Pk "$ROOT_DIR" 2>/dev/null | awk 'NR==2 {print $4}' || true)
+          [ -n "$AFTER_KB" ] || AFTER_KB=$AVAIL_KB
+
+          # asyncRewake fires on exit 2: it wakes the agent and surfaces this
+          # stderr line as a system reminder, so the wiped target/ and the
+          # ensuing slow rebuild aren't a mystery. Every exit 0 path above
+          # stays silent (no rewake) -- i.e. every call where disk is fine.
+          printf 'cargo-disk-guard: free space on the workspace volume (%s) fell below 10GiB (was ~%dGiB); ran cargo clean to reclaim it (now ~%dGiB free). The next build will recompile from scratch.\n' "$ROOT_DIR" "$AVAIL_GIB" "$((AFTER_KB / 1024 / 1024))" >&2
+          exit 2
         '';
       };
       notifyHook = pkgs.writeShellScript "notify-hook" ''
@@ -162,6 +169,7 @@
             {
               type = "command";
               command = "${cargoDiskGuard}/bin/cargo-disk-guard";
+              asyncRewake = true;
             }
           ];
         }
