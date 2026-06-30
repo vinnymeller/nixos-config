@@ -84,6 +84,46 @@
     let
       jq = "${pkgs.jq}/bin/jq";
       notify-send = "${pkgs.libnotify}/bin/notify-send";
+      cargoDiskGuard = pkgs.writeShellApplication {
+        name = "cargo-disk-guard";
+        runtimeInputs = with pkgs; [
+          jq
+          coreutils
+          gawk
+        ];
+        # NOTE: `cargo` is intentionally NOT pinned here -- we want the same
+        # cargo/toolchain the project uses, resolved from the ambient PATH.
+        text = ''
+          PAYLOAD=$(cat)
+          CWD=$(printf '%s' "$PAYLOAD" | jq -r '.cwd // empty' 2>/dev/null || true)
+          [ -n "$CWD" ] || CWD=$PWD
+
+          # --- cheap common path: ~3ms, no cargo fork ---
+          # df -Pk <path> reports the fs physically holding <path>: -P forces
+          # single-line POSIX output, -k forces 1024-byte blocks (portable
+          # across Linux & macOS). Column 4 is available KiB. We measure at
+          # CWD, which is always on the same volume as the workspace root.
+          AVAIL_KB=$(df -Pk "$CWD" 2>/dev/null | awk 'NR==2 {print $4}' || true)
+          [ -n "$AVAIL_KB" ] || exit 0
+          THRESHOLD_KB=$((10 * 1024 * 1024)) # 10 GiB
+          [ "$AVAIL_KB" -lt "$THRESHOLD_KB" ] || exit 0 # ~99% of calls exit here
+
+          # --- expensive path only runs when disk is genuinely low (~31ms) ---
+          cd "$CWD" 2>/dev/null || exit 0
+          command -v cargo >/dev/null 2>&1 || exit 0
+          ROOT_MANIFEST=$(cargo locate-project --workspace --message-format plain 2>/dev/null || true)
+          [ -n "$ROOT_MANIFEST" ] || exit 0
+          # Nothing to reclaim if there's no target dir yet.
+          # (Caveat: ignores a relocated CARGO_TARGET_DIR.)
+          [ -d "$(dirname "$ROOT_MANIFEST")/target" ] || exit 0
+
+          cargo clean --manifest-path "$ROOT_MANIFEST" >/dev/null 2>&1 || true
+          # Tell the agent why target/ vanished, so a sudden full rebuild
+          # doesn't look like a mystery.
+          printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"Workspace disk volume dropped below 10GiB free; ran `cargo clean` to reclaim space. The next build will recompile from scratch."}}'
+          exit 0
+        '';
+      };
       notifyHook = pkgs.writeShellScript "notify-hook" ''
         PAYLOAD=$(cat)
         TYPE=$(echo "$PAYLOAD" | ${jq} -r '.hook_event_name')
@@ -115,6 +155,17 @@
       '';
     in
     {
+      PostToolUse = [
+        {
+          matcher = "Bash";
+          hooks = [
+            {
+              type = "command";
+              command = "${cargoDiskGuard}/bin/cargo-disk-guard";
+            }
+          ];
+        }
+      ];
       Notification = [
         {
           matcher = ".*";
