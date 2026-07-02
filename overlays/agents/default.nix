@@ -33,12 +33,18 @@ let
 
   pluginPath = name: "${patchedPlugins}/plugins/${name}";
 
+  # Shared by the PreCompact hook (in claudeSettings.nix) and the agent's PATH
+  # below, so `claude-context-archive save` and the agent's `search`/`list`
+  # calls resolve to the exact same tool.
+  contextArchive = import ./contextArchive.nix { pkgs = final; };
+
 in
 {
   claude-code = inputs.wrapper-modules.wrappers.claude-code.wrap {
     pkgs = final;
     package = final.llm-agents.claude-code;
     envDefault.DISABLE_TELEMETRY = null;
+    env.CLAUDE_AUTOCOMPACT_PCT_OVERRIDE = "60";
     runtimePkgs =
       with final;
       [
@@ -46,6 +52,7 @@ in
         libnotify
         jq
         bash
+        contextArchive
         final.llm-agents.codex
       ]
       ++ (vlib.sharedDeps final).lsps;
@@ -61,6 +68,11 @@ in
         - You are inherently extremely flawed at estimating timelines and effort. This is due to the bulk of your training data being based on human text. For context, we routinely complete tasks together in hours that you estimate will take weeks. Do not factor your flawed estimates into which course of action we should take. Always default to the most architecturally sound and maintainable course of action given the overall project context.
         - Implementing code is cheap. Don't fear large refactors or changes if they will lead to a better overall codebase. Time spent ensuring we have a good, thorough plan is almost always time well spent, and time working around iffy or outdated decisions is almost always time wasted.
         - When creating a plan, always keep behavior front and center. ALWAYS explicitly include the tests we'll use to verify in the plan to ensure they're not skipped or an afterthought. Tests verify the behavior of the system, and when creating a plan, we are creating a specification. Many big issues can be avoided by thinking about the behavior and how to verify it up front. Where there isn't clarity about what behavior should look like, ask me for clarification until it's clear.
+        - After an automatic context compaction, earlier details from this session may no longer be in your context. Your pre-compaction transcripts are archived and searchable via the `claude-context-archive` command (case-insensitive regex):
+          - `claude-context-archive search '<regex>'` searches THIS conversation's history. Reach for it first, e.g. when you know you worked through something earlier this session but have lost the specifics.
+          - `claude-context-archive search-project '<regex>'` searches ALL past conversations in the current project. Use it when the detail likely came from a different or earlier session, e.g. the user says they discussed it with another agent.
+          - `claude-context-archive list` shows the archived conversations for this project, newest first with timestamps, marking the current one. Useful when a scoped search comes up empty but a very recent archive exists.
+          - Search results print as `file:line:match`. To read the surrounding turns, run `claude-context-archive show <file> <line> [radius]` (default 5 entries either side). Archives are raw JSONL, so you can also `rg` or `jq` a specific file directly. Prefer targeted patterns (a filename, symbol, error string, or decision keyword) over broad terms.
       '';
     };
     pluginDirs = (map pluginPath officialPluginNames) ++ [

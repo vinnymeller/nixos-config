@@ -35,7 +35,10 @@
     CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
     ENABLE_EXPERIMENTAL_MCP_CLI = "1";
     ENABLE_LSP_TOOL = "1";
-    CLAUDE_AUTOCOMPACT_PCT_OVERRIDE = "40"; # using 1m model, compact at 40% to limit to 400k instead of 1m
+    # NOTE: CLAUDE_AUTOCOMPACT_PCT_OVERRIDE is intentionally NOT here. The env
+    # block in settings.json only reaches subprocess tool calls, not Claude's
+    # own autocompact logic (which reads it from the launch env at startup), so
+    # it was silently ignored. It now lives in the wrapper `env` in default.nix.
   };
   plansDirectory = "./plans";
   permissions = {
@@ -84,6 +87,7 @@
     let
       jq = "${pkgs.jq}/bin/jq";
       notify-send = "${pkgs.libnotify}/bin/notify-send";
+      contextArchive = import ./contextArchive.nix { inherit pkgs; };
       cargoDiskGuard = pkgs.writeShellApplication {
         name = "cargo-disk-guard";
         runtimeInputs = with pkgs; [
@@ -170,6 +174,20 @@
               type = "command";
               command = "${cargoDiskGuard}/bin/cargo-disk-guard";
               asyncRewake = true;
+            }
+          ];
+        }
+      ];
+      PreCompact = [
+        {
+          # Fires before both auto and manual compaction. Snapshots the full
+          # transcript so the agent can grep back for detail lost to the
+          # summary (see `claude-context-archive` guidance in the system prompt).
+          matcher = ".*";
+          hooks = [
+            {
+              type = "command";
+              command = "${contextArchive}/bin/claude-context-archive save";
             }
           ];
         }
