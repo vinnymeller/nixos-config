@@ -8,7 +8,6 @@
 {
   imports = [
     ../../modules/nixos
-    inputs.claude-cowork-service.nixosModules.default
   ];
 
   profile.selfhost = true;
@@ -319,18 +318,7 @@
   };
   users.groups.users.gid = 100;
 
-  services.claude-cowork = {
-    enable = true;
-    extraPath = with pkgs; [
-      nodejs
-      python3
-      claude-code
-      coreutils-full
-    ];
-  };
-
   environment.systemPackages = with pkgs; [
-    inputs.claude-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default
     # linuxPackages_latest.perf  # TODO: readd this when its working
     # openvpn
     ragenix

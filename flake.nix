@@ -13,18 +13,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    claude-cowork-service = {
-      url = "github:patrickjaja/claude-cowork-service";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
-
-    claude-desktop = {
-      url = "github:patrickjaja/claude-desktop-bin";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
-
     claude-plugins-official = {
       url = "github:anthropics/claude-plugins-official";
       flake = false;

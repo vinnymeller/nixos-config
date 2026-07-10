@@ -31,7 +31,7 @@ Codex is invoked via `codex exec` in Bash.
 
 Build the command from these flags:
 
-- **`-m <model>`**: Default `gpt-5.5`.
+- **`-m <model>`**: Default `gpt-5.6-sol`.
 - **`-s <sandbox>`**: Default `read-only`. Use `workspace-write` when Codex should attempt fixes. `danger-full-access` only if explicitly requested by the user.
 - **`--full-auto`**: Sets `workspace-write` with relaxed approval. Do not combine with `-s`.
 - **`-c model_reasoning_effort=<level>`**: Default `high`. Rarely use `low`/`medium`. Use `xhigh` only for the most complex tasks (e.g., stuck on a bug after previous `high`-effort attempts failed).
@@ -45,19 +45,23 @@ Do **not** use `--json` — it floods stdout with noisy JSONL events.
 
 ```bash
 # Read-only question
-codex exec -m gpt-5.4 -s read-only -c model_reasoning_effort=high -c model_reasoning_summary=none "Explain how the auth module works"
+codex exec -m gpt-5.6-sol -s read-only -c model_reasoning_effort=high -c model_reasoning_summary=none "Explain how the auth module works"
 
 # Full-auto debugging
-codex exec -m gpt-5.4 --full-auto -c model_reasoning_effort=xhigh -c model_reasoning_summary=none "Fix the failing test in src/auth/login.test.ts"
+codex exec -m gpt-5.6-sol --full-auto -c model_reasoning_effort=xhigh -c model_reasoning_summary=none "Fix the failing test in src/auth/login.test.ts"
 ```
 
 ### Continuing a conversation
 
-**Always use the session ID** — never `--last`, since multiple Claude instances may be talking to Codex concurrently. You must also re-specify the same model and sandbox policy each time (unless you are purposely changing them).
+**Always use the session ID** — never `--last`, since multiple Claude instances may be talking to Codex concurrently. Re-specify the model with `-m`, and pass `-o` again to capture the reply.
+
+**`resume` does NOT accept `-s`/`--sandbox`** — it inherits the original session's sandbox. Passing `-s` errors with `unexpected argument '-s' found`. (`-m`, `-c`, and `-o` are accepted.) So a resume is:
 
 ```bash
-codex exec resume <SESSION_ID> "Follow-up question here"
+codex exec resume <SESSION_ID> -m gpt-5.6-sol -c model_reasoning_summary=none -o /tmp/codex-output-<id>.md "Follow-up question here" </dev/null
 ```
+
+**Resume cannot rescue a run that died from context exhaustion** (see "Output reliability" below): the resumed session reloads the full prior context, so if the original run filled the context window there is no room to generate and the resume also produces nothing (clean exit, empty output). Prevent the exhaustion on the first run — don't rely on resume to bail you out.
 
 ### Session ID tracking
 
@@ -81,11 +85,11 @@ shell stdin — the run hangs indefinitely with no progress and no output file.
 
 ```bash
 # WRONG — hangs on stdin
-codex exec -m gpt-5.5 -s read-only -c model_reasoning_effort=high -c model_reasoning_summary=none -o /tmp/codex-output-X.md "$(cat
+codex exec -m gpt-5.6-sol -s read-only -c model_reasoning_effort=high -c model_reasoning_summary=none -o /tmp/codex-output-X.md "$(cat
 /tmp/codex-prompt-X.md)"
 
 # CORRECT — stdin closed
-codex exec -m gpt-5.5 -s read-only -c model_reasoning_effort=high -c model_reasoning_summary=none -o /tmp/codex-output-X.md "$(cat
+codex exec -m gpt-5.6-sol -s read-only -c model_reasoning_effort=high -c model_reasoning_summary=none -o /tmp/codex-output-X.md "$(cat
 /tmp/codex-prompt-X.md)" </dev/null
 ```
 
@@ -110,3 +114,17 @@ For non-trivial prompts, write the prompt to `/tmp/codex-prompt-<identifier>.md`
 If `/tmp/codex-output-<id>.md` doesn't exist after ~1 minute and the stdout log shows `Reading additional input from stdin...` as the
  last line, codex is hung on stdin. Kill the codex process tree and relaunch with `</dev/null` appended. Don't wait it out — it will
 never recover.
+
+## Output reliability — the `-o` file, and why big tasks silently produce nothing
+
+`-o`/`--output-last-message` writes the agent's **final message only**, and only if the run reaches one. **A missing `-o` file after an `exit 0` run means the run was cut off before producing a final message — NOT a flag problem.** Always verify the file exists and is non-empty; never trust the exit code alone. (Confirm the flag itself works with a trivial prompt — `-o` reliably writes `HELLO` for a one-line reply on both `exec` and `resume`.)
+
+**The dominant failure mode for review/analysis tasks is context exhaustion.** When codex reads many large files — `cat`/`nl`/`sed` over 1000+-line slices, repo-wide `rg` dumps — it fills the context window before it synthesizes, then terminates with `exit 0` and **no final message** (the stdout log just ends mid-tool-output; no `tokens used` line). There is **no config knob to raise this** — `max_turns`, `exec.max_turns`, `model_max_output_tokens` are all rejected as unknown fields. And resume can't recover it (the near-full context reloads). The only fix is to **not fill the context in the first place.**
+
+**Mitigations (bound the reading, front-load the grounding):**
+
+- **Cap reads in the prompt, explicitly:** "Read at most N lines per file with `sed -n 'A,Bp'`. Do NOT `cat` whole files or run repo-wide `rg`. If tempted to read more, stop and reason from what you have."
+- **Provide grounded `file:line` anchors in the prompt** so codex *verifies/judges* rather than *re-derives* — re-grounding is what burns the context. For a plan review, tell it the anchors are already verified and its job is design judgment + gap-finding.
+- **Keep scope tight; split a huge review into focused passes** rather than one "verify everything" mega-prompt.
+- **End the prompt with an explicit finish instruction:** "Then write your review as your FINAL MESSAGE. Budget your reading so you finish."
+- A well-bounded review of a ~200-line plan finishes in one `exec` and writes `-o` cleanly; an unbounded "read the plan and verify all claims against the whole codebase" reliably dies. The difference is entirely how much file content you let it pull into context.
