@@ -93,15 +93,40 @@ codex exec -m gpt-5.6-sol -s read-only -c model_reasoning_effort=high -c model_r
 /tmp/codex-prompt-X.md)" </dev/null
 ```
 
-For background launches, the full pattern is:
+`run_in_background: true` on the Bash tool does **not** close stdin on its own — the `</dev/null` redirect is required either way.
+The same applies to `codex exec resume <SESSION_ID> "..."`.
+
+### Backgrounding — pick EXACTLY ONE mechanism, never both
+
+Codex reviews can run for many minutes. There are two ways to background the run, and **combining them is the single most confusing failure mode** — it makes a still-running codex look like a dead one:
+
+**Method A — Bash tool `run_in_background: true`, and NO trailing `&` (preferred).** Let the Bash tool own the process. It tracks the real `codex` PID and fires a genuine completion notification only when codex *actually exits*. Read the tool's output file then. Keep `</dev/null`:
+
+```bash
+# Bash tool call with run_in_background: true — note: NO trailing &
+codex exec -m gpt-5.6-sol -s read-only -c model_reasoning_effort=high -c model_reasoning_summary=none \
+  -o /tmp/codex-output-X.md "$(cat /tmp/codex-prompt-X.md)" </dev/null
+```
+
+**Method B — foreground Bash tool call with a trailing `&`.** The tool returns as soon as the shell forks, so the "completed" status refers to the *launch*, not codex. You MUST poll for real completion yourself (see below) before reading `-o`:
 
 ```bash
 codex exec ... -o /tmp/codex-output-X.md "$(cat /tmp/codex-prompt-X.md)" </dev/null > /tmp/codex-stdout-X.log 2>&1 &
 echo "spawned pid=$!"
 ```
 
-`run_in_background: true` on the Bash tool does **not** close stdin on its own — the `</dev/null` redirect is required either way.
-The same applies to `codex exec resume <SESSION_ID> "..."`.
+**NEVER do both** (`run_in_background: true` *and* a trailing `&`). The `&` detaches codex from the shell the Bash tool is tracking, so the tracked shell exits ~instantly after the `echo`, the tool reports **"completed, exit 0" within seconds**, and the `-o` file is still empty because codex is *only just starting*. That empty file is indistinguishable at a glance from the context-exhaustion failure below — you'll misread a healthy 5-minute review as a dead run. If you used Method B (or ever see a suspiciously instant "completion"), **confirm codex is really gone before concluding anything** (next section).
+
+### Confirming a background run actually finished (vs. still running)
+
+Before reading `-o` — and *especially* before declaring a run failed — verify codex has truly exited. A missing/empty `-o` file has **two** causes that look identical: (a) codex is still working, (b) codex died before a final message. Distinguish them:
+
+```bash
+pgrep -af "codex exec" | grep -v grep      # non-empty => STILL RUNNING, just wait
+grep -c "tokens used" /tmp/codex-stdout-X.log   # 1 => codex reached the end and flushed its final message
+```
+
+A finished, successful run has: no live `codex exec` process, a `tokens used` line in the stdout log, AND a non-empty `-o` file. If the process is gone but there's no `tokens used` line and no `-o` file, *then* it was cut off (see context-exhaustion below). If the log is still growing, it's alive — poll every ~20–30s, don't conclude.
 
 ### Prefer a prompt file over an inline heredoc
 
@@ -117,7 +142,9 @@ never recover.
 
 ## Output reliability — the `-o` file, and why big tasks silently produce nothing
 
-`-o`/`--output-last-message` writes the agent's **final message only**, and only if the run reaches one. **A missing `-o` file after an `exit 0` run means the run was cut off before producing a final message — NOT a flag problem.** Always verify the file exists and is non-empty; never trust the exit code alone. (Confirm the flag itself works with a trivial prompt — `-o` reliably writes `HELLO` for a one-line reply on both `exec` and `resume`.)
+`-o`/`--output-last-message` writes the agent's **final message only**, and only if the run reaches one. **A missing `-o` file after codex has *genuinely exited* means the run was cut off before producing a final message — NOT a flag problem.** Always verify the file exists and is non-empty; never trust the exit code alone. (Confirm the flag itself works with a trivial prompt — `-o` reliably writes `HELLO` for a one-line reply on both `exec` and `resume`.)
+
+**First rule out "still running."** An empty `-o` file is only evidence of a *cut-off* run once you've confirmed codex actually exited (no live `codex exec` process; stdout log stopped growing). If you backgrounded with a trailing `&` — or double-backgrounded (see "pick exactly one mechanism" above) — an "exit 0 / completed" status can arrive seconds in, while codex runs on for minutes with an empty `-o`. Don't diagnose exhaustion off an instant completion; poll first.
 
 **The dominant failure mode for review/analysis tasks is context exhaustion.** When codex reads many large files — `cat`/`nl`/`sed` over 1000+-line slices, repo-wide `rg` dumps — it fills the context window before it synthesizes, then terminates with `exit 0` and **no final message** (the stdout log just ends mid-tool-output; no `tokens used` line). There is **no config knob to raise this** — `max_turns`, `exec.max_turns`, `model_max_output_tokens` are all rejected as unknown fields. And resume can't recover it (the near-full context reloads). The only fix is to **not fill the context in the first place.**
 
