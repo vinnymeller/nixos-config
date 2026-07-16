@@ -86,7 +86,11 @@ hl.bind(mod .. " + " .. "TAB", hl.dsp.focus({ last = true }))
 
 hl.bind(mod .. " + " .. "F", hl.dsp.window.fullscreen())
 
-hl.bind(mod .. " + " .. "CTRL" .. " + " .. "F", hl.dsp.window.fullscreen_state({ internal = 0, client = 2 }))
+-- action = "toggle" restores the legacy hyprlang `fullscreenstate` behavior:
+-- the Lua fullscreen_state dispatcher defaults to action = "set" (into the state
+-- only), so without this SUPER+CTRL+F wouldn't toggle back out. See
+-- LuaBindingsDispatchers.cpp: action 0=toggle, 1=set, 2=unset.
+hl.bind(mod .. " + " .. "CTRL" .. " + " .. "F", hl.dsp.window.fullscreen_state({ internal = 0, client = 2, action = "toggle" }))
 
 hl.bind(mod .. " + " .. "P", hl.dsp.window.pin())
 
