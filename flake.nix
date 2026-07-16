@@ -114,7 +114,6 @@
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs = {
-        blueprint.follows = "blueprint";
         flake-parts.follows = "flake-parts";
         systems.follows = "systems";
       };

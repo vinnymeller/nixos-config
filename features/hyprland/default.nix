@@ -127,9 +127,11 @@
 
       services.clipse = {
         enable = lib.mkDefault true;
-        imageDisplay.type = "kitty";
-        historySize = lib.mkDefault 1000;
-        allowDuplicates = lib.mkDefault false;
+        settings = {
+          imageDisplay.type = "kitty";
+          maxHistory = lib.mkDefault 1000;
+          allowDuplicates = lib.mkDefault false;
+        };
       };
 
       services.dunst = {
@@ -197,6 +199,7 @@
       };
 
       home.pointerCursor = {
+        enable = true;
         gtk.enable = true;
         package = pkgs.bibata-cursors;
         name = "Bibata-Modern-Classic";
@@ -319,6 +322,7 @@
         [
           clipse
           google-chrome
+          firefox
           hyprshot
           nemo-with-extensions
           wl-clipboard

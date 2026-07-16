@@ -9,7 +9,6 @@ if [ -z "$CHROME_VERSION" ]; then
 fi
 
 CHROME_USER_DATA_DIR="$HOME/.config/$CHROME_VERSION"
-CHROME_USER_DATA_DIR_X11="$HOME/.config/$CHROME_VERSION-x11"
 
 if [ ! -d "$CHROME_USER_DATA_DIR" ]; then
 	echo "unable to find Chrome user data dir"
@@ -37,22 +36,8 @@ done <<<"$DATA"
 if [ "$#" -eq 0 ]; then
 	for profile in "${!profiles[@]}"; do
 		echo "$profile"
-		echo "$profile (X11)"
 	done
 else
 	NAME="$*"
-	X11_FLAGS=(
-		"--ozone-platform=x11"
-		"--use-angle=vulkan"
-		"--enable-features=TouchpadOverscrollHistoryNavigation,Vulkan,VulkanFromANGLE,DefaultANGLEVulkan,VaapiIgnoreDriverChecks,VaapiVideoDecoder,UseMultiPlaneFormatForHardwareVideo,VaapiVideoEncoder"
-		"--force-device-scale-factor=1.5"
-	)
-
-	if [[ "$NAME" == *" (X11)" ]]; then
-		NAME="${NAME% (X11)}"
-		mkdir -p "$CHROME_USER_DATA_DIR_X11/${profiles[$NAME]}"
-		exec $CHROME_EXECUTABLE --user-data-dir="$CHROME_USER_DATA_DIR_X11" "${X11_FLAGS[@]}" >/dev/null 2>&1
-	else
-		exec $CHROME_EXECUTABLE --profile-directory="${profiles[$NAME]}" >/dev/null 2>&1
-	fi
+	exec $CHROME_EXECUTABLE --profile-directory="${profiles[$NAME]}" >/dev/null 2>&1
 fi

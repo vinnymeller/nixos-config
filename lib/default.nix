@@ -331,7 +331,6 @@ in
       ltex-ls-plus
       lua-language-server
       nixd
-      sourcekit-lsp
       tailwindcss-language-server
       taplo
       terraform-ls
