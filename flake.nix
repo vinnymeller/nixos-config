@@ -189,7 +189,7 @@
           inherit (self.lib) vlib;
           pkgs = mkPkgs "aarch64-darwin" { };
         };
-        mini = import ./hosts/mini {
+        "vinny@mini" = import ./hosts/mini {
           inherit inputs outputs;
           inherit (self.lib) vlib;
           pkgs = mkPkgs "aarch64-darwin" { };

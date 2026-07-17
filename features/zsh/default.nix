@@ -61,7 +61,6 @@
         yj
         ripgrep
         lazygit
-        watchexec
         yazi
         dua
         bat
