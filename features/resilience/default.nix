@@ -1,9 +1,26 @@
-# Diagnostics for the intermittent graphical freeze on vinnix (RTX 3090 /
-# Hyprland) — both the "1 fps" render stalls and the harder full session lockups
-# where even a VT switch fails. The compositor's own log lives on tmpfs
+# Freeze/crash resilience for vinnix (RTX 3090 / Hyprland): both PREVENT the
+# intermittent hard-freeze and DIAGNOSE it if something still slips through.
+#
+# Root cause (confirmed from the kernel OOM log of the 2026-07-18 freeze): host
+# memory exhaustion, NOT the GPU. Heavy Rust dev load — multiple rust-analyzer
+# instances (~15G each) + a parallel cargo/rustc/rust-lld link storm + a browser
+# — summed past 64G RAM and saturated the 8G disk swap, so the kernel thrashed on
+# disk until it hard-locked, then its late OOM killer picked the wrong victim (a
+# chrome tab, not the 28G of rust-analyzers). The GPU sat idle (fan off) the whole
+# time. The "1 fps" render stalls and the full session lockups where even a VT
+# switch fails are both faces of that thrash.
+#
+# PREVENTION (system):
+#   - earlyoom — kill the biggest offender EARLY, before the disk-swap thrash,
+#                aimed at the regenerable Rust toolchain and fenced off from the
+#                compositor / sshd / session manager.
+#   - zram     — compressed in-RAM swap, used before the disk partition, so
+#                pressure degrades to a brief slowdown instead of a disk lockup.
+#
+# DIAGNOSIS: the compositor's own log lives on tmpfs
 # ($XDG_RUNTIME_DIR/hypr/<instance>/hyprland.log) and is wiped by the hard reboot
 # a freeze forces, and a *user*-level sampler dies with a frozen session, so this
-# feature captures — into the PERSISTENT journal — what we otherwise can't
+# feature also captures — into the PERSISTENT journal — what we otherwise can't
 # recover after the fact:
 #
 #   1. gpu-watch (SYSTEM) — a periodic `nvidia-smi` snapshot run by the *system*
@@ -27,11 +44,10 @@
 #   Alt+SysRq+S,+U,+B  -> sync, remount-ro, reboot (cleaner than a power cycle)
 #
 # AFTER a freeze + reboot, inspect the boot that froze (-1):
+#   journalctl -u earlyoom        -b -1                   # what earlyoom killed, and when
 #   journalctl -u gpu-watch       -b -1 --since -10min   # GPU state into the stall (system unit)
 #   journalctl --user -t hypr-log -b -1 --since -10min   # compositor log up to the freeze
-#   journalctl -k                 -b -1 --since -10min   # kernel: SysRq/hung-task dumps, Xid
-#
-# Standalone feature so it's trivial to disable/remove once the freeze is fixed.
+#   journalctl -k                 -b -1 --since -10min   # kernel: SysRq/hung-task dumps, Xid, OOM
 {
   nixos =
     { ... }:
@@ -41,6 +57,43 @@
       nvidiaSmi = "/run/current-system/sw/bin/nvidia-smi";
     in
     {
+      # --- PREVENTION -------------------------------------------------------
+
+      # earlyoom: userspace OOM watchdog. It fires only when free RAM *and* free
+      # swap are BOTH under threshold, so normal heavy use is untouched; when they
+      # are, it kills the biggest match before the kernel's own late, thrash-
+      # inducing OOM killer ever runs.
+      #  --prefer: the Rust toolchain — regenerable, no unsaved state (rust-analyzer
+      #            just reindexes, a build just re-runs), and the actual memory hog
+      #            the kernel's killer kept ignoring (it took a chrome tab instead).
+      #  --avoid:  the compositor, the SSH lifeline, and the session/service manager
+      #            — the processes whose death takes the whole session with them.
+      services.earlyoom = {
+        enable = true;
+        freeMemThreshold = 5; # SIGTERM under 5% free RAM (SIGKILL under ~2.5%, the default half)
+        freeSwapThreshold = 10; # ...and under 10% free swap; both must hold before it acts
+        extraArgs = [
+          "--prefer"
+          "^(rust-analyzer|rustc|rust-lld|cargo)$"
+          "--avoid"
+          "^(Hyprland|sshd|systemd|greetd)$"
+        ];
+      };
+
+      # zram: compressed swap that lives in RAM, at a higher priority than the disk
+      # partition so it fills first (the 8G disk swap stays as low-priority overflow;
+      # no hibernation is configured, so nothing depends on it). Memory pressure
+      # becomes a brief CPU-cost slowdown instead of a disk-seek lockup, buying
+      # headroom before earlyoom has to fire. memoryPercent is a cap, not a
+      # reservation — RAM is consumed only as pages are actually swapped in.
+      zramSwap = {
+        enable = true;
+        memoryPercent = 50; # up to ~32G of 64G may back zram (zstd-compressed)
+        priority = 100; # higher than the disk swap partition so zram is used first
+      };
+
+      # --- DIAGNOSIS --------------------------------------------------------
+
       # System-level GPU sampler: keeps logging even if the user session freezes,
       # which is what let the previous incident's cause slip through (the old
       # user-level sampler died with the session).

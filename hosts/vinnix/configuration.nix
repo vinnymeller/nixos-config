@@ -32,7 +32,7 @@
   features.grimmory.enable = true;
   features.grimmory.secretFile = ../../secrets/vinnix/grimmory.age;
   features.hyprland.enable = true;
-  features.freezediag.enable = true;
+  features.resilience.enable = true;
   features.immich.enable = true;
   features.immich.secretFile = ../../secrets/vinnix/immich.age;
   features.jellyfin.enable = true;
