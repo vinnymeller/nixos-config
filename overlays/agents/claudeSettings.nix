@@ -42,13 +42,12 @@
   };
   plansDirectory = "./plans";
   permissions = {
+    defaultMode = "auto";
     allow = [
       "Skill" # allow all skills
 
       "mcp__chrome-devtools"
       "mcp__context7"
-      "mcp__github"
-      "mcp__codex"
 
       "WebFetch(domain:github.com)"
       "WebSearch"
