@@ -8,20 +8,20 @@
     }:
     {
       home.packages = with pkgs; [
-        wslu
+        wsl-open
         shared-mime-info
       ];
 
       xdg.mimeApps.defaultApplications = {
-        "text/html" = "wslview";
-        "x-scheme-handler/http" = "wslview";
-        "x-scheme-handler/https" = "wslview";
-        "x-scheme-handler/about" = "wslview";
-        "x-scheme-handler/unknown" = "wslview";
+        "text/html" = "wsl-open";
+        "x-scheme-handler/http" = "wsl-open";
+        "x-scheme-handler/https" = "wsl-open";
+        "x-scheme-handler/about" = "wsl-open";
+        "x-scheme-handler/unknown" = "wsl-open";
       };
 
       home.sessionVariables = {
-        BROWSER = "wslview";
+        BROWSER = "wsl-open";
       };
     };
 }
