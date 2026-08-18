@@ -41,6 +41,7 @@
   features.paperless.enable = true;
   features.paperless.secretFile = ../../secrets/vinnix/paperless.age;
   features.ssh.enable = true;
+  features.stylix.enable = true;
   features.tailscale.authKeyFile = ../../secrets/vinnix/tailscale-authkey.age;
   features.tailscale.enable = true;
   features.tmux.enable = true;

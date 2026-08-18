@@ -13,6 +13,7 @@ inputs.nixpkgs.lib.nixosSystem {
   modules = [
     inputs.ragenix.nixosModules.default
     inputs.lanzaboote.nixosModules.lanzaboote
+    inputs.stylix.nixosModules.stylix
 
     (
       { pkgs, lib, ... }:

@@ -234,13 +234,23 @@
         gtk4.extraConfig = {
           gtk-application-prefer-dark-theme = true;
         };
-        theme = {
+        # GTK3/GTK4 theming is owned by features/stylix.nix. Stylix sets
+        # gtk.theme (adw-gtk3) and gtk.gtk4.theme, and writes the gruvbox
+        # @define-color overrides into gtk-3.0/gtk.css and gtk-4.0/gtk.css.
+        # libadwaita apps ignore gtk-theme entirely, so those overrides are the
+        # only thing that themes GTK4. For extra GTK CSS use
+        # stylix.targets.gtk.extraCss -- gtk3.extraCss/gtk4.extraCss are
+        # ignored, and stylix emits a warning if they are set.
+        #
+        # adw-gtk3 ships no gtk-2.0, so GTK2 keeps a theme of its own. Note the
+        # lowercase name: gruvbox-dark-gtk ships `gruvbox-dark`, not
+        # `Gruvbox-Dark`, so the old value silently fell back to Adwaita.
+        # Safe to drop entirely if no GTK2 apps remain.
+        gtk2.theme = {
           package = pkgs.gruvbox-dark-gtk;
-          name = "Gruvbox-Dark";
+          name = "gruvbox-dark";
         };
-        gtk2.theme = hmConfig.gtk.theme;
-        gtk3.theme = hmConfig.gtk.theme;
-        gtk4.theme = hmConfig.gtk.theme;
+        # stylix does not manage icons.
         iconTheme = {
           package = pkgs.papirus-icon-theme;
           name = "Papirus-Dark";
