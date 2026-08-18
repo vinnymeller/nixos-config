@@ -268,6 +268,19 @@ hl.monitor({
 	transform = 3,
 })
 
+-- Browsers, file managers and Electron apps request maximize on startup, and
+-- Hyprland honors that request, so they open filling the screen. Terminals do
+-- not request it, which is why kitty was unaffected. Hyprland's own example
+-- config suppresses this for all apps; this config never carried the rule.
+-- See https://wiki.hypr.land/Configuring/Basics/Window-Rules/
+hl.window_rule({
+	name = "suppress-maximize-events",
+	match = {
+		class = ".*",
+	},
+	suppress_event = "maximize",
+})
+
 hl.window_rule({
 	name = "clipse",
 	match = {
