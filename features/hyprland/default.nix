@@ -235,7 +235,7 @@
           gtk-application-prefer-dark-theme = true;
         };
         theme = {
-          package = pkgs.gruvbox-gtk-theme;
+          package = pkgs.gruvbox-dark-gtk;
           name = "Gruvbox-Dark";
         };
         gtk2.theme = hmConfig.gtk.theme;

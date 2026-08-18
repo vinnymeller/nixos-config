@@ -74,7 +74,7 @@
         zsh-vi-mode
         zsh-you-should-use
         zsh-fast-syntax-highlighting
-        zsh-autocomplete
+        stable-pkgs.zsh-autocomplete # pinned; see note at the source line below
         zsh-completions
         claude-code
         llm-agents.codex
@@ -105,7 +105,12 @@
             fi
 
             source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-            source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+            # Pinned to nixpkgs-stable (25.03.19). zsh-autocomplete 26.08.03 on unstable
+            # added a `z-async` git submodule with an SSH remote that the nixpkgs
+            # derivation does not fetch, so the plugin autoloads a `z-async` function it
+            # never ships -- two errors on every prompt. Revert to pkgs.zsh-autocomplete
+            # once nixpkgs ships a fixed build.
+            source ${pkgs.stable-pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
             source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
             # source ${hmConfig.xdg.configHome}/zsh/.p10k.zsh

@@ -408,7 +408,7 @@ in
           {
             home.username = lib.mkDefault user;
             home.homeDirectory = lib.mkDefault (
-              if pkgs.stdenv.isDarwin then "/Users/${user}" else "/home/${user}"
+              if pkgs.stdenv.hostPlatform.isDarwin then "/Users/${user}" else "/home/${user}"
             );
           }
         )
