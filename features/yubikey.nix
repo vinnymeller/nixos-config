@@ -127,7 +127,25 @@
       # ── pam_u2f: touch to authenticate ──
       (lib.mkIf cfg.u2f.enable {
         security.pam.u2f = {
-          enable = true;
+          # Deliberately false -- do NOT set this true. Every PAM service's
+          # `security.pam.services.<name>.u2f.enable` DEFAULTS to this value
+          # (nixpkgs nixos/modules/security/pam.nix:247), so turning it on here
+          # silently enables pam_u2f for *every* service: sshd, login, su,
+          # polkit-1, passwd, hyprlock, swaylock, chsh, vlock, ... and makes
+          # `pamServices` below purely decorative.
+          #
+          # With control = "required" that is a lockout: any service whose PAM
+          # conversation cannot run the interactive touch flow can never
+          # authenticate, because a failed `required` module dooms the stack
+          # even when pam_unix later succeeds with the correct password.
+          # hyprlock is exactly that case -- it shows no cue and rejects a
+          # correct password, leaving a reboot as the only way back in.
+          #
+          # The pam_u2f line is emitted per-service (pam.nix:1113) while
+          # `settings` is read from this global attrset regardless, so leaving
+          # this false and opting individual services in via `pamServices`
+          # produces the intended scoping.
+          enable = false;
           control = cfg.u2f.control;
           settings = {
             cue = true; # print "Please touch the device"
@@ -136,7 +154,7 @@
             authfile = pkgs.writeText "u2f-mappings" cfg.u2f.mappings;
           };
         };
-        security.pam.services = lib.genAttrs cfg.u2f.pamServices (_: { u2fAuth = true; });
+        security.pam.services = lib.genAttrs cfg.u2f.pamServices (_: { u2f.enable = true; });
       })
     ];
 
