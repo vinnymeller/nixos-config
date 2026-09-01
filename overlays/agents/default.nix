@@ -44,7 +44,6 @@ in
     pkgs = final;
     package = final.llm-agents.claude-code;
     envDefault.DISABLE_TELEMETRY = null;
-    env.CLAUDE_AUTOCOMPACT_PCT_OVERRIDE = "60";
     runtimePkgs =
       with final;
       [

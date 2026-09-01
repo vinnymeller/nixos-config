@@ -13,6 +13,8 @@
   feedbackSurveyState = {
     lastShownTime = 2754365161758;
   };
+  autoCompactWindow = 600000;
+  outputStyle = "Concise";
   statusLine = {
     type = "command";
     command =
@@ -35,10 +37,6 @@
     CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
     ENABLE_EXPERIMENTAL_MCP_CLI = "1";
     ENABLE_LSP_TOOL = "1";
-    # NOTE: CLAUDE_AUTOCOMPACT_PCT_OVERRIDE is intentionally NOT here. The env
-    # block in settings.json only reaches subprocess tool calls, not Claude's
-    # own autocompact logic (which reads it from the launch env at startup), so
-    # it was silently ignored. It now lives in the wrapper `env` in default.nix.
   };
   plansDirectory = "./plans";
   permissions = {
