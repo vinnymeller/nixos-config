@@ -5,6 +5,7 @@
   attribution = {
     commit = "";
     pr = "";
+    sessionUrl = false;
   };
   alwaysThinkingEnabled = true;
   autoMemoryEnabled = false;
@@ -45,7 +46,6 @@
       "Skill" # allow all skills
 
       "mcp__chrome-devtools"
-      "mcp__context7"
 
       "WebFetch(domain:github.com)"
       "WebSearch"
