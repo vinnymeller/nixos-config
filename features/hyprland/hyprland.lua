@@ -147,8 +147,10 @@ hl.bind(god .. " + " .. "D", hl.dsp.exec_cmd("hyprctl hyprsunset temperature 650
 hl.bind(god .. " + " .. "B", hl.dsp.exec_cmd("hyprctl hyprsunset temperature +500"))
 
 -- workspace switching: SUPER+<n> focuses it, +SHIFT moves the active window
--- there, +CTRL moves it there silently. number keys 1..9 are code:10..18.
-for i = 1, 9 do
+-- there, +CTRL moves it there silently. evdev puts the number row at
+-- code:10..19 for keys 1,2,...,9,0 -- so `9 + i` maps i=1..9 onto their own key
+-- and i=10 onto the 0 key, which is where workspace 10 naturally lands.
+for i = 1, 10 do
 	local ws = tostring(i)
 	local code = "code:" .. tostring(9 + i)
 	hl.bind(mod .. " + " .. code, hl.dsp.focus({ workspace = ws }))
@@ -327,12 +329,43 @@ hl.window_rule({
 	stay_focused = true,
 })
 
--- workspace -> monitor: 1-5 on the left monitor, 6-9 and 0 on the right.
+-- workspace -> monitor: 1-5 on the left monitor, 6-10 on the right.
+--
+-- NOTE: the last one must be "10", not "0". Hyprland parses a numeric workspace
+-- selector as `std::max(std::stoi(in), 1)` (getWorkspaceIDNameFromString in
+-- helpers/MiscFunctions.cpp), so "0" clamps to 1 -- i.e. a rule written for "0"
+-- silently becomes a second rule for workspace 1. getWorkspaceRuleFor merges
+-- every matching rule in order and last-write-wins, so it would override ws 1's
+-- monitor and layout with mr's.
 for _, ws in ipairs({ "1", "2", "3", "4", "5" }) do
 	hl.workspace_rule({ workspace = ws, monitor = ml })
 end
-for _, ws in ipairs({ "6", "7", "8", "9", "0" }) do
-	hl.workspace_rule({ workspace = ws, monitor = mr })
+-- mr is physically rotated (1440x2560 logical), and dwindle picks a split
+-- orientation per node from `w > h * dwindle:split_width_multiplier`. The full
+-- screen is taller than wide so the first split stacks, but each half is then
+-- 1440x1280 -- wider than tall -- so every split after the first goes
+-- side-by-side. split_width_multiplier is a global, so raising it to fix mr
+-- would also wreck ml (5120x1440, which wants side-by-side columns).
+--
+-- Instead, register a Lua layout that always stacks evenly and scope it to mr's
+-- workspaces. ctx:row(i, n) returns the i-th of n full-width horizontal bands.
+-- hl.layout.register namespaces the layout as "lua:<name>".
+--
+-- Tradeoff: a Lua layout has no split ratios, so SUPER+SHIFT+hjkl (resize) is a
+-- no-op on these workspaces; the bands are always equal. Focus (SUPER+hjkl) and
+-- reordering (SUPER+CTRL+hjkl) work -- the latter swaps adjacent windows in the
+-- stack.
+hl.layout.register("vstack", {
+	recalculate = function(ctx)
+		local n = #ctx.targets
+		for i, target in ipairs(ctx.targets) do
+			target:place(ctx:row(i, n))
+		end
+	end,
+})
+
+for _, ws in ipairs({ "6", "7", "8", "9", "10" }) do
+	hl.workspace_rule({ workspace = ws, monitor = mr, layout = "lua:vstack" })
 end
 
 hl.config({
