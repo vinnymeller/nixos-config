@@ -142,6 +142,15 @@
             export MANPAGER="nv +Man!"
 
 
+            # zsh-autocomplete re-runs completion on every keystroke, and zsh's
+            # _remote_files completer answers a `scp user@host:<path>` word by
+            # opening a REAL ssh connection to run `ls` on the remote. With a
+            # YubiKey that is a touch prompt per keystroke, and the pile-up of
+            # half-open connections wedges the actual scp you were typing.
+            # `remote-access false` makes the completer show a placeholder
+            # instead of dialing out; local-path completion is unaffected.
+            zstyle ':completion:*:(ssh|scp|sftp|rsync):*' remote-access false
+
             # zsh-autocomplete settings
             zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
             zstyle ':autocomplete:*history*:*' insert-unambiguous yes

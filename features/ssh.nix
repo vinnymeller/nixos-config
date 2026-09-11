@@ -17,6 +17,18 @@
         default = true;
         description = "Route github.com SSH through port 443 (ssh.github.com).";
       };
+      multiplex = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = ''
+          Share one TCP/auth session per host via ControlMaster. Without it every
+          ssh/scp/rsync/git invocation is a fresh handshake, which with a YubiKey
+          means a fresh touch prompt each time; with it you touch once and the
+          next 10 minutes of connections to that host ride the existing master.
+          ControlPath uses %C (a hash of user/host/port) to stay well under the
+          ~104-byte unix socket path limit on macOS.
+        '';
+      };
     };
 
   nixos =
@@ -64,13 +76,21 @@
         enableDefaultConfig = lib.mkDefault false;
         # `matchBlocks` was deprecated in favor of `settings`; per-host blocks
         # now use capitalized ssh_config directive names (HostName/Port/User).
-        settings = lib.mkIf cfg.githubOverPort443 {
-          "github.com" = {
-            HostName = "ssh.github.com";
-            Port = 443;
-            User = "git";
+        settings =
+          lib.optionalAttrs cfg.multiplex {
+            "*" = {
+              ControlMaster = lib.mkDefault "auto";
+              ControlPath = lib.mkDefault "~/.ssh/cm-%C";
+              ControlPersist = lib.mkDefault "10m";
+            };
+          }
+          // lib.optionalAttrs cfg.githubOverPort443 {
+            "github.com" = {
+              HostName = "ssh.github.com";
+              Port = 443;
+              User = "git";
+            };
           };
-        };
       };
     };
 }
