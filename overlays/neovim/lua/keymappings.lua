@@ -145,8 +145,8 @@ map("n", "<leader>dst", function()
 	})
 end, { desc = "Toggle decorative stuff for copy/pasting" })
 
-map("n", "<leader>df", "<cmd>DiffviewOpen<CR>", { desc = "[D]iffview current [File]" })
-map("n", "<leader>dF", "<cmd>DiffviewFileHistory %<CR>", { desc = "[D]iffview current [File]" })
+map("n", "<leader>do", "<cmd>DiffviewOpen<CR>", { desc = "[D]iffview [O]pen" })
+map("n", "<leader>df", "<cmd>DiffviewFileHistory %<CR>", { desc = "[D]iffview [F]ile history" })
 
 -- resurrected dadbod treesitter keybind
 vim.api.nvim_create_autocmd("FileType", {
