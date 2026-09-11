@@ -147,9 +147,17 @@
             # opening a REAL ssh connection to run `ls` on the remote. With a
             # YubiKey that is a touch prompt per keystroke, and the pile-up of
             # half-open connections wedges the actual scp you were typing.
-            # `remote-access false` makes the completer show a placeholder
-            # instead of dialing out; local-path completion is unaffected.
-            zstyle ':completion:*:(ssh|scp|sftp|rsync):*' remote-access false
+            #
+            # So remote-access is off by default, and Ctrl-X Ctrl-F turns it on
+            # for exactly one completion. `_VM_REMOTE_OK` is a `local` inside the
+            # completion widget rather than a global, so a Ctrl-C while the
+            # YubiKey waits for a touch cannot leave remote-access stuck on.
+            # Local-path completion is unaffected either way.
+            zstyle -e ':completion:*:(ssh|scp|sftp|rsync):*' remote-access \
+              'reply=( ''${_VM_REMOTE_OK:-false} )'
+            _remote_file_complete() { local _VM_REMOTE_OK=true; _main_complete; }
+            zle -C remote-file-complete complete-word _remote_file_complete
+            bindkey '^X^F' remote-file-complete
 
             # zsh-autocomplete settings
             zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
