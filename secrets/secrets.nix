@@ -45,6 +45,7 @@ in
   "vtt/gemini.age".publicKeys = host-vinnix;
 
   "vinnix/tailscale-authkey.age".publicKeys = pc;
+  "vinnix/tailscale-svc-authkey.age".publicKeys = pc;
   "vinnix/rclone.conf.age".publicKeys = pc;
   "vinnix/restic-password.age".publicKeys = pc;
   "vinnix/mullvad-wg-key.age".publicKeys = pc;

@@ -88,6 +88,10 @@
     tailnet = "coyote-fir";
     customDomain = "vinnix.net";
     cloudflareTokenFile = ../../secrets/vinnix/cloudflare-dns-token.age;
+    # Separate from the host key in features.tailscale.authKeyFile: this one
+    # registers the per-service tsnet nodes Caddy creates, so rotating or
+    # revoking it can't knock vinnix itself off the tailnet.
+    authKeyFile = ../../secrets/vinnix/tailscale-svc-authkey.age;
   };
 
   age.secrets.vinnix-wpa-initrd = {

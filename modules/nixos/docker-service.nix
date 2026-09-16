@@ -379,8 +379,9 @@ in
         type = types.nullOr types.path;
         default = null;
         description = ''
-          Path to a file containing the raw Tailscale auth key (tskey-auth-...).
-          Defaults to services.tailscale.authKeyFile if set. Must be a reusable key.
+          Path to an agenix-encrypted file containing a reusable Tailscale auth
+          key (tskey-auth-...), decrypted by this module. Defaults to the host
+          key from services.tailscale.authKeyFile when unset.
         '';
       };
       customDomain = mkOption {
@@ -856,9 +857,14 @@ in
       in
       mkIf hasTailscale (
         let
+          hasOwnAuthKey = cfg.tailscale.authKeyFile != null;
+          # Both branches must yield a *decrypted* path, since the caddy-ts-env
+          # ExecStartPre cats this file straight into TS_AUTHKEY. A dedicated
+          # key is decrypted to /run/agenix here; otherwise reuse the host key
+          # that features/tailscale.nix has already decrypted.
           tsAuthKeyFile =
-            if cfg.tailscale.authKeyFile != null then
-              cfg.tailscale.authKeyFile
+            if hasOwnAuthKey then
+              config.age.secrets.caddy-ts-authkey.path
             else
               config.services.tailscale.authKeyFile;
           hasCustomDomain = cfg.tailscale.customDomain != "";
@@ -879,7 +885,7 @@ in
               message = "docker-compose: tailscale must be enabled (services.tailscale.enable) when any stack uses tailscale.";
             }
             {
-              assertion = tsAuthKeyFile != null;
+              assertion = hasOwnAuthKey || config.services.tailscale.authKeyFile != null;
               message = "docker-compose: either tailscale.authKeyFile or services.tailscale.authKeyFile must be set when any stack uses tailscale.";
             }
             {
@@ -888,12 +894,19 @@ in
             }
           ];
 
-          age.secrets = lib.optionalAttrs hasCustomDomain {
-            caddy-cloudflare-token = {
-              file = cfg.tailscale.cloudflareTokenFile;
-              mode = "0400";
+          age.secrets =
+            lib.optionalAttrs hasOwnAuthKey {
+              caddy-ts-authkey = {
+                file = cfg.tailscale.authKeyFile;
+                mode = "0400";
+              };
+            }
+            // lib.optionalAttrs hasCustomDomain {
+              caddy-cloudflare-token = {
+                file = cfg.tailscale.cloudflareTokenFile;
+                mode = "0400";
+              };
             };
-          };
 
           services.caddy = {
             enable = true;
@@ -913,6 +926,14 @@ in
                 lib.nameValuePair "${stackCfg.tailscale.serviceName}.${tailnet}.ts.net" {
                   extraConfig = ''
                     bind tailscale/${stackCfg.tailscale.serviceName}
+                    # Take the cert from the tsnet node's own Tailscale
+                    # identity. Without this Caddy falls back to public ACME
+                    # and fails: *.ts.net MagicDNS names have no public A/AAAA
+                    # records, so tls-alpn-01 dies with NXDOMAIN on every
+                    # renewal attempt.
+                    tls {
+                      get_certificate tailscale
+                    }
                     reverse_proxy localhost:${toString stackCfg.tailscale.port}
                   '';
                 }
