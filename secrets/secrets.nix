@@ -42,6 +42,7 @@ in
   "vinnix/grimmory.age".publicKeys = host-vinnix;
   "vinnix/cloudflare-dns-token.age".publicKeys = host-vinnix;
   "vinnix/paperless.age".publicKeys = host-vinnix;
+  "vinnix/valheim.age".publicKeys = host-vinnix;
   "vtt/gemini.age".publicKeys = host-vinnix;
 
   "vinnix/tailscale-authkey.age".publicKeys = pc;
