@@ -46,6 +46,7 @@
   features.tailscale.enable = true;
   features.tmux.enable = true;
   features.valheim.enable = true;
+  features.valheim.public = true;
   features.valheim.secretFile = ../../secrets/vinnix/valheim.age;
   features.vpn.airvpn.pskFile = ../../secrets/vinnix/airvpn-wg-psk.age;
   features.vpn.airvpn.secretFile = ../../secrets/vinnix/airvpn-wg-key.age;
