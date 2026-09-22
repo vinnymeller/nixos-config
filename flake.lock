@@ -151,31 +151,6 @@
         "type": "github"
       }
     },
-    "blueprint_2": {
-      "inputs": {
-        "nixpkgs": [
-          "llm-agents",
-          "nixpkgs"
-        ],
-        "systems": [
-          "llm-agents",
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1788342924,
-        "narHash": "sha256-Sfyygt2dL88+160d014gaXMlWTGIL2HGxlIzLGsGPvE=",
-        "owner": "numtide",
-        "repo": "blueprint",
-        "rev": "8be75245e274a789b87cc4df542abbcd8c5e7f93",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "blueprint",
-        "type": "github"
-      }
-    },
     "bun2nix": {
       "inputs": {
         "flake-parts": [
@@ -196,15 +171,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1784665499,
-        "narHash": "sha256-9BMxlTxCCDAeoNLtb1a/st7udtTIJep+wpUzquA29VU=",
-        "owner": "nix-community",
+        "lastModified": 1790001035,
+        "narHash": "sha256-1/SLBjSYBzDdDhvLQ83wrzBakyS/xNGgtxHGNuveOEQ=",
+        "owner": "Mic92",
         "repo": "bun2nix",
-        "rev": "0f2a1f0b6f42cebe3b149bf62d38754c5e0e9729",
+        "rev": "07a5bfc8ac36c5370199343fa620b69f63186e33",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "Mic92",
+        "ref": "llm-agents",
         "repo": "bun2nix",
         "type": "github"
       }
@@ -812,7 +788,6 @@
     },
     "llm-agents": {
       "inputs": {
-        "blueprint": "blueprint_2",
         "bun2nix": "bun2nix",
         "flake-parts": [
           "flake-parts"
@@ -824,15 +799,16 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1779971252,
-        "narHash": "sha256-/fAj+PZ8oyY1M1qvxuonTxP8wgqe4qPDlO6nrCnWtmo=",
+        "lastModified": 1790095316,
+        "narHash": "sha256-VyqeNKxpRSkXOz1vDJC5zytre2nVKHqUGLAne1QSb0E=",
         "owner": "vinnymeller",
         "repo": "llm-agents.nix",
-        "rev": "096ee16c1eee90806fe679d501d716662330e6e1",
+        "rev": "e54efaeaf30e512cd68c2a3208aaff22f3a5500f",
         "type": "github"
       },
       "original": {
         "owner": "vinnymeller",
+        "ref": "claude",
         "repo": "llm-agents.nix",
         "type": "github"
       }
