@@ -207,6 +207,10 @@
 
       programs.direnv.enable = lib.mkDefault true;
       programs.direnv.nix-direnv.enable = lib.mkDefault true;
+      # Drop the `direnv: export +AR +AS +CC ...` wall printed on every load.
+      # A nix devShell exports ~100 vars, so the diff is pure noise and buries
+      # the `direnv: loading` line that actually says something.
+      programs.direnv.config.global.hide_env_diff = lib.mkDefault true;
 
       home.shellAliases = {
         cdots = lib.mkDefault "pushd ~/.nixdots";
