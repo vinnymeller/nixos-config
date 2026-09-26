@@ -112,7 +112,7 @@
 
     # use their nixpkgs to pull from cache
     llm-agents = {
-      url = "github:vinnymeller/llm-agents.nix/claude";
+      url = "github:numtide/llm-agents.nix";
       inputs = {
         flake-parts.follows = "flake-parts";
         systems.follows = "systems";
