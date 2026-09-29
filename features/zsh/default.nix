@@ -79,6 +79,7 @@
         claude-code
         llm-agents.codex
         neovim
+        nushell
       ];
 
       programs.zsh = {
