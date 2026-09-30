@@ -100,10 +100,10 @@
       # :portals_default plus playerevents.
       serverArgs = lib.concatStringsSep " " [
         "-preset Normal"
-        "-modifier Combat hard"
-        "-modifier DeathPenalty veryeasy"
+        # "-modifier Combat hard"
+        "-modifier DeathPenalty easy"
         "-modifier Resources muchmore"
-        "-modifier Raids more"
+        # "-modifier Raids more"
         "-setkey playerevents"
       ];
     in
