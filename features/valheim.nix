@@ -101,7 +101,7 @@
       serverArgs = lib.concatStringsSep " " [
         "-preset Normal"
         # "-modifier Combat hard"
-        "-modifier DeathPenalty easy"
+        "-modifier DeathPenalty veryeasy"
         "-modifier Resources muchmore"
         # "-modifier Raids more"
         "-setkey playerevents"
