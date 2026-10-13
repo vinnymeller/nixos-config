@@ -3,7 +3,12 @@ let
   inherit (pkgs) lib;
   npx = "${pkgs.nodejs}/bin/npx";
 in
-{ }
+{
+  moves = {
+    type = "http";
+    url = "https://moves.social/mcp";
+  };
+}
 // lib.optionalAttrs (pkgs.stdenv.hostPlatform.system != "aarch64-linux") {
   chrome-devtools = {
     type = "stdio";
