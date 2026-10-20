@@ -36,6 +36,16 @@ in
     );
   };
 
+  # cudaSupport leaks into firefox via onnxruntime (-> tensorrt, openvino), forcing a
+  # from-source build that isn't cached anywhere; firefox doesn't need CUDA.
+  firefox-no-cuda = final: prev: {
+    firefox-unwrapped =
+      (import inputs.nixpkgs {
+        system = final.stdenv.hostPlatform.system;
+        config.allowUnfree = true;
+      }).firefox-unwrapped;
+  };
+
   claude-code = import ./agents { inherit inputs vlib; };
 
   neovim = final: prev: {

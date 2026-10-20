@@ -912,7 +912,7 @@ in
             enable = true;
             package = pkgs.caddy.withPlugins {
               inherit plugins;
-              hash = "sha256-cUsj+9q6pxevS2G/Sm4qML+Of5/heFYIO8edAKGDp2A=";
+              hash = "sha256-2M6LP68ZPI/OVTftFOCdB0+C42FZWMhaebfu9ROJAyw=";
             };
             globalConfig = ''
               tailscale {
