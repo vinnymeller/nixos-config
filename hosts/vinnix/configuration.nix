@@ -373,7 +373,27 @@
     "nvidia"
   ];
   hardware.nvidia = {
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # patchelf >= 0.19 (nixpkgs' default since 2026-10) breaks the driver's
+    # non-PIE executables: it adds an RW LOAD for .dynamic at 0x3ff000 that
+    # the following R LOAD (starting mid-page at 0x4002c4) overlaps, so the
+    # page holding .dynamic ends up read-only. ld.so then faults writing
+    # DT_DEBUG, and nvidia-smi, nvidia-powerd and nvidia-cuda-mps-control
+    # segfault before main. Re-patch them from the untouched origBin copies
+    # with stable's patchelf (0.15), using the same command as the nvidia
+    # builder.sh. Drop once `nvidia-smi -L` works without this.
+    package = config.boot.kernelPackages.nvidiaPackages.stable.overrideAttrs (old: {
+      # generic.nix passes postInstall through as null when unset
+      postInstall = lib.optionalString (old.postInstall != null) old.postInstall + ''
+        for i in nvidia-cuda-mps-control nvidia-cuda-mps-server nvidia-smi nvidia-debugdump nvidia-powerd; do
+          if [ -e "$bin/origBin/$i" ]; then
+            install -Dm755 "$bin/origBin/$i" "$bin/bin/$i"
+            ${pkgs.stable-pkgs.patchelf}/bin/patchelf \
+              --interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
+              --set-rpath "$out/lib:$libPath" "$bin/bin/$i"
+          fi
+        done
+      '';
+    });
     modesetting.enable = true;
     open = true;
     nvidiaSettings = true;

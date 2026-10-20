@@ -155,7 +155,7 @@ for i = 1, 10 do
 	local code = "code:" .. tostring(9 + i)
 	hl.bind(mod .. " + " .. code, hl.dsp.focus({ workspace = ws }))
 	hl.bind(mod .. " + SHIFT + " .. code, hl.dsp.window.move({ workspace = ws }))
-	hl.bind(mod .. " + CTRL + " .. code, hl.dsp.window.move({ workspace = ws }, { follow = false }))
+	hl.bind(mod .. " + CTRL + " .. code, hl.dsp.window.move({ workspace = ws, follow = false }))
 end
 
 hl.bind(mod .. " + " .. "mouse:272", hl.dsp.window.drag(), { mouse = true })
@@ -262,12 +262,22 @@ hl.monitor({
 	scale = 1.5,
 })
 
+-- supports_hdr = -1: since Hyprland bc82253e ("clear stale HDR metadata"),
+-- HDR-capable monitors get a second, HDR-metadata modeset on their first
+-- rendered frame. On mr (NVIDIA) that lands while the startup page-flip is
+-- still in flight; aquamarine cancels the flip and every later commit fails
+-- with EINVAL. Hyprland then retries ~1000x/s, which starves the event loop
+-- (laggy, auto-repeating keyboard) and leaves mr frozen at the 2x startup-zoom
+-- frame. Disabling HDR detection skips that path, so mr modesets once at
+-- startup as it did before. A hot disable/re-enable recovers it without this,
+-- so it is a startup race, not a rejected HDR blob.
 hl.monitor({
 	output = mr,
 	mode = "3840x2160@60.00",
 	position = "5120x-559",
 	scale = 1.5,
 	transform = 3,
+	supports_hdr = -1,
 })
 
 -- Browsers, file managers and Electron apps request maximize on startup, and
