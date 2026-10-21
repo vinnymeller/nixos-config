@@ -67,7 +67,7 @@
         compose = {
           services = {
             immich-server = {
-              image = "ghcr.io/immich-app/immich-server:release";
+              image = "ghcr.io/immich-app/immich-server:v3";
               container_name = "immich_server";
               restart = "always";
               ports = [ "2283:2283" ];
@@ -87,7 +87,7 @@
             };
 
             immich-machine-learning = {
-              image = "ghcr.io/immich-app/immich-machine-learning:release-cuda";
+              image = "ghcr.io/immich-app/immich-machine-learning:v3-cuda";
               container_name = "immich_machine_learning";
               restart = "always";
               volumes = [ "model-cache:/cache" ];
