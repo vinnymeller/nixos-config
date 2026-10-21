@@ -81,6 +81,33 @@
       enable = true;
       notifyUser = "vinny";
     };
+
+    jobs.moves = {
+      paths = [
+        "/var/backup/moves"
+        "/var/lib/docker/volumes/moves-prod_images_prod/_data"
+        "/home/vinny/dev/mxves/moves/.env.prod"
+      ];
+      # 30 day privacy policy
+      pruneOpts = [ "--keep-within 30d" ];
+      backupPrepareCommand = ''
+        install -d -m 0700 /var/backup/moves
+        pg=$(${pkgs.docker}/bin/docker ps -q \
+          --filter label=com.docker.compose.project=moves-prod \
+          --filter label=com.docker.compose.service=postgres)
+        test -n "$pg"
+        # Uncompressed so restic dedupes day to day; the repo compresses anyway.
+        ${pkgs.docker}/bin/docker exec "$pg" sh -c \
+          'pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" -Fc -Z 0' \
+          > /var/backup/moves/moves.dump.tmp
+        # Roles (job_worker): a restore needs them before pg_restore runs.
+        ${pkgs.docker}/bin/docker exec "$pg" sh -c \
+          'pg_dumpall -U "$POSTGRES_USER" --globals-only' \
+          > /var/backup/moves/globals.sql.tmp
+        mv /var/backup/moves/moves.dump.tmp /var/backup/moves/moves.dump
+        mv /var/backup/moves/globals.sql.tmp /var/backup/moves/globals.sql
+      '';
+    };
   };
   virtualisation.docker.rootless = {
     enable = true;
