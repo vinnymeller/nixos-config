@@ -18,6 +18,12 @@
       flake = false;
     };
 
+    # private; only used by claude-code-work (see overlays/agents)
+    camoag-os = {
+      url = "git+ssh://git@github.com/camoag/camoag-os";
+      flake = false;
+    };
+
     systems.url = "github:nix-systems/default";
 
     nixos-wsl = {
@@ -146,14 +152,18 @@
       inherit (nixpkgs) lib;
 
       mkPkgs =
-        system: extraConfig:
+        system:
+        {
+          config ? { },
+          overlays ? [ ],
+        }:
         import nixpkgs {
           localSystem = system;
-          overlays = builtins.attrValues self.overlays;
+          overlays = builtins.attrValues self.overlays ++ overlays;
           config = {
             allowUnfree = true;
           }
-          // extraConfig;
+          // config;
         };
 
       vlib = import ./lib {
@@ -179,7 +189,7 @@
         vinnix = import ./hosts/vinnix {
           inherit inputs outputs;
           inherit (self.lib) vlib;
-          pkgs = mkPkgs "x86_64-linux" { cudaSupport = true; };
+          pkgs = mkPkgs "x86_64-linux" { config.cudaSupport = true; };
         };
         vindows = import ./hosts/home-wsl {
           inherit inputs outputs;
@@ -192,7 +202,10 @@
         vinny = import ./hosts/camovinny {
           inherit inputs outputs;
           inherit (self.lib) vlib;
-          pkgs = mkPkgs "aarch64-darwin" { };
+          # work laptop: everything that installs claude-code gets the work plugins
+          pkgs = mkPkgs "aarch64-darwin" {
+            overlays = [ (final: prev: { claude-code = final.claude-code-work; }) ];
+          };
         };
         "vinny@mini" = import ./hosts/mini {
           inherit inputs outputs;
@@ -208,7 +221,7 @@
       in
       {
         formatter = pkgs.nixfmt-tree;
-        packages = { inherit (pkgs) neovim claude-code; };
+        packages = { inherit (pkgs) neovim claude-code claude-code-work; };
         devShells = import ./shell.nix { inherit pkgs; };
         checks =
           lib.mapAttrs' (name: nixos: lib.nameValuePair "eval-${name}" nixos.config.system.build.toplevel)

@@ -178,6 +178,22 @@
         "type": "github"
       }
     },
+    "camoag-os": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792719514,
+        "narHash": "sha256-DbN4SdDz6EiIre1/2V/2iOtJjJ7nqGJpOag2pX/Z5xE=",
+        "ref": "refs/heads/main",
+        "rev": "4de1531eb96eae177649f50d300be09c04b1958e",
+        "revCount": 115,
+        "type": "git",
+        "url": "ssh://git@github.com/camoag/camoag-os"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/camoag/camoag-os"
+      }
+    },
     "claude-plugins-official": {
       "flake": false,
       "locked": {
@@ -1022,6 +1038,7 @@
       "inputs": {
         "agenix": "agenix",
         "blueprint": "blueprint",
+        "camoag-os": "camoag-os",
         "claude-plugins-official": "claude-plugins-official",
         "crane": "crane",
         "flake-compat": "flake-compat",

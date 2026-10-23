@@ -39,7 +39,7 @@ let
   contextArchive = import ./contextArchive.nix { pkgs = final; };
 
 in
-{
+rec {
   claude-code = inputs.wrapper-modules.wrappers.claude-code.wrap {
     pkgs = final;
     package = final.llm-agents.claude-code;
@@ -77,5 +77,9 @@ in
     pluginDirs = (map pluginPath officialPluginNames) ++ [
       ./customPlug
     ];
+  };
+
+  claude-code-work = claude-code.wrap {
+    pluginDirs = [ "${inputs.camoag-os}/plugins/camo-os" ];
   };
 }
