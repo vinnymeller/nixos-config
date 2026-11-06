@@ -95,6 +95,15 @@
       url = "github:vinnymeller/github-nix-ci";
     };
 
+    twm = {
+      url = "github:vinnymeller/twm";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+        rust-overlay.follows = "rust-overlay";
+      };
+    };
+
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs = {

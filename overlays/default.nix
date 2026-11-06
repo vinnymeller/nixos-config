@@ -21,6 +21,11 @@ in
     ragenix = inputs.ragenix.packages.${final.stdenv.hostPlatform.system}.default;
   };
 
+  # nixpkgs' twm (<0.13.1) breaks on tmux >=3.8 (`switch` ambiguous); drop once nixpkgs catches up
+  twm = final: prev: {
+    twm = inputs.twm.packages.${final.stdenv.hostPlatform.system}.default;
+  };
+
   llm-agents = final: prev: {
     llm-agents = inputs.llm-agents.packages.${final.stdenv.hostPlatform.system};
   };
