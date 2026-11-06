@@ -156,13 +156,9 @@
         };
       };
 
-      luks.devices.crypted = {
-        device = device;
-        preLVM = true;
-      };
+      luks.devices.crypted.device = device;
 
       systemd = {
-        enable = true;
         packages = [ pkgs.wpa_supplicant ];
         initrdBin = [ pkgs.wpa_supplicant ];
         targets.initrd.wants = [ "wpa_supplicant@${interface}.service" ];
