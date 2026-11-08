@@ -64,6 +64,9 @@
       "Bash(find:*)"
       "Bash(fd:*)"
       "Bash(jq:*)"
+      # reads transcripts and writes only its own state dir; the intent-keeper
+      # and hook agents (which get no permission prompts) run it too
+      "Bash(claude-context-archive:*)"
 
     ];
     deny = [
@@ -85,6 +88,24 @@
       jq = "${pkgs.jq}/bin/jq";
       notify-send = "${pkgs.libnotify}/bin/notify-send";
       contextArchive = import ./contextArchive.nix { inherit pkgs; };
+      intentGate = import ./intentGate.nix {
+        inherit pkgs contextArchive;
+        judgeClaude = pkgs.llm-agents.claude-code;
+      };
+      # One line per prompt / turn end in the project's event log, which the
+      # intent-keeper follows (`claude-context-archive watch`).
+      eventLog = {
+        type = "command";
+        command = "${contextArchive}/bin/claude-context-archive hook";
+        timeout = 10;
+      };
+      # See intentGate.nix: each runs a short headless judge only when needed
+      # and fails open; CLAUDE_INTENT_GATES=0 turns them off for a session.
+      gate = mode: {
+        type = "command";
+        command = "${intentGate}/bin/claude-intent-gate ${mode}";
+        timeout = 120;
+      };
       cargoDiskGuard = pkgs.writeShellApplication {
         name = "cargo-disk-guard";
         runtimeInputs = with pkgs; [
@@ -163,6 +184,32 @@
       '';
     in
     {
+      PreToolUse = [
+        {
+          # A question the user already answered, or one the agent may decide,
+          # goes back to the agent instead of the user.
+          matcher = "AskUserQuestion";
+          hooks = [ (gate "ask") ];
+        }
+        {
+          # A plan missing what the user asked for, defined behavior, or tests
+          # goes back for revision before the user sees it.
+          matcher = "ExitPlanMode";
+          hooks = [ (gate "plan") ];
+        }
+      ];
+      UserPromptSubmit = [
+        {
+          matcher = ".*";
+          hooks = [ eventLog ];
+        }
+      ];
+      SubagentStop = [
+        {
+          matcher = ".*";
+          hooks = [ eventLog ];
+        }
+      ];
       PostToolUse = [
         {
           matcher = "Bash";
@@ -208,6 +255,10 @@
               type = "command";
               command = "${notifyHook}";
             }
+            eventLog
+            # A turn that ends by asking something the agent may decide is sent
+            # back to work (judged only when the last message asks something).
+            (gate "stop")
           ];
         }
       ];

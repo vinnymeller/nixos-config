@@ -77,6 +77,7 @@
         stable-pkgs.zsh-autocomplete # pinned; see note at the source line below
         zsh-completions
         claude-code
+        claude-intent-keeper
         llm-agents.codex
         neovim
         nushell

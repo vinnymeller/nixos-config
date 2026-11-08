@@ -230,13 +230,25 @@
       in
       {
         formatter = pkgs.nixfmt-tree;
-        packages = { inherit (pkgs) neovim claude-code claude-code-work; };
+        packages = {
+          inherit (pkgs)
+            neovim
+            claude-code
+            claude-code-work
+            claude-context-archive
+            claude-intent-gate
+            claude-intent-keeper
+            ;
+        };
         devShells = import ./shell.nix { inherit pkgs; };
         checks =
-          lib.mapAttrs' (name: nixos: lib.nameValuePair "eval-${name}" nixos.config.system.build.toplevel)
-            (
-              lib.filterAttrs (_: nixos: nixos.pkgs.stdenv.hostPlatform.system == system) self.nixosConfigurations
-            );
+          lib.mapAttrs' (name: nixos: lib.nameValuePair "eval-${name}" nixos.config.system.build.toplevel) (
+            lib.filterAttrs (_: nixos: nixos.pkgs.stdenv.hostPlatform.system == system) self.nixosConfigurations
+          )
+          // {
+            claude-context-archive = import ./overlays/agents/contextArchiveTest.nix { inherit pkgs; };
+            claude-intent-gate = import ./overlays/agents/intentGateTest.nix { inherit pkgs; };
+          };
       }
     );
 }
