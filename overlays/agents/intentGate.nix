@@ -4,7 +4,10 @@
   # The unwrapped Claude Code package: the judge must not load the wrapper's
   # hooks, plugins or MCP servers.
   judgeClaude,
-  judgeModel ? "claude-sonnet-5-5",
+  # Opus at medium effort: in practice cheaper in tokens than Sonnet, and the
+  # judge must not inherit the user's (much higher) default effort.
+  judgeModel ? "opus",
+  judgeEffort ? "medium",
 }:
 # Hook gates that keep agents deciding instead of asking, and plans complete
 # before the user sees them. Each mode reads a hook payload on stdin:
@@ -13,7 +16,10 @@
 #                             words already answer, or one the agent may decide
 #                             itself, goes back to the agent instead of the user.
 #   claude-intent-gate stop   Stop: a turn that ends by asking the user something
-#                             the agent may decide is sent back to work.
+#                             the agent may decide is sent back to work. In the
+#                             intent-keeper's own session (CLAUDE_INTENT_KEEPER=1)
+#                             it instead refuses to let a turn end without the
+#                             keeper's event watch running (no judge involved).
 #   claude-intent-gate plan   PreToolUse(ExitPlanMode): a plan that misses what the
 #                             user asked for, leaves behavior undefined, or names
 #                             no test goes back for revision (at most twice).
@@ -31,6 +37,7 @@
 #                                  hook do nothing there, so no recursion
 #   CLAUDE_INTENT_KEEPER=1         set by claude-intent-keeper; it is never gated
 #   CLAUDE_INTENT_JUDGE_MODEL      judge model (default below)
+#   CLAUDE_INTENT_JUDGE_EFFORT     judge effort level (default below)
 #   CLAUDE_INTENT_JUDGE_TIMEOUT    seconds (default 90)
 #   CLAUDE_INTENT_JUDGE_CMD        replace the judge command (tests use a stub)
 pkgs.writeShellApplication {
@@ -48,6 +55,7 @@ pkgs.writeShellApplication {
     MODE=''${1:-}
     JUDGE_CLAUDE="''${CLAUDE_INTENT_JUDGE_CLAUDE:-${judgeClaude}/bin/claude}"
     JUDGE_MODEL="''${CLAUDE_INTENT_JUDGE_MODEL:-${judgeModel}}"
+    JUDGE_EFFORT="''${CLAUDE_INTENT_JUDGE_EFFORT:-${judgeEffort}}"
     JUDGE_TIMEOUT="''${CLAUDE_INTENT_JUDGE_TIMEOUT:-90}"
     VERDICT=""
     REASON=""
@@ -60,12 +68,36 @@ pkgs.writeShellApplication {
 
     PAYLOAD=$(cat 2>/dev/null || true)
 
-    if [ "''${CLAUDE_INTENT_GATES:-1}" = 0 ] || [ "''${CLAUDE_INTENT_JUDGE:-}" = 1 ] || [ "''${CLAUDE_INTENT_KEEPER:-}" = 1 ]; then
+    field() { printf '%s' "$PAYLOAD" | jq -r "$1" 2>/dev/null || true; }
+
+    # The intent-keeper's one turn-end rule: it must still be watching. Its
+    # Monitor on `claude-context-archive watch` expires after 30 minutes and the
+    # keeper re-arms it only because its instructions say to; this makes that
+    # deterministic. A running Monitor appears in the Stop payload's
+    # background_tasks as {type: "shell", status: "running", command: ...}.
+    keeper_watch_check() {
+      local watching
+      printf '%s' "$PAYLOAD" | jq -e 'type == "object"' >/dev/null 2>&1 || return 0
+      # One nudge per turn end; if the watch still won't start, stop rather than loop.
+      [ "$(field '.stop_hook_active')" = true ] && return 0
+      watching=$(field 'if (.background_tasks | type) != "array" then "unknown"
+                        else [ .background_tasks[]
+                               | select((.status // "") == "running"
+                                        and ((.command // "") | test("claude-context-archive\\s+watch"))) ] | length end')
+      [ "$watching" = 0 ] || return 0
+      jq -n '{ decision: "block",
+        reason: "You are the intent-keeper and your watch on the project events is not running (it expired, or was never started). Re-arm it now: the Monitor tool on `claude-context-archive watch` with timeout_ms 1800000, described as \"project events\". Then end your turn." }'
+    }
+
+    if [ "''${CLAUDE_INTENT_GATES:-1}" = 0 ] || [ "''${CLAUDE_INTENT_JUDGE:-}" = 1 ]; then
+      exit 0
+    fi
+    if [ "''${CLAUDE_INTENT_KEEPER:-}" = 1 ]; then
+      # The keeper is never gated; at turn end it only has to keep watching.
+      if [ "$MODE" = stop ]; then keeper_watch_check || true; fi
       exit 0
     fi
     printf '%s' "$PAYLOAD" | jq -e 'type == "object"' >/dev/null 2>&1 || exit 0
-
-    field() { printf '%s' "$PAYLOAD" | jq -r "$1" 2>/dev/null || true; }
 
     AGENT_ID=$(field '.agent_id // empty')
     case "$AGENT_ID" in hook-agent-*) exit 0 ;; esac
@@ -165,7 +197,7 @@ pkgs.writeShellApplication {
         CLAUDE_INTENT_JUDGE=1 timeout "$JUDGE_TIMEOUT" env \
           -u CLAUDE_CODE_SESSION_ID -u CLAUDE_CODE_MESSAGING_SOCKET -u CLAUDE_CODE_MESSAGING_TOKEN \
           -u CLAUDECODE -u CLAUDE_CODE_CHILD_SESSION -u CLAUDE_CODE_ENTRYPOINT \
-          "$JUDGE_CLAUDE" -p --model "$JUDGE_MODEL" --tools "" --strict-mcp-config --no-session-persistence --setting-sources user
+          "$JUDGE_CLAUDE" -p --model "$JUDGE_MODEL" --effort "$JUDGE_EFFORT" --tools "" --strict-mcp-config --no-session-persistence --setting-sources user
       fi
     }
 

@@ -164,4 +164,32 @@ gate plan return "$(plan_payload '{"planFilePath":"/x/plans/other.md","plan":"OT
 called || fail "the cap is per plan file" "$OUT"
 pass "plan"
 
+# --- keeper keep-alive (stop mode in the intent-keeper's own session) ---
+keeper_payload() { # stop_hook_active background_tasks-json
+  jq -cn --arg s "$G" --arg t "$tr" --arg c "$repo" --argjson a "$1" --argjson b "$2" \
+    '{session_id: $s, transcript_path: $t, cwd: $c, permission_mode: "default", hook_event_name: "Stop", stop_hook_active: $a, last_assistant_message: "Still watching. Anything else?", background_tasks: $b}'
+}
+watching='[{"id":"b1","type":"shell","status":"running","description":"project events","command":"claude-context-archive watch"}]'
+gate stop return "$(keeper_payload false "$watching")" CLAUDE_INTENT_KEEPER=1
+{ [ "$RC" -eq 0 ] && [ -z "$OUT" ] && ! called; } || fail "a keeper that is watching may end its turn, unjudged" "$OUT"
+gate stop return "$(keeper_payload false '[]')" CLAUDE_INTENT_KEEPER=1
+jq -e '.decision == "block" and (.reason | contains("claude-context-archive watch"))' <<<"$OUT" >/dev/null \
+  || fail "a keeper whose watch is gone is told to re-arm it" "$OUT"
+called && fail "the keep-alive never runs the judge" ""
+gate stop return "$(keeper_payload false '[{"id":"b2","type":"shell","status":"running","command":"sleep 90"}]')" CLAUDE_INTENT_KEEPER=1
+jq -e '.decision == "block"' <<<"$OUT" >/dev/null || fail "another running task is not a watch" "$OUT"
+gate stop return "$(keeper_payload false '[{"id":"b1","type":"shell","status":"completed","command":"claude-context-archive watch"}]')" CLAUDE_INTENT_KEEPER=1
+jq -e '.decision == "block"' <<<"$OUT" >/dev/null || fail "a finished watch does not count" "$OUT"
+gate stop return "$(keeper_payload true '[]')" CLAUDE_INTENT_KEEPER=1
+[ -z "$OUT" ] || fail "the keep-alive nudges once per turn end, never loops" "$OUT"
+gate stop return "$(stop_payload false 'Done.')" CLAUDE_INTENT_KEEPER=1
+[ -z "$OUT" ] || fail "without background_tasks in the payload the keep-alive stays out of the way" "$OUT"
+gate stop return "$(keeper_payload false '[]')" CLAUDE_INTENT_KEEPER=1 CLAUDE_INTENT_GATES=0
+[ -z "$OUT" ] || fail "the kill switch disables the keep-alive too" "$OUT"
+gate stop return "$(keeper_payload false '[]' | jq -c '.last_assistant_message = "All done."')"
+[ -z "$OUT" ] || fail "other sessions are never held to the keeper's rule" "$OUT"
+gate ask return "$(ask_payload default)" CLAUDE_INTENT_KEEPER=1
+{ [ -z "$OUT" ] && ! called; } || fail "the keeper's questions are still never gated" "$OUT"
+pass "keeper keep-alive"
+
 echo "all claude-intent-gate tests passed"

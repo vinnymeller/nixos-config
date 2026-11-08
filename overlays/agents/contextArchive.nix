@@ -10,14 +10,14 @@
 #   claude-context-archive list                            (this project's conversations, newest first)
 #   claude-context-archive show <file|session-id> <line> [radius]
 #                                                          (entries around a line; default radius 5)
-#   claude-context-archive decide <what> [--basis ..] [--undo ..] [--by ..] [--reverses <id>]
+#   claude-context-archive decide <what> [--basis ..] [--undo ..] [--by ..] [--reverses <id> | --confirms <id>]
 #                                                          (record a decision for the user to review)
 #   claude-context-archive flag <file[:lines]> <why> [--by ..]
 #                                                          (mark code the user should read)
 #   claude-context-archive review [--since <N>{m,h,d} | --all]
 #                                                          (decisions + flags since the last commit, and
 #                                                           the working tree's structural changes)
-#   claude-context-archive watch                           (follow the event log; for the Monitor tool)
+#   claude-context-archive watch [--quiet <s>] [--max <s>] (follow the event log in batches; for Monitor)
 #   claude-context-archive hook                            (UserPromptSubmit/Stop/SubagentStop hook: log an event)
 #   claude-context-archive save                            (PreCompact hook: stdin = hook JSON)
 #   claude-context-archive dir                             (print the archive dir for this project)
@@ -629,20 +629,21 @@ pkgs.writeShellApplication {
     }
 
     usage_decide() {
-      printf 'usage: claude-context-archive decide <what you decided> [--basis <the user'"'"'s words it rests on, or "not covered">] [--undo <how to reverse it>] [--by <your name>] [--reverses <id>]\n' >&2
+      printf 'usage: claude-context-archive decide <what you decided> [--basis <the user'"'"'s words it rests on, or "not covered">] [--undo <how to reverse it>] [--by <your name>] [--reverses <id> | --confirms <id>]\n' >&2
     }
 
     cmd_decide() {
-      local what="" basis="" undo="" by="" reverses="" root file sid id rec
+      local what="" basis="" undo="" by="" reverses="" confirms="" ref root file sid id rec
       while [ "$#" -gt 0 ]; do
         case "$1" in
-          --basis | --undo | --by | --reverses)
+          --basis | --undo | --by | --reverses | --confirms)
             [ "$#" -ge 2 ] || { usage_decide; return 2; }
             case "$1" in
               --basis) basis=$2 ;;
               --undo) undo=$2 ;;
               --by) by=$2 ;;
               --reverses) reverses=$2 ;;
+              --confirms) confirms=$2 ;;
             esac
             shift 2 ;;
           -h | --help) usage_decide; return 0 ;;
@@ -653,18 +654,24 @@ pkgs.writeShellApplication {
       [ -n "$what" ] || { usage_decide; return 2; }
       root=$(project_root "$PWD")
       file=$(decisions_file "$root")
-      if [ -n "$reverses" ] && ! { [ -f "$file" ] && jq -e --arg id "$reverses" 'select(.id == $id)' "$file" >/dev/null 2>&1; }; then
-        printf 'decide: no recorded decision has id %s (claude-context-archive review --all lists them)\n' "$reverses" >&2
+      if [ -n "$reverses" ] && [ -n "$confirms" ]; then
+        printf 'decide: a decision either reverses or confirms an earlier one, not both\n' >&2
+        return 2
+      fi
+      ref=''${reverses:-$confirms}
+      if [ -n "$ref" ] && ! { [ -f "$file" ] && jq -e --arg id "$ref" 'select(.id == $id)' "$file" >/dev/null 2>&1; }; then
+        printf 'decide: no recorded decision has id %s (claude-context-archive review --all lists them)\n' "$ref" >&2
         return 2
       fi
       sid=$(session_id_from "")
       id=$(new_id d)
       rec=$(jq -cn --arg id "$id" --arg ts "$(now_iso)" --arg session "$sid" --arg name "$(running_name "$sid")" \
-        --arg by "$by" --arg what "$what" --arg basis "$basis" --arg undo "$undo" --arg rev "$reverses" '
+        --arg by "$by" --arg what "$what" --arg basis "$basis" --arg undo "$undo" --arg rev "$reverses" --arg conf "$confirms" '
           def cap: if length > 1000 then .[0:1000] + "..." else . end;
           { id: $id, ts: $ts, kind: "decision", session: $session, session_name: $name, by: $by,
             what: ($what | cap), basis: ($basis | cap), undo: ($undo | cap) }
-          + (if $rev == "" then {} else { reverses: $rev } end)')
+          + (if $rev == "" then {} else { reverses: $rev } end)
+          + (if $conf == "" then {} else { confirms: $conf } end)')
       append_line "$file" "$rec"
       append_line "$(events_file "$root")" "$(printf '%s' "$rec" | jq -c '{ ts, event: "decision", id, session, session_name, by, what: (.what | .[0:200]) }')"
       printf 'recorded %s\n' "$id"
@@ -795,17 +802,21 @@ pkgs.writeShellApplication {
           def epoch: (.ts // "" | sub("\\.[0-9]+Z$"; "Z") | try fromdateiso8601 catch 0);
           def stamp: (.ts // "" | sub("\\.[0-9]+Z$"; "Z") | . as $s | try (fromdateiso8601 | strflocaltime("%Y-%m-%d %H:%M")) catch $s);
           def who: ([.by, .session_name] | map(select(. != null and . != "")) | first) // ((.session // "?")[0:8]);
-          def uncovered: ((.basis // "") | test("^\\s*$|^\\s*not covered"; "i"));
+          # No basis, or a basis saying some part is not covered by what the user said.
+          def uncovered: ((.basis // "") | test("^\\s*$|not covered"; "i"));
           map(select(type == "object" and epoch >= $cutoff)) | sort_by(.ts) as $recs
           | ($recs | map(select(.kind == "decision"))) as $ds
           | ($recs | map(select(.kind == "flag"))) as $fs
           | (reduce ($ds[] | select(.reverses)) as $d ({}; .[$d.reverses] = $d.id)) as $revby
+          | (reduce ($ds[] | select(.confirms)) as $d ({}; .[$d.confirms] += [$d.id])) as $confby
           | (if ($ds | length) > 0 then
                "\nDecisions (\($ds | length)):\n"
                + ([ $ds[]
                     | "  \(.id)  \(stamp)  \(who)"
                       + (if .reverses then "  (reverses \(.reverses))" else "" end)
+                      + (if .confirms then "  (confirms \(.confirms))" else "" end)
                       + (if $revby[.id] then "  -> reversed by \($revby[.id])" else "" end)
+                      + (if $confby[.id] then "  -> confirmed by \($confby[.id] | join(", "))" else "" end)
                       + "\n    \(.what)"
                       + (if (.basis // "") != "" then "\n    basis: \(.basis)" else "" end)
                       + (if (.undo // "") != "" then "\n    undo: \(.undo)" else "" end) ] | join("\n"))
@@ -813,7 +824,8 @@ pkgs.writeShellApplication {
           | ([ $ds[] | select(uncovered and ($revby[.id] | not)) ]) as $nc
           | (if ($nc | length) > 0 then
                "\n\nMade without your input (basis not covered):\n"
-               + ([ $nc[] | "  \(.id)  \(.what | gsub("\\s+"; " ") | .[0:160])" ] | join("\n"))
+               + ([ $nc[] | "  \(.id)  \(.what | gsub("\\s+"; " ") | .[0:160])"
+                            + (if $confby[.id] then "  (confirmed by \($confby[.id] | join(", ")))" else "" end) ] | join("\n"))
              else "" end) as $ncsec
           | (if ($fs | length) > 0 then
                "\n\nCode flagged for you:\n"
@@ -838,6 +850,9 @@ pkgs.writeShellApplication {
         | (.agent_type // "") as $at
         | (.last_assistant_message // "" | .[0:300]) as $said
         | if ($aid | startswith("hook-agent-")) or ($at | test("intent-keeper")) then empty
+          # Claude Code runs internal helpers (e.g. the next-prompt suggestion) as
+          # subagents with no type; real subagents carry one, teammates their name.
+          elif .hook_event_name == "SubagentStop" and $at == "" then empty
           elif .hook_event_name == "UserPromptSubmit" then
             (.prompt // "") as $p
             | if ($p | test("^\\s*<(task-notification|cross-session-message|teammate-message|local-command)")) then empty
@@ -858,30 +873,75 @@ pkgs.writeShellApplication {
       append_line "$(events_file "$root")" "$rec" || return 0
     }
 
-    # Follow the event log, one line per event (for the Monitor tool).
+    # Follow the event log for the Monitor tool, in batches: events are held
+    # until --quiet seconds pass with no new one (default 60) or --max seconds
+    # after the first held one (default 300), then printed together, so a
+    # burst of activity wakes the reader once (Monitor turns lines printed
+    # together into one notification). The user's own messages never start a
+    # batch; they are only counted in the next one. --quiet 0 prints at once.
     cmd_watch() {
-      local file
+      local file quiet=60 max=300 line rc kind text first=0 prompts=0
+      local -a held=()
+      while [ "$#" -gt 0 ]; do
+        case "$1" in
+          --quiet | --max)
+            if [ "$#" -lt 2 ] || [[ ! $2 =~ ^[0-9]+$ ]]; then
+              printf 'usage: claude-context-archive watch [--quiet <seconds>] [--max <seconds>]\n' >&2
+              return 2
+            fi
+            if [ "$1" = --quiet ]; then quiet=$2; else max=$2; fi
+            shift 2 ;;
+          *) printf 'usage: claude-context-archive watch [--quiet <seconds>] [--max <seconds>]\n' >&2; return 2 ;;
+        esac
+      done
       file=$(events_file "$(project_root "$PWD")")
       mkdir -p "$(dirname "$file")"
       touch "$file"
-      # shellcheck disable=SC2016  # the $-names in the jq program are jq variables, not shell
-      # --pid: tail exits once this script is gone (e.g. killed by Monitor or
-      # timeout), so no orphaned tail outlives the watch.
-      tail -n 0 -F --pid=$$ "$file" 2>/dev/null | jq --unbuffered -rR '
-        (try fromjson catch null) | select(type == "object")
-        | (.ts // "" | sub("\\.[0-9]+Z$"; "Z") | try (fromdateiso8601 | strflocaltime("%H:%M")) catch "--:--") as $t
-        | ((.session // "")[0:8]) as $s
-        | (if (.session_name // "") != "" then "\(.session_name) (\($s))" else $s end) as $who
-        | (if (.by // "") != "" then .by else $who end) as $by
-        | if .event == "turn-end" then
-            "\($t) turn-end \($who)"
-            + (if (.agent_type // "") != "" then " / \(.agent_type) \((.agent_id // "")[0:8])" else "" end)
-            + ": \(.said // "" | gsub("\\s+"; " ") | .[0:200])"
-          elif .event == "prompt" then "\($t) prompt \($who): the user said something (claude-context-archive intent)"
-          elif .event == "decision" then "\($t) decision \(.id) by \($by): \(.what // "" | gsub("\\s+"; " ") | .[0:200])"
-          elif .event == "flag" then "\($t) flag \(.id) by \($by): \(.path)"
-          elif .event == "gate-error" then "\($t) gate-error \(.mode // "?") \($who): \(.detail // "" | .[0:200])"
-          else "\($t) \(.event // "?") \($who)" end'
+      while true; do
+        rc=0
+        if [ "$quiet" -gt 0 ]; then IFS= read -r -t "$quiet" line || rc=$?; else IFS= read -r line || rc=$?; fi
+        if [ "$rc" -eq 0 ]; then
+          kind=''${line%%$'\t'*}
+          text=''${line#*$'\t'}
+          if [ "$kind" = P ]; then
+            prompts=$(( prompts + 1 ))
+          else
+            held+=("$text")
+            if [ "$first" -eq 0 ]; then first=$(date +%s); fi
+          fi
+        elif [ "$rc" -le 128 ]; then
+          break # the log follower is gone
+        fi
+        # rc > 128: --quiet seconds passed with nothing new.
+        if [ "''${#held[@]}" -gt 0 ] && { [ "$rc" -gt 128 ] || [ "$quiet" -eq 0 ] || [ $(( $(date +%s) - first )) -ge "$max" ]; }; then
+          printf '%s\n' "''${held[@]}"
+          if [ "$prompts" -gt 0 ]; then
+            printf '  (the user also sent %d message(s) meanwhile: claude-context-archive intent)\n' "$prompts"
+          fi
+          held=()
+          prompts=0
+          first=0
+        fi
+      done < <(
+        # --pid: tail exits once this script is gone (e.g. killed by Monitor or
+        # timeout), so no orphaned tail outlives the watch.
+        # shellcheck disable=SC2016  # the $-names in the jq program are jq variables, not shell
+        tail -n 0 -F --pid=$$ "$file" 2>/dev/null | jq --unbuffered -rR '
+          (try fromjson catch null) | select(type == "object")
+          | (.ts // "" | sub("\\.[0-9]+Z$"; "Z") | try (fromdateiso8601 | strflocaltime("%H:%M")) catch "--:--") as $t
+          | ((.session // "")[0:8]) as $s
+          | (if (.session_name // "") != "" then "\(.session_name) (\($s))" else $s end) as $who
+          | (if (.by // "") != "" then .by else $who end) as $by
+          | if .event == "prompt" then "P\t\($t) prompt \($who)"
+            elif .event == "turn-end" then
+              "E\t\($t) turn-end \($who)"
+              + (if (.agent_type // "") != "" then " / \(.agent_type) \((.agent_id // "")[0:8])" else "" end)
+              + ": \(.said // "" | gsub("\\s+"; " ") | .[0:200])"
+            elif .event == "decision" then "E\t\($t) decision \(.id) by \($by): \(.what // "" | gsub("\\s+"; " ") | .[0:200])"
+            elif .event == "flag" then "E\t\($t) flag \(.id) by \($by): \(.path)"
+            elif .event == "gate-error" then "E\t\($t) gate-error \(.mode // "?") \($who): \(.detail // "" | .[0:200])"
+            else "E\t\($t) \(.event // "?") \($who)" end'
+      )
     }
 
     case "''${1:-}" in
@@ -898,7 +958,7 @@ pkgs.writeShellApplication {
       hook) shift; cmd_hook "$@" || true; exit 0 ;;
       search | search-conversation) shift; cmd_search_conversation "$@" ;;
       search-project | search-all) shift; cmd_search_project "$@" ;;
-      *) printf 'usage: claude-context-archive {search [--raw] <regex> | search-project [--raw] <regex> | intent [--since <N>{m,h,d} | --session <id|name>] | peers | list | show <file|session-id> <line> [radius] | decide <what> [--basis ..] [--undo ..] [--by ..] [--reverses <id>] | flag <file[:lines]> <why> [--by ..] | review [--since <N>{m,h,d} | --all] | watch | hook | dir | save}\n' >&2; exit 2 ;;
+      *) printf 'usage: claude-context-archive {search [--raw] <regex> | search-project [--raw] <regex> | intent [--since <N>{m,h,d} | --session <id|name>] | peers | list | show <file|session-id> <line> [radius] | decide <what> [--basis ..] [--undo ..] [--by ..] [--reverses <id> | --confirms <id>] | flag <file[:lines]> <why> [--by ..] | review [--since <N>{m,h,d} | --all] | watch [--quiet <s>] [--max <s>] | hook | dir | save}\n' >&2; exit 2 ;;
     esac
   '';
 }

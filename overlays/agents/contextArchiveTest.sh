@@ -320,6 +320,21 @@ out=$(claude-context-archive review --since 10m)
 expect "$out" "the last 10m" "review --since sets the scope"
 reject "$out" "OLD-DECISION" "review --since excludes older decisions"
 [ "$(exit_code claude-context-archive review --since soon)" = 2 ] || fail "review --since rejects a malformed duration" ""
+# "not covered" anywhere in a basis, and confirmations.
+out=$(claude-context-archive decide "Batch timings 60s and 5min" --basis "user: 'batch events'; the timings are not covered")
+id5=${out#recorded }
+[ "$(exit_code claude-context-archive decide x --confirms d-nonexistent)" = 2 ] || fail "decide --confirms an unknown id exits 2" ""
+[ "$(exit_code claude-context-archive decide x --confirms "$id4" --reverses "$id1")" = 2 ] || fail "a decision cannot both reverse and confirm" ""
+out=$(claude-context-archive decide "Port 8080 checked free on the target host" --basis "checked with ss -ltn" --confirms "$id4")
+id6=${out#recorded }
+jq -e --arg c "$id4" '.confirms == $c' <<<"$(tail -n 1 "$dec")" >/dev/null || fail "decide records what it confirms" "$(tail -n 1 "$dec")"
+out=$(claude-context-archive review)
+uncovered=$(printf '%s\n' "$out" | sed -n '/^Made without your input/,/^$/p')
+expect "$uncovered" "$id5" "a basis that says part of it is not covered is called out"
+expect "$uncovered" "(confirmed by $id6)" "a confirmed decision stays called out, with its confirmation"
+reject "$uncovered" "$id6  " "the confirming decision has a basis and is not called out"
+expect "$out" "(confirms $id4)" "review shows what a decision confirms"
+expect "$out" "-> confirmed by $id6" "review shows who confirmed a decision"
 mkdir -p "$T/work/clean"
 clean=$(cd "$T/work/clean" && pwd -P)
 git -C "$clean" init -q
@@ -362,31 +377,62 @@ jq -e '.event == "turn-end" and .agent_type == "general-purpose" and .agent_id =
 n=$(nev)
 hook "$(payload Stop ',"agent_id":"hook-agent-6f3f","last_assistant_message":"x"')"
 hook "$(payload SubagentStop ',"agent_id":"abc","agent_type":"xv:intent-keeper","last_assistant_message":"x"')"
+hook "$(payload SubagentStop ',"agent_id":"a54b8a22c01f9b98a","agent_type":"","last_assistant_message":"continue"')"
 printf '%s' "$(payload Stop ',"last_assistant_message":"x"')" | CLAUDE_INTENT_JUDGE=1 claude-context-archive hook
 printf '%s' "$(payload Stop ',"last_assistant_message":"x"')" | CLAUDE_INTENT_KEEPER=1 claude-context-archive hook
 out=$(printf 'not json at all' | claude-context-archive hook) || fail "hook never fails" ""
 [ -z "$out" ] || fail "hook prints nothing on garbage" "$out"
-[ "$(nev)" -eq "$n" ] || fail "hook agents, the intent-keeper, judges and garbage log nothing" "$(tail -n 3 "$ev")"
+[ "$(nev)" -eq "$n" ] || fail "hook agents, typeless internal subagents, the intent-keeper, judges and garbage log nothing" "$(tail -n 3 "$ev")"
 pass "hook"
 
 # --- watch ------------------------------------------------------------------------
+# Batching: a burst is held until --quiet seconds pass, then printed together;
+# the user's own messages never start a batch, they are counted in the next.
 wout="$T/watch.out"
-printf '{"ts":"2026-11-01T10:00:00Z","event":"prompt","session":"%s","session_name":"BEFORE-WATCH"}\n' "$A" >>"$ev"
-(timeout 4 claude-context-archive watch >"$wout" 2>/dev/null || true) &
+printf '{"ts":"2026-11-01T10:00:00Z","event":"decision","id":"d-before","session":"%s","what":"BEFORE-WATCH"}\n' "$A" >>"$ev"
+(timeout 8 claude-context-archive watch --quiet 2 --max 60 >"$wout" 2>/dev/null || true) &
 wpid=$!
 sleep 1
 hook "$(payload UserPromptSubmit ',"prompt":"one more thing"')"
 hook "$(payload Stop ',"last_assistant_message":"done with   koalas"')"
 claude-context-archive decide "Watch test decision" --by tester >/dev/null
-wait "$wpid"
+sleep 0.8
+[ ! -s "$wout" ] || fail "watch holds a burst until it goes quiet" "$(cat "$wout")"
+sleep 2.5
 out=$(cat "$wout")
-[ "$(printf '%s\n' "$out" | wc -l)" -eq 3 ] || fail "watch prints one line per new event" "$out"
-expect "$out" "prompt lead-a (aaaaaaaa): the user said something" "watch formats prompts"
+[ "$(printf '%s\n' "$out" | wc -l)" -eq 3 ] || fail "a quiet period releases the burst as one batch" "$out"
 expect "$out" "turn-end lead-a (aaaaaaaa): done with koalas" "watch formats turn-ends"
+expect "$out" "decision d-" "watch formats decisions"
 expect "$out" "by tester: Watch test decision" "watch formats decisions"
-before "$out" "prompt lead-a" "turn-end lead-a" "watch keeps event order"
+expect "$out" "(the user also sent 1 message(s) meanwhile: claude-context-archive intent)" "the user's messages are counted in the batch"
 before "$out" "turn-end lead-a" "Watch test decision" "watch keeps event order"
+reject "$out" "prompt lead-a" "the user's messages are not events of their own"
 reject "$out" "BEFORE-WATCH" "watch starts at the end of the log"
+hook "$(payload UserPromptSubmit ',"prompt":"only a message"')"
+wait "$wpid"
+[ "$(wc -l <"$wout")" -eq 3 ] || fail "a message from the user alone never wakes the reader" "$(cat "$wout")"
+
+# --max: a steady stream is still released, at most --max seconds after its first event.
+(timeout 8 claude-context-archive watch --quiet 3 --max 2 >"$wout" 2>/dev/null || true) &
+wpid=$!
+sleep 1
+for i in 1 2 3 4; do
+  hook "$(payload Stop ",\"last_assistant_message\":\"step $i\"")"
+  sleep 0.9
+done
+[ -s "$wout" ] || fail "--max releases a batch even while events keep coming" ""
+expect "$(cat "$wout")" "step 1" "--max releases the oldest events first"
+wait "$wpid"
+
+# --quiet 0: no batching.
+(timeout 4 claude-context-archive watch --quiet 0 >"$wout" 2>/dev/null || true) &
+wpid=$!
+sleep 1
+hook "$(payload Stop ',"last_assistant_message":"right away"')"
+sleep 0.8
+expect "$(cat "$wout")" "right away" "--quiet 0 prints each event at once"
+wait "$wpid"
+[ "$(exit_code claude-context-archive watch --quiet soon)" = 2 ] || fail "watch rejects a malformed --quiet" ""
 pass "watch"
 
 if claude-context-archive bogus >/dev/null 2>&1; then fail "unknown subcommand exits non-zero" ""; fi
