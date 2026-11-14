@@ -109,9 +109,20 @@
       '';
     };
   };
+  # Cap BuildKit's build cache. Unbounded, repeated moves prod image builds
+  # piled up ~820GB of cache in /var/lib/docker/overlay2. 100GB still holds
+  # several warm cargo release builds; past it, least-recently-used cache goes.
+  virtualisation.docker.daemon.settings.builder.gc = {
+    enabled = true;
+    defaultMaxUsedSpace = "100GB";
+  };
   virtualisation.docker.rootless = {
     enable = true;
     setSocketVariable = true;
+    daemon.settings.builder.gc = {
+      enabled = true;
+      defaultMaxUsedSpace = "100GB";
+    };
   };
   mine.services.dockerCompose.tailscale = {
     tailnet = "coyote-fir";
