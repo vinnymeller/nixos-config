@@ -92,9 +92,20 @@
       pruneOpts = [ "--keep-within 30d" ];
       backupPrepareCommand = ''
         install -d -m 0700 /var/backup/moves
-        pg=$(${pkgs.docker}/bin/docker ps -q \
-          --filter label=com.docker.compose.project=moves-prod \
-          --filter label=com.docker.compose.service=postgres)
+        # Postgres can still be coming up right after dockerd starts (e.g. a
+        # rebuild restarted docker and the timer caught up in the same
+        # transaction), so give it up to ~2 minutes to accept connections.
+        pg=""
+        for _ in $(seq 60); do
+          pg=$(${pkgs.docker}/bin/docker ps -q \
+            --filter label=com.docker.compose.project=moves-prod \
+            --filter label=com.docker.compose.service=postgres)
+          if [ -n "$pg" ] && ${pkgs.docker}/bin/docker exec "$pg" pg_isready -q; then
+            break
+          fi
+          pg=""
+          sleep 2
+        done
         test -n "$pg"
         # Uncompressed so restic dedupes day to day; the repo compresses anyway.
         ${pkgs.docker}/bin/docker exec "$pg" sh -c \
@@ -108,6 +119,13 @@
         mv /var/backup/moves/globals.sql.tmp /var/backup/moves/globals.sql
       '';
     };
+  };
+  # The moves prepare step dumps postgres through the rootful docker daemon.
+  # Without this ordering, a rebuild that restarts docker can fire the
+  # (Persistent) timer while dockerd is still down and fail the whole job.
+  systemd.services.restic-prepare-moves = {
+    requires = [ "docker.service" ];
+    after = [ "docker.service" ];
   };
   # Cap BuildKit's build cache. Unbounded, repeated moves prod image builds
   # piled up ~820GB of cache in /var/lib/docker/overlay2. 100GB still holds
