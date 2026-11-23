@@ -16,16 +16,12 @@
 
   features.arr.enable = true;
   features.arr.secretFile = ../../secrets/vinnix/arr.age;
-  # WireGuard config of a dedicated AirVPN device (not the wg-air one).
   features.arr.vpnConfigFile = ../../secrets/vinnix/arr-wg0.conf.age;
-  # AirVPN Client Area -> Ports, assigned to that device. Optional.
-  # features.arr.forwardedPort = 12345;
+  features.arr.forwardedPort = 29724;
 
   features.git.enable = true;
   features.gpg.enable = true;
   features.gpg.pinentryPackage = pkgs.pinentry-gnome3;
-  # YubiKey device plumbing (pcscd, udev, yubikey-agent, gpgSmartcards, ykman).
-  # Replaces the old `features.gpg.smartcards = true`.
   features.yubikey.enable = true;
   # YubiKey touch for sudo (pam_u2f). Enable AFTER enrolling keys:
   #   1. pamu2fcfg -o pam://vinnix.net -i pam://vinnix.net        # first key
