@@ -32,10 +32,7 @@
       mine.services.dockerCompose.stacks.jellyfin = {
         autoUpdate.enable = true;
         gpu.services = [ "jellyfin" ];
-        tailscale = {
-          serviceName = "jellyfin";
-          port = 8096;
-        };
+        tailscale.services.jellyfin.port = 8096;
 
         storage.directories =
           let

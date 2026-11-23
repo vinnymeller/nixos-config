@@ -698,21 +698,27 @@ in
               };
 
               # ── Tailscale Proxy ──
-              tailscale = {
-                serviceName = mkOption {
-                  type = types.nullOr types.str;
-                  default = null;
-                  description = ''
-                    Tailscale service name. When set, Caddy creates a tailnet node
-                    named <serviceName> and reverse-proxies to the specified port.
-                    Accessible at https://<serviceName>.<tailnet>.ts.net
-                  '';
+              tailscale.services = mkOption {
+                default = { };
+                example = {
+                  jellyfin.port = 8096;
                 };
-                port = mkOption {
-                  type = types.port;
-                  default = 0;
-                  description = "Local port to reverse-proxy to.";
-                };
+                description = ''
+                  Web UIs of this stack to publish on the tailnet. For each entry,
+                  Caddy creates a tailnet node named after the attribute and
+                  reverse-proxies to the given loopback port. Accessible at
+                  https://<name>.<tailnet>.ts.net (and <name>.<customDomain> when
+                  set). Names must be unique across all stacks. Empty = Caddy
+                  leaves this stack alone.
+                '';
+                type = types.attrsOf (
+                  types.submodule {
+                    options.port = mkOption {
+                      type = types.port;
+                      description = "Local (host loopback) port to reverse-proxy to.";
+                    };
+                  }
+                );
               };
 
               # ── Wrapper Script ──
@@ -851,8 +857,12 @@ in
     })
     (
       let
-        tailscaleStacks = filterAttrs (_: s: s.tailscale.serviceName != null) enabledStacks;
-        hasTailscale = tailscaleStacks != { };
+        # Every published web UI across all stacks, as { <name> = { port }; }.
+        tailscaleServiceList = concatLists (
+          mapAttrsToList (_: s: mapAttrsToList lib.nameValuePair s.tailscale.services) enabledStacks
+        );
+        tailscaleServices = lib.listToAttrs tailscaleServiceList;
+        hasTailscale = tailscaleServices != { };
         tailnet = cfg.tailscale.tailnet;
       in
       mkIf hasTailscale (
@@ -892,6 +902,11 @@ in
               assertion = !hasCustomDomain || cfg.tailscale.cloudflareTokenFile != null;
               message = "docker-compose: tailscale.cloudflareTokenFile must be set when customDomain is used.";
             }
+            {
+              # listToAttrs silently keeps one of two same-named entries.
+              assertion = lib.length tailscaleServiceList == lib.length (lib.attrNames tailscaleServices);
+              message = "docker-compose: duplicate tailscale.services name across stacks.";
+            }
           ];
 
           age.secrets =
@@ -922,10 +937,10 @@ in
             virtualHosts =
               # Tailscale virtual hosts
               lib.mapAttrs' (
-                _: stackCfg:
-                lib.nameValuePair "${stackCfg.tailscale.serviceName}.${tailnet}.ts.net" {
+                serviceName: svc:
+                lib.nameValuePair "${serviceName}.${tailnet}.ts.net" {
                   extraConfig = ''
-                    bind tailscale/${stackCfg.tailscale.serviceName}
+                    bind tailscale/${serviceName}
                     # Take the cert from the tsnet node's own Tailscale
                     # identity. Without this Caddy falls back to public ACME
                     # and fails: *.ts.net MagicDNS names have no public A/AAAA
@@ -934,23 +949,23 @@ in
                     tls {
                       get_certificate tailscale
                     }
-                    reverse_proxy localhost:${toString stackCfg.tailscale.port}
+                    reverse_proxy localhost:${toString svc.port}
                   '';
                 }
-              ) tailscaleStacks
+              ) tailscaleServices
               # Custom domain virtual hosts
               // lib.optionalAttrs hasCustomDomain (
                 lib.mapAttrs' (
-                  _: stackCfg:
-                  lib.nameValuePair "${stackCfg.tailscale.serviceName}.${customDomain}" {
+                  serviceName: svc:
+                  lib.nameValuePair "${serviceName}.${customDomain}" {
                     extraConfig = ''
                       tls {
                         dns cloudflare {env.CF_API_TOKEN}
                       }
-                      reverse_proxy localhost:${toString stackCfg.tailscale.port}
+                      reverse_proxy localhost:${toString svc.port}
                     '';
                   }
-                ) tailscaleStacks
+                ) tailscaleServices
               );
           };
 

@@ -46,10 +46,7 @@
       mine.services.dockerCompose.stacks.grimmory = {
         autoUpdate.enable = true;
         agenix.envFile.file = cfg.secretFile;
-        tailscale = {
-          serviceName = "grimmory";
-          port = cfg.port;
-        };
+        tailscale.services.grimmory.port = cfg.port;
 
         backup = {
           enable = true;

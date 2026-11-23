@@ -14,6 +14,13 @@
 
   features.defaults.users = [ "vinny" ];
 
+  features.arr.enable = true;
+  features.arr.secretFile = ../../secrets/vinnix/arr.age;
+  # WireGuard config of a dedicated AirVPN device (not the wg-air one).
+  features.arr.vpnConfigFile = ../../secrets/vinnix/arr-wg0.conf.age;
+  # AirVPN Client Area -> Ports, assigned to that device. Optional.
+  # features.arr.forwardedPort = 12345;
+
   features.git.enable = true;
   features.gpg.enable = true;
   features.gpg.pinentryPackage = pkgs.pinentry-gnome3;

@@ -43,6 +43,8 @@ in
   "vinnix/cloudflare-dns-token.age".publicKeys = host-vinnix;
   "vinnix/paperless.age".publicKeys = host-vinnix;
   "vinnix/valheim.age".publicKeys = host-vinnix;
+  "vinnix/arr.age".publicKeys = host-vinnix;
+  "vinnix/arr-wg0.conf.age".publicKeys = host-vinnix;
   "vtt/gemini.age".publicKeys = host-vinnix;
 
   "vinnix/tailscale-authkey.age".publicKeys = pc;

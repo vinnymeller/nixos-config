@@ -37,10 +37,7 @@
       mine.services.dockerCompose.stacks.immich = {
         gpu.services = [ "immich-machine-learning" ];
         autoUpdate.enable = false;
-        tailscale = {
-          serviceName = "immich";
-          port = 2283;
-        };
+        tailscale.services.immich.port = 2283;
         agenix.envFile = {
           file = cfg.secretFile;
           services = [

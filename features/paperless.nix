@@ -49,10 +49,7 @@
           ];
         };
 
-        tailscale = {
-          serviceName = "paperless";
-          port = cfg.port;
-        };
+        tailscale.services.paperless.port = cfg.port;
 
         backup = {
           enable = true;

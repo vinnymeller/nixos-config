@@ -114,11 +114,11 @@
         # SteamCMD at startup rather than pinning a build.
         autoUpdate.enable = true;
 
-        # NOTE: tailscale.serviceName is deliberately unset (its default is
-        # null). The docker-compose module selects stacks for the Caddy +
-        # tsnet proxy with `filterAttrs (_: s: s.tailscale.serviceName != null)`,
-        # so leaving it out is what keeps Caddy's hands off this stack. Valheim
-        # is raw UDP and there is nothing for an HTTPS reverse proxy to do here.
+        # NOTE: tailscale.services is deliberately left empty (its default).
+        # The docker-compose module only builds Caddy + tsnet proxies for the
+        # entries listed there, so leaving it out is what keeps Caddy's hands
+        # off this stack. Valheim is raw UDP and there is nothing for an HTTPS
+        # reverse proxy to do here.
 
         # Every port on this stack is meant to be reachable off-host, so opt out
         # of the module's default loopback binding wholesale rather than
