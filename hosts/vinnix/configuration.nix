@@ -150,12 +150,13 @@
     };
   };
   mine.services.dockerCompose.tailscale = {
-    tailnet = "coyote-fir";
     customDomain = "vinnix.net";
     cloudflareTokenFile = ../../secrets/vinnix/cloudflare-dns-token.age;
     # Separate from the host key in features.tailscale.authKeyFile: this one
-    # registers the per-service tsnet nodes Caddy creates, so rotating or
-    # revoking it can't knock vinnix itself off the tailnet.
+    # registers the tailnet nodes Caddy creates for shared services, so
+    # rotating or revoking it can't knock vinnix itself off the tailnet. Must
+    # be reusable, pre-approved and tagged tag:shared; re-mint it before
+    # marking a new service shared (see the option's description).
     authKeyFile = ../../secrets/vinnix/tailscale-svc-authkey.age;
   };
 

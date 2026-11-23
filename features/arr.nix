@@ -229,7 +229,14 @@
         afterUnits = [ "docker-compose-${jellyfinStack.projectName}.service" ];
         requiresUnits = [ "docker-compose-${jellyfinStack.projectName}.service" ];
 
-        tailscale.services = lib.mapAttrs (_: port: { inherit port; }) ports;
+        # Seerr is shared: friends request through it from their own devices.
+        # The admin UIs stay private (this host only, i.e. you).
+        tailscale.services = lib.recursiveUpdate (lib.mapAttrs (_: port: { inherit port; }) ports) {
+          seerr = {
+            shared = true;
+            nodePort = 41643;
+          };
+        };
 
         agenix = {
           envFile = {

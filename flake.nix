@@ -248,6 +248,13 @@
           // {
             claude-context-archive = import ./overlays/agents/contextArchiveTest.nix { inherit pkgs; };
             claude-intent-gate = import ./overlays/agents/intentGateTest.nix { inherit pkgs; };
+            tailnet-dns-sync = import ./pkgs/tailnet-dns-sync/test.nix { inherit pkgs; };
+          }
+          // lib.optionalAttrs (self.nixosConfigurations.vinnix.pkgs.stdenv.hostPlatform.system == system) {
+            vinnix-caddy = import ./hosts/vinnix/caddyTest.nix {
+              inherit pkgs;
+              nixos = self.nixosConfigurations.vinnix;
+            };
           };
       }
     );

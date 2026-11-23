@@ -32,7 +32,13 @@
       mine.services.dockerCompose.stacks.jellyfin = {
         autoUpdate.enable = true;
         gpu.services = [ "jellyfin" ];
-        tailscale.services.jellyfin.port = 8096;
+        # Shared: friends on the tailnet can reach this (and only the other
+        # shared UIs), via its own node.
+        tailscale.services.jellyfin = {
+          port = 8096;
+          shared = true;
+          nodePort = 41642;
+        };
 
         storage.directories =
           let

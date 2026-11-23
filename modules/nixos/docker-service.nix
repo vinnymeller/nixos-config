@@ -370,29 +370,46 @@ in
     enable = mkEnableOption "declarative Docker Compose stack management";
 
     tailscale = {
-      tailnet = mkOption {
-        type = types.str;
-        default = "";
-        description = "Tailscale tailnet name (e.g., 'coyote-fir'). Required when any stack uses tailscale.";
-      };
       authKeyFile = mkOption {
         type = types.nullOr types.path;
         default = null;
         description = ''
-          Path to an agenix-encrypted file containing a reusable Tailscale auth
-          key (tskey-auth-...), decrypted by this module. Defaults to the host
-          key from services.tailscale.authKeyFile when unset.
+          Path to an agenix-encrypted file containing a reusable, pre-approved
+          Tailscale auth key (tskey-auth-...) TAGGED with sharedTag, used to
+          register the tailnet node of each shared service. Defaults to the
+          host key from services.tailscale.authKeyFile when unset.
+
+          The key is only read when a node registers for the first time (tsnet
+          ignores it once the node has state). That moment is dangerous: with an
+          expired or mismatched key, tsnet waits for login forever and Caddy's
+          start/reload hangs, taking EVERY site down. Mint a fresh key (they
+          expire after at most 90 days) right before marking a new service
+          shared.
+        '';
+      };
+      sharedTag = mkOption {
+        type = types.str;
+        default = "tag:shared";
+        description = ''
+          ACL tag carried by every shared service's node. The tailnet policy
+          grants members this tag (and nothing else); tailnet-dns-sync only
+          trusts nodes carrying it. Must match the tag on authKeyFile.
         '';
       };
       customDomain = mkOption {
         type = types.str;
         default = "";
-        description = "Custom domain for services (e.g., 'vinnix.net'). When set, services are also accessible at <serviceName>.<customDomain>.";
+        description = "Domain the web UIs are served under (e.g., 'vinnix.net'): https://<name>.<customDomain>. Required when any stack publishes one.";
       };
       cloudflareTokenFile = mkOption {
         type = types.nullOr types.path;
         default = null;
-        description = "Path to agenix-encrypted Cloudflare API token for DNS-01 ACME challenge.";
+        description = ''
+          Path to an agenix-encrypted Cloudflare API token (Zone:Read +
+          DNS:Edit on customDomain). Caddy uses it for DNS-01 certificates;
+          tailnet-dns-sync uses it to point shared services' names at their
+          nodes.
+        '';
       };
     };
 
@@ -704,18 +721,41 @@ in
                   jellyfin.port = 8096;
                 };
                 description = ''
-                  Web UIs of this stack to publish on the tailnet. For each entry,
-                  Caddy creates a tailnet node named after the attribute and
-                  reverse-proxies to the given loopback port. Accessible at
-                  https://<name>.<tailnet>.ts.net (and <name>.<customDomain> when
-                  set). Names must be unique across all stacks. Empty = Caddy
+                  Web UIs of this stack, each served by Caddy at
+                  https://<name>.<customDomain> and reverse-proxied to a loopback
+                  port. Names must be unique across all stacks. Empty = Caddy
                   leaves this stack alone.
+
+                  Private (the default): served on this host only, so reachable
+                  by whoever the tailnet policy lets reach the host.
+
+                  Shared: served ONLY from its own tailnet node, tagged
+                  tailscale.sharedTag, so the policy can grant friends this UI
+                  without granting the host. tailnet-dns-sync points its name at
+                  that node.
                 '';
                 type = types.attrsOf (
                   types.submodule {
-                    options.port = mkOption {
-                      type = types.port;
-                      description = "Local (host loopback) port to reverse-proxy to.";
+                    options = {
+                      port = mkOption {
+                        type = types.port;
+                        description = "Local (host loopback) port to reverse-proxy to.";
+                      };
+                      shared = mkOption {
+                        type = types.bool;
+                        default = false;
+                        description = "Serve this UI from its own tailnet node tagged tailscale.sharedTag (see above).";
+                      };
+                      nodePort = mkOption {
+                        type = types.nullOr types.port;
+                        default = null;
+                        description = ''
+                          Fixed UDP port for the shared node's WireGuard traffic,
+                          opened in the firewall. Required when shared: tsnet's
+                          default random port is firewalled, which pushes peers
+                          onto relayed (DERP) paths.
+                        '';
+                      };
                     };
                   }
                 );
@@ -857,17 +897,20 @@ in
     })
     (
       let
-        # Every published web UI across all stacks, as { <name> = { port }; }.
-        tailscaleServiceList = concatLists (
+        # Every published web UI across all stacks, as
+        # { <name> = { port, shared, nodePort }; }.
+        webServiceList = concatLists (
           mapAttrsToList (_: s: mapAttrsToList lib.nameValuePair s.tailscale.services) enabledStacks
         );
-        tailscaleServices = lib.listToAttrs tailscaleServiceList;
-        hasTailscale = tailscaleServices != { };
-        tailnet = cfg.tailscale.tailnet;
+        webServices = lib.listToAttrs webServiceList;
+        sharedServices = lib.filterAttrs (_: s: s.shared) webServices;
+        anyShared = sharedServices != { };
+        sharedNodePorts = lib.filter (p: p != null) (mapAttrsToList (_: s: s.nodePort) sharedServices);
       in
-      mkIf hasTailscale (
+      mkIf (webServices != { }) (
         let
-          hasOwnAuthKey = cfg.tailscale.authKeyFile != null;
+          tscfg = cfg.tailscale;
+          hasOwnAuthKey = tscfg.authKeyFile != null;
           # Both branches must yield a *decrypted* path, since the caddy-ts-env
           # ExecStartPre cats this file straight into TS_AUTHKEY. A dedicated
           # key is decrypted to /run/agenix here; otherwise reuse the host key
@@ -877,48 +920,60 @@ in
               config.age.secrets.caddy-ts-authkey.path
             else
               config.services.tailscale.authKeyFile;
-          hasCustomDomain = cfg.tailscale.customDomain != "";
-          customDomain = cfg.tailscale.customDomain;
+          customDomain = tscfg.customDomain;
           plugins = [
             "github.com/tailscale/caddy-tailscale@v0.0.0-20260106222316-bb080c4414ac"
-          ]
-          ++ lib.optional hasCustomDomain "github.com/caddy-dns/cloudflare@v0.2.3";
+            "github.com/caddy-dns/cloudflare@v0.2.3"
+          ];
+          tailnetDnsSync = pkgs.tailnet-dns-sync;
         in
         {
           assertions = [
             {
-              assertion = cfg.tailscale.tailnet != "";
-              message = "docker-compose: tailscale.tailnet must be set when any stack uses tailscale.";
+              assertion = customDomain != "";
+              message = "docker-compose: tailscale.customDomain must be set when any stack publishes tailscale.services.";
             }
             {
-              assertion = config.services.tailscale.enable;
-              message = "docker-compose: tailscale must be enabled (services.tailscale.enable) when any stack uses tailscale.";
+              assertion = tscfg.cloudflareTokenFile != null;
+              message = "docker-compose: tailscale.cloudflareTokenFile must be set when any stack publishes tailscale.services.";
             }
             {
-              assertion = hasOwnAuthKey || config.services.tailscale.authKeyFile != null;
-              message = "docker-compose: either tailscale.authKeyFile or services.tailscale.authKeyFile must be set when any stack uses tailscale.";
+              assertion = !anyShared || config.services.tailscale.enable;
+              message = "docker-compose: tailscale must be enabled (services.tailscale.enable) when a tailscale.services entry is shared.";
             }
             {
-              assertion = !hasCustomDomain || cfg.tailscale.cloudflareTokenFile != null;
-              message = "docker-compose: tailscale.cloudflareTokenFile must be set when customDomain is used.";
+              assertion = !anyShared || hasOwnAuthKey || config.services.tailscale.authKeyFile != null;
+              message = "docker-compose: either tailscale.authKeyFile or services.tailscale.authKeyFile must be set when a tailscale.services entry is shared.";
             }
             {
               # listToAttrs silently keeps one of two same-named entries.
-              assertion = lib.length tailscaleServiceList == lib.length (lib.attrNames tailscaleServices);
+              assertion = lib.length webServiceList == lib.length (lib.attrNames webServices);
               message = "docker-compose: duplicate tailscale.services name across stacks.";
+            }
+            {
+              assertion = lib.all (s: s.nodePort != null) (lib.attrValues sharedServices);
+              message = "docker-compose: shared tailscale.services need a nodePort; missing on: ${
+                lib.concatStringsSep ", " (
+                  lib.attrNames (lib.filterAttrs (_: s: s.nodePort == null) sharedServices)
+                )
+              }.";
+            }
+            {
+              assertion = lib.length sharedNodePorts == lib.length (lib.unique sharedNodePorts);
+              message = "docker-compose: two shared tailscale.services use the same nodePort.";
             }
           ];
 
           age.secrets =
-            lib.optionalAttrs hasOwnAuthKey {
+            lib.optionalAttrs (anyShared && hasOwnAuthKey) {
               caddy-ts-authkey = {
-                file = cfg.tailscale.authKeyFile;
+                file = tscfg.authKeyFile;
                 mode = "0400";
               };
             }
-            // lib.optionalAttrs hasCustomDomain {
+            // {
               caddy-cloudflare-token = {
-                file = cfg.tailscale.cloudflareTokenFile;
+                file = tscfg.cloudflareTokenFile;
                 mode = "0400";
               };
             };
@@ -929,58 +984,117 @@ in
               inherit plugins;
               hash = "sha256-kreD2On7rdllgGZgPbcU9jge/vhWqlzdeUraH+a/avc=";
             };
-            globalConfig = ''
+            # Node settings only apply when a node first registers: once it has
+            # state (tsnet-caddy-<name> under Caddy's config dir), tsnet ignores
+            # the auth key, tags and port changes until it is re-created.
+            globalConfig = lib.optionalString anyShared ''
               tailscale {
                 auth_key {env.TS_AUTHKEY}
-              }
-            '';
-            virtualHosts =
-              # Tailscale virtual hosts
-              lib.mapAttrs' (
-                serviceName: svc:
-                lib.nameValuePair "${serviceName}.${tailnet}.ts.net" {
-                  extraConfig = ''
-                    bind tailscale/${serviceName}
-                    # Take the cert from the tsnet node's own Tailscale
-                    # identity. Without this Caddy falls back to public ACME
-                    # and fails: *.ts.net MagicDNS names have no public A/AAAA
-                    # records, so tls-alpn-01 dies with NXDOMAIN on every
-                    # renewal attempt.
-                    tls {
-                      get_certificate tailscale
+                tags ${tscfg.sharedTag}
+              ${
+                lib.concatStrings (
+                  mapAttrsToList (name: svc: ''
+                    ${name} {
+                      port ${toString svc.nodePort}
                     }
-                    reverse_proxy localhost:${toString svc.port}
-                  '';
-                }
-              ) tailscaleServices
-              # Custom domain virtual hosts
-              // lib.optionalAttrs hasCustomDomain (
-                lib.mapAttrs' (
-                  serviceName: svc:
-                  lib.nameValuePair "${serviceName}.${customDomain}" {
-                    extraConfig = ''
-                      tls {
-                        dns cloudflare {env.CF_API_TOKEN}
-                      }
-                      reverse_proxy localhost:${toString svc.port}
-                    '';
+                  '') sharedServices
+                )
+              }}
+            '';
+            virtualHosts = lib.mapAttrs' (
+              name: svc:
+              lib.nameValuePair "${name}.${customDomain}" {
+                # Shared: listen ONLY on the service's own tailnet node (Caddy
+                # creates it on first bind). Nothing on this host answers for the
+                # name any more, so the tailnet policy alone decides who reaches
+                # it. Private: the default host listener.
+                extraConfig = ''
+                  ${lib.optionalString svc.shared "bind tailscale/${name}"}
+                  tls {
+                    dns cloudflare {env.CF_API_TOKEN}
                   }
-                ) tailscaleServices
-              );
+                  reverse_proxy localhost:${toString svc.port}
+                '';
+              }
+            ) webServices;
           };
+
+          networking.firewall.allowedUDPPorts = sharedNodePorts;
 
           systemd.services.caddy.serviceConfig.ExecStartPre = [
             "+${pkgs.writeShellScript "caddy-ts-env" ''
-              TS_KEY=$(cat ${tsAuthKeyFile})
-              echo "TS_AUTHKEY=$TS_KEY" > /run/caddy-ts-env
-              ${lib.optionalString hasCustomDomain ''
-                CF_TOKEN=$(cat ${config.age.secrets.caddy-cloudflare-token.path})
-                echo "CF_API_TOKEN=$CF_TOKEN" >> /run/caddy-ts-env
-              ''}
+              : > /run/caddy-ts-env
               chmod 400 /run/caddy-ts-env
+              ${lib.optionalString anyShared ''
+                echo "TS_AUTHKEY=$(cat ${tsAuthKeyFile})" >> /run/caddy-ts-env
+              ''}
+              echo "CF_API_TOKEN=$(cat ${config.age.secrets.caddy-cloudflare-token.path})" >> /run/caddy-ts-env
             ''}"
           ];
           systemd.services.caddy.serviceConfig.EnvironmentFile = [ "-/run/caddy-ts-env" ];
+
+          # Keeps <name>.<customDomain> pointed at each shared service's node:
+          # an explicit A record overrides the *.<customDomain> wildcard (which
+          # points at this host). Defined even with nothing shared, so un-sharing
+          # the last service still removes its record. A timer rather than a
+          # Caddy hook: NixOS only reloads Caddy on config changes, and at boot a
+          # hook would race node startup.
+          systemd.services.tailnet-dns-sync = {
+            description = "Point shared web UIs' ${customDomain} names at their tailnet nodes";
+            after = [
+              "tailscaled.service"
+              "network-online.target"
+            ];
+            wants = [
+              "tailscaled.service"
+              "network-online.target"
+            ];
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStart = lib.escapeShellArgs (
+                [
+                  "${tailnetDnsSync}/bin/tailnet-dns-sync"
+                  "--zone"
+                  customDomain
+                  "--tag"
+                  tscfg.sharedTag
+                  "--tailscale"
+                  "${config.services.tailscale.package}/bin/tailscale"
+                ]
+                ++ lib.concatMap (name: [
+                  "--name"
+                  name
+                ]) (lib.attrNames sharedServices)
+              );
+              # PID 1 reads the root-only agenix file and hands the unit a copy.
+              LoadCredential = "cf-token:${config.age.secrets.caddy-cloudflare-token.path}";
+              DynamicUser = true;
+              # The tailscaled socket is world-writable and `status` is allowed
+              # for any local user, so no group or capability is needed.
+              CapabilityBoundingSet = "";
+              ProtectHome = true;
+              ProtectKernelTunables = true;
+              ProtectKernelModules = true;
+              ProtectControlGroups = true;
+              ProtectClock = true;
+              LockPersonality = true;
+              RestrictNamespaces = true;
+              RestrictRealtime = true;
+              RestrictAddressFamilies = [
+                "AF_UNIX"
+                "AF_INET"
+                "AF_INET6"
+              ];
+              SystemCallFilter = [ "@system-service" ];
+            };
+          };
+          systemd.timers.tailnet-dns-sync = {
+            wantedBy = [ "timers.target" ];
+            timerConfig = {
+              OnBootSec = "1min";
+              OnUnitActiveSec = "5min";
+            };
+          };
         }
       )
     )

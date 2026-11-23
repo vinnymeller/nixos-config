@@ -7,6 +7,7 @@ with pkgs;
   gh-clone-all = callPackage ./gh-clone-all { };
   rofi-chrome-profile-launcher = callPackage ./rofi-chrome-profile-launcher { };
   swap-audio-output = callPackage ./swap-audio-output { };
+  tailnet-dns-sync = callPackage ./tailnet-dns-sync { };
   tmux-kill-and-attach = callPackage ./tmux-kill-and-attach { };
   vtt = { geminiKeyFile }: callPackage ./vtt/default.nix { inherit geminiKeyFile; };
   worktree-helper = callPackage ./worktree-helper { };
